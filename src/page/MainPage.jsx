@@ -1,7 +1,14 @@
-import React from 'react';
+import styled from 'styled-components';
+import MAPapi from '../components/mainPage/MAPapi';
 
 const MainPage = () => {
-  return <div>MainPage</div>;
+  return (
+    <div>
+      <MAPapi />
+    </div>
+  );
 };
 
 export default MainPage;
+
+const MainPageColor = styled.div``;
