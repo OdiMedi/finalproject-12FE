@@ -1,14 +1,8 @@
 import styled from 'styled-components';
-import MAPapi from '../components/mainPage/MAPapi';
+import StoreMain from '../components/mainPage/StoreMain';
 
 const MainPage = () => {
-  return (
-    <div>
-      <MAPapi />
-    </div>
-  );
+  return <StoreMain />;
 };
 
 export default MainPage;
-
-const MainPageColor = styled.div``;
