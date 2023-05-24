@@ -30,5 +30,6 @@ module.exports = {
       1,
       { namedComponents: ['arrow-function'] },
     ],
+    'no-param-reassign': 'off',
   },
 };
