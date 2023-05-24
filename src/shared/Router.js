@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import DetailPage from '../page/DetailPage';
 import Home from '../page/Home';
 import Login from '../page/Login';
 import MainPage from '../page/MainPage';
@@ -14,6 +15,7 @@ const Router = () => {
       <Route path="Login" element={<Login />} />
       <Route path="singUp" element={<SingUp />} />
       <Route path="mainPage" element={<MainPage />} />
+      <Route path="detailPage" element={<DetailPage />} />
     </Routes>
   </BrowserRouter>;
 };
