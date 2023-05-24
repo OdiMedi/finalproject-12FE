@@ -11,6 +11,7 @@ module.exports = {
     'plugin:react/jsx-runtime',
   ],
   rules: {
+    'no-console': 'off',
     'import/no-unresolved': 'off',
     'react/prop-types': 0,
     'no-extra-semi': 'error',
