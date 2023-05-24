@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import api from '../../api/axios';
 
 const SignupModal = () => {
   const [inputValue, setInputValue] = useState({
@@ -14,7 +15,9 @@ const SignupModal = () => {
       [name]: value,
     });
   };
-  const submitSignup = () => {};
+  const submitSignup = async () => {
+    await api.post('/user/signup', inputValue);
+  };
   return (
     <div
       style={{
@@ -26,18 +29,26 @@ const SignupModal = () => {
         border: '1px solid black',
       }}
     >
-      <input name="email" value={email} onChange={inputChange} type="text" />
       <input
         name="nickname"
         value={nickname}
         onChange={inputChange}
         type="text"
+        placeholder="nickname"
+      />
+      <input
+        name="email"
+        value={email}
+        onChange={inputChange}
+        type="text"
+        placeholder="email"
       />
       <input
         name="password"
         value={password}
         onChange={inputChange}
         type="password"
+        placeholder="password"
       />
       <button type="button" onClick={submitSignup}>
         Sign up
