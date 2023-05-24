@@ -25,5 +25,9 @@ module.exports = {
         html: false,
       },
     ],
+    'react/function-component-definition': [
+      1,
+      { namedComponents: ['arrow-function'] },
+    ],
   },
 };
