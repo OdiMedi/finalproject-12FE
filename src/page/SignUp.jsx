@@ -1,5 +1,7 @@
+import SignupModal from '../components/login/SignupModal';
+
 const SignUp = () => {
-  return <div>SingUp</div>;
+  return <SignupModal />;
 };
 
 export default SignUp;
