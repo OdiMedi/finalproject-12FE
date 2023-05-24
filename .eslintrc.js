@@ -12,14 +12,14 @@ module.exports = {
   ],
   rules: {
     'no-console': 'off',
-    'import/no-unresolved': 'off',
+    // 'import/no-unresolved': 'off',
     'react/prop-types': 0,
     'no-extra-semi': 'error',
     'react/jsx-props-no-spreading': 'off',
     'no-unused-vars': 'warn',
-    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    'react/jsx-filename-extension': [1, { extensions: ['.jsx', '.js'] }],
     'react/self-closing-comp': [
-      'error',
+      'warn',
       {
         component: false,
         html: false,
