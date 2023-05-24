@@ -28,7 +28,7 @@ api.interceptors.response.use(
     // ACCESS TOKEN 만료 로직(추후 수정 예정 결정된것이 없음)
     const {
       config,
-      config: { url },
+      config: { url, method },
       response: {
         data: { errorCode, message },
       },
@@ -40,6 +40,7 @@ api.interceptors.response.use(
       const originReq = config;
       const { headers } = await api({
         url,
+        method,
         headers: { REFRESH_KEY: refresh },
       });
 
