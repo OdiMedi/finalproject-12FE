@@ -11,6 +11,7 @@ module.exports = {
     'plugin:react/jsx-runtime',
   ],
   rules: {
+    'import/no-extraneous-dependencies': 'off',
     'no-console': 'off',
     // 'import/no-unresolved': 'off',
     'react/prop-types': 0,
