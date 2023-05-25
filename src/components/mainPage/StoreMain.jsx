@@ -239,6 +239,9 @@ const SearchButton = styled.button`
   background-size: 26px 26px;
   background-repeat: no-repeat;
   background-position: center;
+  &:hover {
+    box-shadow: 3px 3px 2px rgba(175, 174, 183, 0.5);
+  }
 `;
 // 검색버튼 전체 박스
 const AllSearchButtonBoxDiv = styled.div`
@@ -327,11 +330,11 @@ const StyledSelect = styled(Select).attrs({
     color: black; /* option 텍스트 색상 */
   }
   .react-select__option--is-selected {
-    background-color: #93230c; /* 클릭된 option 배경색 */
+    background-color: #fa5938; /* 클릭된 option 배경색 */
     color: white; /* 클릭된 option 텍스트 색상 */
   }
   .react-select__option--is-focused {
-    background-color: #fa5938; /* hover 상태의 option 배경색 */
-    color: white; /* hover 상태의 option 텍스트 색상 */
+    border: 1px solid #afaeb7;
+    color: black; /* hover 상태의 option 텍스트 색상 */
   }
 `;

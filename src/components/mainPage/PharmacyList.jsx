@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import storeIcon from '../../assets/storeTitleIcon.png';
+import BookMark from '../BookMark';
 
 const PharmacyList = () => {
   const dummyList = [
@@ -61,6 +62,7 @@ const PharmacyList = () => {
               <div>{item.address}</div>
               <div>{item.businessHours}</div>
             </DetailInformationDiv>
+            <BookMark />
           </ItemBoxSection>
         );
       })}
@@ -88,9 +90,14 @@ const ItemBoxSection = styled.section`
   margin-bottom: 20px;
   padding-top: 11px;
   padding-bottom: 11px;
+  border-radius: 15px;
   display: flex;
+  align-items: center;
   flex-direction: row;
   gap: 66px;
+  &:hover {
+    box-shadow: 3px 3px 2px rgba(175, 174, 183, 0.5);
+  }
 `;
 
 // 리스트 타이틀
@@ -112,6 +119,7 @@ const TitleH1 = styled.h1`
 
 // 상세정보
 const DetailInformationDiv = styled.div`
+  width: 230px;
   font-size: 12px;
   padding-top: 11px;
   padding-bottom: 11px;
