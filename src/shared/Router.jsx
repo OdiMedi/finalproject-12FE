@@ -5,18 +5,21 @@ import Login from '../page/Login';
 import MainPage from '../page/MainPage';
 import MyPage from '../page/MyPage';
 import SignUp from '../page/SignUp';
+import Layout from './Layout';
 
 const Router = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/myPage" element={<MyPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/user/signin/kakao" element={<KakaoAuthRedirect />} />
-        <Route path="/mainPage" element={<MainPage />} />
-      </Routes>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/myPage" element={<MyPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/user/signin/kakao" element={<KakaoAuthRedirect />} />
+          <Route path="/mainPage" element={<MainPage />} />
+        </Routes>
+      </Layout>
     </BrowserRouter>
   );
 };
