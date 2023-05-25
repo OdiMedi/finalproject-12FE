@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import ReactDOMServer from 'react-dom/server';
 import locationIcon from '../../assets/locationIcon.png';
+import bubble from '../../assets/speechBubble.png';
+import storeMap from '../../assets/storeMapIcon.png';
 
 const { kakao } = window;
 
@@ -45,8 +48,13 @@ const MAPapi = () => {
 
   useEffect(() => {
     const container = document.getElementById('myMap');
+    // 서울의 위도와 경도
+    // const seoulLat = 37.5665;
+    // const seoulLng = 126.978;
+    const seoulLat = 37.5348879429263;
+    const seoulLng = 126.837978157379;
     const options = {
-      center: new kakao.maps.LatLng(37.541, 126.986),
+      center: new kakao.maps.LatLng(seoulLat, seoulLng),
       level: 3,
     };
     const map = new kakao.maps.Map(container, options);
@@ -67,6 +75,26 @@ const MAPapi = () => {
         position: new kakao.maps.LatLng(lo.lat, lo.lon),
         image: markerImage,
       });
+
+      // 커스텀 오버레이
+      const content = (
+        <CustomOverlayWrapperDiv src={bubble} alt="">
+          <CustomOverlayIconImage src={storeMap} alt="" />
+          {lo.name}
+        </CustomOverlayWrapperDiv>
+      );
+
+      const customOverlay = new kakao.maps.CustomOverlay({
+        position: marker.getPosition(),
+        content: ReactDOMServer.renderToString(content),
+        xAnchor: 0.55,
+        yAnchor: 1.8,
+      });
+
+      kakao.maps.event.addListener(marker, 'click', function () {
+        customOverlay.setMap(map);
+      });
+
       marker.setMap(map);
     });
   }, []);
@@ -79,4 +107,24 @@ export default MAPapi;
 const MapDiv = styled.div`
   width: 580px;
   height: 710px;
+`;
+const CustomOverlayWrapperDiv = styled.div`
+  background-image: url(${bubble});
+  background-size: 130px 47px;
+  width: 100px;
+  height: 42px;
+  position: relative;
+  padding-left: 30px;
+  padding-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+`;
+const CustomOverlayIconImage = styled.image`
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
 `;

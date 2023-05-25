@@ -115,7 +115,7 @@ const DetailInformationDiv = styled.div`
   font-size: 12px;
   padding-top: 11px;
   padding-bottom: 11px;
-
+  gap: 11px;
   display: flex;
   flex-direction: column;
   justify-content: center;
