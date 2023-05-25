@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import mainIcon from '../assets/home.png';
+import mainIcon from '../assets/headerIcon.png';
 
 const Header = () => {
   const navigate = useNavigate();

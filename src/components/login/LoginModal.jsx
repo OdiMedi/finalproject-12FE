@@ -1,8 +1,13 @@
 import { useState } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import api from '../../api/axios';
 import KAKAO_AUTH_URL from './kakaoAuth';
+import LoginIconMain from '../../assets/loginIcon.png';
+import LoginTitleMain from '../../assets/loginTitle.png';
+import KakaoIcon from '../../assets/kakaoIcon.png';
+import WarnIcon from '../../assets/warnIcon.png';
 
 const LoginModal = () => {
   const navigate = useNavigate();
@@ -47,44 +52,159 @@ const LoginModal = () => {
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '560px',
-        height: '620px',
-        margin: '0 auto',
-        border: '1px solid black',
-      }}
-    >
-      <input
+    <LoginContainer>
+      <LoginIconDiv />
+      <LoginTitleDiv />
+      <LoginInput
         name="nickname"
         value={nickname}
         onChange={inputChange}
         type="text"
-        placeholder="nickname"
+        placeholder="이메일을 입력하세요."
       />
-      <input
+      <LoginInput
         name="password"
         value={password}
         onChange={inputChange}
         type="password"
-        placeholder="password"
+        placeholder="비밀번호를 입력하세요."
       />
-      <button onClick={submitLogin} type="button">
-        Login
-      </button>
+      <LoginBtn onClick={submitLogin} type="button">
+        로그인
+      </LoginBtn>
 
-      <button onClick={goSignin} type="button">
-        sign in
-      </button>
+      <TextBtnWrap>
+        <TextBnt>비밀번호 찾기</TextBnt>
+        <LineDiv />
+        <TextBnt onClick={goSignin}>회원가입</TextBnt>
+      </TextBtnWrap>
 
-      <a href={KAKAO_AUTH_URL}>카카오 소셜</a>
-    </div>
+      <KakakoLink href={KAKAO_AUTH_URL} />
+
+      <WarningDiv>
+        <div />
+        <p>이메일 / 비밀번호를 다시 확인해주세요.</p>
+      </WarningDiv>
+    </LoginContainer>
   );
 };
 
 export default LoginModal;
+
+const LoginContainer = styled.div`
+  width: 500px;
+  height: 761px;
+  margin: 0 auto;
+  margin-top: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const LoginIconDiv = styled.div`
+  width: 64px;
+  height: 64px;
+  background-image: url(${LoginIconMain});
+  background-size: 64px 64px;
+`;
+const LoginTitleDiv = styled.div`
+  width: 175px;
+  height: 75px;
+  background-image: url(${LoginTitleMain});
+  background-size: 175px 75px;
+  margin-bottom: 59px;
+`;
+const LoginInput = styled.input`
+  width: 500px;
+  height: 60px;
+  border: 1.5px solid #d9d9d9;
+  border-radius: 5px;
+  margin-bottom: 26px;
+  font-size: 20px;
+  text-indent: 27px;
+
+  &::placeholder {
+    color: #afaeb7;
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 34px;
+    height: 60px;
+    letter-spacing: -0.5px;
+    text-indent: 27px;
+  }
+  &:focus::placeholder {
+    color: transparent;
+  }
+`;
+const LoginBtn = styled.button`
+  width: 500px;
+  height: 64px;
+  background-color: #fa5938;
+  border: none;
+  border-radius: 32px;
+  font-weight: 900;
+  font-size: 20px;
+  line-height: 34px;
+  letter-spacing: -0.5px;
+  color: #ffffff;
+  margin-bottom: 34px;
+`;
+const TextBtnWrap = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const TextBnt = styled.button`
+  /* width: 101px; */
+  height: 34px;
+  font-size: 18px;
+  line-height: 34px;
+  letter-spacing: -0.5px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  color: #686868;
+  border: none;
+  background-color: transparent;
+`;
+const LineDiv = styled.div`
+  width: 17px;
+  height: 0px;
+  border: 0.8px solid #686868;
+  transform: rotate(-90deg);
+  margin: 0 27px 0 28px;
+`;
+const KakakoLink = styled.a`
+  width: 72px;
+  height: 72px;
+  background-image: url(${KakaoIcon});
+  background-size: 72px 72px;
+  margin-top: 58px;
+`;
+const WarningDiv = styled.div`
+  width: 450px;
+  height: 80px;
+  background: #fd8b2b;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 39px;
+
+  div {
+    width: 16px;
+    height: 16px;
+    background-image: url(${WarnIcon});
+    background-size: 16px 16px;
+    margin-right: 9px;
+  }
+
+  p {
+    font-size: 18px;
+    letter-spacing: -0.5px;
+    color: #ffffff;
+    font-stretch: 87.5;
+  }
+`;
 
 /* <카카오 소셜 로그인 flow>
 프론트엔드로 부터 인가 코드를 전달 받는다.
