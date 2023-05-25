@@ -10,16 +10,20 @@ module.exports = {
     'plugin:prettier/recommended',
     'plugin:react/jsx-runtime',
   ],
+  parserOptions: {
+    ecmaVersion: 2021,
+  },
   rules: {
+    'import/no-extraneous-dependencies': 'off',
     'no-console': 'off',
-    'import/no-unresolved': 'off',
+    // 'import/no-unresolved': 'off',
     'react/prop-types': 0,
     'no-extra-semi': 'error',
     'react/jsx-props-no-spreading': 'off',
     'no-unused-vars': 'warn',
-    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    'react/jsx-filename-extension': [1, { extensions: ['.jsx', '.js'] }],
     'react/self-closing-comp': [
-      'error',
+      'warn',
       {
         component: false,
         html: false,
@@ -29,5 +33,6 @@ module.exports = {
       1,
       { namedComponents: ['arrow-function'] },
     ],
+    'no-param-reassign': 'off',
   },
 };
