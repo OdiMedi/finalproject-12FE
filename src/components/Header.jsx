@@ -33,6 +33,16 @@ const HeaderContainer = styled.div`
   justify-content: center;
   width: 100vw;
   height: 90px;
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    height: 1px;
+    width: 98%;
+    border-bottom: 1px solid #d9d9d9;
+  }
 `;
 const MainIconDiv = styled.div`
   width: 133px;
