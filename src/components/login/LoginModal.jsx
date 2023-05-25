@@ -100,20 +100,20 @@ const LoginContainer = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-const LoginIconDiv = styled.div`
+export const LoginIconDiv = styled.div`
   width: 64px;
   height: 64px;
   background-image: url(${LoginIconMain});
   background-size: 64px 64px;
 `;
-const LoginTitleDiv = styled.div`
+export const LoginTitleDiv = styled.div`
   width: 175px;
   height: 75px;
   background-image: url(${LoginTitleMain});
   background-size: 175px 75px;
   margin-bottom: 59px;
 `;
-const LoginInput = styled.input`
+export const LoginInput = styled.input`
   width: 500px;
   height: 60px;
   border: 1.5px solid #d9d9d9;
@@ -135,7 +135,7 @@ const LoginInput = styled.input`
     color: transparent;
   }
 `;
-const LoginBtn = styled.button`
+export const LoginBtn = styled.button`
   width: 500px;
   height: 64px;
   background-color: #fa5938;
@@ -152,7 +152,7 @@ const TextBtnWrap = styled.div`
   display: flex;
   align-items: center;
 `;
-const TextBnt = styled.button`
+export const TextBnt = styled.button`
   /* width: 101px; */
   height: 34px;
   font-size: 18px;
@@ -172,7 +172,7 @@ const LineDiv = styled.div`
   transform: rotate(-90deg);
   margin: 0 27px 0 28px;
 `;
-const KakakoLink = styled.a`
+export const KakakoLink = styled.a`
   width: 72px;
   height: 72px;
   background-image: url(${KakaoIcon});

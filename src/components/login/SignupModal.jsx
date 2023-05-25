@@ -1,7 +1,18 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import api from '../../api/axios';
+import {
+  LoginIconDiv,
+  LoginTitleDiv,
+  LoginInput,
+  LoginBtn,
+  TextBnt,
+  KakakoLink,
+} from './LoginModal';
 
 const SignupModal = () => {
+  const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
     email: '',
     nickname: '',
@@ -18,43 +29,51 @@ const SignupModal = () => {
   const submitSignup = async () => {
     await api.post('/user/signup', inputValue);
   };
+  const redirectLogin = () => {
+    navigate('/login');
+  };
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '560px',
-        height: '620px',
-        margin: '0 auto',
-        border: '1px solid black',
-      }}
-    >
-      <input
+    <SignupContainer>
+      <LoginIconDiv />
+      <LoginTitleDiv />
+      <LoginInput
         name="nickname"
         value={nickname}
         onChange={inputChange}
         type="text"
-        placeholder="nickname"
+        placeholder="닉네임을 입력하세요."
       />
-      <input
+      <LoginInput
         name="email"
         value={email}
         onChange={inputChange}
         type="text"
-        placeholder="email"
+        placeholder="이메일을 입력하세요."
       />
-      <input
+      <LoginInput
         name="password"
         value={password}
         onChange={inputChange}
         type="password"
-        placeholder="password"
+        placeholder="비밀번호를 입력하세요."
       />
-      <button type="button" onClick={submitSignup}>
-        Sign up
-      </button>
-    </div>
+      <LoginBtn type="button" onClick={submitSignup}>
+        회원가입
+      </LoginBtn>
+      <TextBnt onClick={redirectLogin}>로그인 창으로 돌아가기</TextBnt>
+      <KakakoLink />
+    </SignupContainer>
   );
 };
 
 export default SignupModal;
+
+const SignupContainer = styled.div`
+  width: 500px;
+  height: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 120px;
+`;
