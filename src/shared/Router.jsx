@@ -6,6 +6,7 @@ import MainPage from '../page/MainPage';
 import MyPage from '../page/MyPage';
 import SignUp from '../page/SignUp';
 import Layout from './Layout';
+import DetailPage from '../page/DetailPage';
 
 const Router = () => {
   return (
@@ -18,6 +19,7 @@ const Router = () => {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/user/signin/kakao" element={<KakaoAuthRedirect />} />
           <Route path="/mainPage" element={<MainPage />} />
+          <Route path="/detailPage" element={<DetailPage />} />
         </Routes>
       </Layout>
     </BrowserRouter>
