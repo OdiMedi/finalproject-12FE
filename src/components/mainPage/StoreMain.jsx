@@ -101,7 +101,6 @@ const StoreMain = () => {
     }
   };
 
-  console.log(selectedButton);
   return (
     <MainContainer>
       <MapApi />
@@ -267,15 +266,6 @@ const RegionSearchButton = styled.button`
   border-radius: 20px;
   color: #ffffff;
   position: relative;
-`;
-const TextSpan = styled.span`
-  font-size: 16px;
-  height: 40px;
-  width: 80px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  justify-content: center;
 `;
 const PolygonIcon = styled.span`
   width: 12px;
