@@ -1,7 +1,7 @@
-import React from 'react';
+import StoreDetail from '../components/detailPage/StoreDetail';
 
 const DetailPage = () => {
-  return <div>DetailPage</div>;
+  return <StoreDetail />;
 };
 
 export default DetailPage;
