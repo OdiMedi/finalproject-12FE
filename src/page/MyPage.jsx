@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import profile from '../assets/profile.png';
+import MypageBookmark from '../components/mypage/MypageBookmark';
+import MypageReview from '../components/mypage/MypageReview';
 
 const MyPage = () => {
   const [activeButton, setActiveButton] = useState(null);
@@ -36,6 +38,15 @@ const MyPage = () => {
           <p>찜한 약국 0</p>
         </TabButton>
       </MypageTabDiv>
+      {activeButton === 1 && <MypageReview />}
+      {activeButton === 2 && (
+        <BookmarkContainerDiv>
+          <MypageBookmark />
+          <MypageBookmark />
+          <MypageBookmark />
+          <MypageBookmark />
+        </BookmarkContainerDiv>
+      )}
     </MypageContainer>
   );
 };
@@ -116,4 +127,11 @@ const TabButton = styled.button`
     font-family: 'Pretendard';
     letter-spacing: -0.5px;
   }
+`;
+const BookmarkContainerDiv = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2%;
+  padding-top: 20px;
 `;
