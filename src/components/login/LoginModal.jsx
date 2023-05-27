@@ -98,7 +98,7 @@ const LoginContainer = styled.div`
   width: 500px;
   height: 761px;
   margin: 0 auto;
-  margin-top: 120px;
+  margin-top: 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
