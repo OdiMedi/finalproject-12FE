@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import Cookies from 'js-cookie';
 import mainIcon from '../assets/headerIcon.png';
 
 const Header = () => {
   const navigate = useNavigate();
-  const mainIconHandle = () => {
-    navigate('/');
-  };
+  const accesstoken = Cookies.get('accesstoken');
+
   return (
     <HeaderContainer>
       <div
@@ -16,10 +16,17 @@ const Header = () => {
           alignItems: 'center',
         }}
       >
-        <MainIconDiv onClick={mainIconHandle} />
+        <MainIconDiv onClick={() => navigate('/')} />
         <div style={{ marginLeft: '45vw' }}>
           <HeaderBtn>고객센터</HeaderBtn>
-          <HeaderBtn>로그인</HeaderBtn>
+          {accesstoken ? (
+            <>
+              <HeaderBtn>마이페이지</HeaderBtn>
+              <HeaderBtn>로그아웃</HeaderBtn>
+            </>
+          ) : (
+            <HeaderBtn onClick={() => navigate('/login')}>로그인</HeaderBtn>
+          )}
         </div>
       </div>
     </HeaderContainer>
@@ -60,4 +67,5 @@ const HeaderBtn = styled.button`
   font-size: 20px;
   line-height: 27px;
   letter-spacing: 0.05em;
+  cursor: pointer;
 `;

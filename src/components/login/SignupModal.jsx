@@ -10,6 +10,7 @@ import {
   TextBnt,
   KakakoLink,
 } from './LoginModal';
+import KAKAO_AUTH_URL from './kakaoAuth';
 
 const SignupModal = () => {
   const navigate = useNavigate();
@@ -36,32 +37,34 @@ const SignupModal = () => {
     <SignupContainer>
       <LoginIconDiv />
       <LoginTitleDiv />
-      <LoginInput
-        name="nickname"
-        value={nickname}
-        onChange={inputChange}
-        type="text"
-        placeholder="닉네임을 입력하세요."
-      />
-      <LoginInput
-        name="email"
-        value={email}
-        onChange={inputChange}
-        type="text"
-        placeholder="이메일을 입력하세요."
-      />
-      <LoginInput
-        name="password"
-        value={password}
-        onChange={inputChange}
-        type="password"
-        placeholder="비밀번호를 입력하세요."
-      />
-      <LoginBtn type="button" onClick={submitSignup}>
-        회원가입
-      </LoginBtn>
+      <form autoComplete="off">
+        <LoginInput
+          name="nickname"
+          value={nickname}
+          onChange={inputChange}
+          type="text"
+          placeholder="닉네임을 입력하세요."
+        />
+        <LoginInput
+          name="email"
+          value={email}
+          onChange={inputChange}
+          type="text"
+          placeholder="이메일을 입력하세요."
+        />
+        <LoginInput
+          name="password"
+          value={password}
+          onChange={inputChange}
+          type="password"
+          placeholder="비밀번호를 입력하세요."
+        />
+        <LoginBtn type="button" onClick={submitSignup}>
+          회원가입
+        </LoginBtn>
+      </form>
       <TextBnt onClick={redirectLogin}>로그인 창으로 돌아가기</TextBnt>
-      <KakakoLink />
+      <KakakoLink href={KAKAO_AUTH_URL} />
     </SignupContainer>
   );
 };

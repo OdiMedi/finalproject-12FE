@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+
 import api from '../../api/axios';
 import KAKAO_AUTH_URL from './kakaoAuth';
 import LoginIconMain from '../../assets/loginIcon.png';
@@ -55,23 +56,25 @@ const LoginModal = () => {
     <LoginContainer>
       <LoginIconDiv />
       <LoginTitleDiv />
-      <LoginInput
-        name="nickname"
-        value={nickname}
-        onChange={inputChange}
-        type="text"
-        placeholder="이메일을 입력하세요."
-      />
-      <LoginInput
-        name="password"
-        value={password}
-        onChange={inputChange}
-        type="password"
-        placeholder="비밀번호를 입력하세요."
-      />
-      <LoginBtn onClick={submitLogin} type="button">
-        로그인
-      </LoginBtn>
+      <form autoComplete="off">
+        <LoginInput
+          name="nickname"
+          value={nickname}
+          onChange={inputChange}
+          type="text"
+          placeholder="이메일을 입력하세요."
+        />
+        <LoginInput
+          name="password"
+          value={password}
+          onChange={inputChange}
+          type="password"
+          placeholder="비밀번호를 입력하세요."
+        />
+        <LoginBtn onClick={submitLogin} type="button">
+          로그인
+        </LoginBtn>
+      </form>
 
       <TextBtnWrap>
         <TextBnt>비밀번호 찾기</TextBnt>
@@ -122,6 +125,11 @@ export const LoginInput = styled.input`
   font-size: 20px;
   text-indent: 27px;
 
+  &:focus {
+    border-color: #fa5938;
+    outline: none;
+  }
+
   &::placeholder {
     color: #afaeb7;
     font-weight: 800;
@@ -147,13 +155,13 @@ export const LoginBtn = styled.button`
   letter-spacing: -0.5px;
   color: #ffffff;
   margin-bottom: 34px;
+  cursor: pointer;
 `;
 const TextBtnWrap = styled.div`
   display: flex;
   align-items: center;
 `;
 export const TextBnt = styled.button`
-  /* width: 101px; */
   height: 34px;
   font-size: 18px;
   line-height: 34px;
@@ -164,6 +172,7 @@ export const TextBnt = styled.button`
   color: #686868;
   border: none;
   background-color: transparent;
+  cursor: pointer;
 `;
 const LineDiv = styled.div`
   width: 17px;
