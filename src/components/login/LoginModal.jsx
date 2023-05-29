@@ -48,10 +48,6 @@ const LoginModal = () => {
     }
   };
 
-  const goSignin = () => {
-    navigate('/signup');
-  };
-
   return (
     <LoginContainer>
       <LoginIconDiv />
@@ -79,7 +75,7 @@ const LoginModal = () => {
       <TextBtnWrap>
         <TextBnt>비밀번호 찾기</TextBnt>
         <LineDiv />
-        <TextBnt onClick={goSignin}>회원가입</TextBnt>
+        <TextBnt onClick={() => navigate('/signup')}>회원가입</TextBnt>
       </TextBtnWrap>
 
       <KakakoLink href={KAKAO_AUTH_URL} />

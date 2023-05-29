@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import api from '../api/axios';
 import offBookmark from '../assets/offBookMark.png';
 import onBookmark from '../assets/onBookMark.png';
 
 const BookMark = () => {
   const [bookMark, setBookMark] = useState(false);
+
   const onClickBookMarkHandler = () => {
     setBookMark(!bookMark);
   };

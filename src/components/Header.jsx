@@ -1,11 +1,28 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Cookies from 'js-cookie';
+import { useState, useEffect } from 'react';
 import mainIcon from '../assets/headerIcon.png';
+import api from '../api/axios';
 
 const Header = () => {
+  const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
   const accesstoken = Cookies.get('accesstoken');
+
+  useEffect(() => {
+    if (accesstoken) {
+      setIsLogin(() => true);
+    }
+  }, [accesstoken]);
+
+  const logoutHandle = async () => {
+    await api.delete('/api/logout');
+    Cookies.remove('accesstoken');
+    Cookies.remove('refreshtoken');
+    setIsLogin(prev => !prev);
+    navigate('/');
+  };
 
   return (
     <HeaderContainer>
@@ -19,10 +36,12 @@ const Header = () => {
         <MainIconDiv onClick={() => navigate('/')} />
         <div style={{ marginLeft: '45vw' }}>
           <HeaderBtn>고객센터</HeaderBtn>
-          {accesstoken ? (
+          {isLogin ? (
             <>
-              <HeaderBtn>마이페이지</HeaderBtn>
-              <HeaderBtn>로그아웃</HeaderBtn>
+              <HeaderBtn onClick={() => navigate('/mypage')}>
+                마이페이지
+              </HeaderBtn>
+              <HeaderBtn onClick={logoutHandle}>로그아웃</HeaderBtn>
             </>
           ) : (
             <HeaderBtn onClick={() => navigate('/login')}>로그인</HeaderBtn>
