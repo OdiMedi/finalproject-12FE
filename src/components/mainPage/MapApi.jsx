@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ReactDOMServer from 'react-dom/server';
 import locationIcon from '../../assets/locationIcon.png';
@@ -7,93 +7,52 @@ import storeMap from '../../assets/storeMapIcon.png';
 
 const { kakao } = window;
 
-const MapApi = () => {
-  const dummyList = [
-    {
-      id: 1,
-      name: '흥부약국',
-      lon: 126.85581079958143,
-      lat: 37.55496841887348,
-    },
-    {
-      id: 2,
-      name: '희망찬약국',
-      lon: 126.84676212183612,
-      lat: 37.531164294971674,
-    },
-    {
-      id: 3,
-      name: '화곡서울약국',
-      lon: 126.83671729194344,
-      lat: 37.54843456317784,
-    },
-    {
-      id: 4,
-      name: '화곡태평양약국',
-      lon: 126.8376196876418,
-      lat: 37.54414899562802,
-    },
-    {
-      id: 5,
-      name: '화창한약국',
-      lon: 126.84611739011669,
-      lat: 37.56081981514185,
-    },
-    {
-      id: 6,
-      name: '화평약국',
-      lon: 126.86100108709572,
-      lat: 37.53193095203476,
-    },
-    {
-      id: 7,
-      name: '휴베이스비타민약국',
-      lon: 126.837978157379,
+const MapApi = ({ storeLocation }) => {
+  const [currentLocation, setCurrentLocation] = useState({
+    center: {
       lat: 37.5348879429263,
+      lng: 126.837978157379,
     },
-  ];
+    errMsg: null,
+    isLoading: true,
+  });
 
-  useEffect(() => {
+  // Marker image
+  const imageSrc = locationIcon;
+  const imageSize = new kakao.maps.Size(40, 40);
+  const imageOption = { offset: new kakao.maps.Point(27, 40) };
+  const markerImage = new kakao.maps.MarkerImage(
+    imageSrc,
+    imageSize,
+    imageOption
+  );
+
+  const loadMap = center => {
+    // 'myMap'ID를 가진 요소 참조
     const container = document.getElementById('myMap');
-    // 서울의 위도와 경도
-    // const seoulLat = 37.5665;
-    // const seoulLng = 126.978;
-    const seoulLat = 37.5348879429263;
-    const seoulLng = 126.837978157379;
     const options = {
-      center: new kakao.maps.LatLng(seoulLat, seoulLng),
+      center: new kakao.maps.LatLng(center.lat, center.lng),
       level: 3,
     };
     const map = new kakao.maps.Map(container, options);
 
-    // 마커 이미지 변경
-    const imageSrc = locationIcon;
-    const imageSize = new kakao.maps.Size(40, 40);
-    const imageOption = { offset: new kakao.maps.Point(27, 40) };
-    const markerImage = new kakao.maps.MarkerImage(
-      imageSrc,
-      imageSize,
-      imageOption
-    );
-
-    // 마커 생성 및 지도에 추가
-    dummyList.forEach(lo => {
+    // 마커를 지도에 보여주기
+    storeLocation.forEach(location => {
       const marker = new kakao.maps.Marker({
-        position: new kakao.maps.LatLng(lo.lat, lo.lon),
+        position: new kakao.maps.LatLng(location.lat, location.lon),
         image: markerImage,
       });
 
-      // 커스텀 오버레이
+      // Custom overlay
       const content = (
         <CustomOverlayWrapperDiv
-          size={lo.name.length < 7 ? '13px' : '11px'}
-          key={lo.id}
+          size={location.name.length < 7 ? '13px' : '11px'}
+          key={location.storeId}
         >
           <CustomOverlayIconImage src={storeMap} alt="" />
-          {lo.name}
+          {location.name}
         </CustomOverlayWrapperDiv>
       );
-
       const customOverlay = new kakao.maps.CustomOverlay({
         position: marker.getPosition(),
         content: ReactDOMServer.renderToString(content),
@@ -103,22 +62,78 @@ const MapApi = () => {
 
       kakao.maps.event.addListener(marker, 'click', function () {
         if (customOverlay.getMap()) {
-          // 이미 열려있는 상태인 경우 닫기
           customOverlay.setMap(null);
         } else {
-          // 닫혀있는 상태인 경우 열기
           customOverlay.setMap(map);
         }
       });
 
       marker.setMap(map);
     });
+
+    return map; // map 객체 반환
+  };
+
+  useEffect(() => {
+    loadMap(currentLocation.center);
   }, []);
 
-  return <MapDiv id="myMap">MapApi</MapDiv>;
+  const getCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const center = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          setCurrentLocation(prev => ({
+            ...prev,
+            center,
+            isLoading: false,
+          }));
+          const map = loadMap(center); // loadMap 호출 후 반환된 map 변수를 받음
+
+          const marker = new kakao.maps.Marker({
+            position: new kakao.maps.LatLng(center.lat, center.lng),
+            image: markerImage,
+          });
+          marker.setMap(map);
+        },
+        err => {
+          setCurrentLocation(prev => ({
+            ...prev,
+            errMsg: err.message,
+            isLoading: false,
+          }));
+        }
+      );
+    } else {
+      setCurrentLocation(prev => ({
+        ...prev,
+        errMsg: 'geolocation을 사용할 수 없어요..',
+        isLoading: false,
+      }));
+    }
+  };
+
+  return (
+    <BackgroundDiv>
+      <MapDiv id="myMap">지도를 불러오고 있습니다.</MapDiv>
+      <Button onClick={getCurrentLocation}>내 위치</Button>
+    </BackgroundDiv>
+  );
 };
 
 export default MapApi;
+
+const BackgroundDiv = styled.div`
+  position: relative;
+`;
+const Button = styled.button`
+  position: absolute;
+  top: 0;
+  z-index: 1;
+`;
 
 const MapDiv = styled.div`
   width: 580px;
