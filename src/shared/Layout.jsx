@@ -14,6 +14,4 @@ export default Layout;
 
 const Content = styled.div`
   min-height: 100vh;
-  margin-top: 1vh;
-  /* padding: 0 3vh; */
 `;
