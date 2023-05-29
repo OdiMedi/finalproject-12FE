@@ -10,15 +10,17 @@ import Comment from './Comment';
 const dummyList = {
   storeId: 1,
   address: '서울특별시 강북구 번동 어쩌고 저쩌고 저쩌고 어쩌고 ',
-  name: '삼성약국',
+  name: '희망찬약국',
   businessHours: '수요일 09:00~18:00',
   callNumber: '02-122-3921',
+  lon: 126.84676212183612,
+  lat: 37.531164294971674,
 };
-
 const StoreDetail = () => {
+  const dummyArr = [dummyList];
   return (
     <CSS.MainContainer>
-      <MapApi />
+      <MapApi storeLocation={dummyArr} />
       <DetailBoxArticle>
         <CSS.TitleBox>
           <CSS.LocationIcon src={locationIcon} alt="" />
