@@ -34,5 +34,6 @@ module.exports = {
       { namedComponents: ['arrow-function'] },
     ],
     'no-param-reassign': 'off',
+    'react/no-unknown-property': 0,
   },
 };
