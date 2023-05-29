@@ -19,7 +19,6 @@ const CommentBoxSection = styled.section`
   height: 388px;
   font-size: 18px;
   background-color: yellow;
-  display: flex;
 `;
 const CommentIcon = styled.img`
   width: 20px;
