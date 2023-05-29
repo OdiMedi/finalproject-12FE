@@ -1,11 +1,42 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 import styled from 'styled-components';
+import api from '../api/axios';
 import profile from '../assets/profile.png';
 import MypageBookmark from '../components/mypage/MypageBookmark';
 import MypageReview from '../components/mypage/MypageReview';
 
 const MyPage = () => {
-  const [activeButton, setActiveButton] = useState(null);
+  const [activeButton, setActiveButton] = useState(1);
+  // const [reviewData, setReviewData] = useState([]);
+  // const [bookmarkData, setBookmarkData] = useState([]);
+
+  const getBookmark = async () => {
+    const response = await api.get('/api/bookmark');
+    // setBookmarkData(response); // response 키값에 따라 조정예정
+    return response;
+  };
+  const getReview = async () => {
+    const response = await api.get('/api/comment');
+    // setReviewData(response); // response 키값에 따라 조정예정
+    return response;
+  };
+  const { data: reviewData, isLoading: isLoadingReview } = useQuery(
+    'getReview',
+    getReview
+  );
+  const { data: bookmarkData, isLoading: isLoadingBookmark } = useQuery(
+    'getBookmark',
+    getBookmark
+  );
+
+  // useEffect(() => {
+  //   if (activeButton === 1) {
+  //     getReview();
+  //   } else if (activeButton === 2) {
+  //     getBookmark();
+  //   }
+  // }, [activeButton]);
 
   const handleClick = buttonId => {
     setActiveButton(buttonId);

@@ -1,10 +1,12 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import MainLogo from '../assets/mainLogo.png';
 import pharmacy from '../assets/pharmacy.png';
 import conversation from '../assets/conversation.png';
 import MainRight from '../assets/mainRight.png';
 
 const Home = () => {
+  const navigate = useNavigate();
   return (
     <MainPageContainerDiv>
       <MainPageLeftDiv>
@@ -14,7 +16,7 @@ const Home = () => {
         </div>
 
         <MainLeftBottomDiv>
-          <BottomBtnDiv>
+          <BottomBtnDiv onClick={() => navigate('/mainPage')}>
             <BottomIconLeftDiv />
             <p>약국 검색</p>
             <p>구역별, 공휴일·야간영업 약국 검색</p>
@@ -75,6 +77,7 @@ const BottomBtnDiv = styled.div`
   align-items: center;
   box-sizing: border-box;
   padding: 33px 13px 13px 13px;
+  cursor: pointer;
   p {
     &:nth-child(2) {
       font-weight: 800;
@@ -109,7 +112,7 @@ const BottomIconRightDiv = styled.div`
 const MainPageRightDiv = styled.div`
   min-width: 500px;
   background-image: url(${MainRight});
-  background-size: 100% auto;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 `;
