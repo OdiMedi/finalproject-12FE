@@ -111,7 +111,7 @@ const dummyList = [
   },
 ];
 
-const Comment = () => {
+const Comment = ({ storeId }) => {
   return (
     <CommentBoxSection>
       <CommentInfoDiv>
@@ -138,10 +138,12 @@ const Comment = () => {
           return (
             <CommentItem
               key={item.commentId}
-              id={item.commentId}
+              commnetId={item.commentId}
+              storeId={item.storeId}
               nickname={item.nickname}
               content={item.content}
-              recommentLength={item.recomment.length}
+              // recommentLength={item.recomment.length}
+              check={item.check}
             />
           );
         })}

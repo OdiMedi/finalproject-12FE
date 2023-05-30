@@ -17,7 +17,7 @@ const Header = () => {
   }, [accesstoken]);
 
   const logoutHandle = async () => {
-    await api.delete('/api/logout');
+    // await api.delete('/api/logout');
     Cookies.remove('accesstoken');
     Cookies.remove('refreshtoken');
     setIsLogin(prev => !prev);

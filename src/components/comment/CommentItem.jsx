@@ -3,7 +3,7 @@ import profileImg from '../../assets/profile.png';
 import recommentIcon from '../../assets/recommentIcon.png';
 
 const CommentItem = props => {
-  const { id, nickname, content, recommentLength } = props;
+  const { commentId, storeId, nickname, content, check } = props;
   return (
     <CommentItemContainerDiv>
       <ProfileWrapDiv>
@@ -14,7 +14,7 @@ const CommentItem = props => {
         <CommentContentP>{content}</CommentContentP>
         <RecommentWrapDiv>
           <RecommentIconDiv />
-          <RecommnetTotalP>{recommentLength}</RecommnetTotalP>
+          <RecommnetTotalP></RecommnetTotalP>
         </RecommentWrapDiv>
       </CommentTextDiv>
     </CommentItemContainerDiv>

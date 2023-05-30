@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import api from '../api/axios';
@@ -78,6 +78,18 @@ const MyPage = () => {
           <MypageBookmark />
         </BookmarkContainerDiv>
       )}
+      {/* {activeButton === 2 && (
+        <BookmarkContainerDiv>
+          {bookmarkData?.map(item => (
+            <MypageBookmark
+              key={item.name}
+              name={item.name}
+              city={item.addressCity}
+              Detail={item.adressDetail}
+            />
+          ))}
+        </BookmarkContainerDiv>
+      )} */}
     </MypageContainer>
   );
 };

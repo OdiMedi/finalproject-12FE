@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
 import MapApi from '../mainPage/MapApi';
 import * as CSS from '../globalStyle';
 import locationIcon from '../../assets/locationIcon.png';
@@ -17,6 +18,8 @@ const dummyList = {
   lat: 37.531164294971674,
 };
 const StoreDetail = () => {
+  const { storeId } = useParams();
+
   const dummyArr = [dummyList];
   return (
     <CSS.MainContainer>
@@ -50,7 +53,7 @@ const StoreDetail = () => {
             </OpenCheckBoxDiv>
           </StoreDetailInfoBoxDiv>
         </StoreDetailBoxDiv>
-        <Comment />
+        <Comment storeId={storeId} />
       </DetailBoxArticle>
     </CSS.MainContainer>
   );

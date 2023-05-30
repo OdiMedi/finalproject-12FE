@@ -13,11 +13,11 @@ import WarnIcon from '../../assets/warnIcon.png';
 const LoginModal = () => {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
-    nickname: '',
+    email: '',
     password: '',
   });
 
-  const { nickname, password } = inputValue;
+  const { email, password } = inputValue;
   const inputChange = e => {
     const { name, value } = e.target;
     setInputValue({
@@ -30,8 +30,8 @@ const LoginModal = () => {
     try {
       const response = await api.post('/user/login', inputValue);
 
-      const accessHeader = response?.headers.get('ACCESS_KEY');
-      const refreshHeader = response?.headers.get('REFRESH_KEY');
+      const accessHeader = response?.headers.get('Acess_key');
+      const refreshHeader = response?.headers.get('Refresh_key');
 
       const accessToken = accessHeader?.split(' ')[1];
       const refreshToken = refreshHeader?.split(' ')[1];
@@ -39,7 +39,7 @@ const LoginModal = () => {
       Cookies.set('accesstoken', accessToken);
       Cookies.set('refreshtoken', refreshToken);
       setInputValue({
-        nickname: '',
+        email: '',
         password: '',
       });
       navigate('/');
@@ -54,8 +54,8 @@ const LoginModal = () => {
       <LoginTitleDiv />
       <form autoComplete="off">
         <LoginInput
-          name="nickname"
-          value={nickname}
+          name="email"
+          value={email}
           onChange={inputChange}
           type="text"
           placeholder="이메일을 입력하세요."

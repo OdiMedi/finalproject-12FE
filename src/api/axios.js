@@ -20,42 +20,42 @@ api.interceptors.request.use(
   }
 );
 
-api.interceptors.response.use(
-  response => {
-    return response;
-  },
-  async error => {
-    // ACCESS TOKEN 만료 로직(추후 수정 예정 결정된것이 없음)
-    const {
-      config,
-      config: { url, method },
-      response: {
-        data: { errorCode, message },
-      },
-    } = error;
+// api.interceptors.response.use(
+//   response => {
+//     return response;
+//   },
+//   async error => {
+//     // ACCESS TOKEN 만료 로직(추후 수정 예정 결정된것이 없음)
+//     const {
+//       config,
+//       config: { url, method },
+//       response: {
+//         data: { errorCode, message },
+//       },
+//     } = error;
 
-    if (errorCode === 'EXPIRED_ACCESS_TOKEN') {
-      // 주는 에러코드로 변경 예정
-      const refresh = Cookies.get('refreshtoken');
-      const originReq = config;
-      const { headers } = await api({
-        url,
-        method,
-        headers: { REFRESH_KEY: refresh },
-      });
+//     if (errorCode === 'EXPIRED_ACCESS_TOKEN') {
+//       // 주는 에러코드로 변경 예정
+//       const refresh = Cookies.get('refreshtoken');
+//       const originReq = config;
+//       const { headers } = await api({
+//         url,
+//         method,
+//         headers: { REFRESH_KEY: refresh },
+//       });
 
-      const { ACCESS_KEY: newAccessToken, REFRESH_KEY: newRefreshToken } =
-        headers;
-      Cookies.set('accesstoken', newAccessToken);
-      Cookies.set('refreshtoken', newRefreshToken);
+//       const { ACCESS_KEY: newAccessToken, REFRESH_KEY: newRefreshToken } =
+//         headers;
+//       Cookies.set('accesstoken', newAccessToken);
+//       Cookies.set('refreshtoken', newRefreshToken);
 
-      originReq.headers.ACCESS_KEY = `Bearer ${newAccessToken}`;
+//       originReq.headers.ACCESS_KEY = `Bearer ${newAccessToken}`;
 
-      return axios(originReq);
-    }
+//       return axios(originReq);
+//     }
 
-    return Promise.reject(error);
-  }
-);
+//     return Promise.reject(error);
+//   }
+// );
 
 export default api;
