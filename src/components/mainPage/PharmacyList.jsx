@@ -68,12 +68,14 @@ const PharmacyList = () => {
           <ItemBoxSection key={item.storeId}>
             <TitleBoxDiv>
               <StoreIconImage src={storeIcon} alt="" />
-              <TitleH1>{item.name}</TitleH1>
+              <TitleH1 size={item.name.length < 7 ? '20px' : '18px'}>
+                {item.name}
+              </TitleH1>
             </TitleBoxDiv>
             <DetailInformationDiv>
-              <div>{item.callNumber}</div>
-              <div>{item.address}</div>
-              <div>{item.businessHours}</div>
+              <span>{item.callNumber}</span>
+              <AddressSpan>{item.address}</AddressSpan>
+              <span>{item.businessHours}</span>
             </DetailInformationDiv>
             <BookMark />
           </ItemBoxSection>
@@ -84,6 +86,10 @@ const PharmacyList = () => {
 };
 
 export default PharmacyList;
+
+const AddressSpan = styled.span`
+  line-height: 1.3;
+`;
 
 const Article = styled.article`
   width: 594px;
@@ -107,7 +113,7 @@ const ItemBoxSection = styled.section`
   display: flex;
   align-items: center;
   flex-direction: row;
-  gap: 66px;
+  gap: 30px;
   &:hover {
     box-shadow: 3px 3px 2px rgba(175, 174, 183, 0.5);
   }
@@ -117,22 +123,23 @@ const ItemBoxSection = styled.section`
 const TitleBoxDiv = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
-  width: 113px;
-  margin-left: 44px;
+  width: 160px;
+  margin-left: 25px;
 `;
 const StoreIconImage = styled.img`
   width: 30px;
   height: 30px;
+  margin-right: 10px;
 `;
 const TitleH1 = styled.h1`
-  font-size: 20px;
+  font-size: ${props => `${props.size}`};
+  line-height: 1.2;
 `;
 
 // 상세정보
 const DetailInformationDiv = styled.div`
-  width: 230px;
+  width: 280px;
   font-size: 12px;
   padding-top: 11px;
   padding-bottom: 11px;
