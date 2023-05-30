@@ -86,6 +86,8 @@ const MapApi = ({ storeLocation }) => {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
+          // 내 위치
+          console.log(center);
           setCurrentLocation(prev => ({
             ...prev,
             center,

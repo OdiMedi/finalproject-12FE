@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
+import { useQuery } from 'react-query';
+
 import locationIcon from '../../assets/locationIcon.png';
 import searchIcon from '../../assets/icon _search_.png';
 import polygon from '../../assets/Polygon.png';
 import PharmacyList from './PharmacyList';
 import MapApi from './MapApi';
+import storeAllList from '../../api/storeList';
 
 const IndicatorSeparator = null;
 const DropdownIndicator = () => <PolygonIcon />;
@@ -76,6 +79,12 @@ const dummyList = [
 ];
 const StoreMain = () => {
   const [search, useSearch] = useState('');
+
+  // const { data } = useQuery('storeAllList', storeAllList, {
+  //   enabled: true, // 마운트될 때만 요청을 보내도록 설정
+  // });
+
+  // console.log(data);
 
   const sido = [
     '강남구',

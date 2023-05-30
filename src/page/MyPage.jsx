@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import profile from '../assets/profile.png';
-import MypageBookmark from '../components/mypage/MypageBookmark';
-import MypageReview from '../components/mypage/MypageReview';
+import MypageBookmark from '../components/myPage/MypageBookmark';
+import MypageReview from '../components/myPage/MypageReview';
 
 const MyPage = () => {
   const [activeButton, setActiveButton] = useState(null);
