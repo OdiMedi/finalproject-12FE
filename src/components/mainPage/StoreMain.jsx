@@ -8,7 +8,7 @@ import searchIcon from '../../assets/icon _search_.png';
 import polygon from '../../assets/Polygon.png';
 import PharmacyList from './PharmacyList';
 import MapApi from './MapApi';
-import storeAllList from '../../api/storeList';
+import storeAllList, { storeFilterList } from '../../api/storeList';
 
 const IndicatorSeparator = null;
 const DropdownIndicator = () => <PolygonIcon />;
@@ -78,15 +78,9 @@ const dummyList = [
   },
 ];
 const StoreMain = () => {
-  const [search, useSearch] = useState('');
+  const [name, setName] = useState(null);
 
-  // const { data } = useQuery('storeAllList', storeAllList, {
-  //   enabled: true, // 마운트될 때만 요청을 보내도록 설정
-  // });
-
-  // console.log(data);
-
-  const sido = [
+  const gu = [
     '강남구',
     '강동구',
     '강북구',
@@ -135,7 +129,8 @@ const StoreMain = () => {
     '대학동',
     '미성동',
   ];
-  const statusSidoOptions = sido.map(location => ({
+
+  const statusGuOptions = gu.map(location => ({
     value: location,
     label: location,
   }));
@@ -145,13 +140,10 @@ const StoreMain = () => {
     label: location,
   }));
 
-  const [selectSidoStatus, setSelectSidoStatus] = useState(
-    statusSidoOptions[0]
-  );
+  const [selectGuStatus, setSelectGuStatus] = useState(statusGuOptions[0]);
   const [selectEmdStatus, setSelectEmdStatus] = useState(statusEmdOptions[0]);
-
-  const onChangeSearchHandler = e => {
-    useSearch(e.target.value);
+  const onChangeNameSearchHandler = e => {
+    setName(e.target.value);
   };
 
   const [selectedButton, setSelectedButton] = useState(null);
@@ -164,7 +156,23 @@ const StoreMain = () => {
       setSelectedButton(button); // 새로운 버튼 선택
     }
   };
-
+  const searchData = {
+    name,
+    gu: selectGuStatus.value,
+    open: selectedButton === 'open' ? selectedButton : false,
+    holidayBusiness:
+      selectedButton === 'holidayBusiness' ? selectedButton : false,
+    nightBusiness: selectedButton === 'nightBusiness' ? selectedButton : false,
+  };
+  // // 전체리스트 api로직
+  // const { data } = useQuery(
+  //   'storeFilterList',
+  //   () => storeFilterList(searchData),
+  //   {
+  //     enabled: true, // 마운트될 때만 요청을 보내도록 설정
+  //   }
+  // );
+  // console.log(data);
   return (
     <MainContainer>
       <MapApi storeLocation={dummyList} />
@@ -175,8 +183,8 @@ const StoreMain = () => {
         </TitleBox>
         <SearchBox>
           <SearchInput
-            value={search}
-            onChange={onChangeSearchHandler}
+            value={name}
+            onChange={onChangeNameSearchHandler}
             placeholder="약국명 검색 또는 하단의 필터 선택"
           />
           <SearchButton />
@@ -185,9 +193,9 @@ const StoreMain = () => {
           <SearchButtonBoxDiv>
             <RegionSearchButton>
               <StyledSelect
-                defaultValue={selectSidoStatus}
-                onChange={setSelectSidoStatus}
-                options={statusSidoOptions}
+                defaultValue={selectGuStatus}
+                onChange={setSelectGuStatus}
+                options={statusGuOptions}
                 components={customComponents}
                 styles={customStyles}
               />
@@ -210,14 +218,14 @@ const StoreMain = () => {
               영업중
             </FilterButton>
             <FilterButton
-              onClick={() => filterButtonClickHandler('holiday')}
-              active={selectedButton === 'holiday'}
+              onClick={() => filterButtonClickHandler('holidayBusiness')}
+              active={selectedButton === 'holidayBusiness'}
             >
               공휴일 영업
             </FilterButton>
             <FilterButton
-              onClick={() => filterButtonClickHandler('night')}
-              active={selectedButton === 'night'}
+              onClick={() => filterButtonClickHandler('nightBusiness')}
+              active={selectedButton === 'nightBusiness'}
             >
               야간 영업
             </FilterButton>
