@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
 import { useQuery } from 'react-query';
@@ -8,6 +8,7 @@ import searchIcon from '../../assets/icon _search_.png';
 import polygon from '../../assets/Polygon.png';
 import PharmacyList from './PharmacyList';
 import MapApi from './MapApi';
+import * as CSS from '../globalStyle';
 import storeAllList, { storeFilterList } from '../../api/storeList';
 
 const IndicatorSeparator = null;
@@ -78,7 +79,7 @@ const dummyList = [
   },
 ];
 const StoreMain = () => {
-  const [name, setName] = useState(null);
+  const [name, setName] = useState('');
 
   const gu = [
     '강남구',
@@ -106,42 +107,42 @@ const StoreMain = () => {
     '중구',
     '중랑구',
   ];
-  const emd = [
-    '은천동',
-    '성현동',
-    '청룡동',
-    '보라매',
-    '청림동',
-    '행운동',
-    '낙성대동',
-    '중앙동',
-    '인현동',
-    '남현동',
-    '서원동',
-    '신원동',
-    '서림동',
-    '난곡동',
-    '신사동',
-    '신림동',
-    '삼성동',
-    '난향동',
-    '조원동',
-    '대학동',
-    '미성동',
-  ];
+  // const emd = [
+  //   '은천동',
+  //   '성현동',
+  //   '청룡동',
+  //   '보라매',
+  //   '청림동',
+  //   '행운동',
+  //   '낙성대동',
+  //   '중앙동',
+  //   '인현동',
+  //   '남현동',
+  //   '서원동',
+  //   '신원동',
+  //   '서림동',
+  //   '난곡동',
+  //   '신사동',
+  //   '신림동',
+  //   '삼성동',
+  //   '난향동',
+  //   '조원동',
+  //   '대학동',
+  //   '미성동',
+  // ];
 
   const statusGuOptions = gu.map(location => ({
     value: location,
     label: location,
   }));
 
-  const statusEmdOptions = emd.map(location => ({
-    value: location,
-    label: location,
-  }));
+  // const statusEmdOptions = emd.map(location => ({
+  //   value: location,
+  //   label: location,
+  // }));
 
   const [selectGuStatus, setSelectGuStatus] = useState(statusGuOptions[0]);
-  const [selectEmdStatus, setSelectEmdStatus] = useState(statusEmdOptions[0]);
+  // const [selectEmdStatus, setSelectEmdStatus] = useState(statusEmdOptions[0]);
   const onChangeNameSearchHandler = e => {
     setName(e.target.value);
   };
@@ -164,7 +165,7 @@ const StoreMain = () => {
       selectedButton === 'holidayBusiness' ? selectedButton : false,
     nightBusiness: selectedButton === 'nightBusiness' ? selectedButton : false,
   };
-  // // 전체리스트 api로직
+  // 전체리스트 api로직
   // const { data } = useQuery(
   //   'storeFilterList',
   //   () => storeFilterList(searchData),
@@ -200,7 +201,7 @@ const StoreMain = () => {
                 styles={customStyles}
               />
             </RegionSearchButton>
-            <RegionSearchButton>
+            {/* <RegionSearchButton>
               <StyledSelect
                 defaultValue={selectEmdStatus}
                 onChange={setSelectEmdStatus}
@@ -208,27 +209,27 @@ const StoreMain = () => {
                 components={customComponents}
                 styles={customStyles}
               />
-            </RegionSearchButton>
+            </RegionSearchButton> */}
           </SearchButtonBoxDiv>
           <FilterBoxDiv>
-            <FilterButton
+            <CSS.FilterButton
               onClick={() => filterButtonClickHandler('open')}
               active={selectedButton === 'open'}
             >
               영업중
-            </FilterButton>
-            <FilterButton
+            </CSS.FilterButton>
+            <CSS.FilterButton
               onClick={() => filterButtonClickHandler('holidayBusiness')}
               active={selectedButton === 'holidayBusiness'}
             >
               공휴일 영업
-            </FilterButton>
-            <FilterButton
+            </CSS.FilterButton>
+            <CSS.FilterButton
               onClick={() => filterButtonClickHandler('nightBusiness')}
               active={selectedButton === 'nightBusiness'}
             >
               야간 영업
-            </FilterButton>
+            </CSS.FilterButton>
           </FilterBoxDiv>
         </AllSearchButtonBoxDiv>
         <PharmacyList />
@@ -356,14 +357,6 @@ const FilterBoxDiv = styled.div`
   width: 340px;
   display: flex;
   justify-content: space-between;
-`;
-const FilterButton = styled.button`
-  background-color: ${props => (props.active ? '#fa5938' : '#F5F5F5')};
-  color: ${props => (props.active ? '#ffffff' : '#AFAEB7')};
-  width: 100px;
-  height: 40px;
-  border: none;
-  border-radius: 20px;
 `;
 
 // 셀렉트박스
