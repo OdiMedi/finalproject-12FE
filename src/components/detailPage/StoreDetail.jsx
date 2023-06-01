@@ -1,10 +1,14 @@
-import React from 'react';
 import styled from 'styled-components';
+import { useQuery } from 'react-query';
+import { useParams } from 'react-router-dom';
+import { useState } from 'react';
+
 import MapApi from '../mainPage/MapApi';
-import * as CSS from '../globalStyle';
+import { inquiryStoreDetail } from '../../api/storeList';
+import infoIcon from '../../assets/infoIcon.png';
 import locationIcon from '../../assets/locationIcon.png';
 import menuIcon from '../../assets/menuIcon.png';
-import infoIcon from '../../assets/infoIcon.png';
+import * as CSS from '../globalStyle';
 import Comment from './Comment';
 
 const dummyList = {
@@ -17,41 +21,53 @@ const dummyList = {
   lat: 37.531164294971674,
 };
 const StoreDetail = () => {
-  const dummyArr = [dummyList];
+  const params = useParams();
+
+  const { data } = useQuery('inquiryStoreDetail', () =>
+    inquiryStoreDetail(params.id)
+  );
+
+  console.log('상세페이지', data);
+
+  const detailData = [data];
   return (
     <CSS.MainContainer>
-      <MapApi storeLocation={dummyArr} />
-      <DetailBoxArticle>
-        <CSS.TitleBox>
-          <CSS.LocationIcon src={locationIcon} alt="" />
-          <CSS.MainTitle>
-            <NameStyleSpan>{dummyList.name}</NameStyleSpan> 오디약 ?
-          </CSS.MainTitle>
-        </CSS.TitleBox>
-        <InfoMenuBoxDiv>
-          <InfoTextDiv>
-            <InfoIconImg src={infoIcon} alt="" />
-            약국정보
-          </InfoTextDiv>
-          <InfoTextDiv>
-            <MenuIconImg src={menuIcon} alt="" />
-            목록
-          </InfoTextDiv>
-        </InfoMenuBoxDiv>
-        <StoreDetailBoxDiv>
-          <StoreDetailInfoBoxDiv>
-            <div>{dummyList.name}</div>
-            <div>{dummyList.callNumber}</div>
-            <div>{dummyList.address}</div>
-            <div>{dummyList.businessHours}</div>
-            <OpenCheckBoxDiv>
-              <CSS.FilterButton active="holiday">공휴일 영업</CSS.FilterButton>
-              <CSS.FilterButton>야간 영업</CSS.FilterButton>
-            </OpenCheckBoxDiv>
-          </StoreDetailInfoBoxDiv>
-        </StoreDetailBoxDiv>
-        <Comment />
-      </DetailBoxArticle>
+      {/* {detailData && <MapApi storeLocation={detailData} />} */}
+      {data && (
+        <DetailBoxArticle>
+          <CSS.TitleBox>
+            <CSS.LocationIcon src={locationIcon} alt="" />
+            <CSS.MainTitle>
+              <NameStyleSpan>{data.name}</NameStyleSpan> 오디약 ?
+            </CSS.MainTitle>
+          </CSS.TitleBox>
+          <InfoMenuBoxDiv>
+            <InfoTextDiv>
+              <InfoIconImg src={infoIcon} alt="" />
+              약국정보
+            </InfoTextDiv>
+            <InfoTextDiv>
+              <MenuIconImg src={menuIcon} alt="" />
+              목록
+            </InfoTextDiv>
+          </InfoMenuBoxDiv>
+          <StoreDetailBoxDiv>
+            <StoreDetailInfoBoxDiv>
+              <div>{data.name}</div>
+              <div>{data.callNumber}</div>
+              <div>{data.address}</div>
+              <div>{data.weekdaysTime}</div>
+              <OpenCheckBoxDiv>
+                <CSS.FilterButton active="holiday">
+                  공휴일 영업
+                </CSS.FilterButton>
+                <CSS.FilterButton>야간 영업</CSS.FilterButton>
+              </OpenCheckBoxDiv>
+            </StoreDetailInfoBoxDiv>
+          </StoreDetailBoxDiv>
+          <Comment />
+        </DetailBoxArticle>
+      )}
     </CSS.MainContainer>
   );
 };

@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import commentIcon from '../../assets/commentIcon.png';
 import defaultImage from '../../assets/defaultImage.png';
 import commentBubble from '../../assets/commentBubble.png';
 import compose from '../../assets/compose.png';
+import * as CSS from '../globalStyle';
+import WriteComment from './WriteComment';
 
 const dummyList = [
   {
@@ -111,12 +113,17 @@ const dummyList = [
 ];
 
 const Comment = () => {
+  const [modal, setModal] = useState(false);
+  const CommentAddModalOpenHandler = () => {
+    setModal(!modal);
+  };
+
   return (
     <CommentBoxSection>
-      <CommentInfoDiv>
-        <CommentIconImg src={commentIcon} alt="" />
+      <CSS.CommentInfoDiv>
+        <CSS.CommentIconImg src={commentIcon} alt="" />
         <span>이용후기</span>
-      </CommentInfoDiv>
+      </CSS.CommentInfoDiv>
       <CommentListArticle>
         {dummyList.map(item => {
           return (
@@ -134,10 +141,13 @@ const Comment = () => {
           );
         })}
       </CommentListArticle>
-      <CommentAddButton>
-        소중한 후기를 남겨주세요.
-        <ComposeImg src={compose} art="" />
-      </CommentAddButton>
+      <ButtonBoxDiv>
+        <CSS.CommentAddButton size="360px" onClick={CommentAddModalOpenHandler}>
+          <CSS.ComposeImg src={compose} art="" />
+          <span>소중한 후기를 남겨주세요.</span>
+        </CSS.CommentAddButton>
+        {modal && <WriteComment modal={modal} setModal={setModal} />}
+      </ButtonBoxDiv>
     </CommentBoxSection>
   );
 };
@@ -151,12 +161,6 @@ const CommentBoxSection = styled.section`
   font-size: 18px;
   display: flex;
   flex-direction: column;
-`;
-const CommentIconImg = styled.img`
-  width: 20px;
-  height: 18px;
-  margin-left: 15px;
-  margin-right: 9px;
 `;
 const CommentListArticle = styled.article`
   margin-top: 11px;
@@ -215,29 +219,7 @@ const ReCommentButton = styled.button`
   padding-left: 0;
   cursor: pointer;
 `;
-
-const CommentInfoDiv = styled.div`
+const ButtonBoxDiv = styled.div`
   display: flex;
-  align-items: center;
-  font-size: 18px;
-`;
-const CommentAddButton = styled.button`
-  width: 360px;
-  height: 40px;
-  margin-left: 140px;
-  margin-top: 24px;
-  background-color: #fa5938;
-  border: none;
-  border-radius: 32px;
-  color: #ffffff;
-  font-size: 15px;
-  font-weight: 500;
-  position: relative;
-`;
-const ComposeImg = styled.img`
-  width: 14px;
-  height: 14px;
-  position: absolute;
-  top: 13px;
-  left: 75px;
+  justify-content: center;
 `;
