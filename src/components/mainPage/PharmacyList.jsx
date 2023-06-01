@@ -6,7 +6,7 @@ import BookMark from '../BookMark';
 
 const PharmacyList = ({ data }) => {
   const navigate = useNavigate();
-
+  console.log(data);
   const storeItemInfoMoveOnClickHandler = id => {
     navigate(`/mainPage/${id}`);
   };
@@ -29,7 +29,7 @@ const PharmacyList = ({ data }) => {
               <AddressSpan>{item.address}</AddressSpan>
               <span>{item.weekdaysTime}</span>
             </DetailInformationDiv>
-            <BookMark />
+            <BookMark storeId={item.storeId} />
           </ItemBoxSection>
         );
       })}

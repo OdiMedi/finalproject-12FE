@@ -4,7 +4,7 @@ import api from '../api/axios';
 import offBookmark from '../assets/offBookMark.png';
 import onBookmark from '../assets/onBookMark.png';
 
-const BookMark = () => {
+const BookMark = ({ storeId }) => {
   const [bookMark, setBookMark] = useState(false);
 
   const onClickBookMarkHandler = () => {

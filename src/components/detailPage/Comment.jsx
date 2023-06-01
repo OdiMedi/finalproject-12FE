@@ -123,7 +123,8 @@ const Comment = ({ storeId }) => {
     const response = await api.get(`/api/comment/${storeId}`);
     return response;
   };
-  const { data, isLoading } = useQuery('getComment', getCommentHandler);
+  const { data, isLoading, error } = useQuery('getComment', getCommentHandler);
+  console.log('error:::', error);
 
   return (
     <CommentBoxSection>
@@ -132,34 +133,24 @@ const Comment = ({ storeId }) => {
         <span>이용후기</span>
       </CSS.CommentInfoDiv>
       <CommentListArticle>
-        {/* {dummyList.map(item => {
-          return (
-            <CommentItemDiv key={item.commentId}>
-              <DefaultProfileImg src={defaultImage} alt="" />
-              <CommentContentBoxDiv>
-                <NicknameH1>{item.nickname}</NicknameH1>
-                <ContentSpan>{item.content}</ContentSpan>
-                <ReCommentButton>
-                  <CommentBubbleIconImg src={commentBubble} alt="" />
-                  {item.recomment.length}
-                </ReCommentButton>
-              </CommentContentBoxDiv>
-            </CommentItemDiv>
-          );
-        })} */}
-        {/* {dummyList.map(item => {
-          return (
-            <CommentItem
-              key={item.commentId}
-              commnetId={item.commentId}
-              storeId={item.storeId}
-              nickname={item.nickname}
-              content={item.content}
-              // recommentLength={item.recomment.length}
-              check={item.check}
-            />
-          );
-        })} */}
+        {!isLoading &&
+          data?.map(item => {
+            return (
+              <CommentItemDiv key={item.commentId}>
+                <DefaultProfileImg src={defaultImage} alt="" />
+                <CommentContentBoxDiv>
+                  <NicknameH1>{item.nickname}</NicknameH1>
+                  <ContentSpan>{item.content}</ContentSpan>
+                  <ReCommentButton>
+                    <CommentBubbleIconImg src={commentBubble} alt="" />
+                    {item.recomment.length}
+                  </ReCommentButton>
+                </CommentContentBoxDiv>
+                <button type="button">수정</button>
+                <button type="button">삭제</button>
+              </CommentItemDiv>
+            );
+          })}
       </CommentListArticle>
       <ButtonBoxDiv>
         <CSS.CommentAddButton size="360px" onClick={CommentAddModalOpenHandler}>

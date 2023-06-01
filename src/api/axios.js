@@ -33,7 +33,7 @@ api.interceptors.request.use(
 //     } = error;
 
 //     if (errorCode === 'EXPIRED_ACCESS_TOKEN') {
-//       // 주는 에러코드로 변경 예정
+//       // 에러코드 확인
 //       const refresh = Cookies.get('refreshtoken');
 //       const originReq = config;
 //       const { headers } = await api({
