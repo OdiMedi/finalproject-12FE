@@ -4,22 +4,24 @@ import holyday from '../../assets/holiday.png';
 import nightTime from '../../assets/nighttime.png';
 import BookmarkCheck from '../../assets/bookmarkCheck.png';
 
-const MypageBookmark = () => {
+const MypageBookmark = props => {
+  const { storeId, addressCity, addressDetail, availableDay, name, order } =
+    props;
   return (
     <BookmarkWrapDiv>
       <BookMarkMainDiv />
       <BookmarkTitleDiv>
         <TitleImgDiv />
-        <p>행복약국</p>
+        <p>{name}</p>
       </BookmarkTitleDiv>
       <BookMarkInfoDiv>
-        <p>02 - XXX - XXXX</p>
-        <p>서울특별시 노원구 공릉동</p>
+        {/* <p>02 - XXX - XXXX</p> */}
+        <p>{`${addressCity} ${addressDetail} `}</p>
         <p>평일 09:00 ~ 18:00</p>
       </BookMarkInfoDiv>
       <BookMarkTotalDiv>
         <BookMarkImgDiv />
-        <span>132</span>
+        <span>{order}</span>
       </BookMarkTotalDiv>
       <BookMarkBtnDiv>
         <BookMarkHolidayDiv />

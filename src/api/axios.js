@@ -5,13 +5,18 @@ const API_URL = process.env.REACT_APP_SERVER_URL;
 const api = axios.create({
   baseURL: API_URL,
 });
-api.interceptors.request.use(config => {
-  const accesstoken = Cookies.get('accesstoken');
-  if (accesstoken) {
-    config.headers.ACCESS_KEY = `Bearer ${accesstoken}`;
+api.interceptors.request.use(
+  config => {
+    const accesstoken = Cookies.get('accesstoken');
+    if (accesstoken) {
+      config.headers.ACCESS_KEY = `Bearer ${accesstoken}`;
+    }
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
   }
-  return config;
-});
+);
 
 // api.interceptors.response.use(
 //   response => {

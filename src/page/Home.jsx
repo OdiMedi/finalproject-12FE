@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+
 import MainLogo from '../assets/mainLogo.png';
 import pharmacy from '../assets/pharmacy.png';
 import conversation from '../assets/conversation.png';
@@ -7,6 +8,10 @@ import MainRight from '../assets/mainRight.png';
 
 const Home = () => {
   const navigate = useNavigate();
+  const pharmacySearchOnClickButtonHandler = () => {
+    navigate('/mainPage');
+  };
+
   return (
     <MainPageContainerDiv>
       <MainPageLeftDiv>
@@ -17,7 +22,10 @@ const Home = () => {
 
         <MainLeftBottomDiv>
           <BottomBtnDiv onClick={() => navigate('/mainPage')}>
-            <BottomIconLeftDiv />
+            <BottomIconLeftDiv
+              role="button"
+              onClick={pharmacySearchOnClickButtonHandler}
+            />
             <p>약국 검색</p>
             <p>구역별, 공휴일·야간영업 약국 검색</p>
           </BottomBtnDiv>

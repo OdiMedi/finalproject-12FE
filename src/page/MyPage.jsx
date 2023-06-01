@@ -13,12 +13,10 @@ const MyPage = () => {
 
   const getBookmark = async () => {
     const response = await api.get('/api/bookmark');
-    // setBookmarkData(response); // response 키값에 따라 조정예정
     return response;
   };
   const getReview = async () => {
     const response = await api.get('/api/comment');
-    // setReviewData(response); // response 키값에 따라 조정예정
     return response;
   };
   const { data: reviewData, isLoading: isLoadingReview } = useQuery(
@@ -29,14 +27,6 @@ const MyPage = () => {
     'getBookmark',
     getBookmark
   );
-
-  // useEffect(() => {
-  //   if (activeButton === 1) {
-  //     getReview();
-  //   } else if (activeButton === 2) {
-  //     getBookmark();
-  //   }
-  // }, [activeButton]);
 
   const handleClick = buttonId => {
     setActiveButton(buttonId);
@@ -72,6 +62,19 @@ const MyPage = () => {
       {activeButton === 1 && <MypageReview />}
       {activeButton === 2 && (
         <BookmarkContainerDiv>
+          {!isLoadingBookmark &&
+            bookmarkData?.map(item => {
+              return (
+                <MypageBookmark
+                  storeId={item.storeId}
+                  addressCity={item.addressCity}
+                  addressDetail={item.addressDetail}
+                  availableDay={item.availableDay}
+                  name={item.name}
+                  order={item.order}
+                />
+              );
+            })}
           <MypageBookmark />
           <MypageBookmark />
           <MypageBookmark />

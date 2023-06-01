@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 
 import locationIcon from '../../assets/locationIcon.png';
 import searchIcon from '../../assets/icon _search_.png';
 import polygon from '../../assets/Polygon.png';
 import PharmacyList from './PharmacyList';
 import MapApi from './MapApi';
-import storeAllList from '../../api/storeList';
+import * as CSS from '../globalStyle';
+import storeAllList, { storeFilterList } from '../../api/storeList';
 
 const IndicatorSeparator = null;
 const DropdownIndicator = () => <PolygonIcon />;
@@ -21,72 +22,11 @@ const customStyles = {
     boxShadow: state.isFocused ? 'none' : provided.boxShadow,
   }),
 };
-const dummyList = [
-  {
-    storeId: 1,
-    address: '서울특별시 강서구 공항대로 437',
-    name: '흥부약국',
-    businessHours: '수요일 09:00~18:00',
-    callNumber: '02-122-3921',
-    lon: 126.85581079958143,
-    lat: 37.55496841887348,
-  },
-  {
-    storeId: 2,
-    address: '서울특별시 강서구 강서로 43-17, B104호(화곡동,오거닉스타워)',
-    name: '희망찬약국',
-    businessHours: '수요일 09:00~18:00',
-    callNumber: '02-122-3921',
-    lon: 126.84676212183612,
-    lat: 37.531164294971674,
-  },
-  {
-    storeId: 3,
-    address: '서울특별시 강서구 강서로 254  (화곡동, 우장산아이파크이편한세상)',
-    name: '화곡서울약국',
-    businessHours: '수요일 09:00~18:00',
-    callNumber: '02-122-3921',
-    lon: 126.83671729194344,
-    lat: 37.54843456317784,
-  },
-  {
-    storeId: 4,
-    address: '서울특별시 강서구 강서로 205, (화곡동)',
-    name: '화곡태평양약국',
-    businessHours: '수요일 09:00~18:00',
-    callNumber: '02-122-3921',
-    lon: 126.8376196876418,
-    lat: 37.54414899562802,
-  },
-  {
-    storeId: 5,
-    address: '서울특별시 강서구 공항대로41길 65, 132호 (등촌동, 그랜드상가',
-    name: '화창한약국',
-    businessHours: '수요일 09:00~18:00',
-    callNumber: '02-122-3921',
-    lon: 126.84611739011669,
-    lat: 37.56081981514185,
-  },
-  {
-    storeId: 6,
-    address: '서울특별시 강서구 곰달래로 252 (화곡동, 웰피아)',
-    name: '휴베이스비타민약국',
-    businessHours: '수요일 09:00~18:00',
-    callNumber: '02-122-3921',
-    lon: 126.837978157379,
-    lat: 37.5348879429263,
-  },
-];
+
 const StoreMain = () => {
-  const [search, useSearch] = useState('');
+  const [name, setName] = useState('');
 
-  // const { data } = useQuery('storeAllList', storeAllList, {
-  //   enabled: true, // 마운트될 때만 요청을 보내도록 설정
-  // });
-
-  // console.log(data);
-
-  const sido = [
+  const gu = [
     '강남구',
     '강동구',
     '강북구',
@@ -112,62 +52,51 @@ const StoreMain = () => {
     '중구',
     '중랑구',
   ];
-  const emd = [
-    '은천동',
-    '성현동',
-    '청룡동',
-    '보라매',
-    '청림동',
-    '행운동',
-    '낙성대동',
-    '중앙동',
-    '인현동',
-    '남현동',
-    '서원동',
-    '신원동',
-    '서림동',
-    '난곡동',
-    '신사동',
-    '신림동',
-    '삼성동',
-    '난향동',
-    '조원동',
-    '대학동',
-    '미성동',
-  ];
-  const statusSidoOptions = sido.map(location => ({
+
+  const statusGuOptions = gu.map(location => ({
     value: location,
     label: location,
   }));
 
-  const statusEmdOptions = emd.map(location => ({
-    value: location,
-    label: location,
-  }));
-
-  const [selectSidoStatus, setSelectSidoStatus] = useState(
-    statusSidoOptions[0]
-  );
-  const [selectEmdStatus, setSelectEmdStatus] = useState(statusEmdOptions[0]);
-
-  const onChangeSearchHandler = e => {
-    useSearch(e.target.value);
+  const [selectGuStatus, setSelectGuStatus] = useState(statusGuOptions[0]);
+  const onChangeNameSearchHandler = e => {
+    setName(e.target.value);
   };
 
-  const [selectedButton, setSelectedButton] = useState(null);
+  const [selectedButton, setSelectedButton] = useState('');
 
+  const searchData = {
+    name,
+    gu: selectGuStatus.value,
+    open: selectedButton === 'open',
+    holidayBusiness: selectedButton === 'holidayBusiness',
+    nightBusiness: selectedButton === 'nightBusiness',
+  };
+  // console.log('searchData', searchData);
+  // const queryCache = new QueryCache();
+  const queryClient = useQueryClient();
+
+  // 전체리스트 api로직
+  const { data } = useQuery('storeFilterList', () =>
+    storeFilterList(searchData)
+  );
+  // console.log(data);
   const filterButtonClickHandler = button => {
     if (selectedButton === button) {
       // 이미 선택된 버튼을 다시 클릭한 경우
-      setSelectedButton(null); // 선택 해제
+      setSelectedButton(''); // 선택 해제
     } else {
       setSelectedButton(button); // 새로운 버튼 선택
     }
+    queryClient.invalidateQueries('storeFilterList');
   };
-
+  // console.log('selectedButton', selectedButton);
+  // useEffect(() => {
+  //   refetch();
+  // }, [searchData]);
   return (
     <MainContainer>
-      <MapApi storeLocation={dummyList} />
+      {/* <MapApi storeLocation={data} /> */}
       <TestColor>
         <TitleBox>
           <LocationIcon src={locationIcon} alt="" />
@@ -175,8 +104,8 @@ const StoreMain = () => {
         </TitleBox>
         <SearchBox>
           <SearchInput
-            value={search}
-            onChange={onChangeSearchHandler}
+            value={name}
+            onChange={onChangeNameSearchHandler}
             placeholder="약국명 검색 또는 하단의 필터 선택"
           />
           <SearchButton />
@@ -185,45 +114,36 @@ const StoreMain = () => {
           <SearchButtonBoxDiv>
             <RegionSearchButton>
               <StyledSelect
-                defaultValue={selectSidoStatus}
-                onChange={setSelectSidoStatus}
-                options={statusSidoOptions}
-                components={customComponents}
-                styles={customStyles}
-              />
-            </RegionSearchButton>
-            <RegionSearchButton>
-              <StyledSelect
-                defaultValue={selectEmdStatus}
-                onChange={setSelectEmdStatus}
-                options={statusEmdOptions}
+                defaultValue={selectGuStatus}
+                onChange={setSelectGuStatus}
+                options={statusGuOptions}
                 components={customComponents}
                 styles={customStyles}
               />
             </RegionSearchButton>
           </SearchButtonBoxDiv>
           <FilterBoxDiv>
-            <FilterButton
+            <CSS.FilterButton
               onClick={() => filterButtonClickHandler('open')}
               active={selectedButton === 'open'}
             >
               영업중
-            </FilterButton>
-            <FilterButton
-              onClick={() => filterButtonClickHandler('holiday')}
-              active={selectedButton === 'holiday'}
+            </CSS.FilterButton>
+            <CSS.FilterButton
+              onClick={() => filterButtonClickHandler('holidayBusiness')}
+              active={selectedButton === 'holidayBusiness'}
             >
               공휴일 영업
-            </FilterButton>
-            <FilterButton
-              onClick={() => filterButtonClickHandler('night')}
-              active={selectedButton === 'night'}
+            </CSS.FilterButton>
+            <CSS.FilterButton
+              onClick={() => filterButtonClickHandler('nightBusiness')}
+              active={selectedButton === 'nightBusiness'}
             >
               야간 영업
-            </FilterButton>
+            </CSS.FilterButton>
           </FilterBoxDiv>
         </AllSearchButtonBoxDiv>
-        <PharmacyList />
+        <PharmacyList data={data} />
       </TestColor>
     </MainContainer>
   );
@@ -348,14 +268,6 @@ const FilterBoxDiv = styled.div`
   width: 340px;
   display: flex;
   justify-content: space-between;
-`;
-const FilterButton = styled.button`
-  background-color: ${props => (props.active ? '#fa5938' : '#F5F5F5')};
-  color: ${props => (props.active ? '#ffffff' : '#AFAEB7')};
-  width: 100px;
-  height: 40px;
-  border: none;
-  border-radius: 20px;
 `;
 
 // 셀렉트박스

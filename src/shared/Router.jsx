@@ -7,6 +7,7 @@ import MyPage from '../page/MyPage';
 import SignUp from '../page/SignUp';
 import Layout from './Layout';
 import DetailPage from '../page/DetailPage';
+import WriteComment from '../components/detailPage/WriteComment';
 
 const Router = () => {
   return (
@@ -19,8 +20,9 @@ const Router = () => {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/user/signin/kakao" element={<KakaoAuthRedirect />} />
           <Route path="/mainPage" element={<MainPage />} />
+          <Route path="/mainPage/:id" element={<DetailPage />} />
           <Route path="/detailPage" element={<DetailPage />} />
-          {/* <Route path="/detailPage/:storeId" element={<DetailPage />} /> */}
+          <Route path="/modal" element={<WriteComment />} />
         </Routes>
       </Layout>
     </BrowserRouter>
