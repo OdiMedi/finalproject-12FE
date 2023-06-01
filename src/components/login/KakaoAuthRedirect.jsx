@@ -16,7 +16,7 @@ const KakaoAuthRedirect = () => {
 
         Cookies.set('accesstoken', accessToken);
         Cookies.set('refreshtoken', refreshToken);
-        navigate('/mainPage');
+        navigate('/');
       })
       .catch(error => {
         console.log(error);

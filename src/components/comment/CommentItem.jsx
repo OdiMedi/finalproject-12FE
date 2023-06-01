@@ -1,86 +1,123 @@
+import { useState } from 'react';
 import styled from 'styled-components';
-import profileImg from '../../assets/profile.png';
-import recommentIcon from '../../assets/recommentIcon.png';
+import api from '../../api/axios';
+import defaultImage from '../../assets/defaultImage.png';
+import commentBubble from '../../assets/commentBubble.png';
 
-const CommentItem = props => {
-  const { commentId, storeId, nickname, content, check } = props;
+const CommentItem = ({ storeId, commentId, nickname, contents }) => {
+  const [isEdit, setIsEdit] = useState(true);
+  const [editText, setEditText] = useState('');
+
+  const updateComment = async e => {
+    await api.put(`/api/comment/${storeId}/${commentId}`, {
+      contents: editText,
+    });
+    setIsEdit(prev => !prev);
+  };
+  const deleteComment = async e => {
+    await api.delete(`/api/comment/${storeId}/${commentId}`);
+  };
+
+  const handleEditClick = () => {
+    setIsEdit(prev => !prev);
+  };
+
+  const handleInputChange = e => {
+    const { value } = e.target;
+    setEditText(value);
+  };
+
   return (
-    <CommentItemContainerDiv>
-      <ProfileWrapDiv>
-        <CommentProfileDiv />
-      </ProfileWrapDiv>
-      <CommentTextDiv>
-        <CommentNicknameP>{nickname}</CommentNicknameP>
-        <CommentContentP>{content}</CommentContentP>
-        <RecommentWrapDiv>
-          <RecommentIconDiv />
-          <RecommnetTotalP></RecommnetTotalP>
-        </RecommentWrapDiv>
-      </CommentTextDiv>
-    </CommentItemContainerDiv>
+    <CommentItemDiv key={commentId}>
+      <DefaultProfileImg src={defaultImage} alt="profileImg" />
+      <CommentContentBoxDiv>
+        <NicknameH1>{nickname}</NicknameH1>
+        {isEdit ? (
+          <ContentInput id={commentId} type="text" value={contents} disabled />
+        ) : (
+          <ContentInput
+            id={commentId}
+            type="text"
+            value={editText}
+            onChange={handleInputChange}
+          />
+        )}
+        <ReCommentButton>
+          <CommentBubbleIconImg src={commentBubble} alt="" />
+        </ReCommentButton>
+      </CommentContentBoxDiv>
+
+      {isEdit ? (
+        <button type="button" name={commentId} onClick={handleEditClick}>
+          수정
+        </button>
+      ) : (
+        <button type="button" name={commentId} onClick={updateComment}>
+          확인
+        </button>
+      )}
+
+      {isEdit ? (
+        <button type="button" commentid={commentId} onClick={deleteComment}>
+          삭제
+        </button>
+      ) : (
+        ''
+      )}
+    </CommentItemDiv>
   );
 };
 
 export default CommentItem;
 
-const CommentItemContainerDiv = styled.div`
-  width: 100%;
-  height: 76px;
+// 댓글 리스트 박스
+const CommentItemDiv = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 30px;
+  padding-right: 30px;
+  height: 70px;
+  border-top: 1px solid #dadada;
   border-bottom: 1px solid #dadada;
 `;
-const ProfileWrapDiv = styled.div`
-  height: 100%;
 
-  display: flex;
-  align-items: center;
-`;
-const CommentProfileDiv = styled.div`
+// 이미지
+const DefaultProfileImg = styled.img`
   width: 46px;
   height: 46px;
-  background-image: url(${profileImg});
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
   margin-right: 34px;
 `;
-const CommentTextDiv = styled.div`
-  margin-top: 11px;
-  width: 460px;
-  /* height: 58px; */
-`;
-const CommentNicknameP = styled.p`
-  font-weight: 800;
-  font-size: 13px;
-  line-height: 16px;
-  letter-spacing: 0.05em;
-  margin-bottom: 8px;
-`;
-const CommentContentP = styled.p`
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 14px;
-  letter-spacing: 0.05em;
-  margin-bottom: 7px;
-`;
-const RecommentWrapDiv = styled.div`
-  display: flex;
-  margin-bottom: 9px;
-`;
-const RecommentIconDiv = styled.div`
+const CommentBubbleIconImg = styled.img`
   width: 10px;
   height: 10px;
-  background-image: url(${recommentIcon});
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  margin-right: 5px;
 `;
-const RecommnetTotalP = styled.p`
-  font-weight: 600;
+
+const CommentContentBoxDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+`;
+
+const NicknameH1 = styled.h1`
+  font-size: 13px;
+  font-weight: 800;
+`;
+const ContentInput = styled.input`
+  // span -> input으로 수정
+  font-size: 12px;
+`;
+const ReCommentButton = styled.button`
+  border: none;
   font-size: 8px;
-  line-height: 11px;
-  letter-spacing: 0.05em;
   color: #686868;
-  margin-left: 5px;
+  height: 11px;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  background-color: transparent;
+  padding-left: 0;
+  cursor: pointer;
 `;

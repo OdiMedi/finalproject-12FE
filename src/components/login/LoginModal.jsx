@@ -30,8 +30,8 @@ const LoginModal = () => {
     try {
       const response = await api.post('/user/login', inputValue);
 
-      const accessHeader = response?.headers.get('Acess_key');
-      const refreshHeader = response?.headers.get('Refresh_key');
+      const accessHeader = response?.headers.get('ACCESS_KEY');
+      const refreshHeader = response?.headers.get('REFRESH_KEY');
 
       const accessToken = accessHeader?.split(' ')[1];
       const refreshToken = refreshHeader?.split(' ')[1];

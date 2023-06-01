@@ -6,7 +6,7 @@ import BookMark from '../BookMark';
 
 const PharmacyList = ({ data }) => {
   const navigate = useNavigate();
-  console.log(data);
+  // console.log(data);
   const storeItemInfoMoveOnClickHandler = id => {
     navigate(`/mainPage/${id}`);
   };

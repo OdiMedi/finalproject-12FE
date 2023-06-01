@@ -7,8 +7,9 @@ import * as CSS from '../globalStyle';
 import api from '../../api/axios';
 
 const WriteComment = ({ modal, setModal, storeId }) => {
-  const [comment, setComment] = useState({ content: '' });
-  const { content } = comment;
+  // const [comment, setComment] = useState({ content: '' });
+  const [comment, setComment] = useState({ contents: '' });
+  const { contents } = comment;
 
   const commentOnChangeHandler = e => {
     const { name, value } = e.target;
@@ -25,6 +26,7 @@ const WriteComment = ({ modal, setModal, storeId }) => {
   };
   const commentPost = async () => {
     try {
+      console.log('comment:::', comment);
       await api.post(`/api/comment/${storeId}`, comment);
     } catch (error) {
       console.log(error);
@@ -32,7 +34,7 @@ const WriteComment = ({ modal, setModal, storeId }) => {
   };
   // 댓글 저장 버튼
   const commentSaveClickButtonHandler = () => {
-    if (!content || content.trim() === '') {
+    if (!contents || contents.trim() === '') {
       alert('1글자라도 입력 후 저장이 가능합니다.');
       return;
     }
@@ -49,8 +51,8 @@ const WriteComment = ({ modal, setModal, storeId }) => {
           <span>이용 후기</span>
         </CSS.CommentInfoDiv>
         <TextBoxTextarea
-          value={content}
-          name="content"
+          value={contents}
+          name="contents"
           onChange={commentOnChangeHandler}
           placeholder="소중한 후기를 입력해주세요! (100자 이내)"
         ></TextBoxTextarea>

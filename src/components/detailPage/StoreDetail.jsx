@@ -9,7 +9,7 @@ import infoIcon from '../../assets/infoIcon.png';
 import locationIcon from '../../assets/locationIcon.png';
 import menuIcon from '../../assets/menuIcon.png';
 import * as CSS from '../globalStyle';
-import Comment from './Comment';
+import Comment from '../comment/Comment';
 
 const dummyList = {
   storeId: 1,
@@ -28,7 +28,7 @@ const StoreDetail = () => {
     inquiryStoreDetail(params.id)
   );
 
-  console.log('상세페이지', data);
+  // console.log('상세페이지', data);
 
   const detailData = [data];
   return (

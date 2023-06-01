@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import commentIcon from '../../assets/commentIcon.png';
-import defaultImage from '../../assets/defaultImage.png';
-import commentBubble from '../../assets/commentBubble.png';
 import compose from '../../assets/compose.png';
 import * as CSS from '../globalStyle';
-import WriteComment from './WriteComment';
+import WriteComment from '../detailPage/WriteComment';
 import api from '../../api/axios';
+import CommentItem from './CommentItem';
 
 const dummyList = [
   {
@@ -116,6 +115,7 @@ const dummyList = [
 
 const Comment = ({ storeId }) => {
   const [modal, setModal] = useState(false);
+
   const CommentAddModalOpenHandler = () => {
     setModal(!modal);
   };
@@ -123,8 +123,9 @@ const Comment = ({ storeId }) => {
     const response = await api.get(`/api/comment/${storeId}`);
     return response;
   };
-  const { data, isLoading, error } = useQuery('getComment', getCommentHandler);
-  console.log('error:::', error);
+  const { data, isLoading } = useQuery('getComment', getCommentHandler);
+  // console.log('error:::', error);
+  // console.log('data::::', data?.data);
 
   return (
     <CommentBoxSection>
@@ -134,21 +135,15 @@ const Comment = ({ storeId }) => {
       </CSS.CommentInfoDiv>
       <CommentListArticle>
         {!isLoading &&
-          data?.map(item => {
+          data?.data.map(item => {
             return (
-              <CommentItemDiv key={item.commentId}>
-                <DefaultProfileImg src={defaultImage} alt="" />
-                <CommentContentBoxDiv>
-                  <NicknameH1>{item.nickname}</NicknameH1>
-                  <ContentSpan>{item.content}</ContentSpan>
-                  <ReCommentButton>
-                    <CommentBubbleIconImg src={commentBubble} alt="" />
-                    {item.recomment.length}
-                  </ReCommentButton>
-                </CommentContentBoxDiv>
-                <button type="button">수정</button>
-                <button type="button">삭제</button>
-              </CommentItemDiv>
+              <CommentItem
+                key={item.commentId}
+                storeId={storeId}
+                commentId={item.commentId}
+                nickname={item.nickname}
+                contents={item.contents}
+              />
             );
           })}
       </CommentListArticle>
@@ -181,56 +176,6 @@ const CommentListArticle = styled.article`
   height: 285px;
   border-top: 1px solid #dadada;
   overflow: scroll;
-`;
-// 댓글 리스트 박스
-const CommentItemDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding-left: 30px;
-  padding-right: 30px;
-  height: 70px;
-  border-top: 1px solid #dadada;
-  border-bottom: 1px solid #dadada;
-`;
-
-// 이미지
-const DefaultProfileImg = styled.img`
-  width: 46px;
-  height: 46px;
-  margin-right: 34px;
-`;
-const CommentBubbleIconImg = styled.img`
-  width: 10px;
-  height: 10px;
-  margin-right: 5px;
-`;
-
-const CommentContentBoxDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 8px;
-`;
-
-const NicknameH1 = styled.h1`
-  font-size: 13px;
-  font-weight: 800;
-`;
-const ContentSpan = styled.span`
-  font-size: 12px;
-`;
-const ReCommentButton = styled.button`
-  border: none;
-  font-size: 8px;
-  color: #686868;
-  height: 11px;
-  display: flex;
-  align-items: center;
-  text-align: left;
-  background-color: transparent;
-  padding-left: 0;
-  cursor: pointer;
 `;
 const ButtonBoxDiv = styled.div`
   display: flex;
