@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ReactDOMServer from 'react-dom/server';
 import locationIcon from '../../assets/locationIcon.png';
@@ -8,7 +8,6 @@ import storeMap from '../../assets/storeMapIcon.png';
 const { kakao } = window;
 
 const MapApi = ({ storeLocation }) => {
-  const data = storeLocation;
   const [currentLocation, setCurrentLocation] = useState({
     center: {
       latitude: 37.5348879429263,
@@ -17,8 +16,7 @@ const MapApi = ({ storeLocation }) => {
     errMsg: null,
     isLoading: true,
   });
-  // // eslint-disable-next-line no-debugger
-  // debugger;
+
   // Marker image
   const imageSrc = locationIcon;
   const imageSize = new kakao.maps.Size(40, 40);
@@ -33,13 +31,13 @@ const MapApi = ({ storeLocation }) => {
     // 'myMap'ID를 가진 요소 참조
     const container = document.getElementById('myMap');
     const options = {
+      // 지도가 처음 보여주는 위치 1개만 내려올경우 그걸 보여주면 되지만 여러개 불러와지면 어떻게 처리할지 고민
       center: new kakao.maps.LatLng(center.latitude, center.longitude),
-      level: 3,
+      level: 9,
     };
     const map = new kakao.maps.Map(container, options);
 
     // 마커를 지도에 보여주기
-
     storeLocation.forEach(location => {
       const marker = new kakao.maps.Marker({
         position: new kakao.maps.LatLng(location.latitude, location.longitude),
@@ -86,8 +84,8 @@ const MapApi = ({ storeLocation }) => {
       navigator.geolocation.getCurrentPosition(
         position => {
           const center = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
           };
           // 내 위치
           console.log(center);
@@ -99,7 +97,7 @@ const MapApi = ({ storeLocation }) => {
           const map = loadMap(center); // loadMap 호출 후 반환된 map 변수를 받음
 
           const marker = new kakao.maps.Marker({
-            position: new kakao.maps.LatLng(center.latitude, center.longitude),
+            position: new kakao.maps.LatLng(center.lat, center.lng),
             image: markerImage,
           });
           marker.setMap(map);
@@ -149,7 +147,7 @@ const CustomOverlayWrapperDiv = styled.div`
   background-size: 130px 47px;
   width: 100px;
   height: 42px;
-  position: relatitudeive;
+  position: relative;
   padding-left: 30px;
   padding-bottom: 5px;
   display: flex;
