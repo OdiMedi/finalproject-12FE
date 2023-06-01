@@ -10,6 +10,7 @@ const storeAllList = async () => {
   }
 };
 
+// 메인페이지 필터, 검색 조회
 const storeFilterList = async props => {
   console.log('props', props);
 
@@ -23,4 +24,16 @@ const storeFilterList = async props => {
     throw error;
   }
 };
-export { storeAllList, storeFilterList };
+
+// 상세페이지 조회
+const inquiryStoreDetail = async props => {
+  try {
+    const response = await api.get(`api/store/${props}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export { storeAllList, storeFilterList, inquiryStoreDetail };

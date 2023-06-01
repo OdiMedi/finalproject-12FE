@@ -20,6 +20,7 @@ const Router = () => {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/user/signin/kakao" element={<KakaoAuthRedirect />} />
           <Route path="/mainPage" element={<MainPage />} />
+          <Route path="/mainPage/:id" element={<DetailPage />} />
           <Route path="/detailPage" element={<DetailPage />} />
           <Route path="/modal" element={<WriteComment />} />
         </Routes>

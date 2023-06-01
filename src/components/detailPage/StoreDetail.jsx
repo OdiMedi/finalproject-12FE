@@ -1,10 +1,13 @@
-import React from 'react';
 import styled from 'styled-components';
+
+import { useQuery } from 'react-query';
 import MapApi from '../mainPage/MapApi';
-import * as CSS from '../globalStyle';
+
+import { inquiryStoreDetail } from '../../api/storeList';
+import infoIcon from '../../assets/infoIcon.png';
 import locationIcon from '../../assets/locationIcon.png';
 import menuIcon from '../../assets/menuIcon.png';
-import infoIcon from '../../assets/infoIcon.png';
+import * as CSS from '../globalStyle';
 import Comment from './Comment';
 
 const dummyList = {
@@ -17,10 +20,12 @@ const dummyList = {
   lat: 37.531164294971674,
 };
 const StoreDetail = () => {
-  const dummyArr = [dummyList];
+  const { data } = useQuery('storeFilterList', () => inquiryStoreDetail());
+
+  const detailData = [dummyList];
   return (
     <CSS.MainContainer>
-      <MapApi storeLocation={dummyArr} />
+      <MapApi storeLocation={detailData} />
       <DetailBoxArticle>
         <CSS.TitleBox>
           <CSS.LocationIcon src={locationIcon} alt="" />
