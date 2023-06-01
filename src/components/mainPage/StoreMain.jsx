@@ -77,7 +77,9 @@ const StoreMain = () => {
   const queryClient = useQueryClient();
 
   // 전체리스트 api로직
-  const { data } = useQuery('storeFilterList', () => storeFilterList());
+  const { data } = useQuery('storeFilterList', () =>
+    storeFilterList(searchData)
+  );
   // console.log(data);
   const filterButtonClickHandler = button => {
     if (selectedButton === button) {
@@ -90,7 +92,7 @@ const StoreMain = () => {
   };
   // console.log('selectedButton', selectedButton);
   // useEffect(() => {
-  //   queryClient.refetchQueries('storeFilterList');
+  //   refetch();
   // }, [searchData]);
   return (
     <MainContainer>
