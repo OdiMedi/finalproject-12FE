@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
 import { useMutation } from 'react-query';
-
+import { useNavigate } from 'react-router-dom';
 import locationIcon from '../../assets/locationIcon.png';
 import searchIcon from '../../assets/icon _search_.png';
 import polygon from '../../assets/Polygon.png';
@@ -55,6 +55,8 @@ const StoreMain = () => {
   const [storeList, setStoreList] = useState([]);
   const [selectedButton, setSelectedButton] = useState('');
   const [isCurrent, setIsCurrent] = useState(false);
+  const navigate = useNavigate();
+
   // 전체리스트 api로직
   const mutation = useMutation(storeFilterList, {
     onSuccess: data => {
@@ -125,7 +127,13 @@ const StoreMain = () => {
   }, []);
   return (
     <MainContainer>
-      {storeList && <MapApi storeLocation={storeList} isCurrent={isCurrent} />}
+      {storeList && (
+        <MapApi
+          storeLocation={storeList}
+          isCurrent={isCurrent}
+          navigate={navigate}
+        />
+      )}
       <TestColor>
         <TitleBox>
           <LocationIcon src={locationIcon} alt="" />
