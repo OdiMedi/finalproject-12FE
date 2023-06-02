@@ -8,111 +8,6 @@ import WriteComment from '../detailPage/WriteComment';
 import api from '../../api/axios';
 import CommentItem from './CommentItem';
 
-const dummyList = [
-  {
-    commentId: 1,
-    content: '나는 댓글이다',
-    storeId: 1,
-    nickname: '김은서',
-    check: true,
-    recomment: [
-      {
-        recommentId: 1,
-        content: '내용',
-      },
-      {
-        recommentId: 2,
-        content: '내용',
-      },
-    ],
-  },
-  {
-    commentId: 2,
-    content: '나는 댓글이다2',
-    storeId: 1,
-    nickname: '김은서',
-    check: true,
-    recomment: [
-      {
-        recommentId: 1,
-        content: '내용',
-      },
-      {
-        recommentId: 2,
-        content: '내용',
-      },
-    ],
-  },
-  {
-    commentId: 3,
-    content: '나는 댓글이다2',
-    storeId: 1,
-    nickname: '김은서',
-    check: true,
-    recomment: [
-      {
-        recommentId: 1,
-        content: '내용',
-      },
-      {
-        recommentId: 2,
-        content: '내용',
-      },
-    ],
-  },
-  {
-    commentId: 3,
-    content: '나는 댓글이다2',
-    storeId: 1,
-    nickname: '김은서',
-    check: true,
-    recomment: [
-      {
-        recommentId: 1,
-        content: '내용',
-      },
-      {
-        recommentId: 2,
-        content: '내용',
-      },
-    ],
-  },
-  {
-    commentId: 3,
-    content: '나는 댓글이다2',
-    storeId: 1,
-    nickname: '김은서',
-    check: true,
-    recomment: [
-      {
-        recommentId: 1,
-        content: '내용',
-      },
-      {
-        recommentId: 2,
-        content: '내용',
-      },
-    ],
-  },
-  {
-    commentId: 3,
-    content: '나는 댓글이다2',
-    storeId: 1,
-    nickname: '김은서',
-    check: true,
-    recomment: [
-      {
-        recommentId: 1,
-        content: '내용',
-      },
-      {
-        recommentId: 2,
-        content: '내용',
-      },
-    ],
-  },
-];
-
 const Comment = ({ storeId }) => {
   const [modal, setModal] = useState(false);
 
@@ -126,6 +21,7 @@ const Comment = ({ storeId }) => {
   };
 
   const { data, isLoading } = useQuery('getComment', getCommentHandler);
+  console.log(data);
 
   return (
     <CommentBoxSection>

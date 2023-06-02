@@ -16,20 +16,21 @@ const MyPage = () => {
     return response;
   };
   const getReview = async () => {
-    const response = await api.get('/api/comment');
+    const response = await api.get(`/api/comment/myComment`);
     return response;
   };
   const { data: reviewData, isLoading: isLoadingReview } = useQuery(
     'getReview',
     getReview
   );
+  console.log('reviewData:::', reviewData);
   const {
     data: bookmarkData,
     isLoading: isLoadingBookmark,
     error,
   } = useQuery('getBookmark', getBookmark);
-  console.log('bookmarkData:::', bookmarkData);
-  console.log('error:::::', error);
+  // console.log('bookmarkData:::', bookmarkData);
+  // console.log('error:::::', error);
   // console.log(bookmarkData);
 
   const handleClick = buttonId => {
@@ -63,7 +64,21 @@ const MyPage = () => {
           <p>찜한 약국 0</p>
         </TabButton>
       </MypageTabDiv>
-      {activeButton === 1 && <MypageReview />}
+      {activeButton === 1 && (
+        <BookmarkContainerDiv>
+          {!isLoadingReview &&
+            reviewData?.data.map(item => {
+              return (
+                <MypageReview
+                  storeId={item.storeId}
+                  nickname={item.nickname}
+                  contents={item.contents}
+                  createdAt={item.createdAt}
+                />
+              );
+            })}
+        </BookmarkContainerDiv>
+      )}
       {activeButton === 2 && (
         <BookmarkContainerDiv>
           {!isLoadingBookmark &&

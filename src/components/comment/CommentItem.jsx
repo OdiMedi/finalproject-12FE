@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import api from '../../api/axios';
 import defaultImage from '../../assets/defaultImage.png';
 import commentBubble from '../../assets/commentBubble.png';
+import commentEdit from '../../assets/commentEdit.png';
+import commentDelete from '../../assets/commentDelete.png';
 
 const CommentItem = ({ storeId, commentId, nickname, contents, check }) => {
   const [isEdit, setIsEdit] = useState(true);
@@ -64,24 +66,28 @@ const CommentItem = ({ storeId, commentId, nickname, contents, check }) => {
         </ReCommentButton>
       </CommentContentBoxDiv>
       {check && (
-        <>
+        <CommentBtnWrapDiv>
           {isEdit ? (
-            <button type="button" name={commentId} onClick={handleEditClick}>
-              수정
-            </button>
+            <CommentEditButton
+              type="button"
+              name={commentId}
+              onClick={handleEditClick}
+            />
           ) : (
             <button type="button" name={commentId} onClick={updateComment}>
               확인
             </button>
           )}
           {isEdit ? (
-            <button type="button" commentid={commentId} onClick={deleteComment}>
-              삭제
-            </button>
+            <CommentDeleteButton
+              type="button"
+              commentid={commentId}
+              onClick={deleteComment}
+            />
           ) : (
             ''
           )}
-        </>
+        </CommentBtnWrapDiv>
       )}
     </CommentItemDiv>
   );
@@ -96,9 +102,10 @@ const CommentItemDiv = styled.div`
   align-items: center;
   padding-left: 30px;
   padding-right: 30px;
-  height: 70px;
+  height: 90px;
   border-top: 1px solid #dadada;
   border-bottom: 1px solid #dadada;
+  position: relative;
 `;
 
 // 이미지
@@ -117,7 +124,7 @@ const CommentContentBoxDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 8px;
+  gap: 12px;
 `;
 
 const NicknameH1 = styled.h1`
@@ -127,6 +134,7 @@ const NicknameH1 = styled.h1`
 const ContentInput = styled.input`
   // span -> input으로 수정
   font-size: 12px;
+  width: 100%;
 `;
 const ReCommentButton = styled.button`
   border: none;
@@ -139,4 +147,30 @@ const ReCommentButton = styled.button`
   background-color: transparent;
   padding-left: 0;
   cursor: pointer;
+`;
+const CommentEditButton = styled.button`
+  width: 20px;
+  height: 16px;
+  background-image: url(${commentEdit});
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-color: transparent;
+  border: none;
+  margin-right: 10px;
+`;
+const CommentDeleteButton = styled.button`
+  width: 14px;
+  height: 16px;
+  background-image: url(${commentDelete});
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-color: transparent;
+  border: none;
+`;
+const CommentBtnWrapDiv = styled.div`
+  position: absolute;
+  right: 15px;
+  top: 5px;
 `;

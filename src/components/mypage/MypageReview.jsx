@@ -6,7 +6,7 @@ import ThumbDown from '../../assets/thumbdown.png';
 import Ellipsis from '../../assets/ellipsis.png';
 import DeleteIcon from '../../assets/trashIcon.png';
 
-const MypageReview = () => {
+const MypageReview = ({ storeId, nickname, contents }) => {
   return (
     <MypageReviewDiv>
       <DeleteDiv />
@@ -24,10 +24,8 @@ const MypageReview = () => {
       <MypageReviewTextDiv>
         <ReveiwProfileDiv />
         <ReviewTextDiv>
-          <p className="reviewName">David</p>
-          <p className="reviewText">
-            Hello nice to meet u how are u um fine thank you and u im food too
-          </p>
+          <p className="reviewName">{nickname}</p>
+          <p className="reviewText">{contents}</p>
           <ReviewTextIconDiv>
             <ThubmUpDiv />
             <span>100</span>
@@ -54,19 +52,20 @@ const MypageReviewDiv = styled.div`
   position: relative;
 `;
 const MypagePharDiv = styled.div`
-  width: 45%;
+  width: 40%;
   display: flex;
 `;
 const MypagePharNameDiv = styled.div`
   display: flex;
   align-items: center;
-  margin-right: 51px;
+  margin-right: 31px;
 
   div {
     width: 30px;
     height: 30px;
     background-image: url(${mypageIcon});
-    background-size: 30px 30px;
+    background-size: contain;
+    background-repeat: no-repeat;
     margin-right: 10px;
   }
   span {
@@ -90,14 +89,15 @@ const MypageReviewTextDiv = styled.div`
   align-items: center;
 `;
 const ReveiwProfileDiv = styled.div`
-  width: 64px;
-  height: 64px;
+  width: 44px;
+  height: 44px;
   background-image: url(${profileIcon});
   background-size: contain;
   background-repeat: no-repeat;
   margin-right: 16px;
 `;
 const ReviewTextDiv = styled.div`
+  width: 80%;
   .reviewName {
     font-weight: 800;
     font-size: 15px;
@@ -111,6 +111,7 @@ const ReviewTextDiv = styled.div`
     line-height: 17px;
     letter-spacing: 0.05em;
     margin-bottom: 9px;
+    word-wrap: break-word;
   }
 `;
 const ReviewTextIconDiv = styled.div`
