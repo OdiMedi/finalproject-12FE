@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Select from 'react-select';
 import { useMutation } from 'react-query';
 
+
 import locationIcon from '../../assets/locationIcon.png';
 import searchIcon from '../../assets/icon _search_.png';
 import polygon from '../../assets/Polygon.png';
@@ -11,6 +12,7 @@ import PharmacyList from './PharmacyList';
 import MapApi from './MapApi';
 import * as CSS from '../globalStyle';
 import { storeFilterList } from '../../api/storeList';
+
 
 const IndicatorSeparator = null;
 const DropdownIndicator = () => <PolygonIcon />;
@@ -23,6 +25,7 @@ const customStyles = {
     boxShadow: state.isFocused ? 'none' : provided.boxShadow,
   }),
 };
+
 
 const gu = [
   '강남구',
@@ -127,6 +130,7 @@ const StoreMain = () => {
   return (
     <MainContainer>
       {storeList && <MapApi storeLocation={storeList} isCurrent={isCurrent} />}
+
       <TestColor>
         <TitleBox>
           <LocationIcon src={locationIcon} alt="" />
@@ -180,6 +184,7 @@ const StoreMain = () => {
           </FilterBoxDiv>
         </AllSearchButtonBoxDiv>
         {storeList && <PharmacyList data={storeList} />}
+
       </TestColor>
     </MainContainer>
   );

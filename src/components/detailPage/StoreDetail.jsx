@@ -12,11 +12,13 @@ import * as CSS from '../globalStyle';
 import Comment from './Comment';
 
 const StoreDetail = () => {
+
   const navigate = useNavigate();
   const params = useParams();
   const moveStoreListClickHandler = () => {
     navigate('/mainPage');
   };
+
   const { data } = useQuery('inquiryStoreDetail', () =>
     inquiryStoreDetail(params.id)
   );
@@ -26,6 +28,7 @@ const StoreDetail = () => {
   const detailData = [data];
   return (
     <CSS.MainContainer>
+
       {data && (
         <>
           <MapApi storeLocation={detailData} />
