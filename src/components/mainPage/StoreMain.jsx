@@ -125,7 +125,7 @@ const StoreMain = () => {
   }, []);
   return (
     <MainContainer>
-      {storeList && <MapApi storeLocation={storeList} isCurrent={isCurrent} />}
+      {/* {storeList && <MapApi storeLocation={storeList} isCurrent={isCurrent} />} */}
 
       <TestColor>
         <TitleBox>
