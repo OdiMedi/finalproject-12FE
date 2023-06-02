@@ -52,7 +52,7 @@ const BookmarkTitleDiv = styled.div`
 const TitleImgDiv = styled.div`
   width: 30px;
   height: 30px;
-  background-image: url(${MypageIcon});
+  /* background-image: url(${MypageIcon}); */
   background-size: contain;
   background-repeat: no-repeat;
   margin-right: 12px;
