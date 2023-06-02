@@ -6,6 +6,7 @@ import { useMutation } from 'react-query';
 import locationIcon from '../../assets/locationIcon.png';
 import searchIcon from '../../assets/icon _search_.png';
 import polygon from '../../assets/Polygon.png';
+
 import PharmacyList from './PharmacyList';
 import MapApi from './MapApi';
 import * as CSS from '../globalStyle';
@@ -54,7 +55,7 @@ const StoreMain = () => {
   const [name, setName] = useState('');
   const [storeList, setStoreList] = useState([]);
   const [selectedButton, setSelectedButton] = useState('');
-
+  const [isCurrent, setIsCurrent] = useState(false);
   // 전체리스트 api로직
   const mutation = useMutation(storeFilterList, {
     onSuccess: data => {
@@ -116,12 +117,16 @@ const StoreMain = () => {
       return button; // 새로운 버튼 선택
     });
   };
+  const currentLocationButtonHandler = () => {
+    setIsCurrent(!isCurrent);
+  };
+
   useEffect(() => {
     mutation.mutate(searchData);
   }, []);
   return (
     <MainContainer>
-      {storeList && <MapApi storeLocation={storeList} />}
+      {storeList && <MapApi storeLocation={storeList} isCurrent={isCurrent} />}
       <TestColor>
         <TitleBox>
           <LocationIcon src={locationIcon} alt="" />
@@ -146,6 +151,12 @@ const StoreMain = () => {
                 styles={customStyles}
               />
             </RegionSearchButton>
+            <CSS.FilterButton
+              onClick={() => currentLocationButtonHandler('currentLocation')}
+              active={isCurrent === true}
+            >
+              <CSS.CurrentIconDiv active={isCurrent === true} />내 위치
+            </CSS.FilterButton>
           </SearchButtonBoxDiv>
           <FilterBoxDiv>
             <CSS.FilterButton

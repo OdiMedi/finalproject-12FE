@@ -7,7 +7,7 @@ import storeMap from '../../assets/storeMapIcon.png';
 
 const { kakao } = window;
 
-const MapApi = ({ storeLocation }) => {
+const MapApi = ({ storeLocation, isCurrent }) => {
   const [currentLocation, setCurrentLocation] = useState({
     center: {
       latitude: 37.5348879429263,
@@ -80,6 +80,8 @@ const MapApi = ({ storeLocation }) => {
   }, []);
 
   const getCurrentLocation = () => {
+    if (!isCurrent) return; // isCurrent가 false이면 함수 실행하지 않음
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         position => {
@@ -118,11 +120,14 @@ const MapApi = ({ storeLocation }) => {
       }));
     }
   };
+  useEffect(() => {
+    loadMap(currentLocation.center);
+    getCurrentLocation(); // isCurrent prop이 변경될 때마다 getCurrentLocation 함수 호출
+  }, [isCurrent]); // isCurrent prop을 의존성 배열에 추가
 
   return (
     <BackgroundDiv>
       <MapDiv id="myMap">지도를 불러오고 있습니다.</MapDiv>
-      <Button onClick={getCurrentLocation}>내 위치</Button>
     </BackgroundDiv>
   );
 };
