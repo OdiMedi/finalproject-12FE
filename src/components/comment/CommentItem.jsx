@@ -5,7 +5,7 @@ import api from '../../api/axios';
 import defaultImage from '../../assets/defaultImage.png';
 import commentBubble from '../../assets/commentBubble.png';
 
-const CommentItem = ({ storeId, commentId, nickname, contents }) => {
+const CommentItem = ({ storeId, commentId, nickname, contents, check }) => {
   const [isEdit, setIsEdit] = useState(true);
   const [editText, setEditText] = useState('');
   const queryClient = useQueryClient();
@@ -63,23 +63,25 @@ const CommentItem = ({ storeId, commentId, nickname, contents }) => {
           <CommentBubbleIconImg src={commentBubble} alt="" />
         </ReCommentButton>
       </CommentContentBoxDiv>
-
-      {isEdit ? (
-        <button type="button" name={commentId} onClick={handleEditClick}>
-          수정
-        </button>
-      ) : (
-        <button type="button" name={commentId} onClick={updateComment}>
-          확인
-        </button>
-      )}
-
-      {isEdit ? (
-        <button type="button" commentid={commentId} onClick={deleteComment}>
-          삭제
-        </button>
-      ) : (
-        ''
+      {check && (
+        <>
+          {isEdit ? (
+            <button type="button" name={commentId} onClick={handleEditClick}>
+              수정
+            </button>
+          ) : (
+            <button type="button" name={commentId} onClick={updateComment}>
+              확인
+            </button>
+          )}
+          {isEdit ? (
+            <button type="button" commentid={commentId} onClick={deleteComment}>
+              삭제
+            </button>
+          ) : (
+            ''
+          )}
+        </>
       )}
     </CommentItemDiv>
   );

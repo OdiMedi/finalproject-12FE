@@ -143,6 +143,7 @@ const Comment = ({ storeId }) => {
                 commentId={item.commentId}
                 nickname={item.nickname}
                 contents={item.contents}
+                check={item.check}
               />
             );
           })}
