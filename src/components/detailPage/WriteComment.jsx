@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useMutation, useQueryClient } from 'react-query';
 import commentIcon from '../../assets/commentIcon.png';
 import closeIcon from '../../assets/closeIcon.png';
 import compose from '../../assets/compose.png';
 import * as CSS from '../globalStyle';
 import api from '../../api/axios';
 
-const WriteComment = ({ modal, setModal, storeId }) => {
-  // const [comment, setComment] = useState({ content: '' });
+const WriteComment = ({ modal, setModal, storeId, onAddComment }) => {
   const [comment, setComment] = useState({ contents: '' });
   const { contents } = comment;
+  const queryClient = useQueryClient();
 
   const commentOnChangeHandler = e => {
     const { name, value } = e.target;
@@ -24,22 +25,32 @@ const WriteComment = ({ modal, setModal, storeId }) => {
   const closeButtonClickHandler = () => {
     setModal(!modal);
   };
-  const commentPost = async () => {
-    try {
-      console.log('comment:::', comment);
-      await api.post(`/api/comment/${storeId}`, comment);
-    } catch (error) {
-      console.log(error);
+  // const commentPost = async () => {
+  //   try {
+  //     await api.post(`/api/comment/${storeId}`, comment);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const commentMutation = useMutation(
+    newComment => api.post(`/api/comment/${storeId}`, newComment),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('getComment');
+        onAddComment(comment);
+        setModal(false);
+      },
     }
-  };
+  );
+
   // 댓글 저장 버튼
   const commentSaveClickButtonHandler = () => {
     if (!contents || contents.trim() === '') {
       alert('1글자라도 입력 후 저장이 가능합니다.');
       return;
     }
-    commentPost();
-    setModal(!modal);
+    commentMutation.mutate(comment);
   };
 
   return (

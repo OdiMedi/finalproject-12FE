@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
-
 import MapApi from '../mainPage/MapApi';
 import { inquiryStoreDetail } from '../../api/storeList';
 import infoIcon from '../../assets/infoIcon.png';

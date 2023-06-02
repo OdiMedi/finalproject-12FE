@@ -115,17 +115,22 @@ const dummyList = [
 
 const Comment = ({ storeId }) => {
   const [modal, setModal] = useState(false);
+  const [comments, setComments] = useState([]);
 
   const CommentAddModalOpenHandler = () => {
     setModal(!modal);
   };
+
+  const onAddComment = newComment => {
+    setComments([...comments, newComment]);
+  };
+
   const getCommentHandler = async () => {
     const response = await api.get(`/api/comment/${storeId}`);
     return response;
   };
+
   const { data, isLoading } = useQuery('getComment', getCommentHandler);
-  // console.log('error:::', error);
-  // console.log('data::::', data?.data);
 
   return (
     <CommentBoxSection>
@@ -153,7 +158,12 @@ const Comment = ({ storeId }) => {
           <span>소중한 후기를 남겨주세요.</span>
         </CSS.CommentAddButton>
         {modal && (
-          <WriteComment modal={modal} setModal={setModal} storeId={storeId} />
+          <WriteComment
+            modal={modal}
+            setModal={setModal}
+            storeId={storeId}
+            onAddComment={onAddComment}
+          />
         )}
       </ButtonBoxDiv>
     </CommentBoxSection>

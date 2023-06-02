@@ -8,13 +8,13 @@ const CommentItem = ({ storeId, commentId, nickname, contents }) => {
   const [isEdit, setIsEdit] = useState(true);
   const [editText, setEditText] = useState('');
 
-  const updateComment = async e => {
+  const updateComment = async () => {
     await api.put(`/api/comment/${storeId}/${commentId}`, {
       contents: editText,
     });
     setIsEdit(prev => !prev);
   };
-  const deleteComment = async e => {
+  const deleteComment = async () => {
     await api.delete(`/api/comment/${storeId}/${commentId}`);
   };
 
