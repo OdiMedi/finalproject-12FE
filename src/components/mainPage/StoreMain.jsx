@@ -80,7 +80,7 @@ const StoreMain = () => {
   const { data } = useQuery('storeFilterList', () =>
     storeFilterList(searchData)
   );
-  // console.log(data);
+  console.log(data);
   const filterButtonClickHandler = button => {
     if (selectedButton === button) {
       // 이미 선택된 버튼을 다시 클릭한 경우

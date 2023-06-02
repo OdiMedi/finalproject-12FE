@@ -30,7 +30,7 @@ const PharmacyList = ({ data }) => {
               <AddressSpan>{item.address}</AddressSpan>
               <span>{item.weekdaysTime}</span>
             </DetailInformationDiv>
-            <BookMark storeId={item.storeId} />
+            <BookMark storeId={item.storeId} isCheck={item.bookmark} />
           </ItemBoxSection>
         );
       })}
