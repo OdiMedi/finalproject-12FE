@@ -1,15 +1,31 @@
 import styled from 'styled-components';
+import { useMutation, useQueryClient } from 'react-query';
 import mypageIcon from '../../assets/mypageIcon.png';
 import profileIcon from '../../assets/profile.png';
 import ThumbUp from '../../assets/thumbup.png';
 import ThumbDown from '../../assets/thumbdown.png';
 import Ellipsis from '../../assets/ellipsis.png';
 import DeleteIcon from '../../assets/trashIcon.png';
+import api from '../../api/axios';
 
-const MypageReview = ({ storeId, nickname, contents }) => {
+const MypageReview = ({ storeId, nickname, contents, commentId }) => {
+  const queryClient = useQueryClient();
+
+  const mypageCommentDelMutaion = useMutation(
+    () => api.delete(`/api/comment/${storeId}/${commentId}`),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('getReview');
+      },
+    }
+  );
+  const deleteMypageComment = () => {
+    mypageCommentDelMutaion.mutate();
+  };
+
   return (
     <MypageReviewDiv>
-      <DeleteDiv />
+      <DeleteDiv onClick={deleteMypageComment} />
       <MypagePharDiv>
         <MypagePharNameDiv>
           <div />

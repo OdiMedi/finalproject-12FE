@@ -23,7 +23,7 @@ const MyPage = () => {
     'getReview',
     getReview
   );
-  console.log('reviewData:::', reviewData);
+  // console.log('reviewData:::', reviewData);
   const {
     data: bookmarkData,
     isLoading: isLoadingBookmark,
@@ -74,6 +74,7 @@ const MyPage = () => {
                   nickname={item.nickname}
                   contents={item.contents}
                   createdAt={item.createdAt}
+                  commentId={item.commentId}
                 />
               );
             })}
