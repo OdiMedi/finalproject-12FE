@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
-import { useQuery, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
+
 
 import locationIcon from '../../assets/locationIcon.png';
 import searchIcon from '../../assets/icon _search_.png';
 import polygon from '../../assets/Polygon.png';
+
 import PharmacyList from './PharmacyList';
 import MapApi from './MapApi';
 import * as CSS from '../globalStyle';
-import storeAllList, { storeFilterList } from '../../api/storeList';
+import { storeFilterList } from '../../api/storeList';
+
 
 const IndicatorSeparator = null;
 const DropdownIndicator = () => <PolygonIcon />;
@@ -23,36 +26,48 @@ const customStyles = {
   }),
 };
 
+
+const gu = [
+  '강남구',
+  '강동구',
+  '강북구',
+  '강서구',
+  '관악구',
+  '광진구',
+  '구로구',
+  '금천구',
+  '노원구',
+  '도봉구',
+  '동대문구',
+  '동작구',
+  '마포구',
+  '서대문구',
+  '서초구',
+  '성동구',
+  '성북구',
+  '송파구',
+  '양천구',
+  '용산구',
+  '은평구',
+  '종로구',
+  '중구',
+  '중랑구',
+];
+
 const StoreMain = () => {
   const [name, setName] = useState('');
-
-  const gu = [
-    '강남구',
-    '강동구',
-    '강북구',
-    '강서구',
-    '관악구',
-    '광진구',
-    '구로구',
-    '금천구',
-    '노원구',
-    '도봉구',
-    '동대문구',
-    '동작구',
-    '마포구',
-    '서대문구',
-    '서초구',
-    '성동구',
-    '성북구',
-    '송파구',
-    '양천구',
-    '용산구',
-    '은평구',
-    '종로구',
-    '중구',
-    '중랑구',
-  ];
-
+  const [storeList, setStoreList] = useState([]);
+  const [selectedButton, setSelectedButton] = useState('');
+  const [isCurrent, setIsCurrent] = useState(false);
+  // 전체리스트 api로직
+  const mutation = useMutation(storeFilterList, {
+    onSuccess: data => {
+      setStoreList(data);
+    },
+    onError: error => {
+      alert(error.message);
+    },
+  });
   const statusGuOptions = gu.map(location => ({
     value: location,
     label: location,
@@ -63,40 +78,59 @@ const StoreMain = () => {
     setName(e.target.value);
   };
 
-  const [selectedButton, setSelectedButton] = useState('');
-
-  const searchData = {
+  const [searchData, setSearchData] = useState({
     name,
     gu: selectGuStatus.value,
     open: selectedButton === 'open',
     holidayBusiness: selectedButton === 'holidayBusiness',
     nightBusiness: selectedButton === 'nightBusiness',
-  };
-  // console.log('searchData', searchData);
-  // const queryCache = new QueryCache();
-  const queryClient = useQueryClient();
+  });
 
-  // 전체리스트 api로직
-  const { data } = useQuery('storeFilterList', () =>
-    storeFilterList(searchData)
-  );
-  // console.log(data);
-  const filterButtonClickHandler = button => {
-    if (selectedButton === button) {
-      // 이미 선택된 버튼을 다시 클릭한 경우
-      setSelectedButton(''); // 선택 해제
-    } else {
-      setSelectedButton(button); // 새로운 버튼 선택
-    }
-    queryClient.invalidateQueries('storeFilterList');
+  useEffect(() => {
+    mutation.mutate(searchData);
+  }, [searchData]);
+
+  // searchData 객체의 변화 감지를 위해 새로운 상태로 업데이트
+  const updateSearchData = () => {
+    setSearchData(prevSearchData => ({
+      ...prevSearchData,
+      name,
+      gu: selectGuStatus.value,
+      open: selectedButton === 'open',
+      holidayBusiness: selectedButton === 'holidayBusiness',
+      nightBusiness: selectedButton === 'nightBusiness',
+    }));
   };
-  // console.log('selectedButton', selectedButton);
+
+  // 검색 조건이 변경될 때마다 searchData 업데이트
+  useEffect(() => {
+    updateSearchData();
+  }, [selectGuStatus, selectedButton]);
   // useEffect(() => {
-  //   refetch();
-  // }, [searchData]);
+  //   mutation.mutate(searchData);
+  // }, []);
+  const onClickSearchButtonHandler = () => {
+    updateSearchData();
+  };
+  const filterButtonClickHandler = button => {
+    setSelectedButton(prevSelectedButton => {
+      if (prevSelectedButton === button) {
+        return ''; // 이미 선택된 버튼을 다시 클릭한 경우 선택 해제
+      }
+      return button; // 새로운 버튼 선택
+    });
+  };
+  const currentLocationButtonHandler = () => {
+    setIsCurrent(!isCurrent);
+  };
+
+  useEffect(() => {
+    mutation.mutate(searchData);
+  }, []);
   return (
     <MainContainer>
-      {/* <MapApi storeLocation={data} /> */}
+      {storeList && <MapApi storeLocation={storeList} isCurrent={isCurrent} />}
+
       <TestColor>
         <TitleBox>
           <LocationIcon src={locationIcon} alt="" />
@@ -108,7 +142,7 @@ const StoreMain = () => {
             onChange={onChangeNameSearchHandler}
             placeholder="약국명 검색 또는 하단의 필터 선택"
           />
-          <SearchButton />
+          <SearchButton onClick={onClickSearchButtonHandler} />
         </SearchBox>
         <AllSearchButtonBoxDiv>
           <SearchButtonBoxDiv>
@@ -121,6 +155,12 @@ const StoreMain = () => {
                 styles={customStyles}
               />
             </RegionSearchButton>
+            <CSS.FilterButton
+              onClick={() => currentLocationButtonHandler('currentLocation')}
+              active={isCurrent === true}
+            >
+              <CSS.CurrentIconDiv active={isCurrent === true} />내 위치
+            </CSS.FilterButton>
           </SearchButtonBoxDiv>
           <FilterBoxDiv>
             <CSS.FilterButton
@@ -143,7 +183,8 @@ const StoreMain = () => {
             </CSS.FilterButton>
           </FilterBoxDiv>
         </AllSearchButtonBoxDiv>
-        <PharmacyList data={data} />
+        {storeList && <PharmacyList data={storeList} />}
+
       </TestColor>
     </MainContainer>
   );
