@@ -29,9 +29,7 @@ const StoreDetail = () => {
     <CSS.MainContainer>
       {data && (
         <>
-
-          {/* <MapApi storeLocation={detailData} /> */}
-
+          <MapApi storeLocation={detailData} />
           <DetailBoxArticle>
             <CSS.TitleBox>
               <CSS.LocationIcon src={locationIcon} alt="" />
