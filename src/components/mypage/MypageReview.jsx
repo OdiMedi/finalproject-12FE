@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import mypageIcon from '../../assets/mypageIcon.png';
 import profileIcon from '../../assets/profile.png';
 import ThumbUp from '../../assets/thumbup.png';
@@ -23,18 +23,25 @@ const MypageReview = ({ storeId, nickname, contents, commentId }) => {
     mypageCommentDelMutaion.mutate();
   };
 
+  const getPharmacyData = async () => {
+    const response = await api.get(`api/store/${storeId}`);
+    return response;
+  };
+
+  const { data } = useQuery('getPharData', getPharmacyData);
+
   return (
     <MypageReviewDiv>
       <DeleteDiv onClick={deleteMypageComment} />
       <MypagePharDiv>
         <MypagePharNameDiv>
           <div />
-          <span>행복약국</span>
+          <span>{data?.data.name}</span>
         </MypagePharNameDiv>
         <MypagePharInfoDiv>
-          <p>02 - xxx - xxxx</p>
-          <p>Gongneung - dong, Nowon - gu, Seoul</p>
-          <p>Mon - Fri 09:00 ~ 18:00</p>
+          <p>{data?.data.callNumber}</p>
+          <p>{data?.data.address}</p>
+          <p>{data?.data.weekdaysTime}</p>
         </MypagePharInfoDiv>
       </MypagePharDiv>
       <MypageReviewTextDiv>
