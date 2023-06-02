@@ -1,12 +1,22 @@
 import styled from 'styled-components';
 import MypageIcon from '../../assets/mypageIcon.png';
-import holyday from '../../assets/holiday.png';
-import nightTime from '../../assets/nighttime.png';
+import holiydayTrue from '../../assets/holidayTrue.png';
+import holiydayFalse from '../../assets/holidayFalse.png';
+import nightTimeTrue from '../../assets/nightTimeTrue.png';
+import nightTimeFalse from '../../assets/nightTimeFalse.png';
 import BookmarkCheck from '../../assets/bookmarkCheck.png';
 
 const MypageBookmark = props => {
-  const { storeId, addressCity, addressDetail, availableDay, name, order } =
-    props;
+  const {
+    address,
+    name,
+    callNumber,
+    totalBookmark,
+    weekdaysTime,
+    holidayBusiness,
+    nightBusiness,
+  } = props;
+
   return (
     <BookmarkWrapDiv>
       <BookMarkMainDiv />
@@ -15,17 +25,21 @@ const MypageBookmark = props => {
         <p>{name}</p>
       </BookmarkTitleDiv>
       <BookMarkInfoDiv>
-        {/* <p>02 - XXX - XXXX</p> */}
-        <p>{`${addressCity} ${addressDetail} `}</p>
-        <p>평일 09:00 ~ 18:00</p>
+        <p>{callNumber}</p>
+        <p>{address}</p>
+        <p>{weekdaysTime}</p>
       </BookMarkInfoDiv>
       <BookMarkTotalDiv>
         <BookMarkImgDiv />
-        <span>{order}</span>
+        <span>{totalBookmark}</span>
       </BookMarkTotalDiv>
       <BookMarkBtnDiv>
-        <BookMarkHolidayDiv />
-        <BookMarkNightDiv />
+        {holidayBusiness ? (
+          <BookMarkHolidayTrueDiv />
+        ) : (
+          <BookMarkHolidayFalseDiv />
+        )}
+        {nightBusiness ? <BookMarkNightTrueDiv /> : <BookMarkNightFalseDiv />}
       </BookMarkBtnDiv>
     </BookmarkWrapDiv>
   );
@@ -90,17 +104,31 @@ const BookMarkBtnDiv = styled.div`
   display: flex;
   gap: 15px;
 `;
-const BookMarkHolidayDiv = styled.div`
+const BookMarkHolidayTrueDiv = styled.div`
   width: 100px;
   height: 40px;
-  background-image: url(${holyday});
+  background-image: url(${holiydayTrue});
   background-size: contain;
   background-repeat: no-repeat;
 `;
-const BookMarkNightDiv = styled.div`
+const BookMarkHolidayFalseDiv = styled.div`
   width: 100px;
   height: 40px;
-  background-image: url(${nightTime});
+  background-image: url(${holiydayFalse});
+  background-size: contain;
+  background-repeat: no-repeat;
+`;
+const BookMarkNightTrueDiv = styled.div`
+  width: 100px;
+  height: 40px;
+  background-image: url(${nightTimeTrue});
+  background-size: contain;
+  background-repeat: no-repeat;
+`;
+const BookMarkNightFalseDiv = styled.div`
+  width: 100px;
+  height: 40px;
+  background-image: url(${nightTimeFalse});
   background-size: contain;
   background-repeat: no-repeat;
 `;

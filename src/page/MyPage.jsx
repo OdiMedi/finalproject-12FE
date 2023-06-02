@@ -23,11 +23,14 @@ const MyPage = () => {
     'getReview',
     getReview
   );
-  const { data: bookmarkData, isLoading: isLoadingBookmark } = useQuery(
-    'getBookmark',
-    getBookmark
-  );
-  console.log(bookmarkData);
+  const {
+    data: bookmarkData,
+    isLoading: isLoadingBookmark,
+    error,
+  } = useQuery('getBookmark', getBookmark);
+  console.log('bookmarkData:::', bookmarkData);
+  console.log('error:::::', error);
+  // console.log(bookmarkData);
 
   const handleClick = buttonId => {
     setActiveButton(buttonId);
@@ -68,11 +71,13 @@ const MyPage = () => {
               return (
                 <MypageBookmark
                   storeId={item.storeId}
-                  addressCity={item.addressCity}
-                  addressDetail={item.addressDetail}
-                  availableDay={item.availableDay}
+                  address={item.address}
                   name={item.name}
-                  order={item.order}
+                  callNumber={item.callNumber}
+                  weekdaysTime={item.weekdaysTime}
+                  totalBookmark={item.totalBookmark}
+                  holidayBusiness={item.holidayBusiness}
+                  nightBusiness={item.nightBusiness}
                 />
               );
             })}
