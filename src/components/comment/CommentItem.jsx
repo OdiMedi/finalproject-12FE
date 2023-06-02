@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 import styled from 'styled-components';
 import api from '../../api/axios';
 import defaultImage from '../../assets/defaultImage.png';
@@ -7,15 +8,31 @@ import commentBubble from '../../assets/commentBubble.png';
 const CommentItem = ({ storeId, commentId, nickname, contents }) => {
   const [isEdit, setIsEdit] = useState(true);
   const [editText, setEditText] = useState('');
+  const queryClient = useQueryClient();
 
-  const updateComment = async () => {
-    await api.put(`/api/comment/${storeId}/${commentId}`, {
-      contents: editText,
-    });
+  const commentUpdateMutation = useMutation(
+    newComment => api.put(`/api/comment/${storeId}/${commentId}`, newComment),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('getComment');
+      },
+    }
+  );
+  const updateComment = () => {
+    commentUpdateMutation.mutate({ contents: editText });
     setIsEdit(prev => !prev);
   };
-  const deleteComment = async () => {
-    await api.delete(`/api/comment/${storeId}/${commentId}`);
+
+  const commentDeleteMutation = useMutation(
+    () => api.delete(`/api/comment/${storeId}/${commentId}`),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('getComment');
+      },
+    }
+  );
+  const deleteComment = () => {
+    commentDeleteMutation.mutate();
   };
 
   const handleEditClick = () => {

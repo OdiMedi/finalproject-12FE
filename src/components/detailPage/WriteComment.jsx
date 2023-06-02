@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { useMutation, useQueryClient } from 'react-query';
 import commentIcon from '../../assets/commentIcon.png';
@@ -7,7 +7,7 @@ import compose from '../../assets/compose.png';
 import * as CSS from '../globalStyle';
 import api from '../../api/axios';
 
-const WriteComment = ({ modal, setModal, storeId, onAddComment }) => {
+const WriteComment = ({ modal, setModal, storeId }) => {
   const [comment, setComment] = useState({ contents: '' });
   const { contents } = comment;
   const queryClient = useQueryClient();
@@ -25,20 +25,12 @@ const WriteComment = ({ modal, setModal, storeId, onAddComment }) => {
   const closeButtonClickHandler = () => {
     setModal(!modal);
   };
-  // const commentPost = async () => {
-  //   try {
-  //     await api.post(`/api/comment/${storeId}`, comment);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const commentMutation = useMutation(
     newComment => api.post(`/api/comment/${storeId}`, newComment),
     {
       onSuccess: () => {
         queryClient.invalidateQueries('getComment');
-        onAddComment(comment);
         setModal(false);
       },
     }

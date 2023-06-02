@@ -115,14 +115,9 @@ const dummyList = [
 
 const Comment = ({ storeId }) => {
   const [modal, setModal] = useState(false);
-  const [comments, setComments] = useState([]);
 
   const CommentAddModalOpenHandler = () => {
     setModal(!modal);
-  };
-
-  const onAddComment = newComment => {
-    setComments([...comments, newComment]);
   };
 
   const getCommentHandler = async () => {
@@ -158,12 +153,7 @@ const Comment = ({ storeId }) => {
           <span>소중한 후기를 남겨주세요.</span>
         </CSS.CommentAddButton>
         {modal && (
-          <WriteComment
-            modal={modal}
-            setModal={setModal}
-            storeId={storeId}
-            onAddComment={onAddComment}
-          />
+          <WriteComment modal={modal} setModal={setModal} storeId={storeId} />
         )}
       </ButtonBoxDiv>
     </CommentBoxSection>
