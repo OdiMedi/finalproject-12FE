@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import storeIcon from '../../assets/storeTitleIcon.png';
@@ -10,6 +10,7 @@ const PharmacyList = ({ data }) => {
   const storeItemInfoMoveOnClickHandler = id => {
     navigate(`/mainPage/${id}`);
   };
+
   return (
     <Article>
       {data?.map(item => {

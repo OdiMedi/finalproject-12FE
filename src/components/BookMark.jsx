@@ -5,15 +5,17 @@ import offBookmark from '../assets/offBookMark.png';
 import onBookmark from '../assets/onBookMark.png';
 
 const BookMark = ({ storeId }) => {
-  const [bookMark, setBookMark] = useState(false);
+  const [isBookMarkCheck, setIsBookMarkCheck] = useState(false);
 
-  const onClickBookMarkHandler = () => {
-    setBookMark(!bookMark);
+  const onClickBookMarkHandler = async e => {
+    e.stopPropagation();
+    await api.post(`/api/bookmark/${storeId}`);
+    setIsBookMarkCheck(prev => !prev);
   };
 
   return (
     <div>
-      {bookMark ? (
+      {isBookMarkCheck ? (
         <OnBookMarkIconButton onClick={onClickBookMarkHandler} />
       ) : (
         <OffBookMarkIconButton onClick={onClickBookMarkHandler} />

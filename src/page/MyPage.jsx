@@ -27,6 +27,7 @@ const MyPage = () => {
     'getBookmark',
     getBookmark
   );
+  console.log(bookmarkData);
 
   const handleClick = buttonId => {
     setActiveButton(buttonId);
@@ -75,24 +76,8 @@ const MyPage = () => {
                 />
               );
             })}
-          <MypageBookmark />
-          <MypageBookmark />
-          <MypageBookmark />
-          <MypageBookmark />
         </BookmarkContainerDiv>
       )}
-      {/* {activeButton === 2 && (
-        <BookmarkContainerDiv>
-          {bookmarkData?.map(item => (
-            <MypageBookmark
-              key={item.name}
-              name={item.name}
-              city={item.addressCity}
-              Detail={item.adressDetail}
-            />
-          ))}
-        </BookmarkContainerDiv>
-      )} */}
     </MypageContainer>
   );
 };
