@@ -7,9 +7,7 @@ import storeMap from '../../assets/storeMapIcon.png';
 
 const { kakao } = window;
 
-
 const MapApi = ({ storeLocation, isCurrent }) => {
-
   const [currentLocation, setCurrentLocation] = useState({
     center: {
       latitude: 37.5348879429263,
@@ -34,11 +32,9 @@ const MapApi = ({ storeLocation, isCurrent }) => {
     // 'myMap'ID를 가진 요소 참조
     const container = document.getElementById('myMap');
     const options = {
-
       // 지도가 처음 보여주는 위치 1개만 내려올경우 그걸 보여주면 되지만 여러개 불러와지면 어떻게 처리할지 고민
       center: new kakao.maps.LatLng(center.latitude, center.longitude),
       level: 9,
-
     };
     const map = new kakao.maps.Map(container, options);
 

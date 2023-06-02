@@ -12,7 +12,6 @@ import * as CSS from '../globalStyle';
 import Comment from './Comment';
 
 const StoreDetail = () => {
-
   const navigate = useNavigate();
   const params = useParams();
   const moveStoreListClickHandler = () => {
@@ -28,7 +27,6 @@ const StoreDetail = () => {
   const detailData = [data];
   return (
     <CSS.MainContainer>
-
       {data && (
         <>
           <MapApi storeLocation={detailData} />
