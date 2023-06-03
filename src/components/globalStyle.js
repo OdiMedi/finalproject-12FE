@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import onCurrentLocationIcon from '../assets/onCurrentLocationIcon.png';
+import offCurrentLocationIcon from '../assets/offCurrentLocationIcon.png';
 
 export const MainContainer = styled.main`
   display: flex;
@@ -14,6 +16,19 @@ export const FilterButton = styled.button`
   height: 40px;
   border: none;
   border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+`;
+export const CurrentIconDiv = styled.div`
+  width: 15px;
+  height: 15px;
+  background-image: ${props =>
+    props.active
+      ? `url(${onCurrentLocationIcon})`
+      : `url(${offCurrentLocationIcon})`};
+  background-size: cover;
 `;
 export const TitleBox = styled.div`
   display: flex;
