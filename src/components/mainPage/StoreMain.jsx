@@ -64,6 +64,7 @@ const StoreMain = () => {
       alert(error.message);
     },
   });
+
   const statusGuOptions = gu.map(location => ({
     value: location,
     label: location,

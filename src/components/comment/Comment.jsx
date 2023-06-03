@@ -21,7 +21,7 @@ const Comment = ({ storeId }) => {
   };
 
   const { data, isLoading } = useQuery('getComment', getCommentHandler);
-  console.log(data);
+  // console.log(data);
 
   return (
     <CommentBoxSection>
