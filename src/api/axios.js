@@ -8,7 +8,7 @@ const api = axios.create({
 });
 
 axiosRetry(api, {
-  retries: 1, // 최대 재시도 횟수
+  retries: 3, // 최대 재시도 횟수
   retryDelay: retryCount => retryCount * 1000, // 재시도 간격 (밀리초)
   shouldResetTimeout: true, // 요청 시마다 타임아웃 초기화
   retryCondition: error => {
@@ -20,6 +20,7 @@ axiosRetry(api, {
 api.interceptors.request.use(
   config => {
     const accesstoken = Cookies.get('accesstoken');
+
     if (accesstoken) {
       config.headers.ACCESS_KEY = `Bearer ${accesstoken}`;
     }
@@ -37,7 +38,7 @@ api.interceptors.response.use(
   },
   async error => {
     console.log(error);
-    // ACCESS TOKEN 만료 로직(추후 수정 예정 결정된것이 없음)
+
     const {
       config,
       config: { url, method },
@@ -45,28 +46,32 @@ api.interceptors.response.use(
         data: { errorCode, message },
       },
     } = error;
-    const contentType = error.config.headers['Content-Type'];
+    // const contentType = error.config.headers['Content-Type'];
 
     if (errorCode === 'EXPIRED_ACCESS_TOKEN') {
-      // 에러코드 확인
-      console.log('ContentType:::::::::', contentType);
       const refresh = Cookies.get('refreshtoken');
+
       const originReq = config;
-      const { headers } = await api({
-        url,
-        method,
-        headers: { REFRESH_KEY: refresh, 'Content-Type': contentType },
-        data: { ...originReq.data },
-      });
 
-      const { ACCESS_KEY: newAccessToken, REFRESH_KEY: newRefreshToken } =
-        headers;
-      Cookies.set('accesstoken', newAccessToken);
-      Cookies.set('refreshtoken', newRefreshToken);
+      await api
+        .get('/api/bookmark', {
+          headers: { REFRESH_KEY: `Bearer ${refresh}` },
+        })
+        .then(response => {
+          const { access_key: newAccessToken } = response.headers;
+          Cookies.set('accesstoken', newAccessToken.split(' ')[1]);
+        });
 
+      const newAccessToken = Cookies.get('accesstoken');
       originReq.headers.ACCESS_KEY = `Bearer ${newAccessToken}`;
 
       return api(originReq);
+    }
+    if (errorCode === 'EXPIRED_REFRESH_TOKEN') {
+      Cookies.remove('accesstoken');
+      Cookies.remove('refreshtoken');
+      alert('로그인 만료시간이 다 되었습니다. 재로그인해주세요');
+      window.location.replace('/login');
     }
 
     return Promise.reject(error);
