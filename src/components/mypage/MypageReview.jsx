@@ -1,14 +1,23 @@
 import styled from 'styled-components';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import mypageIcon from '../../assets/mypageIcon.png';
 import profileIcon from '../../assets/profile.png';
 import ThumbUp from '../../assets/thumbup.png';
 import ThumbDown from '../../assets/thumbdown.png';
 import Ellipsis from '../../assets/ellipsis.png';
 import DeleteIcon from '../../assets/trashIcon.png';
 import api from '../../api/axios';
+import mypageIcon from '../../assets/mypageIcon.png';
 
-const MypageReview = ({ storeId, nickname, contents, commentId }) => {
+const MypageReview = ({
+  storeId,
+  nickname,
+  contents,
+  commentId,
+  storeName,
+  address,
+  callNumber,
+  weekday,
+}) => {
   const queryClient = useQueryClient();
 
   const mypageCommentDelMutaion = useMutation(
@@ -23,25 +32,18 @@ const MypageReview = ({ storeId, nickname, contents, commentId }) => {
     mypageCommentDelMutaion.mutate();
   };
 
-  const getPharmacyData = async () => {
-    const response = await api.get(`api/store/${storeId}`);
-    return response;
-  };
-
-  const { data } = useQuery('getPharData', getPharmacyData);
-
   return (
     <MypageReviewDiv>
       <DeleteDiv onClick={deleteMypageComment} />
       <MypagePharDiv>
         <MypagePharNameDiv>
           <div />
-          <span>{data?.data.name}</span>
+          <span>{storeName}</span>
         </MypagePharNameDiv>
         <MypagePharInfoDiv>
-          <p>{data?.data.callNumber}</p>
-          <p>{data?.data.address}</p>
-          <p>{data?.data.weekdaysTime}</p>
+          <p>{callNumber}</p>
+          <p>{address}</p>
+          <p>{weekday}</p>
         </MypagePharInfoDiv>
       </MypagePharDiv>
       <MypageReviewTextDiv>
@@ -74,40 +76,9 @@ const MypageReviewDiv = styled.div`
   align-items: center;
   position: relative;
 `;
-const MypagePharDiv = styled.div`
-  width: 40%;
-  display: flex;
-`;
-const MypagePharNameDiv = styled.div`
-  display: flex;
-  align-items: center;
-  margin-right: 31px;
 
-  div {
-    width: 30px;
-    height: 30px;
-    background-image: url(${mypageIcon});
-    background-size: contain;
-    background-repeat: no-repeat;
-    margin-right: 10px;
-  }
-  span {
-    font-weight: 800;
-    font-size: 20px;
-    line-height: 34px;
-    letter-spacing: -0.5px;
-  }
-`;
-const MypagePharInfoDiv = styled.div`
-  p {
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 34px;
-    letter-spacing: -0.5px;
-  }
-`;
 const MypageReviewTextDiv = styled.div`
-  width: 55%;
+  width: 60%;
   display: flex;
   align-items: center;
 `;
@@ -179,4 +150,37 @@ const DeleteDiv = styled.div`
   background-image: url(${DeleteIcon});
   background-size: contain;
   background-repeat: no-repeat;
+`;
+const MypagePharDiv = styled.div`
+  width: 45%;
+  display: flex;
+  margin-right: 20px;
+`;
+const MypagePharNameDiv = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 31px;
+
+  div {
+    width: 30px;
+    height: 30px;
+    background-image: url(${mypageIcon});
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-right: 10px;
+  }
+  span {
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 34px;
+    letter-spacing: -0.5px;
+  }
+`;
+const MypagePharInfoDiv = styled.div`
+  p {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 34px;
+    letter-spacing: -0.5px;
+  }
 `;

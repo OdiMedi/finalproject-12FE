@@ -23,12 +23,13 @@ const MyPage = () => {
     'getReview',
     getReview
   );
-  // console.log('reviewData:::', reviewData);
-  const {
-    data: bookmarkData,
-    isLoading: isLoadingBookmark,
-    error,
-  } = useQuery('getBookmark', getBookmark);
+  console.log('reviewData::::', reviewData);
+
+  console.log('reviewData:::', reviewData?.data);
+  const { data: bookmarkData, isLoading: isLoadingBookmark } = useQuery(
+    'getBookmark',
+    getBookmark
+  );
   // console.log('bookmarkData:::', bookmarkData);
   // console.log('error:::::', error);
   // console.log(bookmarkData);
@@ -70,11 +71,16 @@ const MyPage = () => {
             reviewData?.data.map(item => {
               return (
                 <MypageReview
+                  key={item.commentId}
                   storeId={item.storeId}
                   nickname={item.nickname}
                   contents={item.contents}
                   createdAt={item.createdAt}
                   commentId={item.commentId}
+                  storeName={item.name}
+                  address={item.address}
+                  callNumber={item.callNumber}
+                  weekday={item.weekdaysTime}
                 />
               );
             })}
@@ -83,9 +89,10 @@ const MyPage = () => {
       {activeButton === 2 && (
         <BookmarkContainerDiv>
           {!isLoadingBookmark &&
-            bookmarkData?.map(item => {
+            bookmarkData?.data.map(item => {
               return (
                 <MypageBookmark
+                  key={item.storeId}
                   storeId={item.storeId}
                   address={item.address}
                   name={item.name}
