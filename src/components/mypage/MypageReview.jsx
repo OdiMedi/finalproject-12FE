@@ -1,33 +1,56 @@
 import styled from 'styled-components';
-import mypageIcon from '../../assets/mypageIcon.png';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import profileIcon from '../../assets/profile.png';
 import ThumbUp from '../../assets/thumbup.png';
 import ThumbDown from '../../assets/thumbdown.png';
 import Ellipsis from '../../assets/ellipsis.png';
 import DeleteIcon from '../../assets/trashIcon.png';
+import api from '../../api/axios';
+import mypageIcon from '../../assets/mypageIcon.png';
 
-const MypageReview = () => {
+const MypageReview = ({
+  storeId,
+  nickname,
+  contents,
+  commentId,
+  storeName,
+  address,
+  callNumber,
+  weekday,
+}) => {
+  const queryClient = useQueryClient();
+
+  const mypageCommentDelMutaion = useMutation(
+    () => api.delete(`/api/comment/${storeId}/${commentId}`),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('getReview');
+      },
+    }
+  );
+  const deleteMypageComment = () => {
+    mypageCommentDelMutaion.mutate();
+  };
+
   return (
     <MypageReviewDiv>
-      <DeleteDiv />
+      <DeleteDiv onClick={deleteMypageComment} />
       <MypagePharDiv>
         <MypagePharNameDiv>
           <div />
-          <span>행복약국</span>
+          <span>{storeName}</span>
         </MypagePharNameDiv>
         <MypagePharInfoDiv>
-          <p>02 - xxx - xxxx</p>
-          <p>Gongneung - dong, Nowon - gu, Seoul</p>
-          <p>Mon - Fri 09:00 ~ 18:00</p>
+          <p>{callNumber}</p>
+          <p>{address}</p>
+          <p>{weekday}</p>
         </MypagePharInfoDiv>
       </MypagePharDiv>
       <MypageReviewTextDiv>
         <ReveiwProfileDiv />
         <ReviewTextDiv>
-          <p className="reviewName">David</p>
-          <p className="reviewText">
-            Hello nice to meet u how are u um fine thank you and u im food too
-          </p>
+          <p className="reviewName">{nickname}</p>
+          <p className="reviewText">{contents}</p>
           <ReviewTextIconDiv>
             <ThubmUpDiv />
             <span>100</span>
@@ -53,51 +76,22 @@ const MypageReviewDiv = styled.div`
   align-items: center;
   position: relative;
 `;
-const MypagePharDiv = styled.div`
-  width: 45%;
-  display: flex;
-`;
-const MypagePharNameDiv = styled.div`
-  display: flex;
-  align-items: center;
-  margin-right: 51px;
 
-  div {
-    width: 30px;
-    height: 30px;
-    background-image: url(${mypageIcon});
-    background-size: 30px 30px;
-    margin-right: 10px;
-  }
-  span {
-    font-weight: 800;
-    font-size: 20px;
-    line-height: 34px;
-    letter-spacing: -0.5px;
-  }
-`;
-const MypagePharInfoDiv = styled.div`
-  p {
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 34px;
-    letter-spacing: -0.5px;
-  }
-`;
 const MypageReviewTextDiv = styled.div`
-  width: 55%;
+  width: 60%;
   display: flex;
   align-items: center;
 `;
 const ReveiwProfileDiv = styled.div`
-  width: 64px;
-  height: 64px;
+  width: 44px;
+  height: 44px;
   background-image: url(${profileIcon});
   background-size: contain;
   background-repeat: no-repeat;
   margin-right: 16px;
 `;
 const ReviewTextDiv = styled.div`
+  width: 80%;
   .reviewName {
     font-weight: 800;
     font-size: 15px;
@@ -111,6 +105,7 @@ const ReviewTextDiv = styled.div`
     line-height: 17px;
     letter-spacing: 0.05em;
     margin-bottom: 9px;
+    word-wrap: break-word;
   }
 `;
 const ReviewTextIconDiv = styled.div`
@@ -155,4 +150,37 @@ const DeleteDiv = styled.div`
   background-image: url(${DeleteIcon});
   background-size: contain;
   background-repeat: no-repeat;
+`;
+const MypagePharDiv = styled.div`
+  width: 45%;
+  display: flex;
+  margin-right: 20px;
+`;
+const MypagePharNameDiv = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 31px;
+
+  div {
+    width: 30px;
+    height: 30px;
+    background-image: url(${mypageIcon});
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-right: 10px;
+  }
+  span {
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 34px;
+    letter-spacing: -0.5px;
+  }
+`;
+const MypagePharInfoDiv = styled.div`
+  p {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 34px;
+    letter-spacing: -0.5px;
+  }
 `;

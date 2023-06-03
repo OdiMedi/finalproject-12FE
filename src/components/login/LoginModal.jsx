@@ -13,11 +13,11 @@ import WarnIcon from '../../assets/warnIcon.png';
 const LoginModal = () => {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
-    nickname: '',
+    email: '',
     password: '',
   });
 
-  const { nickname, password } = inputValue;
+  const { email, password } = inputValue;
   const inputChange = e => {
     const { name, value } = e.target;
     setInputValue({
@@ -39,7 +39,7 @@ const LoginModal = () => {
       Cookies.set('accesstoken', accessToken);
       Cookies.set('refreshtoken', refreshToken);
       setInputValue({
-        nickname: '',
+        email: '',
         password: '',
       });
       navigate('/');
@@ -48,18 +48,14 @@ const LoginModal = () => {
     }
   };
 
-  const goSignin = () => {
-    navigate('/signup');
-  };
-
   return (
     <LoginContainer>
       <LoginIconDiv />
       <LoginTitleDiv />
       <form autoComplete="off">
         <LoginInput
-          name="nickname"
-          value={nickname}
+          name="email"
+          value={email}
           onChange={inputChange}
           type="text"
           placeholder="이메일을 입력하세요."
@@ -79,7 +75,7 @@ const LoginModal = () => {
       <TextBtnWrap>
         <TextBnt>비밀번호 찾기</TextBnt>
         <LineDiv />
-        <TextBnt onClick={goSignin}>회원가입</TextBnt>
+        <TextBnt onClick={() => navigate('/signup')}>회원가입</TextBnt>
       </TextBtnWrap>
 
       <KakakoLink href={KAKAO_AUTH_URL} />
@@ -220,4 +216,5 @@ const WarningDiv = styled.div`
 전달 받은 인가 코드를 가지고, 카카오 인증 서버에 토큰 발급 요청을 보낸다.
 전달 받는 카카오 토큰을 가지고 카카오 리소스 서버에 유저 정보 요청을 보낸다.
 전달 받은 유저 정보를 가지고 회원가입 중복 여부를 거친다.
-중복이라면(카카오로 로그인한적있는 유저), jwt 토큰을 발급하여 프론트엔드에 전달하고, 중복이 아니라면 새로운 유저로 가입을 시킨 후, jwt 토큰을 발급하여 프론트 엔드에 전달한다. */
+중복이라면(카카오로 로그인한적있는 유저), jwt 토큰을 발급하여 프론트엔드에 전달하고, 
+중복이 아니라면 새로운 유저로 가입을 시킨 후, jwt 토큰을 발급하여 프론트 엔드에 전달한다. */

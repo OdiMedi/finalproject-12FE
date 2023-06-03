@@ -1,29 +1,48 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
+import { useMutation, useQueryClient } from 'react-query';
 import commentIcon from '../../assets/commentIcon.png';
 import closeIcon from '../../assets/closeIcon.png';
 import compose from '../../assets/compose.png';
 import * as CSS from '../globalStyle';
+import api from '../../api/axios';
 
-const WriteComment = ({ modal, setModal }) => {
-  const [comment, setComment] = useState('');
+const WriteComment = ({ modal, setModal, storeId }) => {
+  const [comment, setComment] = useState({ contents: '' });
+  const { contents } = comment;
+  const queryClient = useQueryClient();
+
   const commentOnChangeHandler = e => {
-    const newText = e.target.value;
-    if (newText.length <= 100) {
-      setComment(newText);
+    const { name, value } = e.target;
+    if (value.length > 100) {
+      alert('댓글은 100자 이내로만 작성해주세요');
+      return;
     }
+    setComment({ ...comment, [name]: value });
   };
+
   // 모달창 닫는 버튼
   const closeButtonClickHandler = () => {
     setModal(!modal);
   };
+
+  const commentMutation = useMutation(
+    newComment => api.post(`/api/comment/${storeId}`, newComment),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('getComment');
+        setModal(false);
+      },
+    }
+  );
+
   // 댓글 저장 버튼
   const commentSaveClickButtonHandler = () => {
-    if (comment.length < 1) {
+    if (!contents || contents.trim() === '') {
       alert('1글자라도 입력 후 저장이 가능합니다.');
       return;
     }
-    setModal(!modal);
+    commentMutation.mutate(comment);
   };
 
   return (
@@ -35,7 +54,8 @@ const WriteComment = ({ modal, setModal }) => {
           <span>이용 후기</span>
         </CSS.CommentInfoDiv>
         <TextBoxTextarea
-          value={comment}
+          value={contents}
+          name="contents"
           onChange={commentOnChangeHandler}
           placeholder="소중한 후기를 입력해주세요! (100자 이내)"
         ></TextBoxTextarea>
