@@ -1,11 +1,38 @@
 import { useState } from 'react';
+import { useQuery } from 'react-query';
 import styled from 'styled-components';
+import api from '../api/axios';
 import profile from '../assets/profile.png';
 import MypageBookmark from '../components/mypage/MypageBookmark';
 import MypageReview from '../components/mypage/MypageReview';
 
 const MyPage = () => {
-  const [activeButton, setActiveButton] = useState(null);
+  const [activeButton, setActiveButton] = useState(1);
+  // const [reviewData, setReviewData] = useState([]);
+  // const [bookmarkData, setBookmarkData] = useState([]);
+
+  const getBookmark = async () => {
+    const response = await api.get('/api/bookmark');
+    return response;
+  };
+  const getReview = async () => {
+    const response = await api.get(`/api/comment/myComment`);
+    return response;
+  };
+  const { data: reviewData, isLoading: isLoadingReview } = useQuery(
+    'getReview',
+    getReview
+  );
+  console.log('reviewData::::', reviewData);
+
+  console.log('reviewData:::', reviewData?.data);
+  const { data: bookmarkData, isLoading: isLoadingBookmark } = useQuery(
+    'getBookmark',
+    getBookmark
+  );
+  // console.log('bookmarkData:::', bookmarkData);
+  // console.log('error:::::', error);
+  // console.log(bookmarkData);
 
   const handleClick = buttonId => {
     setActiveButton(buttonId);
@@ -38,13 +65,45 @@ const MyPage = () => {
           <p>찜한 약국 0</p>
         </TabButton>
       </MypageTabDiv>
-      {activeButton === 1 && <MypageReview />}
+      {activeButton === 1 && (
+        <BookmarkContainerDiv>
+          {!isLoadingReview &&
+            reviewData?.data.map(item => {
+              return (
+                <MypageReview
+                  key={item.commentId}
+                  storeId={item.storeId}
+                  nickname={item.nickname}
+                  contents={item.contents}
+                  createdAt={item.createdAt}
+                  commentId={item.commentId}
+                  storeName={item.name}
+                  address={item.address}
+                  callNumber={item.callNumber}
+                  weekday={item.weekdaysTime}
+                />
+              );
+            })}
+        </BookmarkContainerDiv>
+      )}
       {activeButton === 2 && (
         <BookmarkContainerDiv>
-          <MypageBookmark />
-          <MypageBookmark />
-          <MypageBookmark />
-          <MypageBookmark />
+          {!isLoadingBookmark &&
+            bookmarkData?.data.map(item => {
+              return (
+                <MypageBookmark
+                  key={item.storeId}
+                  storeId={item.storeId}
+                  address={item.address}
+                  name={item.name}
+                  callNumber={item.callNumber}
+                  weekdaysTime={item.weekdaysTime}
+                  totalBookmark={item.totalBookmark}
+                  holidayBusiness={item.holidayBusiness}
+                  nightBusiness={item.nightBusiness}
+                />
+              );
+            })}
         </BookmarkContainerDiv>
       )}
     </MypageContainer>

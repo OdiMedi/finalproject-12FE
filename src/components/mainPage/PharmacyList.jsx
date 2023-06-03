@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import storeIcon from '../../assets/storeTitleIcon.png';
@@ -6,10 +6,11 @@ import BookMark from '../BookMark';
 
 const PharmacyList = ({ data }) => {
   const navigate = useNavigate();
-
+  // console.log(data);
   const storeItemInfoMoveOnClickHandler = id => {
     navigate(`/mainPage/${id}`);
   };
+
   return (
     <Article>
       {data?.map(item => {
@@ -29,7 +30,7 @@ const PharmacyList = ({ data }) => {
               <AddressSpan>{item.address}</AddressSpan>
               <span>{item.weekdaysTime}</span>
             </DetailInformationDiv>
-            <BookMark />
+            <BookMark storeId={item.storeId} isCheck={item.bookmark} />
           </ItemBoxSection>
         );
       })}

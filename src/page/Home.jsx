@@ -21,7 +21,7 @@ const Home = () => {
         </div>
 
         <MainLeftBottomDiv>
-          <BottomBtnDiv>
+          <BottomBtnDiv onClick={() => navigate('/mainPage')}>
             <BottomIconLeftDiv
               role="button"
               onClick={pharmacySearchOnClickButtonHandler}
@@ -85,6 +85,7 @@ const BottomBtnDiv = styled.div`
   align-items: center;
   box-sizing: border-box;
   padding: 33px 13px 13px 13px;
+  cursor: pointer;
   p {
     &:nth-child(2) {
       font-weight: 800;
@@ -119,7 +120,7 @@ const BottomIconRightDiv = styled.div`
 const MainPageRightDiv = styled.div`
   min-width: 500px;
   background-image: url(${MainRight});
-  background-size: 100% auto;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 `;

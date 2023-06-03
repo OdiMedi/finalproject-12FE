@@ -2,14 +2,13 @@ import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
-
 import MapApi from '../mainPage/MapApi';
 import { inquiryStoreDetail } from '../../api/storeList';
 import infoIcon from '../../assets/infoIcon.png';
 import locationIcon from '../../assets/locationIcon.png';
 import menuIcon from '../../assets/menuIcon.png';
 import * as CSS from '../globalStyle';
-import Comment from './Comment';
+import Comment from '../comment/Comment';
 
 const StoreDetail = () => {
   const navigate = useNavigate();
@@ -22,7 +21,7 @@ const StoreDetail = () => {
     inquiryStoreDetail(params.id)
   );
 
-  console.log('상세페이지', data);
+  // console.log('상세페이지', data);
 
   const detailData = [data];
   return (

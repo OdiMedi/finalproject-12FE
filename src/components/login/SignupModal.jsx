@@ -29,6 +29,7 @@ const SignupModal = () => {
   };
   const submitSignup = async () => {
     await api.post('/user/signup', inputValue);
+    navigate('/login');
   };
   const redirectLogin = () => {
     navigate('/login');
