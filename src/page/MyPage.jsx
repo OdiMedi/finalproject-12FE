@@ -8,8 +8,6 @@ import MypageReview from '../components/mypage/MypageReview';
 
 const MyPage = () => {
   const [activeButton, setActiveButton] = useState(1);
-  // const [reviewData, setReviewData] = useState([]);
-  // const [bookmarkData, setBookmarkData] = useState([]);
 
   const getBookmark = async () => {
     const response = await api.get('/api/bookmark');
@@ -19,20 +17,16 @@ const MyPage = () => {
     const response = await api.get(`/api/comment/myComment`);
     return response;
   };
+
   const { data: reviewData, isLoading: isLoadingReview } = useQuery(
     'getReview',
     getReview
   );
-  // console.log('reviewData::::', reviewData);
 
-  // console.log('reviewData:::', reviewData?.data);
   const { data: bookmarkData, isLoading: isLoadingBookmark } = useQuery(
     'getBookmark',
     getBookmark
   );
-  // console.log('bookmarkData:::', bookmarkData);
-  // console.log('error:::::', error);
-  // console.log(bookmarkData);
 
   const handleClick = buttonId => {
     setActiveButton(buttonId);
@@ -55,14 +49,14 @@ const MyPage = () => {
           isActive={activeButton === 1}
           onClick={() => handleClick(1)}
         >
-          <p>작성 댓글 0</p>
+          <p>작성 댓글 {reviewData?.data.length}</p>
         </TabButton>
         <TabButton
           type="button"
           isActive={activeButton === 2}
           onClick={() => handleClick(2)}
         >
-          <p>찜한 약국 0</p>
+          <p>찜한 약국 {bookmarkData?.data.length}</p>
         </TabButton>
       </MypageTabDiv>
       {activeButton === 1 && (

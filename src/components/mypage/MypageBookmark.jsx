@@ -1,13 +1,16 @@
 import styled from 'styled-components';
+import { useMutation, useQueryClient } from 'react-query';
 import MypageIcon from '../../assets/mypageIcon.png';
 import holiydayTrue from '../../assets/holidayTrue.png';
 import holiydayFalse from '../../assets/holidayFalse.png';
 import nightTimeTrue from '../../assets/nightTimeTrue.png';
 import nightTimeFalse from '../../assets/nightTimeFalse.png';
 import BookmarkCheck from '../../assets/bookmarkCheck.png';
+import api from '../../api/axios';
 
 const MypageBookmark = props => {
   const {
+    storeId,
     address,
     name,
     callNumber,
@@ -17,9 +20,24 @@ const MypageBookmark = props => {
     nightBusiness,
   } = props;
 
+  const queryClient = useQueryClient();
+
+  const mypageBookmarkMutation = useMutation(
+    () => api.post(`/api/bookmark/${storeId}`),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('getBookmark');
+      },
+    }
+  );
+
+  const bookmarkCancle = () => {
+    mypageBookmarkMutation.mutate();
+  };
+
   return (
     <BookmarkWrapDiv>
-      <BookMarkMainDiv />
+      <BookMarkMainDiv onClick={bookmarkCancle} />
       <BookmarkTitleDiv>
         <TitleImgDiv />
         <p>{name}</p>
@@ -141,4 +159,5 @@ const BookMarkMainDiv = styled.div`
   position: absolute;
   top: 22px;
   right: 20px;
+  cursor: pointer;
 `;
