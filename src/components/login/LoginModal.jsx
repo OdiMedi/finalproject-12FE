@@ -39,7 +39,7 @@ const LoginModal = () => {
       Cookies.set('accesstoken', accessToken);
       Cookies.set('refreshtoken', refreshToken);
       setInputValue({
-        nickname: '',
+        email: '',
         password: '',
       });
       navigate('/');

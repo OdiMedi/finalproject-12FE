@@ -52,7 +52,7 @@ const gu = [
 
 const StoreMain = () => {
   const [name, setName] = useState('');
-  const [storeList, setStoreList] = useState([]);
+  const [storeList, setStoreList] = useState(null);
   const [selectedButton, setSelectedButton] = useState('');
   const [isCurrent, setIsCurrent] = useState(false);
   const navigate = useNavigate();

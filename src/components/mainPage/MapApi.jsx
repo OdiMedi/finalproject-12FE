@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 import ReactDOMServer from 'react-dom/server';
@@ -9,16 +9,15 @@ import storeMap from '../../assets/storeMapIcon.png';
 const { kakao } = window;
 
 const MapApi = ({ storeLocation, isCurrent, navigate }) => {
-  console.log(storeLocation);
   const [currentLocation, setCurrentLocation] = useState({
     center: {
-      latitude: 37.5348879429263,
-      longitude: 126.837978157379,
+      latitude: storeLocation[0].latitude,
+      longitude: storeLocation[0].longitude,
     },
     errMsg: null,
     isLoading: true,
   });
-
+  console.log(currentLocation.center.latitude);
   // Marker image
   const imageSrc = locationIcon;
   const imageSize = new kakao.maps.Size(25, 25);
@@ -67,7 +66,7 @@ const MapApi = ({ storeLocation, isCurrent, navigate }) => {
       });
 
       // 마커에 마우스 오버 이벤트 추가
-      kakao.maps.event.addListener(marker, 'mouseover', function () {
+      kakao.maps.event.addListener(marker, 'mouseover', () => {
         customOverlay.setMap(map);
         marker.setImage(
           new kakao.maps.MarkerImage(
@@ -79,7 +78,7 @@ const MapApi = ({ storeLocation, isCurrent, navigate }) => {
       });
 
       // 마커에 마우스 아웃 이벤트 추가
-      kakao.maps.event.addListener(marker, 'mouseout', function () {
+      kakao.maps.event.addListener(marker, 'mouseout', () => {
         customOverlay.setMap(null);
 
         marker.setImage(
@@ -88,8 +87,9 @@ const MapApi = ({ storeLocation, isCurrent, navigate }) => {
       });
 
       // 마커 클릭 시 오버레이 토글
-      kakao.maps.event.addListener(marker, 'click', function () {
+      kakao.maps.event.addListener(marker, 'click', () => {
         customOverlay.setMap(map);
+        overlayClickDetailPageHandler(location.storeId);
       });
 
       marker.setMap(map);
@@ -100,8 +100,19 @@ const MapApi = ({ storeLocation, isCurrent, navigate }) => {
 
   useEffect(() => {
     loadMap(currentLocation.center);
-  }, []);
+  }, [currentLocation]);
 
+  useEffect(() => {
+    if (storeLocation.length > 0) {
+      setCurrentLocation(prev => ({
+        ...prev,
+        center: {
+          latitude: storeLocation[0].latitude,
+          longitude: storeLocation[0].longitude,
+        },
+      }));
+    }
+  }, [storeLocation]);
   const getCurrentLocation = () => {
     if (!isCurrent) return;
 
