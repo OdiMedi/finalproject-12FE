@@ -23,9 +23,9 @@ const MyPage = () => {
     'getReview',
     getReview
   );
-  console.log('reviewData::::', reviewData);
+  // console.log('reviewData::::', reviewData);
 
-  console.log('reviewData:::', reviewData?.data);
+  // console.log('reviewData:::', reviewData?.data);
   const { data: bookmarkData, isLoading: isLoadingBookmark } = useQuery(
     'getBookmark',
     getBookmark

@@ -21,7 +21,7 @@ const StoreDetail = () => {
     inquiryStoreDetail(params.id)
   );
 
-  console.log('상세페이지', data);
+  // console.log('상세페이지', data);
 
   const detailData = [data];
   return (
