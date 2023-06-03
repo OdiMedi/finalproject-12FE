@@ -68,7 +68,7 @@ const BookmarkTitleDiv = styled.div`
 const TitleImgDiv = styled.div`
   width: 30px;
   height: 30px;
-  /* background-image: url(${MypageIcon}); */
+  background-image: url(${MypageIcon});
   background-size: contain;
   background-repeat: no-repeat;
   margin-right: 12px;
@@ -96,7 +96,7 @@ const BookMarkTotalDiv = styled.div`
 const BookMarkImgDiv = styled.div`
   width: 16px;
   height: 14px;
-  /* background-image: url(${BookmarkCheck}); */
+  background-image: url(${BookmarkCheck});
   background-size: contain;
   background-repeat: no-repeat;
 `;
@@ -135,7 +135,7 @@ const BookMarkNightFalseDiv = styled.div`
 const BookMarkMainDiv = styled.div`
   width: 30px;
   height: 26px;
-  /* background-image: url(${BookmarkCheck}); */
+  background-image: url(${BookmarkCheck});
   background-size: contain;
   background-repeat: no-repeat;
   position: absolute;
