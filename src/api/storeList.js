@@ -3,6 +3,7 @@ import api from './axios';
 const storeAllList = async () => {
   try {
     const response = await api.get('api/store');
+    console.log('storeAll::::', response);
     return response.data;
   } catch (error) {
     console.log(error);

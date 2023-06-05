@@ -1,18 +1,18 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
+import { useState } from 'react';
 import api from '../api/axios';
 import offBookmark from '../assets/offBookMark.png';
 import onBookmark from '../assets/onBookMark.png';
 
 const BookMark = ({ storeId, isCheck }) => {
-  const queryClient = useQueryClient();
+  const [bookMarkCheck, setBookMarkCheck] = useState(isCheck);
 
   const bookmarkMutation = useMutation(
     () => api.post(`/api/bookmark/${storeId}`),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('storeFilterList');
+        setBookMarkCheck(prev => !prev);
       },
     }
   );
@@ -23,7 +23,7 @@ const BookMark = ({ storeId, isCheck }) => {
 
   return (
     <div>
-      {isCheck ? (
+      {bookMarkCheck ? (
         <OnBookMarkIconButton onClick={onClickBookMarkHandler} />
       ) : (
         <OffBookMarkIconButton onClick={onClickBookMarkHandler} />

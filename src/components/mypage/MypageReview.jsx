@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import profileIcon from '../../assets/profile.png';
 import ThumbUp from '../../assets/thumbup.png';
 import ThumbDown from '../../assets/thumbdown.png';
@@ -42,7 +42,7 @@ const MypageReview = ({
         </MypagePharNameDiv>
         <MypagePharInfoDiv>
           <p>{callNumber}</p>
-          <p>{address}</p>
+          <p>{address.split(',')[0]}</p>
           <p>{weekday}</p>
         </MypagePharInfoDiv>
       </MypagePharDiv>
@@ -152,7 +152,7 @@ const DeleteDiv = styled.div`
   background-repeat: no-repeat;
 `;
 const MypagePharDiv = styled.div`
-  width: 45%;
+  width: 35%;
   display: flex;
   margin-right: 20px;
 `;
@@ -160,6 +160,7 @@ const MypagePharNameDiv = styled.div`
   display: flex;
   align-items: center;
   margin-right: 31px;
+  width: 40%;
 
   div {
     width: 30px;
@@ -171,12 +172,13 @@ const MypagePharNameDiv = styled.div`
   }
   span {
     font-weight: 800;
-    font-size: 18px;
+    font-size: 17px;
     line-height: 34px;
     letter-spacing: -0.5px;
   }
 `;
 const MypagePharInfoDiv = styled.div`
+  width: 60%;
   p {
     font-weight: 600;
     font-size: 12px;
