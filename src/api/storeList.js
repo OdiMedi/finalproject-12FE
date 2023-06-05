@@ -26,12 +26,12 @@ const storeFilterList = async props => {
   }
 };
 
-// 메인페이지 필터, 검색 조회
+// // 메인페이지 필터, 검색 조회
 // const storeFilterList = async props => {
 //   console.log('props', props);
 //   try {
 //     const response = await api.get(
-//       `/api/store/location?radius=1&latitude=${props.currentLatitude}&longitude=${props.currentLongitude}&address=${props.gu}`
+//       `/api/store/location?radius=5&latitude=${props.currentLatitude}&longitude=${props.currentLongitude}`
 //     );
 //     return response.data;
 //   } catch (error) {

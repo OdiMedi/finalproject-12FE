@@ -196,13 +196,13 @@ const ForeignMainPage = () => {
 
   return (
     <MainContainer>
-      {storeList && (
+      {/* {storeList && (
         <MapApi
           storeLocation={storeList}
           isCurrent={isCurrent}
           navigate={navigate}
         />
-      )}
+      )} */}
       <TestColor>
         <TitleBox>
           <LocationIcon src={locationIcon} alt="" />
