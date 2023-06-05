@@ -106,9 +106,7 @@ const StoreMain = () => {
   useEffect(() => {
     updateSearchData();
   }, [selectGuStatus, selectedButton]);
-  // useEffect(() => {
-  //   mutation.mutate(searchData);
-  // }, []);
+
   const onClickSearchButtonHandler = () => {
     updateSearchData();
   };
@@ -124,9 +122,6 @@ const StoreMain = () => {
     setIsCurrent(!isCurrent);
   };
 
-  useEffect(() => {
-    mutation.mutate(searchData);
-  }, []);
   return (
     <MainContainer>
       {storeList && (
