@@ -1,13 +1,16 @@
 import styled from 'styled-components';
+import { useMutation, useQueryClient } from 'react-query';
 import MypageIcon from '../../assets/mypageIcon.png';
 import holiydayTrue from '../../assets/holidayTrue.png';
 import holiydayFalse from '../../assets/holidayFalse.png';
 import nightTimeTrue from '../../assets/nightTimeTrue.png';
 import nightTimeFalse from '../../assets/nightTimeFalse.png';
 import BookmarkCheck from '../../assets/bookmarkCheck.png';
+import api from '../../api/axios';
 
 const MypageBookmark = props => {
   const {
+    storeId,
     address,
     name,
     callNumber,
@@ -17,9 +20,24 @@ const MypageBookmark = props => {
     nightBusiness,
   } = props;
 
+  const queryClient = useQueryClient();
+
+  const mypageBookmarkMutation = useMutation(
+    () => api.post(`/api/bookmark/${storeId}`),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('getBookmark');
+      },
+    }
+  );
+
+  const bookmarkCancle = () => {
+    mypageBookmarkMutation.mutate();
+  };
+
   return (
     <BookmarkWrapDiv>
-      <BookMarkMainDiv />
+      <BookMarkMainDiv onClick={bookmarkCancle} />
       <BookmarkTitleDiv>
         <TitleImgDiv />
         <p>{name}</p>
@@ -68,7 +86,7 @@ const BookmarkTitleDiv = styled.div`
 const TitleImgDiv = styled.div`
   width: 30px;
   height: 30px;
-  /* background-image: url(${MypageIcon}); */
+  background-image: url(${MypageIcon});
   background-size: contain;
   background-repeat: no-repeat;
   margin-right: 12px;
@@ -96,7 +114,7 @@ const BookMarkTotalDiv = styled.div`
 const BookMarkImgDiv = styled.div`
   width: 16px;
   height: 14px;
-  /* background-image: url(${BookmarkCheck}); */
+  background-image: url(${BookmarkCheck});
   background-size: contain;
   background-repeat: no-repeat;
 `;
@@ -135,10 +153,11 @@ const BookMarkNightFalseDiv = styled.div`
 const BookMarkMainDiv = styled.div`
   width: 30px;
   height: 26px;
-  /* background-image: url(${BookmarkCheck}); */
+  background-image: url(${BookmarkCheck});
   background-size: contain;
   background-repeat: no-repeat;
   position: absolute;
   top: 22px;
   right: 20px;
+  cursor: pointer;
 `;

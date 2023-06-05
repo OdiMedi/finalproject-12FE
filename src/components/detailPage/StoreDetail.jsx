@@ -60,7 +60,7 @@ const StoreDetail = () => {
                 </OpenCheckBoxDiv>
               </StoreDetailInfoBoxDiv>
             </StoreDetailBoxDiv>
-            <Comment />
+            <Comment storeId={data.storeId} />
           </DetailBoxArticle>
         </>
       )}

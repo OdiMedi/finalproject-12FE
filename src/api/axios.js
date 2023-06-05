@@ -1,16 +1,30 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import axiosRetry from 'axios-retry';
 
 const API_URL = process.env.REACT_APP_SERVER_URL;
 const api = axios.create({
   baseURL: API_URL,
 });
+
+axiosRetry(api, {
+  retries: 3, // 최대 재시도 횟수
+  retryDelay: retryCount => retryCount * 1000, // 재시도 간격 (밀리초)
+  shouldResetTimeout: true, // 요청 시마다 타임아웃 초기화
+  retryCondition: error => {
+    const errorCode = error?.response?.data?.errorCode;
+    return errorCode === 'EXPIRED_ACCESS_TOKEN'; // 재시도 조건 설정
+  },
+});
+
 api.interceptors.request.use(
   config => {
     const accesstoken = Cookies.get('accesstoken');
+
     if (accesstoken) {
       config.headers.ACCESS_KEY = `Bearer ${accesstoken}`;
     }
+    console.log('서버요청한다:::::::::', config);
     return config;
   },
   error => {
@@ -18,42 +32,50 @@ api.interceptors.request.use(
   }
 );
 
-// api.interceptors.response.use(
-//   response => {
-//     return response;
-//   },
-//   async error => {
-//     // ACCESS TOKEN 만료 로직(추후 수정 예정 결정된것이 없음)
-//     const {
-//       config,
-//       config: { url, method },
-//       response: {
-//         data: { errorCode, message },
-//       },
-//     } = error;
+api.interceptors.response.use(
+  response => {
+    return response;
+  },
+  async error => {
+    console.log(error);
 
-//     if (errorCode === 'EXPIRED_ACCESS_TOKEN') {
-//       // 에러코드 확인
-//       const refresh = Cookies.get('refreshtoken');
-//       const originReq = config;
-//       const { headers } = await api({
-//         url,
-//         method,
-//         headers: { REFRESH_KEY: refresh },
-//       });
+    const {
+      config,
+      config: { url, method },
+      response: {
+        data: { errorCode, message },
+      },
+    } = error;
+    // const contentType = error.config.headers['Content-Type'];
 
-//       const { ACCESS_KEY: newAccessToken, REFRESH_KEY: newRefreshToken } =
-//         headers;
-//       Cookies.set('accesstoken', newAccessToken);
-//       Cookies.set('refreshtoken', newRefreshToken);
+    if (errorCode === 'EXPIRED_ACCESS_TOKEN') {
+      const refresh = Cookies.get('refreshtoken');
 
-//       originReq.headers.ACCESS_KEY = `Bearer ${newAccessToken}`;
+      const originReq = config;
 
-//       return axios(originReq);
-//     }
+      await api
+        .get('/api/bookmark', {
+          headers: { REFRESH_KEY: `Bearer ${refresh}` },
+        })
+        .then(response => {
+          const { access_key: newAccessToken } = response.headers;
+          Cookies.set('accesstoken', newAccessToken.split(' ')[1]);
+        });
 
-//     return Promise.reject(error);
-//   }
-// );
+      const newAccessToken = Cookies.get('accesstoken');
+      originReq.headers.ACCESS_KEY = `Bearer ${newAccessToken}`;
+
+      return api(originReq);
+    }
+    if (errorCode === 'EXPIRED_REFRESH_TOKEN') {
+      Cookies.remove('accesstoken');
+      Cookies.remove('refreshtoken');
+      alert('로그인 만료시간이 다 되었습니다. 재로그인해주세요');
+      window.location.replace('/login');
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 export default api;
