@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useState } from 'react';
 import MapApi from '../mainPage/MapApi';
 import { inquiryStoreDetail } from '../../api/storeList';
 import infoIcon from '../../assets/infoIcon.png';
@@ -28,7 +27,7 @@ const StoreDetail = () => {
     <CSS.MainContainer>
       {data && (
         <>
-          <MapApi storeLocation={detailData} />
+          <MapApi storeLocation={detailData} navigate={navigate} />
           <DetailBoxArticle>
             <CSS.TitleBox>
               <CSS.LocationIcon src={locationIcon} alt="" />

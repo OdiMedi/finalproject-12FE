@@ -61,7 +61,7 @@ const MapApi = ({ storeLocation, isCurrent, navigate }) => {
       const customOverlay = new kakao.maps.CustomOverlay({
         position: marker.getPosition(),
         content: ReactDOMServer.renderToString(content),
-        xAnchor: 0.57,
+        xAnchor: 0.55,
         yAnchor: 1.6,
       });
 

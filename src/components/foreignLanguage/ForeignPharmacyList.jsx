@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import storeIcon from '../../assets/storeTitleIcon.png';
 import BookMark from '../BookMark';
 
-const PharmacyList = ({ data }) => {
+const ForeignPharmacyList = ({ data }) => {
   const navigate = useNavigate();
+  // console.log(data);
   const storeItemInfoMoveOnClickHandler = id => {
     navigate(`/mainPage/${id}`);
   };
@@ -36,7 +37,7 @@ const PharmacyList = ({ data }) => {
   );
 };
 
-export default PharmacyList;
+export default ForeignPharmacyList;
 
 const AddressSpan = styled.span`
   line-height: 1.3;
@@ -44,7 +45,7 @@ const AddressSpan = styled.span`
 
 const Article = styled.article`
   width: 594px;
-  height: 480px;
+  height: 400px;
   padding-left: 23px;
   padding-right: 23px;
   padding-top: 20px;
