@@ -20,7 +20,6 @@ const StoreDetail = () => {
   const { data } = useQuery('inquiryStoreDetail', () =>
     inquiryStoreDetail(params.id)
   );
-  console.log(data);
 
   const detailData = [data];
   return (
@@ -62,12 +61,12 @@ const StoreDetail = () => {
                       <span>공휴일 영업</span>
                     </BusinessTypeSpan>
                   )}
-                  {/* {data.holidayTime !== null && (
+                  {data.nightBusiness !== null && (
                     <BusinessTypeSpan>
-                      <SharpStyleSpan>#</SharpStyleSpan>
-                      <span>공휴일 영업</span>
+                      <SharpStyleSpan># </SharpStyleSpan>
+                      <span>야간 영업</span>
                     </BusinessTypeSpan>
-                  )} */}
+                  )}
                 </OpenCheckBoxDiv>
               </StoreDetailInfoBoxDiv>
             </StoreDetailBoxDiv>

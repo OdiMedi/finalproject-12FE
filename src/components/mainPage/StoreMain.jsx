@@ -56,6 +56,8 @@ const StoreMain = () => {
   const [storeList, setStoreList] = useState(null);
   const [selectedButton, setSelectedButton] = useState('');
   const [isCurrent, setIsCurrent] = useState(false);
+  const [currentLatitude, setCurrentLatitude] = useState('');
+  const [currentLongitude, setCurrentLongitude] = useState('');
   const navigate = useNavigate();
 
   // 전체리스트 api로직
@@ -68,6 +70,26 @@ const StoreMain = () => {
     },
   });
 
+  // 내위치 가져오는 로직
+  const currentLocationButtonHandler = () => {
+    setIsCurrent(!isCurrent);
+    if (!isCurrent) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          ({ coords }) => {
+            const { latitude, longitude } = coords;
+            setCurrentLatitude(latitude);
+            setCurrentLongitude(longitude);
+          },
+          error => {
+            console.error('위치 정보를 가져오는데 실패했습니다:', error);
+          }
+        );
+      } else {
+        console.error('Geolocation이 지원되지 않는 환경입니다.');
+      }
+    }
+  };
   const statusGuOptions = gu.map(location => ({
     value: location,
     label: location,
@@ -117,9 +139,6 @@ const StoreMain = () => {
       }
       return button; // 새로운 버튼 선택
     });
-  };
-  const currentLocationButtonHandler = () => {
-    setIsCurrent(!isCurrent);
   };
 
   return (
