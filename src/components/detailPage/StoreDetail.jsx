@@ -62,12 +62,12 @@ const StoreDetail = () => {
                       <span>공휴일 영업</span>
                     </BusinessTypeSpan>
                   )}
-                  {/* {data.holidayTime !== null && (
+                  {data.holidayTime !== null && (
                     <BusinessTypeSpan>
-                      <SharpStyleSpan>#</SharpStyleSpan>
+                      <SharpStyleSpan># </SharpStyleSpan>
                       <span>공휴일 영업</span>
                     </BusinessTypeSpan>
-                  )} */}
+                  )}
                 </OpenCheckBoxDiv>
               </StoreDetailInfoBoxDiv>
             </StoreDetailBoxDiv>
