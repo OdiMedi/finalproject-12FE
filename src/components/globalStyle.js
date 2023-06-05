@@ -44,6 +44,7 @@ export const LocationIcon = styled.img`
 `;
 export const MainTitle = styled.h1`
   font-size: 32px;
+  font-weight: 900;
 `;
 export const CommentInfoDiv = styled.div`
   display: flex;

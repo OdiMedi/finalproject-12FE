@@ -87,6 +87,8 @@ const ForeignMainPage = () => {
   const [languageSelectedButton, setLanguageSelectedButton] = useState('');
   const [isCurrent, setIsCurrent] = useState(false);
   const [isInfo, setIsInfo] = useState(false);
+  const [currentLatitude, setCurrentLatitude] = useState('');
+  const [currentLongitude, setCurrentLongitude] = useState('');
   const navigate = useNavigate();
 
   // 전체리스트 api로직
@@ -114,15 +116,21 @@ const ForeignMainPage = () => {
     open: selectedButton === 'open',
     holidayBusiness: selectedButton === 'holidayBusiness',
     nightBusiness: selectedButton === 'nightBusiness',
+    currentLatitude,
+    currentLongitude,
   });
 
   useEffect(() => {
     mutation.mutate(searchData);
   }, [searchData]);
 
-  // 언어 안내아이콘 버튼 토클
-  const infoToggleHandler = () => {
-    setIsInfo(!isInfo);
+  // 언어 안내아이콘 버튼 hover 이벤트
+  const handleMouseEnter = () => {
+    setIsInfo(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsInfo(false);
   };
   // searchData 객체의 변화 감지를 위해 새로운 상태로 업데이트
   const updateSearchData = () => {
@@ -133,13 +141,15 @@ const ForeignMainPage = () => {
       open: selectedButton === 'open',
       holidayBusiness: selectedButton === 'holidayBusiness',
       nightBusiness: selectedButton === 'nightBusiness',
+      currentLatitude,
+      currentLongitude,
     }));
   };
 
   // 검색 조건이 변경될 때마다 searchData 업데이트
   useEffect(() => {
     updateSearchData();
-  }, [selectGuStatus, selectedButton]);
+  }, [selectGuStatus, selectedButton, currentLatitude, currentLongitude]);
   // useEffect(() => {
   //   mutation.mutate(searchData);
   // }, []);
@@ -165,11 +175,25 @@ const ForeignMainPage = () => {
 
   const currentLocationButtonHandler = () => {
     setIsCurrent(!isCurrent);
+    if (!isCurrent) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          ({ coords }) => {
+            const { latitude, longitude } = coords;
+            console.log('이게 내 현재 위치', latitude, longitude);
+            setCurrentLatitude(latitude);
+            setCurrentLongitude(longitude);
+          },
+          error => {
+            console.error('위치 정보를 가져오는데 실패했습니다:', error);
+          }
+        );
+      } else {
+        console.error('Geolocation이 지원되지 않는 환경입니다.');
+      }
+    }
   };
 
-  useEffect(() => {
-    mutation.mutate(searchData);
-  }, []);
   return (
     <MainContainer>
       {storeList && (
@@ -234,7 +258,10 @@ const ForeignMainPage = () => {
         </AllSearchButtonBoxDiv>
         <AllLanguageSearchButtonBoxDiv>
           {isInfo && <CSS.InfoDiv>Languages spoken by pharmacists</CSS.InfoDiv>}
-          <LanguageInfoIconButton onClick={infoToggleHandler} />
+          <LanguageInfoIconButton
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          />
           <LanguageButtonBoxDiv>
             <CSS.FilterButton
               onClick={() => filterLanguageButtonClickHandler('ENG')}

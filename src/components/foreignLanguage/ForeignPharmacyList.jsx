@@ -7,12 +7,13 @@ const ForeignPharmacyList = ({ data }) => {
   const navigate = useNavigate();
   // console.log(data);
   const storeItemInfoMoveOnClickHandler = id => {
-    navigate(`/mainPage/${id}`);
+    navigate(`/foreignPage/${id}`);
   };
 
   return (
     <Article>
       {data?.map(item => {
+        const formattedTime = `${item.weekdaysTime.slice(3, 15)}`;
         return (
           <ItemBoxSection
             key={item.storeId}
@@ -27,7 +28,7 @@ const ForeignPharmacyList = ({ data }) => {
             <DetailInformationDiv>
               <span>{item.callNumber}</span>
               <AddressSpan>{item.address}</AddressSpan>
-              <span>{item.weekdaysTime}</span>
+              <span>Mon - Fri {formattedTime}</span>
             </DetailInformationDiv>
             <BookMark storeId={item.storeId} isCheck={item.bookmark} />
           </ItemBoxSection>
@@ -45,7 +46,7 @@ const AddressSpan = styled.span`
 
 const Article = styled.article`
   width: 594px;
-  height: 400px;
+  height: 395px;
   padding-left: 23px;
   padding-right: 23px;
   padding-top: 20px;

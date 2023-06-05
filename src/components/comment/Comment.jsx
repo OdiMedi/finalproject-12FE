@@ -4,9 +4,9 @@ import { useQuery } from 'react-query';
 import commentIcon from '../../assets/commentIcon.png';
 import compose from '../../assets/compose.png';
 import * as CSS from '../globalStyle';
-import WriteComment from '../detailPage/WriteComment';
+import WriteComment from './WriteComment';
 import api from '../../api/axios';
-import CommentItem from './CommentItem';
+import CommentItem from '../detailPage/CommentItem';
 
 const Comment = ({ storeId }) => {
   const [modal, setModal] = useState(false);
