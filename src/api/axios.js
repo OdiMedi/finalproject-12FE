@@ -10,7 +10,7 @@ const api = axios.create({
 });
 
 axiosRetry(api, {
-  retries: 3, // 최대 재시도 횟수
+  retries: 2, // 최대 재시도 횟수
   retryDelay: retryCount => retryCount * 1000, // 재시도 간격 (밀리초)
   shouldResetTimeout: true, // 요청 시마다 타임아웃 초기화
   retryCondition: error => {
@@ -90,7 +90,7 @@ api.interceptors.response.use(
       }
       setTimeout(() => {
         window.location.replace('/login');
-      }, 4000);
+      }, 5000);
     }
 
     return Promise.reject(error);

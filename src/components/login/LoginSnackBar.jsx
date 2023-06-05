@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import LoginSnack from '../../assets/loginSnack.png';
 import LoginSnackTitle from '../../assets/loginSnackTitle.png';
@@ -11,7 +10,7 @@ const LoginSnackBar = () => {
     if (isOpen) {
       setTimeout(() => {
         setIsOpen(false);
-      }, 3000);
+      }, 5000);
     }
   }, [isOpen]);
 
