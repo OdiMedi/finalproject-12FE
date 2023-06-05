@@ -7,17 +7,12 @@ import commentDelX from '../../assets/commentDelX.png';
 import commentDelText from '../../assets/commentDelText.png';
 
 const CommentDelModal = ({ onAccess }) => {
-  // const [isDelModal, setIsDelModal] = useState(true);
-  console.log('모달컴포내부', onAccess);
   const handleYesBtn = () => {
     onAccess(true);
     console.log('포탈내부 실행');
   };
   const DelModalClose = () => {
     onAccess(false);
-  };
-  const checkClick = () => {
-    console.log('모달내부클릭~~~~~');
   };
 
   return (
@@ -54,8 +49,6 @@ const CommentDelModalDiv = styled.div`
   box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
   position: relative;
-  /* position: absolute;
-  top: 0; */
 `;
 const CommentDelIcon = styled.div`
   width: 21px;

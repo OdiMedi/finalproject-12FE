@@ -3,13 +3,16 @@ import styled from 'styled-components';
 import Select from 'react-select';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import locationIcon from '../../assets/locationIcon.png';
-import searchIcon from '../../assets/icon _search_.png';
-import polygon from '../../assets/Polygon.png';
-import PharmacyList from './PharmacyList';
-import MapApi from './MapApi';
+
+import ForeignPharmacyList from './ForeignPharmacyList';
+import MapApi from '../mainPage/MapApi';
 import * as CSS from '../globalStyle';
 import { storeFilterList } from '../../api/storeList';
+
+import locationIcon from '../../assets/locationIcon.png';
+import polygon from '../../assets/Polygon.png';
+import searchIcon from '../../assets/icon _search_.png';
+import languageInfoIcon from '../../assets/languageInfoIcon.png';
 
 const IndicatorSeparator = null;
 const DropdownIndicator = () => <PolygonIcon />;
@@ -23,6 +26,33 @@ const customStyles = {
   }),
 };
 
+// const gu = [
+//   'gangnam-gu',
+//   'gangdong-gu',
+//   'gangbuk-gu',
+//   'gangseo-gu',
+//   'gwanak-gu',
+//   'gwangjin-gu',
+//   'guro-gu',
+//   'geumcheon-gu',
+//   'nowon-gu',
+//   'dobong-gu',
+//   'dongdaemun-gu',
+//   'dongjak-gu',
+//   'Mapo-gu',
+//   'seodaemun-gu',
+//   'seocho-gu',
+//   'seongdong-gu',
+//   'seongbuk-gu',
+//   'songpa-gu',
+//   'yeongdeungpo-gu',
+//   'yangcheon-gu',
+//   'yongsan-gu',
+//   'eunpyeong-gu',
+//   'jongno-gu',
+//   'jung-gu',
+//   'jungnang-gu',
+// ];
 const gu = [
   '강남구',
   '강동구',
@@ -50,12 +80,15 @@ const gu = [
   '중구',
   '중랑구',
 ];
-
-const StoreMain = () => {
+const ForeignMainPage = () => {
   const [name, setName] = useState('');
   const [storeList, setStoreList] = useState(null);
   const [selectedButton, setSelectedButton] = useState('');
+  const [languageSelectedButton, setLanguageSelectedButton] = useState('');
   const [isCurrent, setIsCurrent] = useState(false);
+  const [isInfo, setIsInfo] = useState(false);
+  const [currentLatitude, setCurrentLatitude] = useState('');
+  const [currentLongitude, setCurrentLongitude] = useState('');
   const navigate = useNavigate();
 
   // 전체리스트 api로직
@@ -67,7 +100,6 @@ const StoreMain = () => {
       alert(error.message);
     },
   });
-
   const statusGuOptions = gu.map(location => ({
     value: location,
     label: location,
@@ -84,12 +116,22 @@ const StoreMain = () => {
     open: selectedButton === 'open',
     holidayBusiness: selectedButton === 'holidayBusiness',
     nightBusiness: selectedButton === 'nightBusiness',
+    currentLatitude,
+    currentLongitude,
   });
 
   useEffect(() => {
     mutation.mutate(searchData);
   }, [searchData]);
 
+  // 언어 안내아이콘 버튼 hover 이벤트
+  const handleMouseEnter = () => {
+    setIsInfo(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsInfo(false);
+  };
   // searchData 객체의 변화 감지를 위해 새로운 상태로 업데이트
   const updateSearchData = () => {
     setSearchData(prevSearchData => ({
@@ -99,14 +141,18 @@ const StoreMain = () => {
       open: selectedButton === 'open',
       holidayBusiness: selectedButton === 'holidayBusiness',
       nightBusiness: selectedButton === 'nightBusiness',
+      currentLatitude,
+      currentLongitude,
     }));
   };
 
   // 검색 조건이 변경될 때마다 searchData 업데이트
   useEffect(() => {
     updateSearchData();
-  }, [selectGuStatus, selectedButton]);
-
+  }, [selectGuStatus, selectedButton, currentLatitude, currentLongitude]);
+  // useEffect(() => {
+  //   mutation.mutate(searchData);
+  // }, []);
   const onClickSearchButtonHandler = () => {
     updateSearchData();
   };
@@ -118,29 +164,55 @@ const StoreMain = () => {
       return button; // 새로운 버튼 선택
     });
   };
+  const filterLanguageButtonClickHandler = button => {
+    setLanguageSelectedButton(prevLanguageSelectedButton => {
+      if (prevLanguageSelectedButton === button) {
+        return ''; // 이미 선택된 버튼을 다시 클릭한 경우 선택 해제
+      }
+      return button; // 새로운 버튼 선택
+    });
+  };
+
   const currentLocationButtonHandler = () => {
     setIsCurrent(!isCurrent);
+    if (!isCurrent) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          ({ coords }) => {
+            const { latitude, longitude } = coords;
+            console.log('이게 내 현재 위치', latitude, longitude);
+            setCurrentLatitude(latitude);
+            setCurrentLongitude(longitude);
+          },
+          error => {
+            console.error('위치 정보를 가져오는데 실패했습니다:', error);
+          }
+        );
+      } else {
+        console.error('Geolocation이 지원되지 않는 환경입니다.');
+      }
+    }
   };
 
   return (
     <MainContainer>
-      {storeList && (
+      {/* {storeList && (
         <MapApi
           storeLocation={storeList}
           isCurrent={isCurrent}
           navigate={navigate}
         />
-      )}
+      )} */}
       <TestColor>
         <TitleBox>
           <LocationIcon src={locationIcon} alt="" />
-          <MainTitle>찾는 약국 오디약 ?</MainTitle>
+          <MainTitle>WHERE IS THE PHARMACY?</MainTitle>
         </TitleBox>
         <SearchBox>
           <SearchInput
             value={name}
             onChange={onChangeNameSearchHandler}
-            placeholder="약국명 검색 또는 하단의 필터 선택"
+            placeholder="Search For a Pharmacy Name or Select a Filter"
           />
           <SearchButton onClick={onClickSearchButtonHandler} />
         </SearchBox>
@@ -159,7 +231,8 @@ const StoreMain = () => {
               onClick={() => currentLocationButtonHandler('currentLocation')}
               active={isCurrent === true}
             >
-              <CSS.CurrentIconDiv active={isCurrent === true} />내 위치
+              <CSS.CurrentIconDiv active={isCurrent === true} />
+              GPS
             </CSS.FilterButton>
           </SearchButtonBoxDiv>
           <FilterBoxDiv>
@@ -167,29 +240,69 @@ const StoreMain = () => {
               onClick={() => filterButtonClickHandler('open')}
               active={selectedButton === 'open'}
             >
-              영업중
+              OPEN
             </CSS.FilterButton>
             <CSS.FilterButton
               onClick={() => filterButtonClickHandler('holidayBusiness')}
               active={selectedButton === 'holidayBusiness'}
             >
-              공휴일 영업
+              HOLIDAYS
             </CSS.FilterButton>
             <CSS.FilterButton
               onClick={() => filterButtonClickHandler('nightBusiness')}
               active={selectedButton === 'nightBusiness'}
             >
-              야간 영업
+              NIGHT
             </CSS.FilterButton>
           </FilterBoxDiv>
         </AllSearchButtonBoxDiv>
-        {storeList && <PharmacyList data={storeList} />}
+        <AllLanguageSearchButtonBoxDiv>
+          {isInfo && <CSS.InfoDiv>Languages spoken by pharmacists</CSS.InfoDiv>}
+          <LanguageInfoIconButton
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          />
+          <LanguageButtonBoxDiv>
+            <CSS.FilterButton
+              onClick={() => filterLanguageButtonClickHandler('ENG')}
+              active={languageSelectedButton === 'ENG'}
+            >
+              ENG
+            </CSS.FilterButton>
+            <CSS.FilterButton
+              onClick={() => filterLanguageButtonClickHandler('JP')}
+              active={languageSelectedButton === 'JP'}
+            >
+              JP
+            </CSS.FilterButton>
+            <CSS.FilterButton
+              onClick={() => filterLanguageButtonClickHandler('CN')}
+              active={languageSelectedButton === 'CN'}
+            >
+              CN
+            </CSS.FilterButton>
+          </LanguageButtonBoxDiv>
+        </AllLanguageSearchButtonBoxDiv>
+        {storeList && <ForeignPharmacyList data={storeList} />}
       </TestColor>
     </MainContainer>
   );
 };
 
-export default StoreMain;
+export default ForeignMainPage;
+
+const LanguageInfoIconButton = styled.button`
+  background-color: transparent;
+  background-image: url(${languageInfoIcon});
+  background-size: 19px 19px;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-right: 22px;
+`;
 
 const MainContainer = styled.main`
   display: flex;
@@ -205,7 +318,6 @@ const TestColor = styled.div`
   height: 710px;
 `;
 const TitleBox = styled.div`
-  width: 317px;
   display: flex;
   flex-direction: row;
   text-align: center;
@@ -219,6 +331,7 @@ const LocationIcon = styled.img`
 `;
 const MainTitle = styled.h1`
   font-size: 32px;
+  font-weight: 800;
 `;
 
 // 검색 박스
@@ -274,6 +387,7 @@ const AllSearchButtonBoxDiv = styled.div`
   margin-top: 19px;
   margin-left: 13px;
   margin-bottom: 20px;
+  align-items: center;
 `;
 
 // 검색버튼 박스
@@ -290,6 +404,7 @@ const RegionSearchButton = styled.button`
   border-radius: 20px;
   color: #ffffff;
   position: relative;
+  font-weight: 800;
 `;
 const PolygonIcon = styled.span`
   width: 12px;
@@ -306,8 +421,10 @@ const PolygonIcon = styled.span`
 // 필터 버튼
 const FilterBoxDiv = styled.div`
   width: 340px;
+  height: 40px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 
 // 셀렉트박스
@@ -343,4 +460,22 @@ const StyledSelect = styled(Select).attrs({
     border: 1px solid #afaeb7;
     color: black; /* hover 상태의 option 텍스트 색상 */
   }
+`;
+// 검색버튼 전체 박스
+const AllLanguageSearchButtonBoxDiv = styled.div`
+  display: flex;
+  flex: row;
+  margin-top: 19px;
+  margin-left: 13px;
+  margin-bottom: 20px;
+  align-items: center;
+  justify-content: flex-end;
+`;
+// 검색버튼 전체 박스
+const LanguageButtonBoxDiv = styled.div`
+  width: 340px;
+  height: 68px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;

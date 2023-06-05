@@ -8,20 +8,19 @@ import locationIcon from '../../assets/locationIcon.png';
 import menuIcon from '../../assets/menuIcon.png';
 import * as CSS from '../globalStyle';
 import Comment from '../comment/Comment';
-import BookMark from '../BookMark';
 
-const StoreDetail = () => {
+const ForeignPharmacyDetail = () => {
   const navigate = useNavigate();
   const params = useParams();
   const moveStoreListClickHandler = () => {
-    navigate('/mainPage');
+    navigate('/foreignPage');
   };
 
   const { data } = useQuery('inquiryStoreDetail', () =>
     inquiryStoreDetail(params.id)
   );
-  console.log(data);
 
+  const formattedTime = data ? data.weekdaysTime.slice(3, 15) : '';
   const detailData = [data];
   return (
     <CSS.MainContainer>
@@ -32,46 +31,34 @@ const StoreDetail = () => {
             <CSS.TitleBox>
               <CSS.LocationIcon src={locationIcon} alt="" />
               <CSS.MainTitle>
-                <NameStyleSpan>{data.name}</NameStyleSpan> 오디약 ?
+                WHERE IS THE <NameStyleSpan>{data.name}</NameStyleSpan> ?
               </CSS.MainTitle>
             </CSS.TitleBox>
             <InfoMenuBoxDiv>
               <InfoTextDiv>
                 <InfoIconImg src={infoIcon} alt="" />
-                약국정보
+                information
               </InfoTextDiv>
               <InfoTextDiv role="button" onClick={moveStoreListClickHandler}>
                 <MenuIconImg src={menuIcon} alt="" />
-                <span>목록</span>
+                <span>list</span>
               </InfoTextDiv>
             </InfoMenuBoxDiv>
             <StoreDetailBoxDiv>
-              <BookMarkPositionDiv>
-                <BookMark storeId={data.storeId} isCheck={data.bookmark} />
-                <span>{data.totalBookmark}</span>
-              </BookMarkPositionDiv>
               <StoreDetailInfoBoxDiv>
                 <div>{data.name}</div>
                 <div>{data.callNumber}</div>
                 <div>{data.address}</div>
-                <div>{data.weekdaysTime}</div>
+                <div>Mon - Fri {formattedTime}</div>
                 <OpenCheckBoxDiv>
-                  {data.holidayTime !== null && (
-                    <BusinessTypeSpan>
-                      <SharpStyleSpan># </SharpStyleSpan>
-                      <span>공휴일 영업</span>
-                    </BusinessTypeSpan>
-                  )}
-                  {/* {data.holidayTime !== null && (
-                    <BusinessTypeSpan>
-                      <SharpStyleSpan>#</SharpStyleSpan>
-                      <span>공휴일 영업</span>
-                    </BusinessTypeSpan>
-                  )} */}
+                  <CSS.FilterButton active="holiday">
+                    공휴일 영업
+                  </CSS.FilterButton>
+                  <CSS.FilterButton>야간 영업</CSS.FilterButton>
                 </OpenCheckBoxDiv>
               </StoreDetailInfoBoxDiv>
             </StoreDetailBoxDiv>
-            <Comment storeId={data.storeId} />
+            <Comment />
           </DetailBoxArticle>
         </>
       )}
@@ -79,22 +66,8 @@ const StoreDetail = () => {
   );
 };
 
-export default StoreDetail;
+export default ForeignPharmacyDetail;
 
-const BookMarkPositionDiv = styled.div`
-  position: absolute;
-  left: 320px;
-  gap: 8px;
-  display: flex;
-  font-size: 23px;
-`;
-const BusinessTypeSpan = styled.span`
-  font-style: normal;
-  font-weight: 600;
-`;
-const SharpStyleSpan = styled.span`
-  color: #fa5938;
-`;
 const DetailBoxArticle = styled.article`
   width: 610px;
   height: 710px;
@@ -141,7 +114,6 @@ const MenuIconImg = styled.img`
 const StoreDetailBoxDiv = styled.div`
   display: flex;
   margin-left: 30px;
-  position: relative;
 `;
 const StoreDetailInfoBoxDiv = styled.div`
   width: 610px;
