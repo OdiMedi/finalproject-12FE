@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import axiosRetry from 'axios-retry';
 import { createRoot } from 'react-dom/client';
 import LoginSnackBar from '../components/login/LoginSnackBar';
+import ModalPortal from '../shared/ModalPortal';
 
 const API_URL = process.env.REACT_APP_SERVER_URL;
 const api = axios.create({
@@ -86,7 +87,11 @@ api.interceptors.response.use(
       Cookies.remove('accesstoken');
       Cookies.remove('refreshtoken');
       if (!modalRoot.hasChildNodes()) {
-        root.render(<LoginSnackBar />);
+        root.render(
+          <ModalPortal>
+            <LoginSnackBar />
+          </ModalPortal>
+        );
       }
       setTimeout(() => {
         window.location.replace('/login');
