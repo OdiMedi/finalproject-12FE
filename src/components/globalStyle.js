@@ -20,6 +20,7 @@ export const FilterButton = styled.button`
   justify-content: center;
   align-items: center;
   gap: 6px;
+  font-weight: 800;
 `;
 export const CurrentIconDiv = styled.div`
   width: 15px;
@@ -77,4 +78,21 @@ export const ComposeImg = styled.img`
   width: 14px;
   height: 14px;
   margin-right: 15px;
+`;
+export const InfoDiv = styled.div`
+  width: 176px;
+  height: 40px;
+  background-color: #fd8b2b;
+  box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+  border-radius: 15px;
+  padding: 14px 10px;
+  font-weight: 800;
+  font-size: 15px;
+  line-height: 20px;
+  margin-right: 47px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: -0.5px;
 `;

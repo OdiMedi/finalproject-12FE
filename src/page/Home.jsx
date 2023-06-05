@@ -29,7 +29,7 @@ const Home = () => {
             <p>약국 검색</p>
             <p>구역별, 공휴일·야간영업 약국 검색</p>
           </BottomBtnDiv>
-          <BottomBtnDiv>
+          <BottomBtnDiv onClick={() => navigate('/foreignPage')}>
             <BottomIconRightDiv />
             <p>FOR FOREIGNER</p>
             <p>Searching For ENG Speaking</p>
