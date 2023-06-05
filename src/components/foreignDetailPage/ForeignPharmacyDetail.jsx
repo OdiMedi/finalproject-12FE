@@ -141,6 +141,7 @@ const MenuIconImg = styled.img`
 const StoreDetailBoxDiv = styled.div`
   display: flex;
   margin-left: 30px;
+  position: relative;
 `;
 const StoreDetailInfoBoxDiv = styled.div`
   width: 610px;
