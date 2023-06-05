@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import styled from 'styled-components';
 import ReactDOMServer from 'react-dom/server';
 import locationIcon from '../../assets/locationIcon.png';
@@ -7,20 +8,19 @@ import storeMap from '../../assets/storeMapIcon.png';
 
 const { kakao } = window;
 
-const MapApi = ({ storeLocation, isCurrent }) => {
+const MapApi = ({ storeLocation, isCurrent, navigate }) => {
   const [currentLocation, setCurrentLocation] = useState({
     center: {
-      latitude: 37.5348879429263,
-      longitude: 126.837978157379,
+      latitude: storeLocation[0].latitude,
+      longitude: storeLocation[0].longitude,
     },
     errMsg: null,
     isLoading: true,
   });
-  // // eslint-disable-next-line no-debugger
-  // debugger;
+  console.log(currentLocation.center.latitude);
   // Marker image
   const imageSrc = locationIcon;
-  const imageSize = new kakao.maps.Size(20, 25);
+  const imageSize = new kakao.maps.Size(25, 25);
   const imageOption = { offset: new kakao.maps.Point(20, 30) };
   const markerImage = new kakao.maps.MarkerImage(
     imageSrc,
@@ -32,23 +32,25 @@ const MapApi = ({ storeLocation, isCurrent }) => {
     // 'myMap'ID를 가진 요소 참조
     const container = document.getElementById('myMap');
     const options = {
-      // 지도가 처음 보여주는 위치 1개만 내려올경우 그걸 보여주면 되지만 여러개 불러와지면 어떻게 처리할지 고민
       center: new kakao.maps.LatLng(center.latitude, center.longitude),
       level: 3,
     };
     const map = new kakao.maps.Map(container, options);
+    const overlayClickDetailPageHandler = id => {
+      navigate(`/mainPage/${id}`);
+    };
 
     // 마커를 지도에 보여주기
-
     storeLocation.forEach(location => {
       const marker = new kakao.maps.Marker({
         position: new kakao.maps.LatLng(location.latitude, location.longitude),
         image: markerImage,
       });
-
       // Custom overlay
       const content = (
         <CustomOverlayWrapperDiv
+          role="button"
+          onClick={() => overlayClickDetailPageHandler(location.storeId)}
           size={location.name.length < 7 ? '13px' : '11px'}
           key={location.storeId}
         >
@@ -59,16 +61,35 @@ const MapApi = ({ storeLocation, isCurrent }) => {
       const customOverlay = new kakao.maps.CustomOverlay({
         position: marker.getPosition(),
         content: ReactDOMServer.renderToString(content),
-        xAnchor: 0.55,
-        yAnchor: 1.8,
+        xAnchor: 0.57,
+        yAnchor: 1.6,
       });
 
-      kakao.maps.event.addListener(marker, 'click', function () {
-        if (customOverlay.getMap()) {
-          customOverlay.setMap(null);
-        } else {
-          customOverlay.setMap(map);
-        }
+      // 마커에 마우스 오버 이벤트 추가
+      kakao.maps.event.addListener(marker, 'mouseover', () => {
+        customOverlay.setMap(map);
+        marker.setImage(
+          new kakao.maps.MarkerImage(
+            imageSrc,
+            new kakao.maps.Size(30, 30),
+            imageOption
+          )
+        );
+      });
+
+      // 마커에 마우스 아웃 이벤트 추가
+      kakao.maps.event.addListener(marker, 'mouseout', () => {
+        customOverlay.setMap(null);
+
+        marker.setImage(
+          new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)
+        );
+      });
+
+      // 마커 클릭 시 오버레이 토글
+      kakao.maps.event.addListener(marker, 'click', () => {
+        customOverlay.setMap(map);
+        overlayClickDetailPageHandler(location.storeId);
       });
 
       marker.setMap(map);
@@ -79,10 +100,21 @@ const MapApi = ({ storeLocation, isCurrent }) => {
 
   useEffect(() => {
     loadMap(currentLocation.center);
-  }, []);
+  }, [currentLocation]);
 
+  useEffect(() => {
+    if (storeLocation.length > 0) {
+      setCurrentLocation(prev => ({
+        ...prev,
+        center: {
+          latitude: storeLocation[0].latitude,
+          longitude: storeLocation[0].longitude,
+        },
+      }));
+    }
+  }, [storeLocation]);
   const getCurrentLocation = () => {
-    if (!isCurrent) return; // isCurrent가 false이면 함수 실행하지 않음
+    if (!isCurrent) return;
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -91,14 +123,12 @@ const MapApi = ({ storeLocation, isCurrent }) => {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
           };
-          // 내 위치
-          console.log(center);
           setCurrentLocation(prev => ({
             ...prev,
             center,
             isLoading: false,
           }));
-          const map = loadMap(center); // loadMap 호출 후 반환된 map 변수를 받음
+          const map = loadMap(center);
 
           const marker = new kakao.maps.Marker({
             position: new kakao.maps.LatLng(center.latitude, center.longitude),
@@ -122,9 +152,10 @@ const MapApi = ({ storeLocation, isCurrent }) => {
       }));
     }
   };
+
   useEffect(() => {
-    getCurrentLocation(); // isCurrent prop이 변경될 때마다 getCurrentLocation 함수 호출
-  }, [isCurrent]); // isCurrent prop을 의존성 배열에 추가
+    getCurrentLocation();
+  }, [isCurrent]);
 
   return <MapDiv id="myMap">지도를 불러오고 있습니다.</MapDiv>;
 };
