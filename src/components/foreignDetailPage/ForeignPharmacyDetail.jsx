@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import MapApi from '../mainPage/MapApi';
-import { inquiryStoreDetail } from '../../api/storeList';
+import { ForeignStoreDetail } from '../../api/foreignList';
 import infoIcon from '../../assets/infoIcon.png';
 import locationIcon from '../../assets/locationIcon.png';
 import menuIcon from '../../assets/menuIcon.png';
@@ -17,8 +17,8 @@ const ForeignPharmacyDetail = () => {
     navigate('/foreignPage');
   };
 
-  const { data } = useQuery('inquiryStoreDetail', () =>
-    inquiryStoreDetail(params.id)
+  const { data } = useQuery('ForeignStoreDetail', () =>
+    ForeignStoreDetail(params.id)
   );
 
   const formattedTime = data ? data.weekdaysTime.slice(3, 15) : '';
@@ -62,7 +62,7 @@ const ForeignPharmacyDetail = () => {
                       <span>HOLIDAYS OPEN</span>
                     </BusinessTypeSpan>
                   )}
-                  {data.holidayTime !== null && (
+                  {data.nightBusiness !== null && (
                     <BusinessTypeSpan>
                       <SharpStyleSpan># </SharpStyleSpan>
                       <span>NIGHT OPEN</span>

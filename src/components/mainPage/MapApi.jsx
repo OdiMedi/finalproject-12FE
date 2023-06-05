@@ -5,6 +5,7 @@ import ReactDOMServer from 'react-dom/server';
 import locationIcon from '../../assets/locationIcon.png';
 import bubble from '../../assets/speechBubble.png';
 import storeMap from '../../assets/storeMapIcon.png';
+import currentMarkIcon from '../../assets/currentMarkIcon.png';
 
 const { kakao } = window;
 
@@ -17,8 +18,10 @@ const MapApi = ({ storeLocation, isCurrent, navigate }) => {
     errMsg: null,
     isLoading: true,
   });
-  console.log(currentLocation.center.latitude);
+
   // Marker image
+  const currentImageSrc = currentMarkIcon;
+
   const imageSrc = locationIcon;
   const imageSize = new kakao.maps.Size(25, 25);
   const imageOption = { offset: new kakao.maps.Point(20, 30) };
@@ -28,6 +31,11 @@ const MapApi = ({ storeLocation, isCurrent, navigate }) => {
     imageOption
   );
 
+  const currentMarkerImage = new kakao.maps.MarkerImage(
+    currentImageSrc,
+    imageSize,
+    imageOption
+  );
   const loadMap = center => {
     // 'myMap'ID를 가진 요소 참조
     const container = document.getElementById('myMap');
@@ -132,7 +140,7 @@ const MapApi = ({ storeLocation, isCurrent, navigate }) => {
 
           const marker = new kakao.maps.Marker({
             position: new kakao.maps.LatLng(center.latitude, center.longitude),
-            image: markerImage,
+            image: currentMarkerImage,
           });
           marker.setMap(map);
         },
