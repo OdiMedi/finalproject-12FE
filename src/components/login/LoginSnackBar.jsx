@@ -35,7 +35,7 @@ const LoginSnackWrapDiv = styled.div`
   width: 100vw;
   height: 100vh;
   position: relative;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: center;
   align-items: center;
