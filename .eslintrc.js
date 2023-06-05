@@ -35,5 +35,6 @@ module.exports = {
     ],
     'no-param-reassign': 'off',
     'react/no-unknown-property': 0,
+    'react/jsx-no-useless-fragment': 'off',
   },
 };

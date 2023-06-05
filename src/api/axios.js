@@ -1,6 +1,9 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import axiosRetry from 'axios-retry';
+import { createRoot } from 'react-dom/client';
+import LoginSnackBar from '../components/login/LoginSnackBar';
+import ModalPortal from '../shared/ModalPortal';
 
 const API_URL = process.env.REACT_APP_SERVER_URL;
 const api = axios.create({
@@ -8,12 +11,21 @@ const api = axios.create({
 });
 
 axiosRetry(api, {
-  retries: 3, // 최대 재시도 횟수
+  retries: 2, // 최대 재시도 횟수
   retryDelay: retryCount => retryCount * 1000, // 재시도 간격 (밀리초)
   shouldResetTimeout: true, // 요청 시마다 타임아웃 초기화
   retryCondition: error => {
     const errorCode = error?.response?.data?.errorCode;
     return errorCode === 'EXPIRED_ACCESS_TOKEN'; // 재시도 조건 설정
+  },
+});
+axiosRetry(api, {
+  retries: 1, // 최대 재시도 횟수
+  retryDelay: retryCount => retryCount * 1000, // 재시도 간격 (밀리초)
+  shouldResetTimeout: true, // 요청 시마다 타임아웃 초기화
+  retryCondition: error => {
+    const errorCode = error?.response?.data?.errorCode;
+    return errorCode === 'EXPIRED_REFRESH_TOKEN'; // 재시도 조건 설정
   },
 });
 
@@ -31,6 +43,9 @@ api.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+const modalRoot = document.getElementById('modal-root');
+const root = createRoot(modalRoot);
 
 api.interceptors.response.use(
   response => {
@@ -67,11 +82,20 @@ api.interceptors.response.use(
 
       return api(originReq);
     }
+
     if (errorCode === 'EXPIRED_REFRESH_TOKEN') {
       Cookies.remove('accesstoken');
       Cookies.remove('refreshtoken');
-      alert('로그인 만료시간이 다 되었습니다. 재로그인해주세요');
-      window.location.replace('/login');
+      if (!modalRoot.hasChildNodes()) {
+        root.render(
+          <ModalPortal>
+            <LoginSnackBar />
+          </ModalPortal>
+        );
+      }
+      setTimeout(() => {
+        window.location.replace('/login');
+      }, 5000);
     }
 
     return Promise.reject(error);

@@ -5,7 +5,7 @@ const queryClient = new QueryClient();
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <Router />;
+      <Router />
     </QueryClientProvider>
   );
 };
