@@ -6,10 +6,14 @@ import defaultImage from '../../assets/defaultImage.png';
 import commentBubble from '../../assets/commentBubble.png';
 import commentEdit from '../../assets/commentEdit.png';
 import commentDelete from '../../assets/commentDelete.png';
+import CommentDelModal from '../comment/CommentDelModal';
+import ModalPortal from '../../shared/ModalPortal';
 
 const CommentItem = ({ storeId, commentId, nickname, contents, check }) => {
   const [isEdit, setIsEdit] = useState(true);
-  const [editText, setEditText] = useState('');
+  const [editText, setEditText] = useState(contents);
+  const [modalVisible, setModalVisible] = useState(false);
+
   const queryClient = useQueryClient();
 
   const commentUpdateMutation = useMutation(
@@ -33,8 +37,17 @@ const CommentItem = ({ storeId, commentId, nickname, contents, check }) => {
       },
     }
   );
+  const handleDelCheck = newValue => {
+    console.log('newVal::', newValue);
+    if (newValue === true) {
+      commentDeleteMutation.mutate();
+      setModalVisible(false);
+    } else if (newValue === false) {
+      setModalVisible(false);
+    }
+  };
   const deleteComment = () => {
-    commentDeleteMutation.mutate();
+    setModalVisible(true);
   };
 
   const handleEditClick = () => {
@@ -52,10 +65,10 @@ const CommentItem = ({ storeId, commentId, nickname, contents, check }) => {
       <CommentContentBoxDiv>
         <NicknameH1>{nickname}</NicknameH1>
         {isEdit ? (
-          <ContentInput id={commentId} type="text" value={contents} disabled />
+          <ContentInput id={commentId} type="text" value={editText} disabled />
         ) : (
-          <ContentInput
-            id={commentId}
+          <ContentInputFocus
+            id="commentFocus"
             type="text"
             value={editText}
             onChange={handleInputChange}
@@ -88,6 +101,11 @@ const CommentItem = ({ storeId, commentId, nickname, contents, check }) => {
             ''
           )}
         </CommentBtnWrapDiv>
+      )}
+      {modalVisible && (
+        <ModalPortal>
+          <CommentDelModal onAccess={handleDelCheck} />
+        </ModalPortal>
       )}
     </CommentItemDiv>
   );
@@ -125,6 +143,7 @@ const CommentContentBoxDiv = styled.div`
   flex-direction: column;
   justify-content: space-between;
   gap: 12px;
+  width: 90%;
 `;
 
 const NicknameH1 = styled.h1`
@@ -135,6 +154,20 @@ const ContentInput = styled.input`
   // span -> input으로 수정
   font-size: 12px;
   width: 100%;
+  border: none;
+  /* border: 1px solid #fa5938; */
+  background-color: transparent;
+`;
+const ContentInputFocus = styled.input`
+  font-size: 12px;
+  width: 100%;
+  border: 2px solid #fa5938;
+  caret-color: #fa5938;
+
+  &:focus {
+    border: 2px solid #fa5938;
+    outline: none;
+  }
 `;
 const ReCommentButton = styled.button`
   border: none;

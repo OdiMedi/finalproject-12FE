@@ -150,6 +150,7 @@ const DeleteDiv = styled.div`
   background-image: url(${DeleteIcon});
   background-size: contain;
   background-repeat: no-repeat;
+  cursor: pointer;
 `;
 const MypagePharDiv = styled.div`
   width: 35%;
