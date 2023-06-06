@@ -4,10 +4,13 @@ import styled from 'styled-components';
 import api from '../api/axios';
 import profile from '../assets/profile.png';
 import MypageBookmark from '../components/mypage/MypageBookmark';
+import MypageNicknameModal from '../components/mypage/MypageNicknameModal';
 import MypageReview from '../components/mypage/MypageReview';
+import ModalPortal from '../shared/ModalPortal';
 
 const MyPage = () => {
   const [activeButton, setActiveButton] = useState(1);
+  const [nicknameModal, setNicknameModal] = useState(false);
 
   const getBookmark = async () => {
     const response = await api.get('/api/bookmark');
@@ -32,6 +35,17 @@ const MyPage = () => {
     setActiveButton(buttonId);
   };
 
+  const nicknameHandle = () => {
+    setNicknameModal(true);
+  };
+  const handleNickCheck = newValue => {
+    if (newValue === true) {
+      setNicknameModal(false);
+    } else if (newValue === false) {
+      setNicknameModal(false);
+    }
+  };
+
   return (
     <MypageContainer>
       <MypageTitle>마이페이지</MypageTitle>
@@ -39,7 +53,14 @@ const MyPage = () => {
         <ProfileImg />
         <ProfileDescDiv>
           <span>청량한 바지</span>
-          <button type="button">닉네임 변경</button>
+          <button type="button" onClick={nicknameHandle}>
+            닉네임 변경
+          </button>
+          {nicknameModal && (
+            <ModalPortal>
+              <MypageNicknameModal onAccess={handleNickCheck} />
+            </ModalPortal>
+          )}
           <p>mail1234@naver.com</p>
         </ProfileDescDiv>
       </MyprofileDiv>
