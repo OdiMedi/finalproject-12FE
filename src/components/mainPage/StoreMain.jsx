@@ -271,11 +271,14 @@ const StyledSelect = styled(Select).attrs({
   .react-select__single-value {
     color: #ffffff; /* 텍스트 색상 지정 */
     font-size: 16px;
+    font-weight: 700;
   }
   .react-select__menu {
     background-color: #ffffff;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-weight: 600;
+    text-align: center;
   }
   .react-select__option {
     background-color: transparent; /* option 배경색 */

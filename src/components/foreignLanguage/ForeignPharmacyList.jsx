@@ -6,7 +6,7 @@ import * as CSS from '../../style/globalStyle';
 
 const ForeignPharmacyList = ({ data }) => {
   const navigate = useNavigate();
-  // console.log(data);
+
   const storeItemInfoMoveOnClickHandler = id => {
     navigate(`/foreignPage/${id}`);
   };

@@ -266,7 +266,7 @@ const ForeignMainPage = () => {
           </LanguageButtonBoxDiv>
         </AllLanguageSearchButtonBoxDiv>
         {storeList && storeList.length < 1 ? (
-          <InformationMessageDiv>찾는 약국이 없습니다.</InformationMessageDiv>
+          <InformationMessageDiv>No pharmacies found</InformationMessageDiv>
         ) : (
           <ForeignPharmacyList data={storeList} />
         )}
@@ -304,16 +304,6 @@ const MainTitle = styled.h1`
   font-weight: 800;
 `;
 
-const RegionSearchButton = styled.button`
-  background-color: #fa5938;
-  width: 100px;
-  height: 40px;
-  border: none;
-  border-radius: 20px;
-  color: #ffffff;
-  position: relative;
-  font-weight: 800;
-`;
 const PolygonIcon = styled.span`
   width: 12px;
   height: 12px;

@@ -20,6 +20,7 @@ const StoreDetail = () => {
   const { data } = useQuery('inquiryStoreDetail', () =>
     inquiryStoreDetail(params.id)
   );
+  console.log(data);
 
   const detailData = [data];
   return (
@@ -49,7 +50,9 @@ const StoreDetail = () => {
             </CSS.InfoMenuBoxDiv>
             <CSS.StoreDetailBoxDiv>
               <CSS.BookMarkPositionDiv>
-                <BookMark storeId={data.storeId} isCheck={data.bookmark} />
+                <BookmarkDiv>
+                  <BookMark storeId={data.storeId} isCheck={data.bookmark} />
+                </BookmarkDiv>
                 <span>{data.totalBookmark}</span>
               </CSS.BookMarkPositionDiv>
               <CSS.StoreDetailInfoBoxDiv>
@@ -82,3 +85,7 @@ const StoreDetail = () => {
 };
 
 export default StoreDetail;
+
+const BookmarkDiv = styled.div`
+  z-index: 1;
+`;
