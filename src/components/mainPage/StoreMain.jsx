@@ -206,7 +206,11 @@ const StoreMain = () => {
             </CSS.FilterButton>
           </CSS.FilterBoxDiv>
         </CSS.AllSearchButtonBoxDiv>
-        {storeList && <PharmacyList data={storeList} />}
+        {storeList && storeList.length < 1 ? (
+          <InformationMessageDiv>찾는 약국이 없습니다.</InformationMessageDiv>
+        ) : (
+          <PharmacyList data={storeList} />
+        )}
       </div>
     </CSS.MainContainer>
   );
@@ -214,6 +218,15 @@ const StoreMain = () => {
 
 export default StoreMain;
 
+const InformationMessageDiv = styled.div`
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: 700;
+  color: #5f5e5e;
+`;
 const SearchButton = styled.button`
   width: 54px;
   height: 54px;
