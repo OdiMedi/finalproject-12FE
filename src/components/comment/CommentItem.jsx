@@ -38,7 +38,6 @@ const CommentItem = ({ storeId, commentId, nickname, contents, check }) => {
     }
   );
   const handleDelCheck = newValue => {
-    console.log('newVal::', newValue);
     if (newValue === true) {
       commentDeleteMutation.mutate();
       setModalVisible(false);

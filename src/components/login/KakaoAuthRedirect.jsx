@@ -13,7 +13,7 @@ const KakaoAuthRedirect = () => {
       .then(res => {
         const accessToken = res.headers.get('ACCESS_KEY').split(' ')[1];
         const refreshToken = res.headers.get('REFRESH_KEY').split(' ')[1];
-
+        console.log('kakaoRes::::', res);
         Cookies.set('accesstoken', accessToken);
         Cookies.set('refreshtoken', refreshToken);
         navigate('/');
@@ -27,7 +27,7 @@ const KakaoAuthRedirect = () => {
     kakaoHandle();
   }, []);
 
-  return <div>KakaoAuthRedirect</div>;
+  return <div></div>;
 };
 
 export default KakaoAuthRedirect;

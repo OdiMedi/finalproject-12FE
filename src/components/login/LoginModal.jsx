@@ -9,8 +9,11 @@ import LoginIconMain from '../../assets/loginIcon.png';
 import LoginTitleMain from '../../assets/loginTitle.png';
 import KakaoIcon from '../../assets/kakaoIcon.png';
 import WarnIcon from '../../assets/warnIcon.png';
+import ModalPortal from '../../shared/ModalPortal';
+import FindPasswordModal from './FindPasswordModal';
 
 const LoginModal = () => {
+  const [findPwdModal, setFindPwdModal] = useState(false);
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
     email: '',
@@ -29,6 +32,8 @@ const LoginModal = () => {
   const submitLogin = async () => {
     try {
       const response = await api.post('/user/login', inputValue);
+      localStorage.setItem('email', response.data.email);
+      localStorage.setItem('nickname', response.data.nickname); // 키값 수정 예정
 
       const accessHeader = response?.headers.get('ACCESS_KEY');
       const refreshHeader = response?.headers.get('REFRESH_KEY');
@@ -48,8 +53,24 @@ const LoginModal = () => {
     }
   };
 
+  const findPwdModalVisible = () => {
+    setFindPwdModal(true);
+  };
+  const handleFindPwd = newValue => {
+    if (newValue === true) {
+      setFindPwdModal(false);
+    } else if (newValue === false) {
+      setFindPwdModal(false);
+    }
+  };
+
   return (
     <LoginContainer>
+      {findPwdModal && (
+        <ModalPortal>
+          <FindPasswordModal onAccess={handleFindPwd} />
+        </ModalPortal>
+      )}
       <LoginIconDiv />
       <LoginTitleDiv />
       <form autoComplete="off">
@@ -73,7 +94,7 @@ const LoginModal = () => {
       </form>
 
       <TextBtnWrap>
-        <TextBnt>비밀번호 찾기</TextBnt>
+        <TextBnt onClick={findPwdModalVisible}>비밀번호 찾기</TextBnt>
         <LineDiv />
         <TextBnt onClick={() => navigate('/signup')}>회원가입</TextBnt>
       </TextBtnWrap>
@@ -92,7 +113,7 @@ export default LoginModal;
 
 const LoginContainer = styled.div`
   width: 500px;
-  height: 761px;
+  /* height: 761px; */
   margin: 0 auto;
   margin-top: 60px;
   display: flex;
@@ -101,15 +122,19 @@ const LoginContainer = styled.div`
 `;
 export const LoginIconDiv = styled.div`
   width: 64px;
-  height: 64px;
+  height: 72px;
   background-image: url(${LoginIconMain});
-  background-size: 64px 64px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 export const LoginTitleDiv = styled.div`
   width: 175px;
   height: 75px;
   background-image: url(${LoginTitleMain});
-  background-size: 175px 75px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   margin-bottom: 59px;
 `;
 export const LoginInput = styled.input`
@@ -117,7 +142,8 @@ export const LoginInput = styled.input`
   height: 60px;
   border: 1.5px solid #d9d9d9;
   border-radius: 5px;
-  margin-bottom: 26px;
+  /* margin-bottom: 26px; */
+  margin-top: 26px;
   font-size: 20px;
   text-indent: 27px;
 
@@ -151,6 +177,7 @@ export const LoginBtn = styled.button`
   letter-spacing: -0.5px;
   color: #ffffff;
   margin-bottom: 34px;
+  margin-top: 26px;
   cursor: pointer;
 `;
 const TextBtnWrap = styled.div`
@@ -181,7 +208,9 @@ export const KakakoLink = styled.a`
   width: 72px;
   height: 72px;
   background-image: url(${KakaoIcon});
-  background-size: 72px 72px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   margin-top: 58px;
 `;
 const WarningDiv = styled.div`
