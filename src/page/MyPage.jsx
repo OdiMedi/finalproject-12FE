@@ -30,7 +30,6 @@ const MyPage = () => {
     'getReview',
     getReview
   );
-  console.log('reviewData::::::;', reviewData);
 
   const { data: bookmarkData, isLoading: isLoadingBookmark } = useQuery(
     'getBookmark',

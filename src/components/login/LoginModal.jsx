@@ -138,7 +138,8 @@ export const LoginInput = styled.input`
   height: 60px;
   border: 1.5px solid #d9d9d9;
   border-radius: 5px;
-  margin-bottom: 26px;
+  /* margin-bottom: 26px; */
+  margin-top: 26px;
   font-size: 20px;
   text-indent: 27px;
 
@@ -172,6 +173,7 @@ export const LoginBtn = styled.button`
   letter-spacing: -0.5px;
   color: #ffffff;
   margin-bottom: 34px;
+  margin-top: 26px;
   cursor: pointer;
 `;
 const TextBtnWrap = styled.div`
