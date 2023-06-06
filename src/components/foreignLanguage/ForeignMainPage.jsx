@@ -6,12 +6,11 @@ import { useNavigate } from 'react-router-dom';
 
 import ForeignPharmacyList from './ForeignPharmacyList';
 import MapApi from '../MapApi';
-import * as CSS from '../globalStyle';
+import * as CSS from '../../style/globalStyle';
 import { ForeignStoreFilterList } from '../../api/foreignList';
 
 import locationIcon from '../../assets/locationIcon.png';
 import polygon from '../../assets/Polygon.png';
-import searchIcon from '../../assets/icon _search_.png';
 import languageInfoIcon from '../../assets/languageInfoIcon.png';
 
 const IndicatorSeparator = null;
@@ -180,7 +179,7 @@ const ForeignMainPage = () => {
   };
 
   return (
-    <MainContainer>
+    <CSS.MainContainer>
       {storeList && (
         <MapApi
           storeLocation={storeList}
@@ -188,30 +187,28 @@ const ForeignMainPage = () => {
           navigate={navigate}
         />
       )}
-      <TestColor>
-        <TitleBox>
-          <LocationIcon src={locationIcon} alt="" />
+      <div>
+        <CSS.TitleBox>
+          <CSS.LocationIcon src={locationIcon} alt="" />
           <MainTitle>WHERE IS THE PHARMACY?</MainTitle>
-        </TitleBox>
-        <SearchBox>
-          <SearchInput
+        </CSS.TitleBox>
+        <CSS.SearchBox>
+          <CSS.SearchInput
             value={name}
             onChange={onChangeNameSearchHandler}
             placeholder="Search For a Pharmacy Name or Select a Filter"
           />
-          <SearchButton onClick={onClickSearchButtonHandler} />
-        </SearchBox>
-        <AllSearchButtonBoxDiv>
-          <SearchButtonBoxDiv>
-            <RegionSearchButton>
-              <StyledSelect
-                defaultValue={selectGuStatus}
-                onChange={setSelectGuStatus}
-                options={statusGuOptions}
-                components={customComponents}
-                styles={customStyles}
-              />
-            </RegionSearchButton>
+          <CSS.SearchButton onClick={onClickSearchButtonHandler} />
+        </CSS.SearchBox>
+        <CSS.AllSearchButtonBoxDiv>
+          <CSS.SearchButtonBoxDiv>
+            <StyledSelect
+              defaultValue={selectGuStatus}
+              onChange={setSelectGuStatus}
+              options={statusGuOptions}
+              components={customComponents}
+              styles={customStyles}
+            />
             <CSS.FilterButton
               onClick={() => currentLocationButtonHandler('currentLocation')}
               active={isCurrent === true}
@@ -219,8 +216,8 @@ const ForeignMainPage = () => {
               <CSS.CurrentIconDiv active={isCurrent === true} />
               GPS
             </CSS.FilterButton>
-          </SearchButtonBoxDiv>
-          <FilterBoxDiv>
+          </CSS.SearchButtonBoxDiv>
+          <CSS.FilterBoxDiv>
             <CSS.FilterButton
               onClick={() => filterButtonClickHandler('open')}
               active={selectedButton === 'open'}
@@ -239,8 +236,8 @@ const ForeignMainPage = () => {
             >
               NIGHT
             </CSS.FilterButton>
-          </FilterBoxDiv>
-        </AllSearchButtonBoxDiv>
+          </CSS.FilterBoxDiv>
+        </CSS.AllSearchButtonBoxDiv>
         <AllLanguageSearchButtonBoxDiv>
           {isInfo && <CSS.InfoDiv>Languages spoken by pharmacists</CSS.InfoDiv>}
           <LanguageInfoIconButton
@@ -273,8 +270,8 @@ const ForeignMainPage = () => {
         ) : (
           <ForeignPharmacyList data={storeList} />
         )}
-      </TestColor>
-    </MainContainer>
+      </div>
+    </CSS.MainContainer>
   );
 };
 
@@ -302,98 +299,11 @@ const LanguageInfoIconButton = styled.button`
   margin-right: 22px;
 `;
 
-const MainContainer = styled.main`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 27px;
-  margin-top: 120px;
-`;
-
-// 타이틀박스
-const TestColor = styled.div`
-  width: 640px;
-  height: 710px;
-`;
-const TitleBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  text-align: center;
-  align-items: center;
-  gap: 9px;
-`;
-const LocationIcon = styled.img`
-  width: 46px;
-  height: 46px;
-  margin-left: 10px;
-`;
 const MainTitle = styled.h1`
   font-size: 32px;
   font-weight: 800;
 `;
 
-// 검색 박스
-const SearchBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin-top: 26px;
-`;
-const SearchInput = styled.input`
-  width: 530px;
-  height: 54px;
-  font-size: 20px;
-  background-color: #f5f5f5;
-  border: none;
-  padding-left: 30px;
-  border-radius: 10px;
-  margin-left: 13px;
-  &:focus {
-    outline: none;
-  }
-  input::placeholder {
-    color: #afaeb7;
-  }
-  input::-webkit-input-placeholder {
-    color: #afaeb7;
-  }
-  input:-ms-input-placeholder {
-    color: #afaeb7;
-  }
-`;
-const SearchButton = styled.button`
-  width: 54px;
-  height: 54px;
-  background-color: #fa5938;
-  border-radius: 10px;
-  border: none;
-  background-image: url(${searchIcon});
-  background-size: 26px 26px;
-  background-repeat: no-repeat;
-  background-position: center;
-  &:hover {
-    box-shadow: 3px 3px 2px rgba(175, 174, 183, 0.5);
-  }
-`;
-// 검색버튼 전체 박스
-const AllSearchButtonBoxDiv = styled.div`
-  display: flex;
-  flex: row;
-  gap: 68px;
-  margin-top: 19px;
-  margin-left: 13px;
-  margin-bottom: 20px;
-  align-items: center;
-`;
-
-// 검색버튼 박스
-const SearchButtonBoxDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 220px;
-`;
 const RegionSearchButton = styled.button`
   background-color: #fa5938;
   width: 100px;
@@ -416,15 +326,6 @@ const PolygonIcon = styled.span`
   background-position: center;
 `;
 
-// 필터 버튼
-const FilterBoxDiv = styled.div`
-  width: 340px;
-  height: 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
 // 셀렉트박스
 const StyledSelect = styled(Select).attrs({
   classNamePrefix: 'react-select',
@@ -436,13 +337,16 @@ const StyledSelect = styled(Select).attrs({
     padding-right: 15px;
     border: none;
     border-radius: 20px;
+    line-height: 1.3;
   }
   .react-select__single-value {
     color: #ffffff; /* 텍스트 색상 지정 */
-    font-size: 16px;
+    font-size: 10px;
   }
   .react-select__menu {
     background-color: #ffffff;
+    width: 110px;
+    font-size: 11px;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }

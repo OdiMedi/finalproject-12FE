@@ -8,7 +8,7 @@ import searchIcon from '../../assets/icon _search_.png';
 import polygon from '../../assets/Polygon.png';
 import PharmacyList from './PharmacyList';
 import MapApi from '../MapApi';
-import * as CSS from '../globalStyle';
+import * as CSS from '../../style/globalStyle';
 import { storeFilterList } from '../../api/storeList';
 
 const IndicatorSeparator = null;
@@ -155,38 +155,37 @@ const StoreMain = () => {
           navigate={navigate}
         />
       )}
-      <TestColor>
-        <TitleBox>
-          <LocationIcon src={locationIcon} alt="" />
-          <MainTitle>찾는 약국 오디약 ?</MainTitle>
-        </TitleBox>
-        <SearchBox>
-          <SearchInput
+      <div>
+        <CSS.TitleBox>
+          <CSS.LocationIcon src={locationIcon} alt="" />
+          <CSS.MainTitle>찾는 약국 오디약 ?</CSS.MainTitle>
+        </CSS.TitleBox>
+        <CSS.SearchBox>
+          <CSS.SearchInput
             value={name}
             onChange={onChangeNameSearchHandler}
             placeholder="약국명 검색 또는 하단의 필터 선택"
           />
           <SearchButton onClick={onClickSearchButtonHandler} />
-        </SearchBox>
-        <AllSearchButtonBoxDiv>
-          <SearchButtonBoxDiv>
-            <RegionSearchButton>
-              <StyledSelect
-                defaultValue={selectGuStatus}
-                onChange={setSelectGuStatus}
-                options={statusGuOptions}
-                components={customComponents}
-                styles={customStyles}
-              />
-            </RegionSearchButton>
+        </CSS.SearchBox>
+        <CSS.AllSearchButtonBoxDiv>
+          <CSS.SearchButtonBoxDiv>
+            <StyledSelect
+              defaultValue={selectGuStatus}
+              onChange={setSelectGuStatus}
+              options={statusGuOptions}
+              components={customComponents}
+              styles={customStyles}
+            />
+
             <CSS.FilterButton
               onClick={() => currentLocationButtonHandler('currentLocation')}
               active={isCurrent === true}
             >
               <CSS.CurrentIconDiv active={isCurrent === true} />내 위치
             </CSS.FilterButton>
-          </SearchButtonBoxDiv>
-          <FilterBoxDiv>
+          </CSS.SearchButtonBoxDiv>
+          <CSS.FilterBoxDiv>
             <CSS.FilterButton
               onClick={() => filterButtonClickHandler('open')}
               active={selectedButton === 'open'}
@@ -205,77 +204,28 @@ const StoreMain = () => {
             >
               야간 영업
             </CSS.FilterButton>
-          </FilterBoxDiv>
-        </AllSearchButtonBoxDiv>
-        {storeList && <PharmacyList data={storeList} />}
-      </TestColor>
+          </CSS.FilterBoxDiv>
+        </CSS.AllSearchButtonBoxDiv>
+        {storeList && storeList.length < 1 ? (
+          <InformationMessageDiv>찾는 약국이 없습니다.</InformationMessageDiv>
+        ) : (
+          <PharmacyList data={storeList} />
+        )}
+      </div>
     </CSS.MainContainer>
   );
 };
 
 export default StoreMain;
 
-const MainContainer = styled.main`
+const InformationMessageDiv = styled.div`
+  height: 400px;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 27px;
-  margin-top: 100px;
-`;
-
-// 타이틀박스
-const TestColor = styled.div`
-  /* width: 640px;
-  height: 710px; */
-  /* background-color: red; */
-`;
-const TitleBox = styled.div`
-  width: 317px;
-  display: flex;
-  flex-direction: row;
-  text-align: center;
   align-items: center;
-  gap: 9px;
-`;
-const LocationIcon = styled.img`
-  width: 46px;
-  height: 46px;
-  margin-left: 10px;
-`;
-const MainTitle = styled.h1`
-  font-size: 32px;
-`;
-
-// 검색 박스
-const SearchBox = styled.div`
-  display: flex;
-  flex-direction: row;
   justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin-top: 26px;
-`;
-const SearchInput = styled.input`
-  width: 530px;
-  height: 54px;
-  font-size: 20px;
-  background-color: #f5f5f5;
-  border: none;
-  padding-left: 30px;
-  border-radius: 10px;
-  margin-left: 13px;
-  &:focus {
-    outline: none;
-  }
-  input::placeholder {
-    color: #afaeb7;
-  }
-  input::-webkit-input-placeholder {
-    color: #afaeb7;
-  }
-  input:-ms-input-placeholder {
-    color: #afaeb7;
-  }
+  font-size: 30px;
+  font-weight: 700;
+  color: #5f5e5e;
 `;
 const SearchButton = styled.button`
   width: 54px;
@@ -291,31 +241,7 @@ const SearchButton = styled.button`
     box-shadow: 3px 3px 2px rgba(175, 174, 183, 0.5);
   }
 `;
-// 검색버튼 전체 박스
-const AllSearchButtonBoxDiv = styled.div`
-  display: flex;
-  flex: row;
-  gap: 68px;
-  margin-top: 19px;
-  margin-left: 13px;
-  margin-bottom: 20px;
-`;
 
-// 검색버튼 박스
-const SearchButtonBoxDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 220px;
-`;
-const RegionSearchButton = styled.button`
-  background-color: #fa5938;
-  width: 100px;
-  height: 40px;
-  border: none;
-  border-radius: 20px;
-  color: #ffffff;
-  position: relative;
-`;
 const PolygonIcon = styled.span`
   width: 12px;
   height: 12px;
@@ -326,13 +252,6 @@ const PolygonIcon = styled.span`
   background-size: 8px 8px;
   background-repeat: no-repeat;
   background-position: center;
-`;
-
-// 필터 버튼
-const FilterBoxDiv = styled.div`
-  width: 340px;
-  display: flex;
-  justify-content: space-between;
 `;
 
 // 셀렉트박스
@@ -346,6 +265,8 @@ const StyledSelect = styled(Select).attrs({
     padding-right: 15px;
     border: none;
     border-radius: 20px;
+    display: flex;
+    text-align: center;
   }
   .react-select__single-value {
     color: #ffffff; /* 텍스트 색상 지정 */
