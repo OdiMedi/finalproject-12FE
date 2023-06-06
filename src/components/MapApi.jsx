@@ -2,18 +2,19 @@ import { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 import ReactDOMServer from 'react-dom/server';
-import locationIcon from '../../assets/locationIcon.png';
-import bubble from '../../assets/speechBubble.png';
-import storeMap from '../../assets/storeMapIcon.png';
-import currentMarkIcon from '../../assets/currentMarkIcon.png';
+import locationIcon from '../assets/locationIcon.png';
+import bubble from '../assets/speechBubble.png';
+import storeMap from '../assets/storeMapIcon.png';
+import currentMarkIcon from '../assets/currentMarkIcon.png';
 
 const { kakao } = window;
 
 const MapApi = ({ storeLocation, isCurrent, navigate }) => {
   const [currentLocation, setCurrentLocation] = useState({
     center: {
-      latitude: storeLocation[0].latitude,
-      longitude: storeLocation[0].longitude,
+      latitude: storeLocation.length > 0 ? storeLocation[0].latitude : 37.541,
+      longitude:
+        storeLocation.length > 0 ? storeLocation[0].longitude : 126.986,
     },
     errMsg: null,
     isLoading: true,
@@ -106,7 +107,18 @@ const MapApi = ({ storeLocation, isCurrent, navigate }) => {
     return map; // map 객체 반환
   };
 
+  // useEffect(() => {
+  //   loadMap(currentLocation.center);
+  // }, [currentLocation]);
   useEffect(() => {
+    if (storeLocation.length === 0) {
+      const container = document.getElementById('myMap');
+      const options = {
+        center: new kakao.maps.LatLng(37.5665, 126.978),
+        level: 3,
+      };
+      const map = new kakao.maps.Map(container, options);
+    }
     loadMap(currentLocation.center);
   }, [currentLocation]);
 

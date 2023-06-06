@@ -5,7 +5,7 @@ import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 import ForeignPharmacyList from './ForeignPharmacyList';
-import MapApi from '../mainPage/MapApi';
+import MapApi from '../MapApi';
 import * as CSS from '../globalStyle';
 import { ForeignStoreFilterList } from '../../api/foreignList';
 
@@ -86,17 +86,17 @@ const ForeignMainPage = () => {
 
   const [searchData, setSearchData] = useState({
     name,
-    gu: selectGuStatus.value,
+    gu: currentLatitude === '' ? selectGuStatus.value : '',
     open: selectedButton === 'open',
     holidayBusiness: selectedButton === 'holidayBusiness',
     nightBusiness: selectedButton === 'nightBusiness',
-    // currentLatitude,
-    // currentLongitude,
+    currentLatitude: currentLatitude === undefined ? '' : currentLatitude,
+    currentLongitude: currentLongitude === undefined ? '' : currentLongitude,
     english: languageSelectedButton === 'english',
     chinese: languageSelectedButton === 'chinese',
     japanese: languageSelectedButton === 'japanese',
   });
-  console.log(searchData);
+
   useEffect(() => {
     mutation.mutate(searchData);
   }, [searchData]);
@@ -114,12 +114,12 @@ const ForeignMainPage = () => {
     setSearchData(prevSearchData => ({
       ...prevSearchData,
       name,
-      gu: selectGuStatus.value,
+      gu: currentLatitude === '' ? selectGuStatus.value : '',
       open: selectedButton === 'open',
       holidayBusiness: selectedButton === 'holidayBusiness',
       nightBusiness: selectedButton === 'nightBusiness',
-      currentLatitude,
-      currentLongitude,
+      currentLatitude: currentLatitude === undefined ? '' : currentLatitude,
+      currentLongitude: currentLongitude === undefined ? '' : currentLongitude,
       english: languageSelectedButton === 'english',
       chinese: languageSelectedButton === 'chinese',
       japanese: languageSelectedButton === 'japanese',
@@ -181,15 +181,13 @@ const ForeignMainPage = () => {
 
   return (
     <MainContainer>
-      {/* {storeList && (
+      {storeList && (
         <MapApi
           storeLocation={storeList}
           isCurrent={isCurrent}
           navigate={navigate}
-          currentLatitude={currentLatitude}
-          currentLongitude={currentLongitude}
         />
-      )} */}
+      )}
       <TestColor>
         <TitleBox>
           <LocationIcon src={locationIcon} alt="" />
@@ -270,7 +268,11 @@ const ForeignMainPage = () => {
             </CSS.FilterButton>
           </LanguageButtonBoxDiv>
         </AllLanguageSearchButtonBoxDiv>
-        {storeList && <ForeignPharmacyList data={storeList} />}
+        {storeList && storeList.length < 1 ? (
+          <InformationMessageDiv>찾는 약국이 없습니다.</InformationMessageDiv>
+        ) : (
+          <ForeignPharmacyList data={storeList} />
+        )}
       </TestColor>
     </MainContainer>
   );
@@ -278,6 +280,15 @@ const ForeignMainPage = () => {
 
 export default ForeignMainPage;
 
+const InformationMessageDiv = styled.div`
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: 700;
+  color: #5f5e5e;
+`;
 const LanguageInfoIconButton = styled.button`
   background-color: transparent;
   background-image: url(${languageInfoIcon});

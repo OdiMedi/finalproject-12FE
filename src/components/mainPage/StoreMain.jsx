@@ -7,7 +7,7 @@ import locationIcon from '../../assets/locationIcon.png';
 import searchIcon from '../../assets/icon _search_.png';
 import polygon from '../../assets/Polygon.png';
 import PharmacyList from './PharmacyList';
-import MapApi from './MapApi';
+import MapApi from '../MapApi';
 import * as CSS from '../globalStyle';
 import { storeFilterList } from '../../api/storeList';
 
@@ -102,10 +102,12 @@ const StoreMain = () => {
 
   const [searchData, setSearchData] = useState({
     name,
-    gu: selectGuStatus.value,
+    gu: currentLatitude === '' ? selectGuStatus.value : '',
     open: selectedButton === 'open',
     holidayBusiness: selectedButton === 'holidayBusiness',
     nightBusiness: selectedButton === 'nightBusiness',
+    currentLatitude,
+    currentLongitude,
   });
 
   useEffect(() => {
@@ -117,21 +119,24 @@ const StoreMain = () => {
     setSearchData(prevSearchData => ({
       ...prevSearchData,
       name,
-      gu: selectGuStatus.value,
+      gu: currentLatitude === '' ? selectGuStatus.value : '',
       open: selectedButton === 'open',
       holidayBusiness: selectedButton === 'holidayBusiness',
       nightBusiness: selectedButton === 'nightBusiness',
+      currentLatitude,
+      currentLongitude,
     }));
   };
 
   // 검색 조건이 변경될 때마다 searchData 업데이트
   useEffect(() => {
     updateSearchData();
-  }, [selectGuStatus, selectedButton]);
+  }, [selectGuStatus, selectedButton, currentLatitude, currentLongitude]);
 
   const onClickSearchButtonHandler = () => {
     updateSearchData();
   };
+  // 필터 버튼
   const filterButtonClickHandler = button => {
     setSelectedButton(prevSelectedButton => {
       if (prevSelectedButton === button) {
