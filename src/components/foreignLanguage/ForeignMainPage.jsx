@@ -268,7 +268,11 @@ const ForeignMainPage = () => {
             </CSS.FilterButton>
           </LanguageButtonBoxDiv>
         </AllLanguageSearchButtonBoxDiv>
-        {storeList && <ForeignPharmacyList data={storeList} />}
+        {storeList.length < 1 ? (
+          <InformationMessageDiv>찾는 약국이 없습니다.</InformationMessageDiv>
+        ) : (
+          <ForeignPharmacyList data={storeList} />
+        )}
       </TestColor>
     </MainContainer>
   );
@@ -276,6 +280,15 @@ const ForeignMainPage = () => {
 
 export default ForeignMainPage;
 
+const InformationMessageDiv = styled.div`
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: 700;
+  color: #5f5e5e;
+`;
 const LanguageInfoIconButton = styled.button`
   background-color: transparent;
   background-image: url(${languageInfoIcon});

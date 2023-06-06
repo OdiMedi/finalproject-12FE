@@ -117,10 +117,11 @@ const MapApi = ({ storeLocation, isCurrent, navigate }) => {
         center: new kakao.maps.LatLng(37.5665, 126.978),
         level: 3,
       };
-      return new kakao.maps.Map(container, options);
+      const map = new kakao.maps.Map(container, options);
     }
-    return loadMap(currentLocation.center);
+    loadMap(currentLocation.center);
   }, [currentLocation]);
+
   useEffect(() => {
     if (storeLocation.length > 0) {
       setCurrentLocation(prev => ({
