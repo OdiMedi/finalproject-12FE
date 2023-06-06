@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import Cookies from 'js-cookie';
 import api from '../api/axios';
 import profile from '../assets/profile.png';
 import MypageBookmark from '../components/mypage/MypageBookmark';
@@ -11,6 +13,9 @@ import ModalPortal from '../shared/ModalPortal';
 const MyPage = () => {
   const [activeButton, setActiveButton] = useState(1);
   const [nicknameModal, setNicknameModal] = useState(false);
+  const MypageNickname = localStorage.getItem('nickname');
+  const MypageEmail = localStorage.getItem('email');
+  const navigate = useNavigate();
 
   const getBookmark = async () => {
     const response = await api.get('/api/bookmark');
@@ -25,6 +30,7 @@ const MyPage = () => {
     'getReview',
     getReview
   );
+  console.log('reviewData::::::;', reviewData);
 
   const { data: bookmarkData, isLoading: isLoadingBookmark } = useQuery(
     'getBookmark',
@@ -46,22 +52,37 @@ const MyPage = () => {
     }
   };
 
+  const withdrawalHandle = async () => {
+    try {
+      await api.delete(`user/signout/${MypageEmail}`);
+      alert('회원탈퇴가 정상적으로 되었습니다.');
+      Cookies.remove('accesstoken');
+      Cookies.remove('refreshtoken');
+      localStorage.removeItem('email');
+      localStorage.removeItem('nickname');
+      navigate('/');
+    } catch (error) {
+      console.log('withdrawal::::::', error);
+    }
+  };
+
   return (
     <MypageContainer>
       <MypageTitle>마이페이지</MypageTitle>
       <MyprofileDiv>
         <ProfileImg />
         <ProfileDescDiv>
-          <span>청량한 바지</span>
+          <span>{MypageNickname}</span>
           <button type="button" onClick={nicknameHandle}>
             닉네임 변경
           </button>
+          <WithdrawalBtn onClick={withdrawalHandle}>회원탈퇴</WithdrawalBtn>
           {nicknameModal && (
             <ModalPortal>
               <MypageNicknameModal onAccess={handleNickCheck} />
             </ModalPortal>
           )}
-          <p>mail1234@naver.com</p>
+          <p>{MypageEmail}</p>
         </ProfileDescDiv>
       </MyprofileDiv>
       <MypageTabDiv>
@@ -208,4 +229,8 @@ const BookmarkContainerDiv = styled.div`
   flex-wrap: wrap;
   gap: 2%;
   padding-top: 20px;
+`;
+const WithdrawalBtn = styled.button`
+  border: none;
+  margin-left: 15px;
 `;

@@ -14,6 +14,9 @@ import KAKAO_AUTH_URL from './kakaoAuth';
 
 const SignupModal = () => {
   const navigate = useNavigate();
+  const [nicknameCheck, setNicknameCheck] = useState(true);
+  const [emailCheck, setEmailCheck] = useState(true);
+  const [passwordCheck, setPasswordCheck] = useState(true);
   const [inputValue, setInputValue] = useState({
     email: '',
     nickname: '',

@@ -22,6 +22,8 @@ const Header = () => {
       console.log('response::::', response);
       Cookies.remove('accesstoken');
       Cookies.remove('refreshtoken');
+      localStorage.removeItem('email');
+      localStorage.removeItem('nickname');
       setIsLogin(prev => !prev);
       navigate('/');
     } catch (error) {
@@ -62,7 +64,7 @@ export default Header;
 const HeaderContainer = styled.div`
   display: flex;
   justify-content: center;
-  width: 100vw;
+  /* width: 100vw; */
   height: 90px;
   position: relative;
 

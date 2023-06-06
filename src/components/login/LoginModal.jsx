@@ -32,6 +32,8 @@ const LoginModal = () => {
   const submitLogin = async () => {
     try {
       const response = await api.post('/user/login', inputValue);
+      localStorage.setItem('email', response.data.email);
+      localStorage.setItem('nickname', response.data.nickname); // 키값 수정 예정
 
       const accessHeader = response?.headers.get('ACCESS_KEY');
       const refreshHeader = response?.headers.get('REFRESH_KEY');

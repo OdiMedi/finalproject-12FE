@@ -6,12 +6,16 @@ import NicknameX from '../../assets/nicknameX.png';
 const MypageNicknameModal = ({ onAccess }) => {
   const [nickInput, setNickInput] = useState('');
   const [alertError, setAlertError] = useState(false);
+
   const nickInputChange = e => {
     setNickInput(e.target.value);
   };
   const updateNickBtn = async () => {
     try {
-      await api.post(`user/change/nickname`, { newName: nickInput });
+      const response = await api.post(`user/change/nickname`, {
+        newName: nickInput,
+      });
+      localStorage.setItem('nickname', response.data.nickname);
     } catch (error) {
       console.log('updateError:::::', error);
       setAlertError(true);

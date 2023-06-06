@@ -44,7 +44,7 @@ const FindPasswordModal = ({ onAccess }) => {
         <HelperTextP>
           이메일 입력 시, 이메일로 임시 비밀번호가 전송됩니다.
         </HelperTextP>
-        {alertError && <ErrorAlertP>이메일이 존재하지 않습니다</ErrorAlertP>}
+        {/* {alertError && <ErrorAlertP>이메일이 존재하지 않습니다</ErrorAlertP>} */}
       </PwdFindDiv>
     </PwdModalWrapDiv>
   );
