@@ -9,8 +9,11 @@ import LoginIconMain from '../../assets/loginIcon.png';
 import LoginTitleMain from '../../assets/loginTitle.png';
 import KakaoIcon from '../../assets/kakaoIcon.png';
 import WarnIcon from '../../assets/warnIcon.png';
+import ModalPortal from '../../shared/ModalPortal';
+import FindPasswordModal from './FindPasswordModal';
 
 const LoginModal = () => {
+  const [findPwdModal, setFindPwdModal] = useState(false);
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
     email: '',
@@ -48,8 +51,24 @@ const LoginModal = () => {
     }
   };
 
+  const findPwdModalVisible = () => {
+    setFindPwdModal(true);
+  };
+  const handleFindPwd = newValue => {
+    if (newValue === true) {
+      setFindPwdModal(false);
+    } else if (newValue === false) {
+      setFindPwdModal(false);
+    }
+  };
+
   return (
     <LoginContainer>
+      {findPwdModal && (
+        <ModalPortal>
+          <FindPasswordModal onAccess={handleFindPwd} />
+        </ModalPortal>
+      )}
       <LoginIconDiv />
       <LoginTitleDiv />
       <form autoComplete="off">
@@ -73,7 +92,7 @@ const LoginModal = () => {
       </form>
 
       <TextBtnWrap>
-        <TextBnt>비밀번호 찾기</TextBnt>
+        <TextBnt onClick={findPwdModalVisible}>비밀번호 찾기</TextBnt>
         <LineDiv />
         <TextBnt onClick={() => navigate('/signup')}>회원가입</TextBnt>
       </TextBtnWrap>

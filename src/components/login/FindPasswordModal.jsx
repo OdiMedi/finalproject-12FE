@@ -4,21 +4,47 @@ import api from '../../api/axios';
 import NicknameX from '../../assets/nicknameX.png';
 import FindPwdIcon from '../../assets/findPwdIcon.png';
 
-const FindPasswordModal = () => {
+const FindPasswordModal = ({ onAccess }) => {
+  const [emailInput, setEmailInput] = useState('');
+  const [alertError, setAlertError] = useState(false);
+
+  const handleXbox = () => {
+    onAccess(false);
+  };
+
+  const emailInputChange = e => {
+    setEmailInput(e.target.value);
+  };
+
+  const postEmail = () => {
+    try {
+      api.post('user/find/password', { email: emailInput });
+    } catch (error) {
+      console.log('error::::', error);
+      setAlertError(true);
+      return;
+    }
+    onAccess(false);
+    setAlertError(false);
+  };
   return (
     <PwdModalWrapDiv>
       <PwdFindDiv>
         <PwdTitleP>비밀번호 찾기</PwdTitleP>
-        <PwdXDiv />
-        <PwdInput placeholder="가입 시 입력한 이메일을 입력해주세요." />
-        <PwdButton>
+        <PwdXDiv onClick={handleXbox} />
+        <PwdInput
+          value={emailInput}
+          onChange={emailInputChange}
+          placeholder="가입 시 입력한 이메일을 입력해주세요."
+        />
+        <PwdButton onClick={postEmail}>
           <div />
           <span>비밀번호 보내기</span>
         </PwdButton>
         <HelperTextP>
           이메일 입력 시, 이메일로 임시 비밀번호가 전송됩니다.
         </HelperTextP>
-        <ErrorAlertP>이메일이 존재하지 않습니다</ErrorAlertP>
+        {alertError && <ErrorAlertP>이메일이 존재하지 않습니다</ErrorAlertP>}
       </PwdFindDiv>
     </PwdModalWrapDiv>
   );
@@ -60,6 +86,7 @@ const PwdXDiv = styled.div`
   position: absolute;
   top: 17px;
   right: 21px;
+  cursor: pointer;
 `;
 
 const PwdInput = styled.input`
@@ -72,6 +99,7 @@ const PwdInput = styled.input`
   position: absolute;
   top: 83px;
   left: 39px;
+  text-indent: 19px;
 
   &::placeholder {
     text-indent: 19px;
@@ -94,6 +122,7 @@ const PwdButton = styled.button`
   justify-content: center;
   align-items: center;
   gap: 10px;
+  cursor: pointer;
 
   div {
     width: 15px;
