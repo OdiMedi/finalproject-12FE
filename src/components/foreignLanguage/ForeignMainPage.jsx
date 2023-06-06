@@ -86,17 +86,17 @@ const ForeignMainPage = () => {
 
   const [searchData, setSearchData] = useState({
     name,
-    gu: selectGuStatus.value,
+    gu: currentLatitude === '' ? selectGuStatus.value : '',
     open: selectedButton === 'open',
     holidayBusiness: selectedButton === 'holidayBusiness',
     nightBusiness: selectedButton === 'nightBusiness',
-    // currentLatitude,
-    // currentLongitude,
+    currentLatitude: currentLatitude === undefined ? '' : currentLatitude,
+    currentLongitude: currentLongitude === undefined ? '' : currentLongitude,
     english: languageSelectedButton === 'english',
     chinese: languageSelectedButton === 'chinese',
     japanese: languageSelectedButton === 'japanese',
   });
-  console.log(searchData);
+
   useEffect(() => {
     mutation.mutate(searchData);
   }, [searchData]);
@@ -114,12 +114,12 @@ const ForeignMainPage = () => {
     setSearchData(prevSearchData => ({
       ...prevSearchData,
       name,
-      gu: selectGuStatus.value,
+      gu: currentLatitude === '' ? selectGuStatus.value : '',
       open: selectedButton === 'open',
       holidayBusiness: selectedButton === 'holidayBusiness',
       nightBusiness: selectedButton === 'nightBusiness',
-      currentLatitude,
-      currentLongitude,
+      currentLatitude: currentLatitude === undefined ? '' : currentLatitude,
+      currentLongitude: currentLongitude === undefined ? '' : currentLongitude,
       english: languageSelectedButton === 'english',
       chinese: languageSelectedButton === 'chinese',
       japanese: languageSelectedButton === 'japanese',
@@ -268,7 +268,7 @@ const ForeignMainPage = () => {
             </CSS.FilterButton>
           </LanguageButtonBoxDiv>
         </AllLanguageSearchButtonBoxDiv>
-        {storeList.length < 1 ? (
+        {storeList && storeList.length < 1 ? (
           <InformationMessageDiv>찾는 약국이 없습니다.</InformationMessageDiv>
         ) : (
           <ForeignPharmacyList data={storeList} />
@@ -281,7 +281,7 @@ const ForeignMainPage = () => {
 export default ForeignMainPage;
 
 const InformationMessageDiv = styled.div`
-  height: 200px;
+  height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
