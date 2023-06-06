@@ -9,10 +9,12 @@ import MypageBookmark from '../components/mypage/MypageBookmark';
 import MypageNicknameModal from '../components/mypage/MypageNicknameModal';
 import MypageReview from '../components/mypage/MypageReview';
 import ModalPortal from '../shared/ModalPortal';
+import MypagePwdModal from '../components/mypage/MypagePwdModal';
 
 const MyPage = () => {
   const [activeButton, setActiveButton] = useState(1);
   const [nicknameModal, setNicknameModal] = useState(false);
+  const [pwdModal, setPwdModal] = useState(false);
   const MypageNickname = localStorage.getItem('nickname');
   const MypageEmail = localStorage.getItem('email');
   const navigate = useNavigate();
@@ -50,6 +52,13 @@ const MyPage = () => {
       setNicknameModal(false);
     }
   };
+  const handlePwdCheck = newValue => {
+    if (newValue === true) {
+      setPwdModal(false);
+    } else if (newValue === false) {
+      setPwdModal(false);
+    }
+  };
 
   const withdrawalHandle = async () => {
     try {
@@ -59,7 +68,8 @@ const MyPage = () => {
       Cookies.remove('refreshtoken');
       localStorage.removeItem('email');
       localStorage.removeItem('nickname');
-      navigate('/');
+      // navigate('/');
+      window.location.replace('/');
     } catch (error) {
       console.log('withdrawal::::::', error);
     }
@@ -75,7 +85,15 @@ const MyPage = () => {
           <button type="button" onClick={nicknameHandle}>
             닉네임 변경
           </button>
+          <WithdrawalBtn onClick={() => setPwdModal(true)}>
+            비밀번호 변경
+          </WithdrawalBtn>
           <WithdrawalBtn onClick={withdrawalHandle}>회원탈퇴</WithdrawalBtn>
+          {pwdModal && (
+            <ModalPortal>
+              <MypagePwdModal onAccess={handlePwdCheck} />
+            </ModalPortal>
+          )}
           {nicknameModal && (
             <ModalPortal>
               <MypageNicknameModal onAccess={handleNickCheck} />

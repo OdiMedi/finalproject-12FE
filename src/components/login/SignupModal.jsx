@@ -2,13 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import api from '../../api/axios';
-import {
-  LoginIconDiv,
-  LoginTitleDiv,
-  LoginBtn,
-  TextBnt,
-  KakakoLink,
-} from './LoginModal';
+import { LoginBtn, TextBnt, KakakoLink } from './LoginModal';
 import KAKAO_AUTH_URL from './kakaoAuth';
 import LoginIconMain from '../../assets/loginIcon.png';
 import LoginTitleMain from '../../assets/loginTitle.png';
