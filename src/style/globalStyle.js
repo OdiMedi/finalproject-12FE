@@ -24,6 +24,7 @@ export const FilterButton = styled.button`
   align-items: center;
   gap: 6px;
   font-weight: 800;
+  font-size: 16px;
 `;
 export const CurrentIconDiv = styled.div`
   width: 15px;
@@ -247,6 +248,7 @@ export const StoreDetailBoxDiv = styled.div`
   margin-left: 30px;
   position: relative;
 `;
+
 export const BookMarkPositionDiv = styled.div`
   position: absolute;
   left: 320px;
