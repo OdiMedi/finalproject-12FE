@@ -17,11 +17,18 @@ const Header = () => {
   }, [accesstoken]);
 
   const logoutHandle = async () => {
-    // await api.delete('/api/logout');
-    Cookies.remove('accesstoken');
-    Cookies.remove('refreshtoken');
-    setIsLogin(prev => !prev);
-    navigate('/');
+    try {
+      const response = await api.post('/user/logout');
+      console.log('response::::', response);
+      Cookies.remove('accesstoken');
+      Cookies.remove('refreshtoken');
+      localStorage.removeItem('email');
+      localStorage.removeItem('nickname');
+      setIsLogin(prev => !prev);
+      navigate('/');
+    } catch (error) {
+      console.log('error::::', error);
+    }
   };
 
   return (

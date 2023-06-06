@@ -17,11 +17,14 @@ const Comment = ({ storeId }) => {
 
   const getCommentHandler = async () => {
     const response = await api.get(`/api/comment/${storeId}`);
+
     return response;
   };
 
-  const { data, isLoading } = useQuery('getComment', getCommentHandler);
-  // console.log(data);
+  const { data, isLoading } = useQuery(
+    ['getComment', storeId],
+    getCommentHandler
+  );
 
   return (
     <CommentBoxSection>
