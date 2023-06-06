@@ -147,7 +147,7 @@ const StoreMain = () => {
   };
 
   return (
-    <MainContainer>
+    <CSS.MainContainer>
       {storeList && (
         <MapApi
           storeLocation={storeList}
@@ -209,7 +209,7 @@ const StoreMain = () => {
         </AllSearchButtonBoxDiv>
         {storeList && <PharmacyList data={storeList} />}
       </TestColor>
-    </MainContainer>
+    </CSS.MainContainer>
   );
 };
 
@@ -220,13 +220,14 @@ const MainContainer = styled.main`
   flex-direction: row;
   justify-content: center;
   gap: 27px;
-  margin-top: 120px;
+  margin-top: 100px;
 `;
 
 // 타이틀박스
 const TestColor = styled.div`
-  width: 640px;
-  height: 710px;
+  /* width: 640px;
+  height: 710px; */
+  /* background-color: red; */
 `;
 const TitleBox = styled.div`
   width: 317px;
