@@ -57,7 +57,6 @@ export default Header;
 const HeaderContainer = styled.div`
   display: flex;
   justify-content: center;
-  width: 100vw;
   height: 90px;
   position: relative;
 
