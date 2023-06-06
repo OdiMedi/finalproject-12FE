@@ -5,12 +5,13 @@ import api from '../../api/axios';
 import {
   LoginIconDiv,
   LoginTitleDiv,
-  LoginInput,
   LoginBtn,
   TextBnt,
   KakakoLink,
 } from './LoginModal';
 import KAKAO_AUTH_URL from './kakaoAuth';
+import LoginIconMain from '../../assets/loginIcon.png';
+import LoginTitleMain from '../../assets/loginTitle.png';
 
 const SignupModal = () => {
   const navigate = useNavigate();
@@ -81,8 +82,8 @@ const SignupModal = () => {
   };
   return (
     <SignupContainer>
-      <LoginIconDiv />
-      <LoginTitleDiv />
+      <SignUpIconDiv />
+      <SignUpTitleDiv />
       <form autoComplete="off">
         <SignUpInput
           name="nickname"
@@ -132,7 +133,7 @@ export default SignupModal;
 
 const SignupContainer = styled.div`
   width: 500px;
-  height: 760px;
+  /* height: 760px; */
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -145,7 +146,6 @@ const SignUpInput = styled.input`
   height: 60px;
   border: 1.5px solid #d9d9d9;
   border-radius: 5px;
-  /* margin-bottom: 26px; */
   margin-top: 26px;
   font-size: 20px;
   text-indent: 27px;
@@ -171,4 +171,21 @@ const SignUpInput = styled.input`
 const HelperTextP = styled.p`
   color: #fa5938;
   margin-top: 5px;
+`;
+const SignUpIconDiv = styled.div`
+  width: 64px;
+  height: 72px;
+  background-image: url(${LoginIconMain});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+`;
+const SignUpTitleDiv = styled.div`
+  width: 175px;
+  height: 75px;
+  background-image: url(${LoginTitleMain});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-bottom: 59px;
 `;

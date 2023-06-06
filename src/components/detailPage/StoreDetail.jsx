@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
-import MapApi from '../mainPage/MapApi';
+import MapApi from '../MapApi';
 import { inquiryStoreDetail } from '../../api/storeList';
 import infoIcon from '../../assets/infoIcon.png';
 import locationIcon from '../../assets/locationIcon.png';
@@ -20,7 +20,6 @@ const StoreDetail = () => {
   const { data } = useQuery('inquiryStoreDetail', () =>
     inquiryStoreDetail(params.id)
   );
-  console.log(data);
 
   const detailData = [data];
   return (
@@ -62,12 +61,12 @@ const StoreDetail = () => {
                       <span>공휴일 영업</span>
                     </BusinessTypeSpan>
                   )}
-                  {/* {data.holidayTime !== null && (
+                  {data.nightBusiness !== null && (
                     <BusinessTypeSpan>
-                      <SharpStyleSpan>#</SharpStyleSpan>
-                      <span>공휴일 영업</span>
+                      <SharpStyleSpan># </SharpStyleSpan>
+                      <span>야간 영업</span>
                     </BusinessTypeSpan>
-                  )} */}
+                  )}
                 </OpenCheckBoxDiv>
               </StoreDetailInfoBoxDiv>
             </StoreDetailBoxDiv>

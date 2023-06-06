@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
-import MapApi from '../mainPage/MapApi';
-import { inquiryStoreDetail } from '../../api/storeList';
+import MapApi from '../MapApi';
+import { ForeignStoreDetail } from '../../api/foreignList';
 import infoIcon from '../../assets/infoIcon.png';
 import locationIcon from '../../assets/locationIcon.png';
 import menuIcon from '../../assets/menuIcon.png';
 import * as CSS from '../globalStyle';
 import Comment from '../comment/Comment';
+import BookMark from '../BookMark';
 
 const ForeignPharmacyDetail = () => {
   const navigate = useNavigate();
@@ -16,8 +17,8 @@ const ForeignPharmacyDetail = () => {
     navigate('/foreignPage');
   };
 
-  const { data } = useQuery('inquiryStoreDetail', () =>
-    inquiryStoreDetail(params.id)
+  const { data } = useQuery('ForeignStoreDetail', () =>
+    ForeignStoreDetail(params.id)
   );
 
   const formattedTime = data ? data.weekdaysTime.slice(3, 15) : '';
@@ -45,16 +46,28 @@ const ForeignPharmacyDetail = () => {
               </InfoTextDiv>
             </InfoMenuBoxDiv>
             <StoreDetailBoxDiv>
+              <BookMarkPositionDiv>
+                <BookMark storeId={data.storeId} isCheck={data.bookmark} />
+                <span>{data.totalBookmark}</span>
+              </BookMarkPositionDiv>
               <StoreDetailInfoBoxDiv>
                 <div>{data.name}</div>
                 <div>{data.callNumber}</div>
                 <div>{data.address}</div>
                 <div>Mon - Fri {formattedTime}</div>
                 <OpenCheckBoxDiv>
-                  <CSS.FilterButton active="holiday">
-                    공휴일 영업
-                  </CSS.FilterButton>
-                  <CSS.FilterButton>야간 영업</CSS.FilterButton>
+                  {data.holidayTime !== null && (
+                    <BusinessTypeSpan>
+                      <SharpStyleSpan># </SharpStyleSpan>
+                      <span>HOLIDAYS OPEN</span>
+                    </BusinessTypeSpan>
+                  )}
+                  {data.nightBusiness !== null && (
+                    <BusinessTypeSpan>
+                      <SharpStyleSpan># </SharpStyleSpan>
+                      <span>NIGHT OPEN</span>
+                    </BusinessTypeSpan>
+                  )}
                 </OpenCheckBoxDiv>
               </StoreDetailInfoBoxDiv>
             </StoreDetailBoxDiv>
@@ -68,6 +81,20 @@ const ForeignPharmacyDetail = () => {
 
 export default ForeignPharmacyDetail;
 
+const BookMarkPositionDiv = styled.div`
+  position: absolute;
+  left: 320px;
+  gap: 8px;
+  display: flex;
+  font-size: 23px;
+`;
+const BusinessTypeSpan = styled.span`
+  font-style: normal;
+  font-weight: 600;
+`;
+const SharpStyleSpan = styled.span`
+  color: #fa5938;
+`;
 const DetailBoxArticle = styled.article`
   width: 610px;
   height: 710px;
@@ -114,6 +141,7 @@ const MenuIconImg = styled.img`
 const StoreDetailBoxDiv = styled.div`
   display: flex;
   margin-left: 30px;
+  position: relative;
 `;
 const StoreDetailInfoBoxDiv = styled.div`
   width: 610px;
@@ -127,11 +155,11 @@ const StoreDetailInfoBoxDiv = styled.div`
 `;
 
 const OpenCheckBoxDiv = styled.div`
-  width: 215px;
   display: flex;
   justify-content: space-between;
   margin-top: 6px;
   position: absolute;
   right: 40px;
   bottom: 9px;
+  gap: 20px;
 `;

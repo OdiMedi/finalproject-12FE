@@ -7,7 +7,8 @@ export const MainContainer = styled.main`
   flex-direction: row;
   justify-content: center;
   gap: 27px;
-  margin-top: 120px;
+  margin-top: 70px;
+  margin-bottom: 50px;
 `;
 export const FilterButton = styled.button`
   background-color: ${props => (props.active ? '#fa5938' : '#F5F5F5')};

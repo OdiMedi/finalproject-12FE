@@ -7,7 +7,7 @@ import locationIcon from '../../assets/locationIcon.png';
 import searchIcon from '../../assets/icon _search_.png';
 import polygon from '../../assets/Polygon.png';
 import PharmacyList from './PharmacyList';
-import MapApi from './MapApi';
+import MapApi from '../MapApi';
 import * as CSS from '../globalStyle';
 import { storeFilterList } from '../../api/storeList';
 
@@ -56,6 +56,8 @@ const StoreMain = () => {
   const [storeList, setStoreList] = useState(null);
   const [selectedButton, setSelectedButton] = useState('');
   const [isCurrent, setIsCurrent] = useState(false);
+  const [currentLatitude, setCurrentLatitude] = useState('');
+  const [currentLongitude, setCurrentLongitude] = useState('');
   const navigate = useNavigate();
 
   // 전체리스트 api로직
@@ -68,6 +70,26 @@ const StoreMain = () => {
     },
   });
 
+  // 내위치 가져오는 로직
+  const currentLocationButtonHandler = () => {
+    setIsCurrent(!isCurrent);
+    if (!isCurrent) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          ({ coords }) => {
+            const { latitude, longitude } = coords;
+            setCurrentLatitude(latitude);
+            setCurrentLongitude(longitude);
+          },
+          error => {
+            console.error('위치 정보를 가져오는데 실패했습니다:', error);
+          }
+        );
+      } else {
+        console.error('Geolocation이 지원되지 않는 환경입니다.');
+      }
+    }
+  };
   const statusGuOptions = gu.map(location => ({
     value: location,
     label: location,
@@ -80,10 +102,12 @@ const StoreMain = () => {
 
   const [searchData, setSearchData] = useState({
     name,
-    gu: selectGuStatus.value,
+    gu: currentLatitude === '' ? selectGuStatus.value : '',
     open: selectedButton === 'open',
     holidayBusiness: selectedButton === 'holidayBusiness',
     nightBusiness: selectedButton === 'nightBusiness',
+    currentLatitude,
+    currentLongitude,
   });
 
   useEffect(() => {
@@ -95,21 +119,24 @@ const StoreMain = () => {
     setSearchData(prevSearchData => ({
       ...prevSearchData,
       name,
-      gu: selectGuStatus.value,
+      gu: currentLatitude === '' ? selectGuStatus.value : '',
       open: selectedButton === 'open',
       holidayBusiness: selectedButton === 'holidayBusiness',
       nightBusiness: selectedButton === 'nightBusiness',
+      currentLatitude,
+      currentLongitude,
     }));
   };
 
   // 검색 조건이 변경될 때마다 searchData 업데이트
   useEffect(() => {
     updateSearchData();
-  }, [selectGuStatus, selectedButton]);
+  }, [selectGuStatus, selectedButton, currentLatitude, currentLongitude]);
 
   const onClickSearchButtonHandler = () => {
     updateSearchData();
   };
+  // 필터 버튼
   const filterButtonClickHandler = button => {
     setSelectedButton(prevSelectedButton => {
       if (prevSelectedButton === button) {
@@ -118,12 +145,9 @@ const StoreMain = () => {
       return button; // 새로운 버튼 선택
     });
   };
-  const currentLocationButtonHandler = () => {
-    setIsCurrent(!isCurrent);
-  };
 
   return (
-    <MainContainer>
+    <CSS.MainContainer>
       {storeList && (
         <MapApi
           storeLocation={storeList}
@@ -185,7 +209,7 @@ const StoreMain = () => {
         </AllSearchButtonBoxDiv>
         {storeList && <PharmacyList data={storeList} />}
       </TestColor>
-    </MainContainer>
+    </CSS.MainContainer>
   );
 };
 
@@ -196,13 +220,14 @@ const MainContainer = styled.main`
   flex-direction: row;
   justify-content: center;
   gap: 27px;
-  margin-top: 120px;
+  margin-top: 100px;
 `;
 
 // 타이틀박스
 const TestColor = styled.div`
-  width: 640px;
-  height: 710px;
+  /* width: 640px;
+  height: 710px; */
+  /* background-color: red; */
 `;
 const TitleBox = styled.div`
   width: 317px;

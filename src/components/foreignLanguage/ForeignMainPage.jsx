@@ -5,9 +5,9 @@ import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 import ForeignPharmacyList from './ForeignPharmacyList';
-import MapApi from '../mainPage/MapApi';
+import MapApi from '../MapApi';
 import * as CSS from '../globalStyle';
-import { storeFilterList } from '../../api/storeList';
+import { ForeignStoreFilterList } from '../../api/foreignList';
 
 import locationIcon from '../../assets/locationIcon.png';
 import polygon from '../../assets/Polygon.png';
@@ -26,60 +26,34 @@ const customStyles = {
   }),
 };
 
-// const gu = [
-//   'gangnam-gu',
-//   'gangdong-gu',
-//   'gangbuk-gu',
-//   'gangseo-gu',
-//   'gwanak-gu',
-//   'gwangjin-gu',
-//   'guro-gu',
-//   'geumcheon-gu',
-//   'nowon-gu',
-//   'dobong-gu',
-//   'dongdaemun-gu',
-//   'dongjak-gu',
-//   'Mapo-gu',
-//   'seodaemun-gu',
-//   'seocho-gu',
-//   'seongdong-gu',
-//   'seongbuk-gu',
-//   'songpa-gu',
-//   'yeongdeungpo-gu',
-//   'yangcheon-gu',
-//   'yongsan-gu',
-//   'eunpyeong-gu',
-//   'jongno-gu',
-//   'jung-gu',
-//   'jungnang-gu',
-// ];
 const gu = [
-  '강남구',
-  '강동구',
-  '강북구',
-  '강서구',
-  '관악구',
-  '광진구',
-  '구로구',
-  '금천구',
-  '노원구',
-  '도봉구',
-  '동대문구',
-  '동작구',
-  '마포구',
-  '서대문구',
-  '서초구',
-  '성동구',
-  '성북구',
-  '송파구',
-  '영등포구',
-  '양천구',
-  '용산구',
-  '은평구',
-  '종로구',
-  '중구',
-  '중랑구',
+  'gangnam-gu',
+  'gangdong-gu',
+  'gangbuk-gu',
+  'gangseo-gu',
+  'gwanak-gu',
+  'gwangjin-gu',
+  'guro-gu',
+  'geumcheon-gu',
+  'nowon-gu',
+  'dobong-gu',
+  'dongdaemun-gu',
+  'dongjak-gu',
+  'Mapo-gu',
+  'seodaemun-gu',
+  'seocho-gu',
+  'seongdong-gu',
+  'seongbuk-gu',
+  'songpa-gu',
+  'yeongdeungpo-gu',
+  'yangcheon-gu',
+  'yongsan-gu',
+  'eunpyeong-gu',
+  'jongno-gu',
+  'jung-gu',
+  'jungnang-gu',
 ];
+
 const ForeignMainPage = () => {
   const [name, setName] = useState('');
   const [storeList, setStoreList] = useState(null);
@@ -92,7 +66,7 @@ const ForeignMainPage = () => {
   const navigate = useNavigate();
 
   // 전체리스트 api로직
-  const mutation = useMutation(storeFilterList, {
+  const mutation = useMutation(ForeignStoreFilterList, {
     onSuccess: data => {
       setStoreList(data);
     },
@@ -112,12 +86,15 @@ const ForeignMainPage = () => {
 
   const [searchData, setSearchData] = useState({
     name,
-    gu: selectGuStatus.value,
+    gu: currentLatitude === '' ? selectGuStatus.value : '',
     open: selectedButton === 'open',
     holidayBusiness: selectedButton === 'holidayBusiness',
     nightBusiness: selectedButton === 'nightBusiness',
-    currentLatitude,
-    currentLongitude,
+    currentLatitude: currentLatitude === undefined ? '' : currentLatitude,
+    currentLongitude: currentLongitude === undefined ? '' : currentLongitude,
+    english: languageSelectedButton === 'english',
+    chinese: languageSelectedButton === 'chinese',
+    japanese: languageSelectedButton === 'japanese',
   });
 
   useEffect(() => {
@@ -137,19 +114,28 @@ const ForeignMainPage = () => {
     setSearchData(prevSearchData => ({
       ...prevSearchData,
       name,
-      gu: selectGuStatus.value,
+      gu: currentLatitude === '' ? selectGuStatus.value : '',
       open: selectedButton === 'open',
       holidayBusiness: selectedButton === 'holidayBusiness',
       nightBusiness: selectedButton === 'nightBusiness',
-      currentLatitude,
-      currentLongitude,
+      currentLatitude: currentLatitude === undefined ? '' : currentLatitude,
+      currentLongitude: currentLongitude === undefined ? '' : currentLongitude,
+      english: languageSelectedButton === 'english',
+      chinese: languageSelectedButton === 'chinese',
+      japanese: languageSelectedButton === 'japanese',
     }));
   };
 
   // 검색 조건이 변경될 때마다 searchData 업데이트
   useEffect(() => {
     updateSearchData();
-  }, [selectGuStatus, selectedButton, currentLatitude, currentLongitude]);
+  }, [
+    selectGuStatus,
+    selectedButton,
+    currentLatitude,
+    currentLongitude,
+    languageSelectedButton,
+  ]);
   // useEffect(() => {
   //   mutation.mutate(searchData);
   // }, []);
@@ -180,7 +166,6 @@ const ForeignMainPage = () => {
         navigator.geolocation.getCurrentPosition(
           ({ coords }) => {
             const { latitude, longitude } = coords;
-            console.log('이게 내 현재 위치', latitude, longitude);
             setCurrentLatitude(latitude);
             setCurrentLongitude(longitude);
           },
@@ -196,13 +181,13 @@ const ForeignMainPage = () => {
 
   return (
     <MainContainer>
-      {/* {storeList && (
+      {storeList && (
         <MapApi
           storeLocation={storeList}
           isCurrent={isCurrent}
           navigate={navigate}
         />
-      )} */}
+      )}
       <TestColor>
         <TitleBox>
           <LocationIcon src={locationIcon} alt="" />
@@ -264,26 +249,30 @@ const ForeignMainPage = () => {
           />
           <LanguageButtonBoxDiv>
             <CSS.FilterButton
-              onClick={() => filterLanguageButtonClickHandler('ENG')}
-              active={languageSelectedButton === 'ENG'}
+              onClick={() => filterLanguageButtonClickHandler('english')}
+              active={languageSelectedButton === 'english'}
             >
               ENG
             </CSS.FilterButton>
             <CSS.FilterButton
-              onClick={() => filterLanguageButtonClickHandler('JP')}
-              active={languageSelectedButton === 'JP'}
+              onClick={() => filterLanguageButtonClickHandler('japanese')}
+              active={languageSelectedButton === 'japanese'}
             >
               JP
             </CSS.FilterButton>
             <CSS.FilterButton
-              onClick={() => filterLanguageButtonClickHandler('CN')}
-              active={languageSelectedButton === 'CN'}
+              onClick={() => filterLanguageButtonClickHandler('chinese')}
+              active={languageSelectedButton === 'chinese'}
             >
               CN
             </CSS.FilterButton>
           </LanguageButtonBoxDiv>
         </AllLanguageSearchButtonBoxDiv>
-        {storeList && <ForeignPharmacyList data={storeList} />}
+        {storeList && storeList.length < 1 ? (
+          <InformationMessageDiv>찾는 약국이 없습니다.</InformationMessageDiv>
+        ) : (
+          <ForeignPharmacyList data={storeList} />
+        )}
       </TestColor>
     </MainContainer>
   );
@@ -291,6 +280,15 @@ const ForeignMainPage = () => {
 
 export default ForeignMainPage;
 
+const InformationMessageDiv = styled.div`
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: 700;
+  color: #5f5e5e;
+`;
 const LanguageInfoIconButton = styled.button`
   background-color: transparent;
   background-image: url(${languageInfoIcon});
