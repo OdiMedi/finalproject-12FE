@@ -71,7 +71,7 @@ const ForeignPharmacyDetail = () => {
                 </OpenCheckBoxDiv>
               </StoreDetailInfoBoxDiv>
             </StoreDetailBoxDiv>
-            <Comment />
+            <Comment storeId={data.storeId} />
           </DetailBoxArticle>
         </>
       )}
