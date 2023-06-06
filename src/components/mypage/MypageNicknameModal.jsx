@@ -9,11 +9,11 @@ const MypageNicknameModal = ({ onAccess }) => {
   const nickInputChange = e => {
     setNickInput(e.target.value);
   };
-  const updateNickBtn = () => {
+  const updateNickBtn = async () => {
     try {
-      api.post(`user/change/nickname`, { newName: nickInput });
+      await api.post(`user/change/nickname`, { newName: nickInput });
     } catch (error) {
-      console.log(error);
+      console.log('updateError:::::', error);
       setAlertError(true);
       return;
     }

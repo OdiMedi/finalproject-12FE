@@ -16,9 +16,9 @@ const FindPasswordModal = ({ onAccess }) => {
     setEmailInput(e.target.value);
   };
 
-  const postEmail = () => {
+  const postEmail = async () => {
     try {
-      api.post('user/find/password', { email: emailInput });
+      await api.post('user/find/password', { email: emailInput });
     } catch (error) {
       console.log('error::::', error);
       setAlertError(true);

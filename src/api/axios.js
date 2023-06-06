@@ -40,6 +40,7 @@ api.interceptors.request.use(
     return config;
   },
   error => {
+    console.log('api요청전에러::::', error);
     return Promise.reject(error);
   }
 );
@@ -96,6 +97,11 @@ api.interceptors.response.use(
       setTimeout(() => {
         window.location.replace('/login');
       }, 5000);
+    }
+
+    if (errorCode === 'DUPLICATED_MEMBER') {
+      console.log(error);
+      // return Promise.reject(error);
     }
 
     return Promise.reject(error);
