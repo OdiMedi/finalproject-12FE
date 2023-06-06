@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
-import MapApi from '../mainPage/MapApi';
+import MapApi from '../MapApi';
 import { ForeignStoreDetail } from '../../api/foreignList';
 import infoIcon from '../../assets/infoIcon.png';
 import locationIcon from '../../assets/locationIcon.png';

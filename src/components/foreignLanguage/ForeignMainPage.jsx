@@ -5,7 +5,7 @@ import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 import ForeignPharmacyList from './ForeignPharmacyList';
-import MapApi from '../mainPage/MapApi';
+import MapApi from '../MapApi';
 import * as CSS from '../globalStyle';
 import { ForeignStoreFilterList } from '../../api/foreignList';
 
@@ -181,15 +181,13 @@ const ForeignMainPage = () => {
 
   return (
     <MainContainer>
-      {/* {storeList && (
+      {storeList && (
         <MapApi
           storeLocation={storeList}
           isCurrent={isCurrent}
           navigate={navigate}
-          currentLatitude={currentLatitude}
-          currentLongitude={currentLongitude}
         />
-      )} */}
+      )}
       <TestColor>
         <TitleBox>
           <LocationIcon src={locationIcon} alt="" />

@@ -7,7 +7,7 @@ import locationIcon from '../../assets/locationIcon.png';
 import searchIcon from '../../assets/icon _search_.png';
 import polygon from '../../assets/Polygon.png';
 import PharmacyList from './PharmacyList';
-import MapApi from './MapApi';
+import MapApi from '../MapApi';
 import * as CSS from '../globalStyle';
 import { storeFilterList } from '../../api/storeList';
 
