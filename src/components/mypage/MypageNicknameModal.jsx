@@ -45,7 +45,7 @@ const NickNameModalWrapDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.2);
 `;
 const NicknameUpdataDiv = styled.div`
   width: 540px;

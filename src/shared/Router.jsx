@@ -10,6 +10,7 @@ import DetailPage from '../page/DetailPage';
 import ForeignPage from '../page/ForeignPage';
 import ForeignDetailPage from '../page/ForeignDetailPage';
 import MypageNicknameModal from '../components/mypage/MypageNicknameModal';
+import FindPasswordModal from '../components/login/FindPasswordModal';
 
 const Router = () => {
   return (
@@ -25,7 +26,7 @@ const Router = () => {
           <Route path="/mainPage/:id" element={<DetailPage />} />
           <Route path="/foreignPage" element={<ForeignPage />} />
           <Route path="/foreignPage/:id" element={<ForeignDetailPage />} />
-          <Route path="/nickname" element={<MypageNicknameModal />} />
+          <Route path="/pwd" element={<FindPasswordModal />} />
         </Routes>
       </Layout>
     </BrowserRouter>
