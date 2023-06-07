@@ -62,7 +62,7 @@ const MyPage = () => {
 
   const withdrawalHandle = async () => {
     try {
-      await api.delete(`user/signout/${MypageEmail}`);
+      await api.delete('user/signout');
       alert('회원탈퇴가 정상적으로 되었습니다.');
       Cookies.remove('accesstoken');
       Cookies.remove('refreshtoken');
