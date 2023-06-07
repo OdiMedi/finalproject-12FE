@@ -140,6 +140,7 @@ const MyPage = () => {
                   address={item.address}
                   callNumber={item.callNumber}
                   weekday={item.weekdaysTime}
+                  foreign={item.foreign}
                 />
               );
             })}

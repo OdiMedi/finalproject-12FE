@@ -21,6 +21,7 @@ const MypageReview = ({
   address,
   callNumber,
   weekday,
+  foreign,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const navigate = useNavigate();
@@ -43,15 +44,27 @@ const MypageReview = ({
       setModalVisible(false);
     }
   };
+  const reviewDelBtnHandle = event => {
+    event.stopPropagation();
+    setModalVisible(true);
+  };
+
+  const reviewDetailPage = () => {
+    if (foreign === false) {
+      navigate(`/mainPage/${storeId}`);
+    } else if (foreign === true) {
+      navigate(`/foreignPage/${storeId}`);
+    }
+  };
 
   return (
-    <MypageReviewDiv>
+    <MypageReviewDiv onClick={reviewDetailPage}>
       {modalVisible && (
         <ModalPortal>
           <CommentDelModal onAccess={handleDelCheck} />
         </ModalPortal>
       )}
-      <DeleteDiv onClick={() => setModalVisible(true)} />
+      <DeleteDiv onClick={reviewDelBtnHandle} />
       <MypagePharDiv>
         <MypagePharNameDiv>
           <div />

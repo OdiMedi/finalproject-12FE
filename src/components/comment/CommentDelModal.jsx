@@ -7,10 +7,12 @@ import commentDelX from '../../assets/commentDelX.png';
 import commentDelText from '../../assets/commentDelText.png';
 
 const CommentDelModal = ({ onAccess }) => {
-  const handleYesBtn = () => {
+  const handleYesBtn = event => {
+    event.stopPropagation();
     onAccess(true);
   };
-  const DelModalClose = () => {
+  const DelModalClose = event => {
+    event.stopPropagation();
     onAccess(false);
   };
 
