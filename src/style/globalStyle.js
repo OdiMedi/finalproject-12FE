@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import onCurrentLocationIcon from '../assets/onCurrentLocationIcon.png';
 import offCurrentLocationIcon from '../assets/offCurrentLocationIcon.png';
 import searchIcon from '../assets/icon _search_.png';
+import locationInfoIcon from '../assets/locationInfoIcon.png';
 
 // 전체리스트 페이지 (MainPage)
 export const MainContainer = styled.main`
@@ -25,6 +26,8 @@ export const FilterButton = styled.button`
   gap: 6px;
   font-weight: 800;
   font-size: 16px;
+  position: relative;
+  cursor: pointer;
 `;
 export const CurrentIconDiv = styled.div`
   width: 15px;
@@ -79,6 +82,24 @@ export const CommentAddButton = styled.button`
   &:hover {
     box-shadow: 3px 3px 2px rgba(175, 174, 183, 0.5);
   }
+`;
+export const LocationInfoIconDiv = styled.div`
+  background-image: url(${locationInfoIcon});
+  background-size: cover;
+  width: 213px;
+  height: 48px;
+  position: absolute;
+  top: 42px;
+`;
+export const InfoP = styled.div`
+  margin-top: 23px;
+  display: flex;
+  justify-content: center;
+  letter-spacing: -0.5px;
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 10px;
+  color: #ffffff;
 `;
 export const ComposeImg = styled.img`
   width: 14px;
