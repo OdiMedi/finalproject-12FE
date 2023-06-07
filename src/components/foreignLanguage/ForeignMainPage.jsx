@@ -353,6 +353,7 @@ const StyledSelect = styled(Select).attrs({
   .react-select__single-value {
     color: #ffffff; /* 텍스트 색상 지정 */
     font-size: 10px;
+    font-weight: 700;
   }
   .react-select__menu {
     background-color: #ffffff;
