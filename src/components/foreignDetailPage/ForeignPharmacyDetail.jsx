@@ -20,6 +20,7 @@ const ForeignPharmacyDetail = () => {
   const { data } = useQuery('ForeignStoreDetail', () =>
     ForeignStoreDetail(params.id)
   );
+  // console.log(data);
 
   const formattedTime = data ? data.weekdaysTime.slice(3, 15) : '';
   const detailData = [data];
