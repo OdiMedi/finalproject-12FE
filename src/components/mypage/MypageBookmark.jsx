@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useMutation, useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import MypageIcon from '../../assets/mypageIcon.png';
 import holiydayTrue from '../../assets/holidayTrue.png';
 import holiydayFalse from '../../assets/holidayFalse.png';
@@ -18,8 +19,11 @@ const MypageBookmark = props => {
     weekdaysTime,
     holidayBusiness,
     nightBusiness,
+    foreign,
   } = props;
+  console.log('foreign:::::::', foreign);
 
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const mypageBookmarkMutation = useMutation(
@@ -31,12 +35,20 @@ const MypageBookmark = props => {
     }
   );
 
-  const bookmarkCancle = () => {
+  const bookmarkCancle = event => {
+    event.stopPropagation();
     mypageBookmarkMutation.mutate();
   };
 
+  const bookmarkDetailPage = () => {
+    if (foreign === false) {
+      navigate(`/mainPage/${storeId}`);
+    } else if (foreign === true) {
+      navigate(`/foreignPage/${storeId}`);
+    }
+  };
   return (
-    <BookmarkWrapDiv>
+    <BookmarkWrapDiv onClick={bookmarkDetailPage}>
       <BookMarkMainDiv onClick={bookmarkCancle} />
       <BookmarkTitleDiv>
         <TitleImgDiv />
@@ -72,6 +84,7 @@ const BookmarkWrapDiv = styled.div`
   border-radius: 15px;
   margin-bottom: 25px;
   padding: 32px 20px 31px 36px;
+  cursor: pointer;
 `;
 const BookmarkTitleDiv = styled.div`
   display: flex;

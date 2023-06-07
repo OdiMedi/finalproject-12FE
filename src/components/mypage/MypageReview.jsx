@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useMutation, useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import profileIcon from '../../assets/profile.png';
 import ThumbUp from '../../assets/thumbup.png';
 import ThumbDown from '../../assets/thumbdown.png';
@@ -18,6 +19,7 @@ const MypageReview = ({
   callNumber,
   weekday,
 }) => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const mypageCommentDelMutaion = useMutation(

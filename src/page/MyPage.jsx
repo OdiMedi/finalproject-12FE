@@ -160,6 +160,7 @@ const MyPage = () => {
                   totalBookmark={item.totalBookmark}
                   holidayBusiness={item.holidayBusiness}
                   nightBusiness={item.nightBusiness}
+                  foreign={item.foreign}
                 />
               );
             })}
