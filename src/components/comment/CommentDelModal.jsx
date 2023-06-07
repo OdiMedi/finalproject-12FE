@@ -9,7 +9,6 @@ import commentDelText from '../../assets/commentDelText.png';
 const CommentDelModal = ({ onAccess }) => {
   const handleYesBtn = () => {
     onAccess(true);
-    console.log('포탈내부 실행');
   };
   const DelModalClose = () => {
     onAccess(false);

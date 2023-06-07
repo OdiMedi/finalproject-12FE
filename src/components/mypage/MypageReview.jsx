@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import profileIcon from '../../assets/profile.png';
 import ThumbUp from '../../assets/thumbup.png';
 import ThumbDown from '../../assets/thumbdown.png';
@@ -8,6 +9,8 @@ import Ellipsis from '../../assets/ellipsis.png';
 import DeleteIcon from '../../assets/trashIcon.png';
 import api from '../../api/axios';
 import mypageIcon from '../../assets/mypageIcon.png';
+import ModalPortal from '../../shared/ModalPortal';
+import CommentDelModal from '../comment/CommentDelModal';
 
 const MypageReview = ({
   storeId,
@@ -19,6 +22,7 @@ const MypageReview = ({
   callNumber,
   weekday,
 }) => {
+  const [modalVisible, setModalVisible] = useState(false);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -30,13 +34,24 @@ const MypageReview = ({
       },
     }
   );
-  const deleteMypageComment = () => {
-    mypageCommentDelMutaion.mutate();
+
+  const handleDelCheck = newValue => {
+    if (newValue === true) {
+      mypageCommentDelMutaion.mutate();
+      setModalVisible(false);
+    } else if (newValue === false) {
+      setModalVisible(false);
+    }
   };
 
   return (
     <MypageReviewDiv>
-      <DeleteDiv onClick={deleteMypageComment} />
+      {modalVisible && (
+        <ModalPortal>
+          <CommentDelModal onAccess={handleDelCheck} />
+        </ModalPortal>
+      )}
+      <DeleteDiv onClick={() => setModalVisible(true)} />
       <MypagePharDiv>
         <MypagePharNameDiv>
           <div />
