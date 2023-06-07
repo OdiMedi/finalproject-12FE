@@ -3,6 +3,7 @@ import onCurrentLocationIcon from '../assets/onCurrentLocationIcon.png';
 import offCurrentLocationIcon from '../assets/offCurrentLocationIcon.png';
 import searchIcon from '../assets/icon _search_.png';
 import locationInfoIcon from '../assets/locationInfoIcon.png';
+import moreIcon from '../assets/moreIcon.png';
 
 // 전체리스트 페이지 (MainPage)
 export const MainContainer = styled.main`
@@ -29,6 +30,7 @@ export const FilterButton = styled.button`
   position: relative;
   cursor: pointer;
 `;
+
 export const CurrentIconDiv = styled.div`
   width: 15px;
   height: 15px;
@@ -38,6 +40,7 @@ export const CurrentIconDiv = styled.div`
       : `url(${offCurrentLocationIcon})`};
   background-size: cover;
 `;
+
 export const TitleBox = styled.div`
   display: flex;
   flex-direction: row;
@@ -286,12 +289,12 @@ export const SharpStyleSpan = styled.span`
 `;
 export const StoreDetailInfoBoxDiv = styled.div`
   width: 610px;
-  height: 110px;
+  height: 197px;
   padding-top: 10px;
   padding-bottom: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 10px;
   position: relative;
 `;
 export const OpenCheckBoxDiv = styled.div`
@@ -313,4 +316,20 @@ export const MenuIconImg = styled.img`
   width: 18px;
   height: 15px;
   margin-right: 12px;
+`;
+
+export const MoreIconButton = styled.button`
+  background-image: url(${moreIcon});
+  background-size: cover;
+  width: 18px;
+  height: 10px;
+  margin-left: 6px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+`;
+export const BusinessTimeDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;

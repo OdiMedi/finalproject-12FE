@@ -63,7 +63,6 @@ const Comment = ({ storeId }) => {
 export default Comment;
 
 const CommentBoxSection = styled.section`
-  margin-top: 87px;
   width: 610px;
   height: 388px;
   font-size: 18px;
