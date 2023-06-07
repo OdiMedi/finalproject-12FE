@@ -134,6 +134,14 @@ const StoreMain = () => {
     updateSearchData();
   }, [selectGuStatus, selectedButton, currentLatitude, currentLongitude]);
 
+  useEffect(() => {
+    if (isCurrent) {
+      setCurrentLatitude('');
+      setCurrentLongitude('');
+      setIsCurrent(!isCurrent);
+    }
+  }, [selectGuStatus]);
+
   const onClickSearchButtonHandler = () => {
     updateSearchData();
   };
