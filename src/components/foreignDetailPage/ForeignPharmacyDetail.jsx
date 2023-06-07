@@ -21,7 +21,7 @@ const ForeignPharmacyDetail = () => {
     ForeignStoreDetail(params.id)
   );
 
-  const formattedTime = data ? data.weekdaysTime.slice(3, 15) : '';
+  const formattedTime = data ? data.weekdaysTime.slice(3, 17) : '';
   const detailData = [data];
   return (
     <CSS.MainContainer>
@@ -75,7 +75,7 @@ const ForeignPharmacyDetail = () => {
                 </CSS.OpenCheckBoxDiv>
               </CSS.StoreDetailInfoBoxDiv>
             </CSS.StoreDetailBoxDiv>
-            <Comment storeId={data.storeId}/>
+            <Comment storeId={data.storeId} />
           </CSS.DetailBoxArticle>
         </>
       )}

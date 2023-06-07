@@ -56,6 +56,7 @@ const StoreMain = () => {
   const [storeList, setStoreList] = useState(null);
   const [selectedButton, setSelectedButton] = useState('');
   const [isCurrent, setIsCurrent] = useState(false);
+  const [isLocationInfo, setIsLocationInfo] = useState(false);
   const [currentLatitude, setCurrentLatitude] = useState('');
   const [currentLongitude, setCurrentLongitude] = useState('');
   const navigate = useNavigate();
@@ -145,7 +146,14 @@ const StoreMain = () => {
       return button; // 새로운 버튼 선택
     });
   };
+  // 내위치 버튼 hover 이벤트
+  const LocationHandleMouseEnter = () => {
+    setIsLocationInfo(true);
+  };
 
+  const LocationHandleMouseLeave = () => {
+    setIsLocationInfo(false);
+  };
   return (
     <CSS.MainContainer>
       {storeList && (
@@ -181,8 +189,15 @@ const StoreMain = () => {
             <CSS.FilterButton
               onClick={() => currentLocationButtonHandler('currentLocation')}
               active={isCurrent === true}
+              onMouseEnter={LocationHandleMouseEnter}
+              onMouseLeave={LocationHandleMouseLeave}
             >
               <CSS.CurrentIconDiv active={isCurrent === true} />내 위치
+              {isLocationInfo && (
+                <CSS.LocationInfoIconDiv>
+                  <CSS.InfoP>내 주변 약국이 거리순으로 표시됩니다.</CSS.InfoP>
+                </CSS.LocationInfoIconDiv>
+              )}
             </CSS.FilterButton>
           </CSS.SearchButtonBoxDiv>
           <CSS.FilterBoxDiv>
