@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import commentIcon from '../../assets/commentIcon.png';
 import closeIcon from '../../assets/closeIcon.png';
 import compose from '../../assets/compose.png';
-import * as CSS from '../globalStyle';
+import * as CSS from '../../style/globalStyle';
 import api from '../../api/axios';
 
 const WriteComment = ({ modal, setModal, storeId }) => {

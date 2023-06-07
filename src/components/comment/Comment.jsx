@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import commentIcon from '../../assets/commentIcon.png';
 import compose from '../../assets/compose.png';
-import * as CSS from '../globalStyle';
+import * as CSS from '../../style/globalStyle';
 import WriteComment from './WriteComment';
 import api from '../../api/axios';
-import CommentItem from '../detailPage/CommentItem';
+import CommentItem from './CommentItem';
 
 const Comment = ({ storeId }) => {
   const [modal, setModal] = useState(false);
