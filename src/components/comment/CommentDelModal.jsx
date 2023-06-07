@@ -1,7 +1,4 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-import { createRoot } from 'react-dom/client';
-import commentDelModal from '../../assets/commentDelModal.png';
 import commentDelIcon from '../../assets/commentDel.png';
 import commentDelX from '../../assets/commentDelX.png';
 import commentDelText from '../../assets/commentDelText.png';

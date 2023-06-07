@@ -81,13 +81,13 @@ const MypageReview = ({
         <ReviewTextDiv>
           <p className="reviewName">{nickname}</p>
           <p className="reviewText">{contents}</p>
-          <ReviewTextIconDiv>
+          {/* <ReviewTextIconDiv>
             <ThubmUpDiv />
             <span>100</span>
             <ThubmDownDiv />
             <span>1</span>
             <EllipsispDiv />
-          </ReviewTextIconDiv>
+          </ReviewTextIconDiv> */}
         </ReviewTextDiv>
       </MypageReviewTextDiv>
     </MypageReviewDiv>

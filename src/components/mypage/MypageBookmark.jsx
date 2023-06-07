@@ -8,6 +8,7 @@ import nightTimeTrue from '../../assets/nightTimeTrue.png';
 import nightTimeFalse from '../../assets/nightTimeFalse.png';
 import BookmarkCheck from '../../assets/bookmarkCheck.png';
 import api from '../../api/axios';
+import * as CSS from '../../style/globalStyle';
 
 const MypageBookmark = props => {
   const {
@@ -21,7 +22,6 @@ const MypageBookmark = props => {
     nightBusiness,
     foreign,
   } = props;
-  console.log('foreign:::::::', foreign);
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -64,12 +64,18 @@ const MypageBookmark = props => {
         <span>{totalBookmark}</span>
       </BookMarkTotalDiv>
       <BookMarkBtnDiv>
-        {holidayBusiness ? (
-          <BookMarkHolidayTrueDiv />
-        ) : (
-          <BookMarkHolidayFalseDiv />
+        {holidayBusiness && (
+          <CSS.BusinessTypeSpan>
+            <CSS.SharpStyleSpan># </CSS.SharpStyleSpan>
+            <span>공휴일 영업</span>
+          </CSS.BusinessTypeSpan>
         )}
-        {nightBusiness ? <BookMarkNightTrueDiv /> : <BookMarkNightFalseDiv />}
+        {nightBusiness && (
+          <CSS.BusinessTypeSpan>
+            <CSS.SharpStyleSpan># </CSS.SharpStyleSpan>
+            <span>야간 영업</span>
+          </CSS.BusinessTypeSpan>
+        )}
       </BookMarkBtnDiv>
     </BookmarkWrapDiv>
   );
@@ -135,34 +141,7 @@ const BookMarkBtnDiv = styled.div`
   display: flex;
   gap: 15px;
 `;
-const BookMarkHolidayTrueDiv = styled.div`
-  width: 100px;
-  height: 40px;
-  background-image: url(${holiydayTrue});
-  background-size: contain;
-  background-repeat: no-repeat;
-`;
-const BookMarkHolidayFalseDiv = styled.div`
-  width: 100px;
-  height: 40px;
-  background-image: url(${holiydayFalse});
-  background-size: contain;
-  background-repeat: no-repeat;
-`;
-const BookMarkNightTrueDiv = styled.div`
-  width: 100px;
-  height: 40px;
-  background-image: url(${nightTimeTrue});
-  background-size: contain;
-  background-repeat: no-repeat;
-`;
-const BookMarkNightFalseDiv = styled.div`
-  width: 100px;
-  height: 40px;
-  background-image: url(${nightTimeFalse});
-  background-size: contain;
-  background-repeat: no-repeat;
-`;
+
 const BookMarkMainDiv = styled.div`
   width: 30px;
   height: 26px;
