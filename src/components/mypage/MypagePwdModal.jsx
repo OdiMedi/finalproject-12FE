@@ -1,14 +1,40 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import NicknameX from '../../assets/nicknameX.png';
 import api from '../../api/axios';
 
 const MypagePwdModal = ({ onAccess }) => {
   const [pwdInput, setPwdInput] = useState('');
+  const [pwdSameInput, setPwdSameInput] = useState('');
+  const [pwdCheck, setPwdCheck] = useState(true);
+  const [pwdSameCheck, setPwdSameCheck] = useState(false);
+  const [pwdSameHelper, setPwdSameHelper] = useState(true);
   const pwdOnChange = e => {
-    setPwdInput(e.target.value);
+    const { value } = e.target;
+    const passwordRegExp = /^(?=.*[A-Za-z])(?=.*[0-9]).{8,15}$/;
+    setPwdInput(value);
+    if (!passwordRegExp.test(value)) {
+      setPwdCheck(false);
+    } else {
+      setPwdCheck(true);
+    }
   };
+  const pwdSameOnChange = e => {
+    const { value } = e.target;
+    setPwdSameInput(value);
+    setPwdSameHelper(true);
+  };
+
   const editPasswordHandle = async () => {
+    if (pwdInput === pwdSameInput) {
+      setPwdSameCheck(true);
+    } else {
+      setPwdSameCheck(false);
+    }
+    if (pwdSameCheck === false) {
+      setPwdSameHelper(false);
+      return;
+    }
     try {
       await api.post('/user/change/password', { newPassword: pwdInput });
     } catch (error) {
@@ -24,10 +50,25 @@ const MypagePwdModal = ({ onAccess }) => {
         <NicknameInputWrapDiv>
           <NicknameInput
             placeholder="변경하실 비밀번호를 입력해주세요"
+            name="password"
             value={pwdInput}
             onChange={pwdOnChange}
+            type="password"
           />
-          <NicknameInput placeholder="다시 한번 입력해주세요" />
+          {!pwdCheck && (
+            <HelperTextP>
+              영어(대소문자 구분), 숫자로 8~15자로 입력해주세요
+            </HelperTextP>
+          )}
+          <NicknameInput
+            value={pwdSameInput}
+            placeholder="다시 한번 입력해주세요"
+            type="password"
+            onChange={pwdSameOnChange}
+          />
+          {!pwdSameHelper && (
+            <HelperTextP>비밀번호가 일치하지 않습니다</HelperTextP>
+          )}
         </NicknameInputWrapDiv>
 
         <NicknameButton onClick={editPasswordHandle}>변경하기</NicknameButton>
@@ -48,7 +89,7 @@ const NickNameModalWrapDiv = styled.div`
 `;
 const NicknameUpdataDiv = styled.div`
   width: 540px;
-  height: 345px;
+  height: 385px;
   background: #ffffff;
   border-radius: 30px;
   position: relative;
@@ -58,8 +99,8 @@ const NicknameTitleP = styled.p`
   font-size: 18px;
   line-height: 34px;
   position: absolute;
-  top: 29px;
-  left: 227px;
+  top: 49px;
+  left: 217px;
 `;
 
 const NicknameXDiv = styled.div`
@@ -77,7 +118,7 @@ const NicknameXDiv = styled.div`
 const NicknameInputWrapDiv = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  /* gap: 25px; */
   position: absolute;
   left: 40px;
   top: 100px;
@@ -91,6 +132,7 @@ const NicknameInput = styled.input`
   border: none;
   outline: none;
   text-indent: 20px;
+  margin-top: 15px;
   /* position: absolute;
   top: 83px;
   left: 39px; */
@@ -103,15 +145,12 @@ const NicknameButton = styled.button`
   height: 40px;
   border: none;
   position: absolute;
-  top: 242px;
+  top: 282px;
   left: 92px;
 `;
-const ErrorAlertP = styled.p`
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 32px;
-  position: absolute;
-  top: 196px;
-  left: 131px;
-  color: red;
+
+const HelperTextP = styled.p`
+  color: #fa5938;
+  margin-top: 5px;
+  font-size: 13px;
 `;
