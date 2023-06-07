@@ -6,11 +6,22 @@ import NicknameX from '../../assets/nicknameX.png';
 const MypageNicknameModal = ({ onAccess }) => {
   const [nickInput, setNickInput] = useState('');
   const [alertError, setAlertError] = useState(false);
+  const [nicknameCheck, setNicknameCheck] = useState(true);
 
   const nickInputChange = e => {
-    setNickInput(e.target.value);
+    const { value } = e.target;
+    setNickInput(value);
+    const nicknameRegExp = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]{2,10}$/;
+    if (!nicknameRegExp.test(value)) {
+      setNicknameCheck(false);
+    } else {
+      setNicknameCheck(true);
+    }
   };
   const updateNickBtn = async () => {
+    if (!nicknameCheck) {
+      return;
+    }
     try {
       const response = await api.post(`user/change/nickname`, {
         newName: nickInput,
@@ -30,6 +41,11 @@ const MypageNicknameModal = ({ onAccess }) => {
         <NicknameTitleP>닉네임 변경</NicknameTitleP>
         <NicknameXDiv onClick={() => onAccess(true)} />
         <NicknameInput onChange={nickInputChange} value={nickInput} />
+        {!nicknameCheck && (
+          <HelperTextP>
+            닉네임은 한글, 영어(대소문자 구분), 숫자로 2~10자로 입력해주세요
+          </HelperTextP>
+        )}
         <NicknameButton onClick={updateNickBtn}>변경하기</NicknameButton>
         {alertError && (
           <ErrorAlertP>
@@ -109,4 +125,7 @@ const ErrorAlertP = styled.p`
   top: 196px;
   left: 131px;
   color: red;
+`;
+const HelperTextP = styled.p`
+  color: #fa5938;
 `;
