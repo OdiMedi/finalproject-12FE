@@ -13,8 +13,6 @@ const storeAllList = async () => {
 
 // 메인페이지 필터, 검색 조회
 const storeFilterList = async props => {
-  console.log('props', props);
-
   try {
     const response = await api.get(
       `api/store/search?radius=1&latitude=${props.currentLatitude}&longitude=${props.currentLongitude}&storeName=${props.name}&gu=${props.gu}&open=${props.open}&holidayBusiness=${props.holidayBusiness}&nightBusiness=${props.nightBusiness}`
