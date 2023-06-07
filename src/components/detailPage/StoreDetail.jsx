@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useState } from 'react';
 import MapApi from '../MapApi';
 import { inquiryStoreDetail } from '../../api/storeList';
 import infoIcon from '../../assets/infoIcon.png';
@@ -11,6 +12,7 @@ import Comment from '../comment/Comment';
 import BookMark from '../BookMark';
 
 const StoreDetail = () => {
+  const [isMore, setIsMore] = useState(false);
   const navigate = useNavigate();
   const params = useParams();
   const moveStoreListClickHandler = () => {
@@ -20,9 +22,13 @@ const StoreDetail = () => {
   const { data } = useQuery('inquiryStoreDetail', () =>
     inquiryStoreDetail(params.id)
   );
+
+  const formattedTimeMoreButtonHandler = () => {
+    setIsMore(!isMore);
+  };
+  const detailData = [data];
   console.log(data);
 
-  const detailData = [data];
   return (
     <CSS.MainContainer>
       {data && (
@@ -59,7 +65,21 @@ const StoreDetail = () => {
                 <div>{data.name}</div>
                 <div>{data.callNumber}</div>
                 <div>{data.address}</div>
-                <div>{data.weekdaysTime}</div>
+                <CSS.BusinessTimeDiv>
+                  <div>{data.weekdaysTime}</div>
+                  <CSS.MoreIconButton
+                    onClick={formattedTimeMoreButtonHandler}
+                  />
+                </CSS.BusinessTimeDiv>
+                {data.saturdayTime !== null && isMore && (
+                  <div>토요일 {data.saturdayTime}</div>
+                )}
+                {data.sundayTime !== null && isMore && (
+                  <div>일요일 {data.sundayTime}</div>
+                )}
+                {data.holidayTime !== null && isMore && (
+                  <div>공휴일 {data.holidayTime}</div>
+                )}
                 <CSS.OpenCheckBoxDiv>
                   {data.holidayTime !== null && (
                     <CSS.BusinessTypeSpan>

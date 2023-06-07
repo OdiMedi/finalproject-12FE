@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useState } from 'react';
+
 import MapApi from '../MapApi';
 import { ForeignStoreDetail } from '../../api/foreignList';
 import infoIcon from '../../assets/infoIcon.png';
@@ -11,6 +13,7 @@ import Comment from '../comment/Comment';
 import BookMark from '../BookMark';
 
 const ForeignPharmacyDetail = () => {
+  const [isMore, setIsMore] = useState(false);
   const navigate = useNavigate();
   const params = useParams();
   const moveStoreListClickHandler = () => {
@@ -20,6 +23,10 @@ const ForeignPharmacyDetail = () => {
   const { data } = useQuery('ForeignStoreDetail', () =>
     ForeignStoreDetail(params.id)
   );
+
+  const formattedTimeMoreButtonHandler = () => {
+    setIsMore(!isMore);
+  };
 
   const formattedTime = data ? data.weekdaysTime.slice(3, 17) : '';
   const detailData = [data];
@@ -58,7 +65,22 @@ const ForeignPharmacyDetail = () => {
                 <div>{data.name}</div>
                 <div>{data.callNumber}</div>
                 <div>{data.address}</div>
-                <div>Mon - Fri {formattedTime}</div>
+                <CSS.BusinessTimeDiv>
+                  <div>Mon - Fri {formattedTime}</div>
+                  <CSS.MoreIconButton
+                    onClick={formattedTimeMoreButtonHandler}
+                  />
+                </CSS.BusinessTimeDiv>
+                {data.saturdayTime !== null && isMore && (
+                  <div>saturdayTime {data.saturdayTime}</div>
+                )}
+                {data.sundayTime !== null && isMore && (
+                  <div>sundayTime {data.sundayTime}</div>
+                )}
+                {data.holidayTime !== null && isMore && (
+                  <div>holidayTime {data.holidayTime}</div>
+                )}
+
                 <CSS.OpenCheckBoxDiv>
                   {data.holidayTime !== null && (
                     <CSS.BusinessTypeSpan>
