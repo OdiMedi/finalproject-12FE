@@ -14,14 +14,23 @@ const BookMark = ({ storeId, isCheck }) => {
 
   const loginUser = Cookies.get('accesstoken');
 
+  const queryClient = useQueryClient();
+
   const bookmarkMutation = useMutation(
     () => api.post(`/api/bookmark/${storeId}`),
     {
       onSuccess: () => {
         setBookMarkCheck(prev => !prev);
+        queryClient.invalidateQueries('inquiryStoreDetail');
+        queryClient.invalidateQueries('ForeignStoreDetail');
       },
     }
   );
+
+  useEffect(() => {
+    setBookMarkCheck(isCheck);
+  }, [isCheck]);
+
   const onClickBookMarkHandler = async e => {
     if (loginUser) {
       bookmarkMutation.mutate();

@@ -114,7 +114,7 @@ const NicknameButton = styled.button`
   height: 40px;
   border: none;
   position: absolute;
-  top: 142px;
+  top: 172px;
   left: 92px;
 `;
 const ErrorAlertP = styled.p`
@@ -128,4 +128,8 @@ const ErrorAlertP = styled.p`
 `;
 const HelperTextP = styled.p`
   color: #fa5938;
+  position: absolute;
+  font-size: 13px;
+  top: 130px;
+  left: 45px;
 `;

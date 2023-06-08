@@ -18,10 +18,16 @@ const Header = () => {
 
   const logoutHandle = async () => {
     try {
-      const response = await api.post('/user/logout');
+      const authorizationCookie = Cookies.get('authorization');
+      const response = await api.post('/user/logout', {
+        headers: {
+          authorization: authorizationCookie,
+        },
+      });
       console.log('response::::', response);
       Cookies.remove('accesstoken');
       Cookies.remove('refreshtoken');
+      Cookies.remove('authorization');
       localStorage.removeItem('email');
       localStorage.removeItem('nickname');
       setIsLogin(prev => !prev);
