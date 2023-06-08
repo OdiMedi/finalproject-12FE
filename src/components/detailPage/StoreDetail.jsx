@@ -27,7 +27,6 @@ const StoreDetail = () => {
     setIsMore(!isMore);
   };
   const detailData = [data];
-  console.log(data);
 
   return (
     <CSS.MainContainer>
