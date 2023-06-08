@@ -45,9 +45,6 @@ const CommentItem = ({ storeId, commentId, nickname, contents, check }) => {
       setModalVisible(false);
     }
   };
-  const deleteComment = () => {
-    setModalVisible(true);
-  };
 
   const handleEditClick = () => {
     setIsEdit(prev => !prev);
@@ -94,7 +91,7 @@ const CommentItem = ({ storeId, commentId, nickname, contents, check }) => {
             <CommentDeleteButton
               type="button"
               commentid={commentId}
-              onClick={deleteComment}
+              onClick={() => setModalVisible(true)}
             />
           ) : (
             ''
