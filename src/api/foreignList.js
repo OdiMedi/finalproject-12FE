@@ -15,6 +15,7 @@ const ForeignStoreFilterList = async props => {
 const ForeignStoreDetail = async props => {
   try {
     const response = await api.get(`api/store/foreign/${props}`);
+    console.log('foreigndata::::::', response.data);
     return response.data;
   } catch (error) {
     console.log(error);

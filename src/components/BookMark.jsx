@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { useMutation } from 'react-query';
-import { useState } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
+import { useState, useEffect } from 'react';
 import api from '../api/axios';
 import offBookmark from '../assets/offBookMark.png';
 import onBookmark from '../assets/onBookMark.png';
@@ -8,14 +8,23 @@ import onBookmark from '../assets/onBookMark.png';
 const BookMark = ({ storeId, isCheck }) => {
   const [bookMarkCheck, setBookMarkCheck] = useState(isCheck);
 
+  const queryClient = useQueryClient();
+
   const bookmarkMutation = useMutation(
     () => api.post(`/api/bookmark/${storeId}`),
     {
       onSuccess: () => {
         setBookMarkCheck(prev => !prev);
+        queryClient.invalidateQueries('inquiryStoreDetail');
+        queryClient.invalidateQueries('ForeignStoreDetail');
       },
     }
   );
+
+  useEffect(() => {
+    setBookMarkCheck(isCheck);
+  }, [isCheck]);
+
   const onClickBookMarkHandler = async e => {
     e.stopPropagation();
     bookmarkMutation.mutate();

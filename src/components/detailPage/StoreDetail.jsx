@@ -20,7 +20,7 @@ const StoreDetail = () => {
   const { data } = useQuery('inquiryStoreDetail', () =>
     inquiryStoreDetail(params.id)
   );
-  console.log(data);
+  console.log('detaildata::::::', data);
 
   const detailData = [data];
   return (

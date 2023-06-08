@@ -44,6 +44,7 @@ const storeFilterList = async props => {
 const inquiryStoreDetail = async props => {
   try {
     const response = await api.get(`api/store/${props}`);
+    console.log('Storedata::::::', response.data);
     return response.data;
   } catch (error) {
     console.log(error);
