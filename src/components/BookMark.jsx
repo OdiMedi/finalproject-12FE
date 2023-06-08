@@ -1,12 +1,18 @@
 import styled from 'styled-components';
 import { useMutation } from 'react-query';
 import { useState } from 'react';
+import Cookies from 'js-cookie';
 import api from '../api/axios';
+
 import offBookmark from '../assets/offBookMark.png';
 import onBookmark from '../assets/onBookMark.png';
+import SnackBar from './SnackBar';
 
 const BookMark = ({ storeId, isCheck }) => {
   const [bookMarkCheck, setBookMarkCheck] = useState(isCheck);
+  const [isLogin, setIsLogin] = useState(true);
+
+  const loginUser = Cookies.get('accesstoken');
 
   const bookmarkMutation = useMutation(
     () => api.post(`/api/bookmark/${storeId}`),
@@ -17,18 +23,25 @@ const BookMark = ({ storeId, isCheck }) => {
     }
   );
   const onClickBookMarkHandler = async e => {
+    if (loginUser) {
+      bookmarkMutation.mutate();
+    } else {
+      setIsLogin(!isLogin);
+    }
     e.stopPropagation();
-    bookmarkMutation.mutate();
   };
 
   return (
-    <div>
-      {bookMarkCheck ? (
-        <OnBookMarkIconButton onClick={onClickBookMarkHandler} />
-      ) : (
-        <OffBookMarkIconButton onClick={onClickBookMarkHandler} />
-      )}
-    </div>
+    <>
+      <div>
+        {bookMarkCheck ? (
+          <OnBookMarkIconButton onClick={onClickBookMarkHandler} />
+        ) : (
+          <OffBookMarkIconButton onClick={onClickBookMarkHandler} />
+        )}
+      </div>
+      {!isLogin && <SnackBar />}
+    </>
   );
 };
 
