@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useMutation, useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import MypageIcon from '../../assets/mypageIcon.png';
 import holiydayTrue from '../../assets/holidayTrue.png';
 import holiydayFalse from '../../assets/holidayFalse.png';
@@ -7,6 +8,7 @@ import nightTimeTrue from '../../assets/nightTimeTrue.png';
 import nightTimeFalse from '../../assets/nightTimeFalse.png';
 import BookmarkCheck from '../../assets/bookmarkCheck.png';
 import api from '../../api/axios';
+import * as CSS from '../../style/globalStyle';
 
 const MypageBookmark = props => {
   const {
@@ -18,8 +20,10 @@ const MypageBookmark = props => {
     weekdaysTime,
     holidayBusiness,
     nightBusiness,
+    foreign,
   } = props;
 
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const mypageBookmarkMutation = useMutation(
@@ -31,12 +35,20 @@ const MypageBookmark = props => {
     }
   );
 
-  const bookmarkCancle = () => {
+  const bookmarkCancle = event => {
+    event.stopPropagation();
     mypageBookmarkMutation.mutate();
   };
 
+  const bookmarkDetailPage = () => {
+    if (foreign === false) {
+      navigate(`/mainPage/${storeId}`);
+    } else if (foreign === true) {
+      navigate(`/foreignPage/${storeId}`);
+    }
+  };
   return (
-    <BookmarkWrapDiv>
+    <BookmarkWrapDiv onClick={bookmarkDetailPage}>
       <BookMarkMainDiv onClick={bookmarkCancle} />
       <BookmarkTitleDiv>
         <TitleImgDiv />
@@ -52,12 +64,18 @@ const MypageBookmark = props => {
         <span>{totalBookmark}</span>
       </BookMarkTotalDiv>
       <BookMarkBtnDiv>
-        {holidayBusiness ? (
-          <BookMarkHolidayTrueDiv />
-        ) : (
-          <BookMarkHolidayFalseDiv />
+        {holidayBusiness && (
+          <CSS.BusinessTypeSpan>
+            <CSS.SharpStyleSpan># </CSS.SharpStyleSpan>
+            <span>공휴일 영업</span>
+          </CSS.BusinessTypeSpan>
         )}
-        {nightBusiness ? <BookMarkNightTrueDiv /> : <BookMarkNightFalseDiv />}
+        {nightBusiness && (
+          <CSS.BusinessTypeSpan>
+            <CSS.SharpStyleSpan># </CSS.SharpStyleSpan>
+            <span>야간 영업</span>
+          </CSS.BusinessTypeSpan>
+        )}
       </BookMarkBtnDiv>
     </BookmarkWrapDiv>
   );
@@ -72,6 +90,7 @@ const BookmarkWrapDiv = styled.div`
   border-radius: 15px;
   margin-bottom: 25px;
   padding: 32px 20px 31px 36px;
+  cursor: pointer;
 `;
 const BookmarkTitleDiv = styled.div`
   display: flex;
@@ -122,34 +141,7 @@ const BookMarkBtnDiv = styled.div`
   display: flex;
   gap: 15px;
 `;
-const BookMarkHolidayTrueDiv = styled.div`
-  width: 100px;
-  height: 40px;
-  background-image: url(${holiydayTrue});
-  background-size: contain;
-  background-repeat: no-repeat;
-`;
-const BookMarkHolidayFalseDiv = styled.div`
-  width: 100px;
-  height: 40px;
-  background-image: url(${holiydayFalse});
-  background-size: contain;
-  background-repeat: no-repeat;
-`;
-const BookMarkNightTrueDiv = styled.div`
-  width: 100px;
-  height: 40px;
-  background-image: url(${nightTimeTrue});
-  background-size: contain;
-  background-repeat: no-repeat;
-`;
-const BookMarkNightFalseDiv = styled.div`
-  width: 100px;
-  height: 40px;
-  background-image: url(${nightTimeFalse});
-  background-size: contain;
-  background-repeat: no-repeat;
-`;
+
 const BookMarkMainDiv = styled.div`
   width: 30px;
   height: 26px;

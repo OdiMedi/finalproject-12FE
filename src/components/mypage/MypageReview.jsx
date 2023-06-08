@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { useMutation, useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import profileIcon from '../../assets/profile.png';
 import ThumbUp from '../../assets/thumbup.png';
 import ThumbDown from '../../assets/thumbdown.png';
@@ -7,6 +9,8 @@ import Ellipsis from '../../assets/ellipsis.png';
 import DeleteIcon from '../../assets/trashIcon.png';
 import api from '../../api/axios';
 import mypageIcon from '../../assets/mypageIcon.png';
+import ModalPortal from '../../shared/ModalPortal';
+import CommentDelModal from '../comment/CommentDelModal';
 
 const MypageReview = ({
   storeId,
@@ -17,7 +21,10 @@ const MypageReview = ({
   address,
   callNumber,
   weekday,
+  foreign,
 }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const mypageCommentDelMutaion = useMutation(
@@ -28,13 +35,36 @@ const MypageReview = ({
       },
     }
   );
-  const deleteMypageComment = () => {
-    mypageCommentDelMutaion.mutate();
+
+  const handleDelCheck = newValue => {
+    if (newValue === true) {
+      mypageCommentDelMutaion.mutate();
+      setModalVisible(false);
+    } else if (newValue === false) {
+      setModalVisible(false);
+    }
+  };
+  const reviewDelBtnHandle = event => {
+    event.stopPropagation();
+    setModalVisible(true);
+  };
+
+  const reviewDetailPage = () => {
+    if (foreign === false) {
+      navigate(`/mainPage/${storeId}`);
+    } else if (foreign === true) {
+      navigate(`/foreignPage/${storeId}`);
+    }
   };
 
   return (
-    <MypageReviewDiv>
-      <DeleteDiv onClick={deleteMypageComment} />
+    <MypageReviewDiv onClick={reviewDetailPage}>
+      {modalVisible && (
+        <ModalPortal>
+          <CommentDelModal onAccess={handleDelCheck} />
+        </ModalPortal>
+      )}
+      <DeleteDiv onClick={reviewDelBtnHandle} />
       <MypagePharDiv>
         <MypagePharNameDiv>
           <div />
@@ -51,13 +81,13 @@ const MypageReview = ({
         <ReviewTextDiv>
           <p className="reviewName">{nickname}</p>
           <p className="reviewText">{contents}</p>
-          <ReviewTextIconDiv>
+          {/* <ReviewTextIconDiv>
             <ThubmUpDiv />
             <span>100</span>
             <ThubmDownDiv />
             <span>1</span>
             <EllipsispDiv />
-          </ReviewTextIconDiv>
+          </ReviewTextIconDiv> */}
         </ReviewTextDiv>
       </MypageReviewTextDiv>
     </MypageReviewDiv>

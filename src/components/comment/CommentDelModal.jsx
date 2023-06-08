@@ -1,17 +1,15 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-import { createRoot } from 'react-dom/client';
-import commentDelModal from '../../assets/commentDelModal.png';
 import commentDelIcon from '../../assets/commentDel.png';
 import commentDelX from '../../assets/commentDelX.png';
 import commentDelText from '../../assets/commentDelText.png';
 
 const CommentDelModal = ({ onAccess }) => {
-  const handleYesBtn = () => {
+  const handleYesBtn = event => {
+    event.stopPropagation();
     onAccess(true);
-    console.log('포탈내부 실행');
   };
-  const DelModalClose = () => {
+  const DelModalClose = event => {
+    event.stopPropagation();
     onAccess(false);
   };
 

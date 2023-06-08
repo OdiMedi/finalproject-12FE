@@ -62,10 +62,16 @@ const MyPage = () => {
 
   const withdrawalHandle = async () => {
     try {
-      await api.delete('user/signout');
+      const authorizationCookie = Cookies.get('authorization');
+      await api.delete('user/signout', {
+        headers: {
+          authorization: authorizationCookie,
+        },
+      });
       alert('회원탈퇴가 정상적으로 되었습니다.');
       Cookies.remove('accesstoken');
       Cookies.remove('refreshtoken');
+      Cookies.remove('authorization');
       localStorage.removeItem('email');
       localStorage.removeItem('nickname');
       // navigate('/');
@@ -134,6 +140,7 @@ const MyPage = () => {
                   address={item.address}
                   callNumber={item.callNumber}
                   weekday={item.weekdaysTime}
+                  foreign={item.foreign}
                 />
               );
             })}
@@ -154,6 +161,7 @@ const MyPage = () => {
                   totalBookmark={item.totalBookmark}
                   holidayBusiness={item.holidayBusiness}
                   nightBusiness={item.nightBusiness}
+                  foreign={item.foreign}
                 />
               );
             })}
