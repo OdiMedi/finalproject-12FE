@@ -303,7 +303,7 @@ export const OpenCheckBoxDiv = styled.div`
   margin-top: 6px;
   position: absolute;
   right: 40px;
-  bottom: 9px;
+  bottom: 100px;
   gap: 20px;
 `;
 export const InfoIconImg = styled.img`

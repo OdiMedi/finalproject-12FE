@@ -139,15 +139,20 @@ const ForeignMainPage = () => {
   useEffect(() => {
     updateSearchData();
   }, [
-    selectGuStatus,
     selectedButton,
     currentLatitude,
     currentLongitude,
     languageSelectedButton,
   ]);
-  // useEffect(() => {
-  //   mutation.mutate(searchData);
-  // }, []);
+  useEffect(() => {
+    if (isCurrent) {
+      setCurrentLatitude('');
+      setCurrentLongitude('');
+      setIsCurrent(!isCurrent);
+    } else {
+      updateSearchData();
+    }
+  }, [selectGuStatus]);
   const onClickSearchButtonHandler = () => {
     updateSearchData();
   };
@@ -349,6 +354,7 @@ const StyledSelect = styled(Select).attrs({
     border: none;
     border-radius: 20px;
     line-height: 1.3;
+    cursor: pointer;
   }
   .react-select__single-value {
     color: #ffffff; /* 텍스트 색상 지정 */

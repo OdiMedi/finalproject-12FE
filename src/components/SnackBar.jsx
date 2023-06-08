@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import snack from '../assets/loginSnack.png';
 
 import * as CSS from '../style/globalStyle';
-import infoIcon from '../assets/infoIcon.png';
+import warnIcon from '../assets/warnIcon.png';
 
 const SnackBar = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -12,7 +12,7 @@ const SnackBar = () => {
     if (isOpen) {
       setTimeout(() => {
         setIsOpen(false);
-      }, 3000);
+      }, 2000);
     }
   }, [isOpen]);
 
@@ -21,7 +21,7 @@ const SnackBar = () => {
       {isOpen && (
         <SnackWrapDiv>
           <SnackDiv>
-            <CSS.InfoIconImg src={infoIcon} alt="" />
+            <CSS.InfoIconImg src={warnIcon} alt="" />
             <p>로그인 후 이용해주세요.</p>
           </SnackDiv>
         </SnackWrapDiv>
@@ -41,6 +41,7 @@ const SnackWrapDiv = styled.div`
   bottom: 0;
   position: fixed;
   background-color: rgba(49, 49, 49, 0.4);
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
   z-index: 10;
   display: flex;
   justify-content: center;
