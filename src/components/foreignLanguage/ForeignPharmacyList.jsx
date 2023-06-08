@@ -14,7 +14,7 @@ const ForeignPharmacyList = ({ data }) => {
   return (
     <Article>
       {data?.map(item => {
-        const formattedTime = `${item.weekdaysTime.slice(3, 15)}`;
+        const formattedTime = `${item.weekdaysTime.slice(3, 17)}`;
         return (
           <CSS.ItemBoxSection
             key={item.storeId}

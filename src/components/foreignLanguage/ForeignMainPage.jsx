@@ -59,7 +59,8 @@ const ForeignMainPage = () => {
   const [selectedButton, setSelectedButton] = useState('');
   const [languageSelectedButton, setLanguageSelectedButton] = useState('');
   const [isCurrent, setIsCurrent] = useState(false);
-  const [isInfo, setIsInfo] = useState(false);
+  const [isLocationInfo, setIsLocationInfo] = useState(false);
+  const [isLanguageInfo, setIsLanguageInfo] = useState(false);
   const [currentLatitude, setCurrentLatitude] = useState('');
   const [currentLongitude, setCurrentLongitude] = useState('');
   const navigate = useNavigate();
@@ -101,12 +102,21 @@ const ForeignMainPage = () => {
   }, [searchData]);
 
   // 언어 안내아이콘 버튼 hover 이벤트
-  const handleMouseEnter = () => {
-    setIsInfo(true);
+  const languageHandleMouseEnter = () => {
+    setIsLanguageInfo(true);
   };
 
-  const handleMouseLeave = () => {
-    setIsInfo(false);
+  const languageHandleMouseLeave = () => {
+    setIsLanguageInfo(false);
+  };
+
+  // 내위치 버튼 hover 이벤트
+  const LocationHandleMouseEnter = () => {
+    setIsLocationInfo(true);
+  };
+
+  const LocationHandleMouseLeave = () => {
+    setIsLocationInfo(false);
   };
   // searchData 객체의 변화 감지를 위해 새로운 상태로 업데이트
   const updateSearchData = () => {
@@ -212,9 +222,18 @@ const ForeignMainPage = () => {
             <CSS.FilterButton
               onClick={() => currentLocationButtonHandler('currentLocation')}
               active={isCurrent === true}
+              onMouseEnter={LocationHandleMouseEnter}
+              onMouseLeave={LocationHandleMouseLeave}
             >
               <CSS.CurrentIconDiv active={isCurrent === true} />
               GPS
+              {isLocationInfo && (
+                <CSS.LocationInfoIconDiv>
+                  <CSS.InfoP>
+                    Indicate nearby pharmacies in street order.
+                  </CSS.InfoP>
+                </CSS.LocationInfoIconDiv>
+              )}
             </CSS.FilterButton>
           </CSS.SearchButtonBoxDiv>
           <CSS.FilterBoxDiv>
@@ -239,10 +258,12 @@ const ForeignMainPage = () => {
           </CSS.FilterBoxDiv>
         </CSS.AllSearchButtonBoxDiv>
         <AllLanguageSearchButtonBoxDiv>
-          {isInfo && <CSS.InfoDiv>Languages spoken by pharmacists</CSS.InfoDiv>}
+          {isLanguageInfo && (
+            <CSS.InfoDiv>Languages spoken by pharmacists</CSS.InfoDiv>
+          )}
           <LanguageInfoIconButton
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onMouseEnter={languageHandleMouseEnter}
+            onMouseLeave={languageHandleMouseLeave}
           />
           <LanguageButtonBoxDiv>
             <CSS.FilterButton
@@ -332,6 +353,7 @@ const StyledSelect = styled(Select).attrs({
   .react-select__single-value {
     color: #ffffff; /* 텍스트 색상 지정 */
     font-size: 10px;
+    font-weight: 700;
   }
   .react-select__menu {
     background-color: #ffffff;
