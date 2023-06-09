@@ -122,12 +122,14 @@ export default LoginModal;
 
 const LoginContainer = styled.div`
   width: 500px;
-  /* height: 761px; */
+  /* height: 90vh; */
   margin: 0 auto;
   margin-top: 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  margin-bottom: 100px;
 `;
 export const LoginIconDiv = styled.div`
   width: 64px;
@@ -144,7 +146,7 @@ export const LoginTitleDiv = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  margin-bottom: 59px;
+  margin-bottom: 39px;
 `;
 export const LoginInput = styled.input`
   width: 500px;
@@ -220,7 +222,7 @@ export const KakakoLink = styled.a`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  margin-top: 58px;
+  margin-top: 28px;
 `;
 const WarningDiv = styled.div`
   width: 450px;
