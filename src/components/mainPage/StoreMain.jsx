@@ -132,13 +132,15 @@ const StoreMain = () => {
   // 검색 조건이 변경될 때마다 searchData 업데이트
   useEffect(() => {
     updateSearchData();
-  }, [selectGuStatus, selectedButton, currentLatitude, currentLongitude]);
+  }, [selectedButton, currentLatitude, currentLongitude]);
 
   useEffect(() => {
     if (isCurrent) {
       setCurrentLatitude('');
       setCurrentLongitude('');
       setIsCurrent(!isCurrent);
+    } else {
+      updateSearchData();
     }
   }, [selectGuStatus]);
 
@@ -162,6 +164,7 @@ const StoreMain = () => {
   const LocationHandleMouseLeave = () => {
     setIsLocationInfo(false);
   };
+
   return (
     <CSS.MainContainer>
       {storeList && (
@@ -260,6 +263,8 @@ const SearchButton = styled.button`
   background-size: 26px 26px;
   background-repeat: no-repeat;
   background-position: center;
+  cursor: pointer;
+
   &:hover {
     box-shadow: 3px 3px 2px rgba(175, 174, 183, 0.5);
   }
@@ -290,6 +295,7 @@ const StyledSelect = styled(Select).attrs({
     border-radius: 20px;
     display: flex;
     text-align: center;
+    cursor: pointer;
   }
   .react-select__single-value {
     color: #ffffff; /* 텍스트 색상 지정 */

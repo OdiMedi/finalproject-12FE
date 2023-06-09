@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import LoginSnack from '../../assets/loginSnack.png';
 import LoginSnackTitle from '../../assets/loginSnackTitle.png';
 
-const LoginSnackBar = () => {
+const LoginSnackBar = ({ type }) => {
   const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
     if (isOpen) {
       setTimeout(() => {
         setIsOpen(false);
-      }, 5000);
+      }, 3000);
     }
   }, [isOpen]);
 
@@ -19,8 +19,13 @@ const LoginSnackBar = () => {
       {isOpen && (
         <LoginSnackWrapDiv>
           <LoginSnackDiv>
-            <p>로그인 만료시간이 다 되었습니다</p>
-            <p>재로그인 해주세요</p>
+            {type === 'expire' && (
+              <>
+                <p>로그인 만료시간이 다 되었습니다</p>
+                <p>재로그인 해주세요</p>
+              </>
+            )}
+            {type === 'authorization' && <LoginSnackTitleDiv />}
           </LoginSnackDiv>
         </LoginSnackWrapDiv>
       )}

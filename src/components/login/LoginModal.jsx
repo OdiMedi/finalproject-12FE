@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
 import api from '../../api/axios';
 import KAKAO_AUTH_URL from './kakaoAuth';
 import LoginIconMain from '../../assets/loginIcon.png';
@@ -33,7 +32,7 @@ const LoginModal = () => {
     try {
       const response = await api.post('/user/login', inputValue);
       localStorage.setItem('email', response.data.email);
-      localStorage.setItem('nickname', response.data.nickname); // 키값 수정 예정
+      localStorage.setItem('nickname', response.data.nickname);
 
       const accessHeader = response?.headers.get('ACCESS_KEY');
       const refreshHeader = response?.headers.get('REFRESH_KEY');

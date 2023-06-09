@@ -90,7 +90,7 @@ api.interceptors.response.use(
       if (!modalRoot.hasChildNodes()) {
         root.render(
           <ModalPortal>
-            <LoginSnackBar />
+            <LoginSnackBar type="expire" />
           </ModalPortal>
         );
       }
