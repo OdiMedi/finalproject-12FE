@@ -13,6 +13,7 @@ import FindPasswordModal from './FindPasswordModal';
 
 const LoginModal = () => {
   const [findPwdModal, setFindPwdModal] = useState(false);
+  const [errorCode, setErrorCode] = useState('');
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
     email: '',
@@ -48,7 +49,8 @@ const LoginModal = () => {
       });
       navigate('/');
     } catch (error) {
-      console.log(error);
+      setErrorCode(error.response.data.errorCode);
+      console.log(error.response.data.errorCode);
     }
   };
 
@@ -100,10 +102,18 @@ const LoginModal = () => {
 
       <KakakoLink href={KAKAO_AUTH_URL} />
 
-      <WarningDiv>
-        <div />
-        <p>이메일 / 비밀번호를 다시 확인해주세요.</p>
-      </WarningDiv>
+      {errorCode === 'MEMBER_NOT_FOUND' && (
+        <WarningDiv>
+          <div />
+          <p>이메일을 다시 확인해주세요.</p>
+        </WarningDiv>
+      )}
+      {errorCode === 'INVALID_PASSWORD' && (
+        <WarningDiv>
+          <div />
+          <p>비밀번호를 다시 확인해주세요.</p>
+        </WarningDiv>
+      )}
     </LoginContainer>
   );
 };
