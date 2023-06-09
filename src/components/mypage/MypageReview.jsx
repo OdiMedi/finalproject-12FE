@@ -72,7 +72,7 @@ const MypageReview = ({
         </MypagePharNameDiv>
         <MypagePharInfoDiv>
           <p>{callNumber}</p>
-          <p>{address.split(',')[0]}</p>
+          <p>{address.split(',')[0].split('(')[0]}</p>
           <p>{weekday}</p>
         </MypagePharInfoDiv>
       </MypagePharDiv>
@@ -105,6 +105,7 @@ const MypageReviewDiv = styled.div`
   display: flex;
   align-items: center;
   position: relative;
+  box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.3);
 `;
 
 const MypageReviewTextDiv = styled.div`
@@ -113,15 +114,16 @@ const MypageReviewTextDiv = styled.div`
   align-items: center;
 `;
 const ReveiwProfileDiv = styled.div`
-  width: 44px;
-  height: 44px;
+  width: 54px;
+  height: 54px;
   background-image: url(${profileIcon});
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
+  background-position: center;
   margin-right: 16px;
 `;
 const ReviewTextDiv = styled.div`
-  width: 80%;
+  width: 85%;
   .reviewName {
     font-weight: 800;
     font-size: 15px;

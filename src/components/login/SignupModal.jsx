@@ -118,7 +118,7 @@ const SignupModal = () => {
         </LoginBtn>
       </form>
       <TextBnt onClick={redirectLogin}>로그인 창으로 돌아가기</TextBnt>
-      <KakakoLink href={KAKAO_AUTH_URL} />
+      {/* <KakakoLink href={KAKAO_AUTH_URL} /> */}
     </SignupContainer>
   );
 };
@@ -133,6 +133,7 @@ const SignupContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 60px;
+  margin-bottom: 100px;
 `;
 
 const SignUpInput = styled.input`
@@ -181,5 +182,5 @@ const SignUpTitleDiv = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  margin-bottom: 59px;
+  margin-bottom: 39px;
 `;

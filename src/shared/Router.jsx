@@ -9,6 +9,7 @@ import Layout from './Layout';
 import DetailPage from '../page/DetailPage';
 import ForeignPage from '../page/ForeignPage';
 import ForeignDetailPage from '../page/ForeignDetailPage';
+import LoginSnackBar from '../components/login/LoginSnackBar';
 
 const Router = () => {
   return (
@@ -24,6 +25,7 @@ const Router = () => {
           <Route path="/mainPage/:id" element={<DetailPage />} />
           <Route path="/foreignPage" element={<ForeignPage />} />
           <Route path="/foreignPage/:id" element={<ForeignDetailPage />} />
+          <Route path="/modal" element={<LoginSnackBar />} />
         </Routes>
       </Layout>
     </BrowserRouter>

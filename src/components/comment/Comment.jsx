@@ -1,15 +1,19 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
+import Cookies from 'js-cookie';
 import commentIcon from '../../assets/commentIcon.png';
 import compose from '../../assets/compose.png';
 import * as CSS from '../../style/globalStyle';
 import WriteComment from './WriteComment';
 import api from '../../api/axios';
 import CommentItem from './CommentItem';
+import ModalPortal from '../../shared/ModalPortal';
+import LoginSnackBar from '../login/LoginSnackBar';
 
 const Comment = ({ storeId }) => {
   const [modal, setModal] = useState(false);
+  const token = Cookies.get('accesstoken');
 
   const CommentAddModalOpenHandler = () => {
     setModal(!modal);
@@ -52,7 +56,12 @@ const Comment = ({ storeId }) => {
           <CSS.ComposeImg src={compose} art="" />
           <span>소중한 후기를 남겨주세요.</span>
         </CSS.CommentAddButton>
-        {modal && (
+        {token === undefined && modal && (
+          <ModalPortal>
+            <LoginSnackBar type="authorization" />
+          </ModalPortal>
+        )}
+        {token !== undefined && modal && (
           <WriteComment modal={modal} setModal={setModal} storeId={storeId} />
         )}
       </ButtonBoxDiv>

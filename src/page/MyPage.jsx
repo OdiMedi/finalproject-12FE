@@ -177,6 +177,7 @@ const MypageContainer = styled.div`
   margin: 0 auto;
   margin-top: 57px;
   width: 70vw;
+  margin-bottom: 100px;
 `;
 const MypageTitle = styled.p`
   height: 43px;
@@ -252,7 +253,6 @@ const BookmarkContainerDiv = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  gap: 2%;
   padding-top: 20px;
 `;
 const WithdrawalBtn = styled.button`

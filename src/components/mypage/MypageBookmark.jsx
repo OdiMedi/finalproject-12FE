@@ -85,12 +85,14 @@ export default MypageBookmark;
 
 const BookmarkWrapDiv = styled.div`
   position: relative;
-  width: 43%;
+  /* width: 43%; */
+  width: calc(50% - 60px);
   background: rgba(245, 245, 245, 0.3);
   border-radius: 15px;
   margin-bottom: 25px;
   padding: 32px 20px 31px 36px;
   cursor: pointer;
+  box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.3);
 `;
 const BookmarkTitleDiv = styled.div`
   display: flex;
