@@ -100,7 +100,7 @@ const CommentItem = ({ storeId, commentId, nickname, contents, check }) => {
       )}
       {modalVisible && (
         <ModalPortal>
-          <CommentDelModal onAccess={handleDelCheck} />
+          <CommentDelModal onAccess={handleDelCheck} type="commentDelete" />
         </ModalPortal>
       )}
     </CommentItemDiv>

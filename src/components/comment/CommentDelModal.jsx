@@ -1,9 +1,16 @@
 import styled from 'styled-components';
+import { useState, useEffect } from 'react';
 import commentDelIcon from '../../assets/commentDel.png';
 import commentDelX from '../../assets/commentDelX.png';
 import commentDelText from '../../assets/commentDelText.png';
+import unregisterText from '../../assets/unregisterText.png';
 
-const CommentDelModal = ({ onAccess }) => {
+const CommentDelModal = ({ onAccess, type }) => {
+  const [typeText, setTypeText] = useState('');
+  useEffect(() => {
+    setTypeText(type);
+  }, [type]);
+
   const handleYesBtn = event => {
     event.stopPropagation();
     onAccess(true);
@@ -18,7 +25,8 @@ const CommentDelModal = ({ onAccess }) => {
       <CommentDelModalDiv>
         <CommentDelIcon />
         <CommentDelX onClick={DelModalClose} />
-        <CommentDelTextDiv />
+        {typeText === 'commentDelete' && <CommentDelTextDiv />}
+        {typeText === 'unregister' && <UnregisterTextDiv />}
         <CommentDelBtn onClick={handleYesBtn}>
           <p>예</p>
         </CommentDelBtn>
@@ -102,4 +110,16 @@ const CommentDelBtn = styled.button`
     line-height: 34px;
     color: #fd8b2b;
   }
+`;
+
+const UnregisterTextDiv = styled.div`
+  width: 228px;
+  height: 34px;
+  background-image: url(${unregisterText});
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+  top: 54px;
+  left: 111px;
 `;

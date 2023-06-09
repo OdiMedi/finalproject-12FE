@@ -19,12 +19,11 @@ const Header = () => {
   const logoutHandle = async () => {
     try {
       const authorizationCookie = Cookies.get('authorization');
-      const response = await api.post('/user/logout', {
+      await api.post('/user/logout', {
         headers: {
           authorization: authorizationCookie,
         },
       });
-      // console.log('response::::', response);
       Cookies.remove('accesstoken');
       Cookies.remove('refreshtoken');
       Cookies.remove('authorization');

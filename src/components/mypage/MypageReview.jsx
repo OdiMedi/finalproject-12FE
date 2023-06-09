@@ -61,7 +61,7 @@ const MypageReview = ({
     <MypageReviewDiv onClick={reviewDetailPage}>
       {modalVisible && (
         <ModalPortal>
-          <CommentDelModal onAccess={handleDelCheck} />
+          <CommentDelModal onAccess={handleDelCheck} type="commentDelete" />
         </ModalPortal>
       )}
       <DeleteDiv onClick={reviewDelBtnHandle} />
