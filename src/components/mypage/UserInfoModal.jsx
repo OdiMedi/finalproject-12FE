@@ -1,19 +1,34 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import Xbutton from '../../assets/nicknameX.png';
 import profileDefault from '../../assets/profile.png';
+import ModalPortal from '../../shared/ModalPortal';
+import MypageNicknameModal from './MypageNicknameModal';
 
-const UserInfoModal = () => {
+const UserInfoModal = ({ onAccess }) => {
+  const UserInfoClose = event => {
+    event.stopPropagation();
+    onAccess(false);
+  };
+  // const nicknamehandle = () => {
+  //   onAccess('nickname');
+  // };
+
   return (
     <UserInfoContainerDiv>
       <UserInfoWrapDiv>
         <UserInfoTitleP>회원정보</UserInfoTitleP>
-        <CommentDelX />
+        <CommentDelX onClick={UserInfoClose} />
         <UserInfoImgDiv />
         <UserInfoNameP>청량한 바지</UserInfoNameP>
         <UserInfoBtnWrapDiv>
           <UserInfoButton>프로필 사진 변경</UserInfoButton>
-          <UserInfoButton>닉네임 변경</UserInfoButton>
-          <UserInfoButton>비밀번호 변경</UserInfoButton>
+          <UserInfoButton onClick={() => onAccess('nickname')}>
+            닉네임 변경
+          </UserInfoButton>
+          <UserInfoButton onClick={() => onAccess('password')}>
+            비밀번호 변경
+          </UserInfoButton>
         </UserInfoBtnWrapDiv>
         <UnregisterButton>회원 탈퇴</UnregisterButton>
       </UserInfoWrapDiv>

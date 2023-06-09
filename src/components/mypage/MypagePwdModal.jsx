@@ -40,7 +40,7 @@ const MypagePwdModal = ({ onAccess }) => {
     } catch (error) {
       console.log(error);
     }
-    onAccess(false);
+    onAccess(true);
   };
   return (
     <NickNameModalWrapDiv>

@@ -32,7 +32,7 @@ const MypageNicknameModal = ({ onAccess }) => {
       setAlertError(true);
       return;
     }
-    onAccess(false);
+    onAccess(true);
     setAlertError(false);
   };
   return (

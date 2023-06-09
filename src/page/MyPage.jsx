@@ -11,12 +11,16 @@ import MypageReview from '../components/mypage/MypageReview';
 import ModalPortal from '../shared/ModalPortal';
 import MypagePwdModal from '../components/mypage/MypagePwdModal';
 import DelModal from '../shared/DelModal';
+import UserInfoModal from '../components/mypage/UserInfoModal';
 
 const MyPage = () => {
   const [activeButton, setActiveButton] = useState(1);
-  const [nicknameModal, setNicknameModal] = useState(false);
-  const [pwdModal, setPwdModal] = useState(false);
-  const [unregisterModal, setUnregisterModal] = useState(false);
+  // const [nicknameModal, setNicknameModal] = useState(false);
+  // const [pwdModal, setPwdModal] = useState(false);
+  // const [unregisterModal, setUnregisterModal] = useState(false);
+  const [userinfoModal, setUserInfoModal] = useState(false);
+  const [nicknameModal, setNickNameModal] = useState(false);
+  const [passwordModal, setPasswordModal] = useState(false);
   const MypageNickname = localStorage.getItem('nickname');
   const MypageEmail = localStorage.getItem('email');
   const navigate = useNavigate();
@@ -40,20 +44,36 @@ const MyPage = () => {
     getBookmark
   );
 
-  const handleNickCheck = newValue => {
+  const handleUserInfo = newValue => {
     if (newValue === true) {
-      setNicknameModal(false);
+      setUserInfoModal(false);
+      setNickNameModal(false);
+      setPasswordModal(false);
     } else if (newValue === false) {
-      setNicknameModal(false);
+      setUserInfoModal(false);
+    } else if (newValue === 'nickname') {
+      setNickNameModal(true);
+      setUserInfoModal(false);
+    } else if (newValue === 'password') {
+      setUserInfoModal(false);
+      setPasswordModal(true);
     }
   };
-  const handlePwdCheck = newValue => {
-    if (newValue === true) {
-      setPwdModal(false);
-    } else if (newValue === false) {
-      setPwdModal(false);
-    }
-  };
+
+  // const handleNickCheck = newValue => {
+  //   if (newValue === true) {
+  //     setNicknameModal(false);
+  //   } else if (newValue === false) {
+  //     setNicknameModal(false);
+  //   }
+  // };
+  // const handlePwdCheck = newValue => {
+  //   if (newValue === true) {
+  //     setPwdModal(false);
+  //   } else if (newValue === false) {
+  //     setPwdModal(false);
+  //   }
+  // };
 
   const withdrawalHandle = async () => {
     try {
@@ -68,21 +88,21 @@ const MyPage = () => {
       Cookies.remove('authorization');
       localStorage.removeItem('email');
       localStorage.removeItem('nickname');
-      setUnregisterModal(false);
+      // setUnregisterModal(false);
       // navigate('/');
       window.location.replace('/');
     } catch (error) {
       console.log('withdrawal::::::', error);
     }
   };
-  const handleUnregisterCheck = newValue => {
-    if (newValue === true) {
-      withdrawalHandle();
-      setUnregisterModal(false);
-    } else if (newValue === false) {
-      setUnregisterModal(false);
-    }
-  };
+  // const handleUnregisterCheck = newValue => {
+  //   if (newValue === true) {
+  //     withdrawalHandle();
+  //     setUnregisterModal(false);
+  //   } else if (newValue === false) {
+  //     setUnregisterModal(false);
+  //   }
+  // };
 
   return (
     <MypageContainer>
@@ -91,16 +111,31 @@ const MyPage = () => {
         <ProfileImg />
         <ProfileDescDiv>
           <span>{MypageNickname}</span>
-          <button type="button" onClick={() => setNicknameModal(true)}>
-            닉네임 변경
+          <button type="button" onClick={() => setUserInfoModal(true)}>
+            회원정보 수정
           </button>
-          <WithdrawalBtn onClick={() => setPwdModal(true)}>
+          {/* <WithdrawalBtn onClick={() => setPwdModal(true)}>
             비밀번호 변경
           </WithdrawalBtn>
           <WithdrawalBtn onClick={() => setUnregisterModal(true)}>
             회원탈퇴
-          </WithdrawalBtn>
-          {pwdModal && (
+          </WithdrawalBtn>  */}
+          {userinfoModal && (
+            <ModalPortal>
+              <UserInfoModal onAccess={handleUserInfo} />
+            </ModalPortal>
+          )}
+          {nicknameModal && (
+            <ModalPortal>
+              <MypageNicknameModal onAccess={handleUserInfo} />
+            </ModalPortal>
+          )}
+          {passwordModal && (
+            <ModalPortal>
+              <MypagePwdModal onAccess={handleUserInfo} />
+            </ModalPortal>
+          )}
+          {/* {pwdModal && (
             <ModalPortal>
               <MypagePwdModal onAccess={handlePwdCheck} />
             </ModalPortal>
@@ -114,7 +149,7 @@ const MyPage = () => {
             <ModalPortal>
               <DelModal onAccess={handleUnregisterCheck} type="unregister" />
             </ModalPortal>
-          )}
+          )} */}
           <p>{MypageEmail}</p>
         </ProfileDescDiv>
       </MyprofileDiv>
@@ -225,6 +260,12 @@ const ProfileDescDiv = styled.div`
     background: #fafafa;
     border: 0.3px solid #d9d9d9;
     border-radius: 3px;
+    width: 80px;
+    height: 24px;
+    font-weight: 600;
+    font-size: 11px;
+    line-height: 6px;
+    color: #686868;
   }
   p {
     font-family: 'Pretendard';
