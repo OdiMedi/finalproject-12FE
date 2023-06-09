@@ -10,7 +10,7 @@ import MypageNicknameModal from '../components/mypage/MypageNicknameModal';
 import MypageReview from '../components/mypage/MypageReview';
 import ModalPortal from '../shared/ModalPortal';
 import MypagePwdModal from '../components/mypage/MypagePwdModal';
-import CommentDelModal from '../components/comment/CommentDelModal';
+import DelModal from '../shared/DelModal';
 
 const MyPage = () => {
   const [activeButton, setActiveButton] = useState(1);
@@ -40,13 +40,6 @@ const MyPage = () => {
     getBookmark
   );
 
-  // const handleClick = buttonId => {
-  //   setActiveButton(buttonId);
-  // };
-
-  // const nicknameHandle = () => {
-  //   setNicknameModal(true);
-  // };
   const handleNickCheck = newValue => {
     if (newValue === true) {
       setNicknameModal(false);
@@ -119,10 +112,7 @@ const MyPage = () => {
           )}
           {unregisterModal && (
             <ModalPortal>
-              <CommentDelModal
-                onAccess={handleUnregisterCheck}
-                type="unregister"
-              />
+              <DelModal onAccess={handleUnregisterCheck} type="unregister" />
             </ModalPortal>
           )}
           <p>{MypageEmail}</p>

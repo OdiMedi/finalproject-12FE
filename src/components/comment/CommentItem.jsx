@@ -6,7 +6,7 @@ import defaultImage from '../../assets/defaultImage.png';
 import commentBubble from '../../assets/commentBubble.png';
 import commentEdit from '../../assets/commentEdit.png';
 import commentDelete from '../../assets/commentDelete.png';
-import CommentDelModal from './CommentDelModal';
+import DelModal from '../../shared/DelModal';
 import ModalPortal from '../../shared/ModalPortal';
 
 const CommentItem = ({ storeId, commentId, nickname, contents, check }) => {
@@ -100,7 +100,7 @@ const CommentItem = ({ storeId, commentId, nickname, contents, check }) => {
       )}
       {modalVisible && (
         <ModalPortal>
-          <CommentDelModal onAccess={handleDelCheck} type="commentDelete" />
+          <DelModal onAccess={handleDelCheck} type="commentDelete" />
         </ModalPortal>
       )}
     </CommentItemDiv>

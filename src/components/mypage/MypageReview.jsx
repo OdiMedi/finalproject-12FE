@@ -10,7 +10,7 @@ import DeleteIcon from '../../assets/trashIcon.png';
 import api from '../../api/axios';
 import mypageIcon from '../../assets/mypageIcon.png';
 import ModalPortal from '../../shared/ModalPortal';
-import CommentDelModal from '../comment/CommentDelModal';
+import DelModal from '../../shared/DelModal';
 
 const MypageReview = ({
   storeId,
@@ -61,7 +61,7 @@ const MypageReview = ({
     <MypageReviewDiv onClick={reviewDetailPage}>
       {modalVisible && (
         <ModalPortal>
-          <CommentDelModal onAccess={handleDelCheck} type="commentDelete" />
+          <DelModal onAccess={handleDelCheck} type="commentDelete" />
         </ModalPortal>
       )}
       <DeleteDiv onClick={reviewDelBtnHandle} />

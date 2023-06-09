@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
-import commentDelIcon from '../../assets/commentDel.png';
-import commentDelX from '../../assets/commentDelX.png';
-import commentDelText from '../../assets/commentDelText.png';
-import unregisterText from '../../assets/unregisterText.png';
+import commentDelIcon from '../assets/commentDel.png';
+import commentDelX from '../assets/commentDelX.png';
+import commentDelText from '../assets/commentDelText.png';
+import unregisterText from '../assets/unregisterText.png';
 
-const CommentDelModal = ({ onAccess, type }) => {
+const DelModal = ({ onAccess, type }) => {
   const [typeText, setTypeText] = useState('');
   useEffect(() => {
     setTypeText(type);
@@ -35,7 +35,7 @@ const CommentDelModal = ({ onAccess, type }) => {
   );
 };
 
-export default CommentDelModal;
+export default DelModal;
 
 const DelModalWrapDiv = styled.div`
   width: 100vw;
