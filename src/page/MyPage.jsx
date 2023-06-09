@@ -21,6 +21,7 @@ const MyPage = () => {
   const [userinfoModal, setUserInfoModal] = useState(false);
   const [nicknameModal, setNickNameModal] = useState(false);
   const [passwordModal, setPasswordModal] = useState(false);
+  const [unregisterModal, setUnregisterModal] = useState(false);
   const MypageNickname = localStorage.getItem('nickname');
   const MypageEmail = localStorage.getItem('email');
   const navigate = useNavigate();
@@ -49,6 +50,7 @@ const MyPage = () => {
       setUserInfoModal(false);
       setNickNameModal(false);
       setPasswordModal(false);
+      setUnregisterModal(false);
     } else if (newValue === false) {
       setUserInfoModal(false);
     } else if (newValue === 'nickname') {
@@ -57,6 +59,9 @@ const MyPage = () => {
     } else if (newValue === 'password') {
       setUserInfoModal(false);
       setPasswordModal(true);
+    } else if (newValue === 'unregister') {
+      setUserInfoModal(false);
+      setUnregisterModal(true);
     }
   };
 
@@ -75,26 +80,6 @@ const MyPage = () => {
   //   }
   // };
 
-  const withdrawalHandle = async () => {
-    try {
-      const authorizationCookie = Cookies.get('authorization');
-      await api.delete('user/signout', {
-        headers: {
-          authorization: authorizationCookie,
-        },
-      });
-      Cookies.remove('accesstoken');
-      Cookies.remove('refreshtoken');
-      Cookies.remove('authorization');
-      localStorage.removeItem('email');
-      localStorage.removeItem('nickname');
-      // setUnregisterModal(false);
-      // navigate('/');
-      window.location.replace('/');
-    } catch (error) {
-      console.log('withdrawal::::::', error);
-    }
-  };
   // const handleUnregisterCheck = newValue => {
   //   if (newValue === true) {
   //     withdrawalHandle();
@@ -133,6 +118,11 @@ const MyPage = () => {
           {passwordModal && (
             <ModalPortal>
               <MypagePwdModal onAccess={handleUserInfo} />
+            </ModalPortal>
+          )}
+          {unregisterModal && (
+            <ModalPortal>
+              <DelModal onAccess={handleUserInfo} type="unregister" />
             </ModalPortal>
           )}
           {/* {pwdModal && (

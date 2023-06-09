@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import Cookies from 'js-cookie';
 import Xbutton from '../../assets/nicknameX.png';
 import profileDefault from '../../assets/profile.png';
 import ModalPortal from '../../shared/ModalPortal';
 import MypageNicknameModal from './MypageNicknameModal';
+import api from '../../api/axios';
 
 const UserInfoModal = ({ onAccess }) => {
   const UserInfoClose = event => {
@@ -30,7 +32,9 @@ const UserInfoModal = ({ onAccess }) => {
             비밀번호 변경
           </UserInfoButton>
         </UserInfoBtnWrapDiv>
-        <UnregisterButton>회원 탈퇴</UnregisterButton>
+        <UnregisterButton onClick={() => onAccess('unregister')}>
+          회원 탈퇴
+        </UnregisterButton>
       </UserInfoWrapDiv>
     </UserInfoContainerDiv>
   );

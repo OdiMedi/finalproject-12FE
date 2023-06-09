@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 import commentDelIcon from '../assets/commentDel.png';
 import commentDelX from '../assets/commentDelX.png';
 import commentDelText from '../assets/commentDelText.png';
 import unregisterText from '../assets/unregisterText.png';
+import api from '../api/axios';
 
 const DelModal = ({ onAccess, type }) => {
   const [typeText, setTypeText] = useState('');
@@ -11,13 +13,34 @@ const DelModal = ({ onAccess, type }) => {
     setTypeText(type);
   }, [type]);
 
+  const withdrawalHandle = async () => {
+    try {
+      const authorizationCookie = Cookies.get('authorization');
+      await api.delete('user/signout', {
+        headers: {
+          authorization: authorizationCookie,
+        },
+      });
+      Cookies.remove('accesstoken');
+      Cookies.remove('refreshtoken');
+      Cookies.remove('authorization');
+      localStorage.removeItem('email');
+      localStorage.removeItem('nickname');
+      window.location.replace('/');
+    } catch (error) {
+      console.log('withdrawal::::::', error);
+    }
+    onAccess(true);
+  };
+
   const handleYesBtn = event => {
     event.stopPropagation();
+    withdrawalHandle();
     onAccess(true);
   };
   const DelModalClose = event => {
     event.stopPropagation();
-    onAccess(false);
+    onAccess(true);
   };
 
   return (
