@@ -85,7 +85,6 @@ export default MypageBookmark;
 
 const BookmarkWrapDiv = styled.div`
   position: relative;
-  /* width: 43%; */
   width: calc(50% - 60px);
   background: rgba(245, 245, 245, 0.3);
   border-radius: 15px;

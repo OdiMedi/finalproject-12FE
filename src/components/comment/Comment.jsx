@@ -21,7 +21,6 @@ const Comment = ({ storeId }) => {
 
   const getCommentHandler = async () => {
     const response = await api.get(`/api/comment/${storeId}`);
-
     return response;
   };
 

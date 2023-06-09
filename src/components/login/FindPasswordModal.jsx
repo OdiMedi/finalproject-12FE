@@ -8,6 +8,7 @@ import SearchIcon from '../../assets/searchIcon.png';
 const FindPasswordModal = ({ onAccess }) => {
   const [emailInput, setEmailInput] = useState('');
   const [alertError, setAlertError] = useState(false);
+  const [submitCheck, setSubmitCheck] = useState(false);
 
   const emailInputChange = e => {
     setEmailInput(e.target.value);
@@ -20,7 +21,7 @@ const FindPasswordModal = ({ onAccess }) => {
       setAlertError(true);
       return;
     }
-    onAccess(false);
+    setSubmitCheck(true);
     setAlertError(false);
   };
   return (
@@ -29,19 +30,30 @@ const FindPasswordModal = ({ onAccess }) => {
         <SearchIconDiv />
         <PwdTitleP>비밀번호 찾기</PwdTitleP>
         <PwdXDiv onClick={() => onAccess(false)} />
-        <PwdInput
-          value={emailInput}
-          onChange={emailInputChange}
-          placeholder="가입 시 입력한 이메일을 입력해주세요."
-        />
-        <PwdButton onClick={postEmail}>
-          <div />
-          <span>비밀번호 보내기</span>
-        </PwdButton>
-        <HelperTextP>
-          이메일 입력 시, 이메일로 임시 비밀번호가 전송됩니다.
-        </HelperTextP>
-        {alertError && <ErrorAlertP>이메일이 존재하지 않습니다</ErrorAlertP>}
+        {submitCheck ? (
+          <SubmitTExtDiv>
+            <p>입력하신 이메일로 임시 비밀번호가 전송되었습니다.</p>
+            <p>다시 로그인 해주세요.</p>
+          </SubmitTExtDiv>
+        ) : (
+          <>
+            <PwdInput
+              value={emailInput}
+              onChange={emailInputChange}
+              placeholder="가입 시 입력한 이메일을 입력해주세요."
+            />
+            <PwdButton onClick={postEmail}>
+              <div />
+              <span>비밀번호 보내기</span>
+            </PwdButton>
+            <HelperTextP>
+              이메일 입력 시, 이메일로 임시 비밀번호가 전송됩니다.
+            </HelperTextP>
+            {alertError && (
+              <ErrorAlertP>이메일이 존재하지 않습니다</ErrorAlertP>
+            )}
+          </>
+        )}
       </PwdFindDiv>
     </PwdModalWrapDiv>
   );
@@ -168,4 +180,19 @@ const SearchIconDiv = styled.div`
   position: absolute;
   top: 35px;
   left: 188px;
+`;
+const SubmitTExtDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 104px;
+  left: 106px;
+  align-items: center;
+
+  p {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 32px;
+    letter-spacing: -0.5px;
+  }
 `;

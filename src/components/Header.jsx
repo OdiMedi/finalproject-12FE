@@ -24,7 +24,7 @@ const Header = () => {
           authorization: authorizationCookie,
         },
       });
-      console.log('response::::', response);
+      // console.log('response::::', response);
       Cookies.remove('accesstoken');
       Cookies.remove('refreshtoken');
       Cookies.remove('authorization');
