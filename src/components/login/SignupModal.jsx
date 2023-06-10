@@ -6,6 +6,9 @@ import { LoginBtn, TextBnt, KakakoLink } from './LoginModal';
 import KAKAO_AUTH_URL from './kakaoAuth';
 import LoginIconMain from '../../assets/loginIcon.png';
 import LoginTitleMain from '../../assets/loginTitle.png';
+import CertifiNumber from '../../assets/certificationSubmit.png';
+import CertifiEmail from '../../assets/emailCertification.png';
+import AlertIcon from '../../assets/alertIcon.png';
 
 const SignupModal = () => {
   const navigate = useNavigate();
@@ -79,43 +82,81 @@ const SignupModal = () => {
       <SignUpIconDiv />
       <SignUpTitleDiv />
       <form autoComplete="off">
-        <SignUpInput
-          name="nickname"
-          value={nickname}
-          onChange={nicknameChange}
-          type="text"
-          placeholder="닉네임을 입력하세요."
-        />
+        <NormalInputDiv bottom>
+          <SignUpInput
+            name="nickname"
+            value={nickname}
+            onChange={nicknameChange}
+            type="text"
+            placeholder="닉네임을 입력하세요."
+          />
+        </NormalInputDiv>
+
         {!nicknameCheck && (
           <HelperTextP>
             닉네임은 한글, 영어(대소문자 구분), 숫자로 2~10자로 입력해주세요
           </HelperTextP>
         )}
-        <SignUpInput
-          name="email"
-          value={email}
-          onChange={changeEmail}
-          type="text"
-          placeholder="이메일을 입력하세요."
-        />
+        <div>
+          <InputDiv>
+            <SignUpInput
+              name="email"
+              value={email}
+              onChange={changeEmail}
+              type="text"
+              placeholder="이메일을 입력하세요."
+              email
+            />
+            <CertificationSendDiv />
+          </InputDiv>
+          <AlertHelperDiv>
+            <AlertEmailDiv />
+            <AlertTextP>메일이 전송되었습니다.</AlertTextP>
+          </AlertHelperDiv>
+        </div>
         {!emailCheck && (
           <HelperTextP>이메일 형식에 맞춰주세요(@ . 포함)</HelperTextP>
         )}
-        <SignUpInput
-          name="password"
-          value={password}
-          onChange={passwordChange}
-          type="password"
-          placeholder="비밀번호를 입력하세요."
-        />
+        <div>
+          <InputDiv>
+            <SignUpInput
+              name="email"
+              value={email}
+              onChange={changeEmail}
+              type="text"
+              placeholder="이메일을 입력하세요."
+              email
+            />
+            <CertificationEmailDiv />
+          </InputDiv>
+          <AlertHelperDiv>
+            <AlertEmailDiv />
+            <AlertTextP>
+              입력하신 메일로 전송된 인증번호를 입력해주세요.
+            </AlertTextP>
+          </AlertHelperDiv>
+        </div>
+
+        <NormalInputDiv top>
+          <SignUpInput
+            name="password"
+            value={password}
+            onChange={passwordChange}
+            type="password"
+            placeholder="비밀번호를 입력하세요."
+          />
+        </NormalInputDiv>
+
         {!passwordCheck && (
           <HelperTextP>
             영어(대소문자 구분), 숫자로 8~15자로 입력해주세요
           </HelperTextP>
         )}
-        <LoginBtn type="button" onClick={submitSignup}>
-          회원가입
-        </LoginBtn>
+        <SubmitBtnWrapDiv>
+          <LoginBtn type="button" onClick={submitSignup}>
+            회원가입
+          </LoginBtn>
+        </SubmitBtnWrapDiv>
       </form>
       <TextBnt onClick={redirectLogin}>로그인 창으로 돌아가기</TextBnt>
       {/* <KakakoLink href={KAKAO_AUTH_URL} /> */}
@@ -135,13 +176,22 @@ const SignupContainer = styled.div`
   margin-top: 60px;
   margin-bottom: 100px;
 `;
+const NormalInputDiv = styled.div`
+  ${props => (props.top ? 'margin-top: 15px;' : 'margin-bottom: 27px;')}
+`;
+
+const InputDiv = styled.div`
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-top: 15px;
+`;
 
 const SignUpInput = styled.input`
-  width: 500px;
+  width: ${props => (props.email ? '448px' : '630px')};
   height: 60px;
   border: 1.5px solid #d9d9d9;
   border-radius: 5px;
-  margin-top: 26px;
   font-size: 20px;
   text-indent: 27px;
 
@@ -183,4 +233,49 @@ const SignUpTitleDiv = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   margin-bottom: 39px;
+`;
+const CertificationSendDiv = styled.div`
+  width: 162px;
+  height: 60px;
+  background-image: url(${CertifiNumber});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+`;
+const CertificationEmailDiv = styled.div`
+  width: 162px;
+  height: 60px;
+  background-image: url(${CertifiEmail});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+`;
+
+const AlertHelperDiv = styled.div`
+  display: flex;
+  gap: 11px;
+  align-items: center;
+  padding-left: 25px;
+  margin-top: 5px;
+`;
+const AlertEmailDiv = styled.div`
+  width: 14px;
+  height: 14px;
+  background-image: url(${AlertIcon});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+`;
+const AlertTextP = styled.p`
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: -0.5px;
+  color: #afaeb7;
+`;
+const SubmitBtnWrapDiv = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
 `;

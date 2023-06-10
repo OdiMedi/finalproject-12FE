@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 import commentDelIcon from '../assets/commentDel.png';
 import commentDelX from '../assets/commentDelX.png';
 import commentDelText from '../assets/commentDelText.png';
@@ -35,7 +36,9 @@ const DelModal = ({ onAccess, type }) => {
 
   const handleYesBtn = event => {
     event.stopPropagation();
-    withdrawalHandle();
+    if (typeText === 'unregister') {
+      withdrawalHandle();
+    }
     onAccess(true);
   };
   const DelModalClose = event => {

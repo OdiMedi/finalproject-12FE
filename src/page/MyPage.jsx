@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Cookies from 'js-cookie';
 import api from '../api/axios';
 import profile from '../assets/profile.png';
 import MypageBookmark from '../components/mypage/MypageBookmark';
@@ -15,16 +13,12 @@ import UserInfoModal from '../components/mypage/UserInfoModal';
 
 const MyPage = () => {
   const [activeButton, setActiveButton] = useState(1);
-  // const [nicknameModal, setNicknameModal] = useState(false);
-  // const [pwdModal, setPwdModal] = useState(false);
-  // const [unregisterModal, setUnregisterModal] = useState(false);
   const [userinfoModal, setUserInfoModal] = useState(false);
   const [nicknameModal, setNickNameModal] = useState(false);
   const [passwordModal, setPasswordModal] = useState(false);
   const [unregisterModal, setUnregisterModal] = useState(false);
   const MypageNickname = localStorage.getItem('nickname');
   const MypageEmail = localStorage.getItem('email');
-  const navigate = useNavigate();
 
   const getBookmark = async () => {
     const response = await api.get('/api/bookmark');
@@ -51,8 +45,6 @@ const MyPage = () => {
       setNickNameModal(false);
       setPasswordModal(false);
       setUnregisterModal(false);
-    } else if (newValue === false) {
-      setUserInfoModal(false);
     } else if (newValue === 'nickname') {
       setNickNameModal(true);
       setUserInfoModal(false);
@@ -65,30 +57,6 @@ const MyPage = () => {
     }
   };
 
-  // const handleNickCheck = newValue => {
-  //   if (newValue === true) {
-  //     setNicknameModal(false);
-  //   } else if (newValue === false) {
-  //     setNicknameModal(false);
-  //   }
-  // };
-  // const handlePwdCheck = newValue => {
-  //   if (newValue === true) {
-  //     setPwdModal(false);
-  //   } else if (newValue === false) {
-  //     setPwdModal(false);
-  //   }
-  // };
-
-  // const handleUnregisterCheck = newValue => {
-  //   if (newValue === true) {
-  //     withdrawalHandle();
-  //     setUnregisterModal(false);
-  //   } else if (newValue === false) {
-  //     setUnregisterModal(false);
-  //   }
-  // };
-
   return (
     <MypageContainer>
       <MypageTitle>마이페이지</MypageTitle>
@@ -99,12 +67,6 @@ const MyPage = () => {
           <button type="button" onClick={() => setUserInfoModal(true)}>
             회원정보 수정
           </button>
-          {/* <WithdrawalBtn onClick={() => setPwdModal(true)}>
-            비밀번호 변경
-          </WithdrawalBtn>
-          <WithdrawalBtn onClick={() => setUnregisterModal(true)}>
-            회원탈퇴
-          </WithdrawalBtn>  */}
           {userinfoModal && (
             <ModalPortal>
               <UserInfoModal onAccess={handleUserInfo} />
@@ -125,21 +87,6 @@ const MyPage = () => {
               <DelModal onAccess={handleUserInfo} type="unregister" />
             </ModalPortal>
           )}
-          {/* {pwdModal && (
-            <ModalPortal>
-              <MypagePwdModal onAccess={handlePwdCheck} />
-            </ModalPortal>
-          )}
-          {nicknameModal && (
-            <ModalPortal>
-              <MypageNicknameModal onAccess={handleNickCheck} />
-            </ModalPortal>
-          )}
-          {unregisterModal && (
-            <ModalPortal>
-              <DelModal onAccess={handleUnregisterCheck} type="unregister" />
-            </ModalPortal>
-          )} */}
           <p>{MypageEmail}</p>
         </ProfileDescDiv>
       </MyprofileDiv>

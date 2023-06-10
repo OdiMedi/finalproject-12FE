@@ -1,20 +1,12 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-import Cookies from 'js-cookie';
 import Xbutton from '../../assets/nicknameX.png';
 import profileDefault from '../../assets/profile.png';
-import ModalPortal from '../../shared/ModalPortal';
-import MypageNicknameModal from './MypageNicknameModal';
-import api from '../../api/axios';
 
 const UserInfoModal = ({ onAccess }) => {
   const UserInfoClose = event => {
     event.stopPropagation();
-    onAccess(false);
+    onAccess(true);
   };
-  // const nicknamehandle = () => {
-  //   onAccess('nickname');
-  // };
 
   return (
     <UserInfoContainerDiv>
