@@ -9,12 +9,14 @@ import LoginTitleMain from '../../assets/loginTitle.png';
 import CertifiNumber from '../../assets/certificationSubmit.png';
 import CertifiEmail from '../../assets/emailCertification.png';
 import AlertIcon from '../../assets/alertIcon.png';
+import ExpireTimer from './ExpireTimer';
 
 const SignupModal = () => {
   const navigate = useNavigate();
   const [emailCheck, setEmailCheck] = useState(true);
   const [nicknameCheck, setNicknameCheck] = useState(true);
   const [passwordCheck, setPasswordCheck] = useState(true);
+  const [isTimer, setIsTimer] = useState(false);
   const [inputValue, setInputValue] = useState({
     email: '',
     nickname: '',
@@ -63,6 +65,18 @@ const SignupModal = () => {
     }
   };
 
+  const submitCertifiNumber = () => {
+    try {
+      setIsTimer(false);
+      // api.post('user/signup/email', { email });
+      setTimeout(() => {
+        setIsTimer(true); // 일정 시간 지난 후에 타이머 다시 실행
+      }, 100); // 1초 지연 후 타이머 다시 시작
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const submitSignup = async () => {
     try {
       if (!(emailCheck && nicknameCheck && passwordCheck)) {
@@ -107,7 +121,7 @@ const SignupModal = () => {
               placeholder="이메일을 입력하세요."
               email
             />
-            <CertificationSendDiv />
+            <CertificationSendDiv onClick={submitCertifiNumber} />
           </InputDiv>
           <AlertHelperDiv>
             <AlertEmailDiv />
@@ -134,6 +148,7 @@ const SignupModal = () => {
             <AlertTextP>
               입력하신 메일로 전송된 인증번호를 입력해주세요.
             </AlertTextP>
+            {isTimer && <ExpireTimer />}
           </AlertHelperDiv>
         </div>
 
