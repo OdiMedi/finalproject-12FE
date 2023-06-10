@@ -10,6 +10,7 @@ import ModalPortal from '../shared/ModalPortal';
 import MypagePwdModal from '../components/mypage/MypagePwdModal';
 import DelModal from '../shared/DelModal';
 import UserInfoModal from '../components/mypage/UserInfoModal';
+import MypageProfileImgModal from '../components/mypage/MypageProfileImgModal';
 
 const MyPage = () => {
   const [activeButton, setActiveButton] = useState(1);
@@ -17,6 +18,7 @@ const MyPage = () => {
   const [nicknameModal, setNickNameModal] = useState(false);
   const [passwordModal, setPasswordModal] = useState(false);
   const [unregisterModal, setUnregisterModal] = useState(false);
+  const [profileImgModal, setProfileImgModal] = useState(false);
   const MypageNickname = localStorage.getItem('nickname');
   const MypageEmail = localStorage.getItem('email');
 
@@ -41,10 +43,11 @@ const MyPage = () => {
 
   const handleUserInfo = newValue => {
     if (newValue === true) {
-      setUserInfoModal(false);
+      setUserInfoModal(true);
       setNickNameModal(false);
       setPasswordModal(false);
       setUnregisterModal(false);
+      setProfileImgModal(false);
     } else if (newValue === 'nickname') {
       setNickNameModal(true);
       setUserInfoModal(false);
@@ -54,6 +57,11 @@ const MyPage = () => {
     } else if (newValue === 'unregister') {
       setUserInfoModal(false);
       setUnregisterModal(true);
+    } else if (newValue === 'profileimg') {
+      setUserInfoModal(false);
+      setProfileImgModal(true);
+    } else {
+      setUserInfoModal(false);
     }
   };
 
@@ -70,6 +78,11 @@ const MyPage = () => {
           {userinfoModal && (
             <ModalPortal>
               <UserInfoModal onAccess={handleUserInfo} />
+            </ModalPortal>
+          )}
+          {profileImgModal && (
+            <ModalPortal>
+              <MypageProfileImgModal onAccess={handleUserInfo} />
             </ModalPortal>
           )}
           {nicknameModal && (

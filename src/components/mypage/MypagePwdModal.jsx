@@ -48,6 +48,7 @@ const MypagePwdModal = ({ onAccess }) => {
         <NicknameTitleP>비밀번호 변경</NicknameTitleP>
         <NicknameXDiv onClick={() => onAccess(true)} />
         <NicknameInputWrapDiv>
+          <span>비밀번호</span>
           <NicknameInput
             placeholder="변경하실 비밀번호를 입력해주세요"
             name="password"
@@ -71,7 +72,9 @@ const MypagePwdModal = ({ onAccess }) => {
           )}
         </NicknameInputWrapDiv>
 
-        <NicknameButton onClick={editPasswordHandle}>변경하기</NicknameButton>
+        <NicknameButton onClick={editPasswordHandle}>
+          회원정보 수정하기
+        </NicknameButton>
       </NicknameUpdataDiv>
     </NickNameModalWrapDiv>
   );
@@ -88,8 +91,8 @@ const NickNameModalWrapDiv = styled.div`
   background-color: rgba(0, 0, 0, 0.2);
 `;
 const NicknameUpdataDiv = styled.div`
-  width: 540px;
-  height: 385px;
+  width: 560px;
+  height: 305px;
   background: #ffffff;
   border-radius: 30px;
   position: relative;
@@ -99,8 +102,8 @@ const NicknameTitleP = styled.p`
   font-size: 18px;
   line-height: 34px;
   position: absolute;
-  top: 49px;
-  left: 217px;
+  top: 39px;
+  left: 227px;
 `;
 
 const NicknameXDiv = styled.div`
@@ -116,26 +119,32 @@ const NicknameXDiv = styled.div`
 `;
 
 const NicknameInputWrapDiv = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
-  /* gap: 25px; */
+  align-items: center;
   position: absolute;
-  left: 40px;
-  top: 100px;
+  top: 90px;
+
+  span {
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 34px;
+    position: absolute;
+    left: 79px;
+    top: 16px;
+  }
 `;
 
 const NicknameInput = styled.input`
-  background: #ededed;
-  border-radius: 10px;
-  width: 462px;
-  height: 39px;
-  border: none;
+  background: #ffffff;
+  border: 1.5px solid #d9d9d9;
+  border-radius: 5px;
+  width: 265px;
+  height: 34px;
   outline: none;
   text-indent: 20px;
   margin-top: 15px;
-  /* position: absolute;
-  top: 83px;
-  left: 39px; */
 `;
 
 const NicknameButton = styled.button`
@@ -145,8 +154,12 @@ const NicknameButton = styled.button`
   height: 40px;
   border: none;
   position: absolute;
-  top: 282px;
-  left: 92px;
+  top: 236px;
+  left: 100px;
+  font-weight: 900;
+  font-size: 15px;
+  line-height: 34px;
+  color: #ffffff;
 `;
 
 const HelperTextP = styled.p`

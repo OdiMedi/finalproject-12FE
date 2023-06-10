@@ -40,13 +40,16 @@ const MypageNicknameModal = ({ onAccess }) => {
       <NicknameUpdataDiv>
         <NicknameTitleP>닉네임 변경</NicknameTitleP>
         <NicknameXDiv onClick={() => onAccess(true)} />
+        <NickInputTextSpan>닉네임</NickInputTextSpan>
         <NicknameInput onChange={nickInputChange} value={nickInput} />
         {!nicknameCheck && (
           <HelperTextP>
             닉네임은 한글, 영어(대소문자 구분), 숫자로 2~10자로 입력해주세요
           </HelperTextP>
         )}
-        <NicknameButton onClick={updateNickBtn}>변경하기</NicknameButton>
+        <NicknameButton onClick={updateNickBtn}>
+          회원정보 수정하기
+        </NicknameButton>
         {alertError && (
           <ErrorAlertP>
             중복된 닉네임이 존재합니다. 다른 닉네임을 입력해주세요
@@ -95,16 +98,25 @@ const NicknameXDiv = styled.div`
   right: 21px;
 `;
 
+const NickInputTextSpan = styled.span`
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 34px;
+  position: absolute;
+  left: 110px;
+  top: 93px;
+`;
+
 const NicknameInput = styled.input`
-  background: #ededed;
-  border-radius: 10px;
-  width: 462px;
-  height: 39px;
-  border: none;
+  background: #ffffff;
+  border: 1.5px solid #d9d9d9;
+  border-radius: 5px;
+  width: 265px;
+  height: 34px;
   outline: none;
   position: absolute;
-  top: 83px;
-  left: 39px;
+  top: 93px;
+  left: 164px;
 `;
 
 const NicknameButton = styled.button`
@@ -116,13 +128,17 @@ const NicknameButton = styled.button`
   position: absolute;
   top: 172px;
   left: 92px;
+  font-weight: 900;
+  font-size: 15px;
+  line-height: 34px;
+  color: #ffffff;
 `;
 const ErrorAlertP = styled.p`
   font-weight: 500;
   font-size: 12px;
   line-height: 32px;
   position: absolute;
-  top: 196px;
+  top: 206px;
   left: 131px;
   color: red;
 `;
@@ -130,6 +146,6 @@ const HelperTextP = styled.p`
   color: #fa5938;
   position: absolute;
   font-size: 13px;
-  top: 130px;
-  left: 45px;
+  top: 140px;
+  left: 90px;
 `;

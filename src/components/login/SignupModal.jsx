@@ -17,6 +17,9 @@ const SignupModal = () => {
   const [nicknameCheck, setNicknameCheck] = useState(true);
   const [passwordCheck, setPasswordCheck] = useState(true);
   const [isTimer, setIsTimer] = useState(false);
+  const [validNumber, setValidNumber] = useState('');
+  const [emailAuth, setEmailAuth] = useState(false);
+  const [validSubmitNum, setValidSubmitNum] = useState(false);
   const [inputValue, setInputValue] = useState({
     email: '',
     nickname: '',
@@ -64,14 +67,34 @@ const SignupModal = () => {
       setPasswordCheck(true);
     }
   };
+  const vaildNumHandler = e => {
+    const { value } = e.target;
+    setValidNumber(value);
+  };
 
   const submitCertifiNumber = () => {
     try {
       setIsTimer(false);
-      // api.post('user/signup/email', { email });
+      api.post('user/signup/email', { email });
       setTimeout(() => {
-        setIsTimer(true); // 일정 시간 지난 후에 타이머 다시 실행
-      }, 100); // 1초 지연 후 타이머 다시 시작
+        setIsTimer(true);
+      }, 100);
+      setValidSubmitNum(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const mailauthHandeler = () => {
+    try {
+      api
+        .post('/user/signup/email/valid', {
+          validNumber: Number(validNumber),
+          email,
+        })
+        .then(res => setEmailAuth(res.data.checkNumber));
+
+      setIsTimer(false);
     } catch (error) {
       console.log(error);
     }
@@ -123,35 +146,38 @@ const SignupModal = () => {
             />
             <CertificationSendDiv onClick={submitCertifiNumber} />
           </InputDiv>
-          <AlertHelperDiv>
-            <AlertEmailDiv />
-            <AlertTextP>메일이 전송되었습니다.</AlertTextP>
-          </AlertHelperDiv>
+          {validSubmitNum && (
+            <AlertHelperDiv>
+              <AlertEmailDiv />
+              <AlertTextP>메일이 전송되었습니다.</AlertTextP>
+            </AlertHelperDiv>
+          )}
         </div>
         {!emailCheck && (
           <HelperTextP>이메일 형식에 맞춰주세요(@ . 포함)</HelperTextP>
         )}
-        <div>
-          <InputDiv>
-            <SignUpInput
-              name="email"
-              value={email}
-              onChange={changeEmail}
-              type="text"
-              placeholder="이메일을 입력하세요."
-              email
-            />
-            <CertificationEmailDiv />
-          </InputDiv>
-          <AlertHelperDiv>
-            <AlertEmailDiv />
-            <AlertTextP>
-              입력하신 메일로 전송된 인증번호를 입력해주세요.
-            </AlertTextP>
-            {isTimer && <ExpireTimer />}
-          </AlertHelperDiv>
-        </div>
-
+        {validSubmitNum && (
+          <div>
+            <InputDiv>
+              <SignUpInput
+                name="email"
+                value={validNumber}
+                onChange={vaildNumHandler}
+                type="text"
+                placeholder="인증번호를 입력하세요."
+                email
+              />
+              <CertificationEmailDiv onClick={mailauthHandeler} />
+            </InputDiv>
+            <AlertHelperDiv>
+              <AlertEmailDiv />
+              <AlertTextP>
+                입력하신 메일로 전송된 인증번호를 입력해주세요.
+              </AlertTextP>
+              {isTimer && <ExpireTimer />}
+            </AlertHelperDiv>
+          </div>
+        )}
         <NormalInputDiv top>
           <SignUpInput
             name="password"

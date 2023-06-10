@@ -3,9 +3,10 @@ import Xbutton from '../../assets/nicknameX.png';
 import profileDefault from '../../assets/profile.png';
 
 const UserInfoModal = ({ onAccess }) => {
+  const nickName = localStorage.getItem('nickname');
   const UserInfoClose = event => {
     event.stopPropagation();
-    onAccess(true);
+    onAccess(false);
   };
 
   return (
@@ -14,9 +15,11 @@ const UserInfoModal = ({ onAccess }) => {
         <UserInfoTitleP>회원정보</UserInfoTitleP>
         <CommentDelX onClick={UserInfoClose} />
         <UserInfoImgDiv />
-        <UserInfoNameP>청량한 바지</UserInfoNameP>
+        <UserInfoNameP>{nickName}</UserInfoNameP>
         <UserInfoBtnWrapDiv>
-          <UserInfoButton>프로필 사진 변경</UserInfoButton>
+          <UserInfoButton onClick={() => onAccess('profileimg')}>
+            프로필 사진 변경
+          </UserInfoButton>
           <UserInfoButton onClick={() => onAccess('nickname')}>
             닉네임 변경
           </UserInfoButton>

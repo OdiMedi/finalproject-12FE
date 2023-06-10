@@ -29,6 +29,7 @@ const Header = () => {
       Cookies.remove('authorization');
       localStorage.removeItem('email');
       localStorage.removeItem('nickname');
+
       setIsLogin(prev => !prev);
       navigate('/');
     } catch (error) {
