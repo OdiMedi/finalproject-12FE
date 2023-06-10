@@ -12,7 +12,6 @@ import ForeignDetailPage from '../page/ForeignDetailPage';
 import Notice from '../page/Notice';
 import LoginSnackBar from '../components/login/LoginSnackBar';
 
-
 const Router = () => {
   return (
     <BrowserRouter>
