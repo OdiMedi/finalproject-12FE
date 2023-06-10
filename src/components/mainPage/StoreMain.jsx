@@ -97,9 +97,6 @@ const StoreMain = () => {
   }));
 
   const [selectGuStatus, setSelectGuStatus] = useState(statusGuOptions[0]);
-  const onChangeNameSearchHandler = e => {
-    setName(e.target.value);
-  };
 
   const [searchData, setSearchData] = useState({
     name,
@@ -146,6 +143,9 @@ const StoreMain = () => {
 
   const onClickSearchButtonHandler = () => {
     updateSearchData();
+  };
+  const onChangeNameSearchHandler = e => {
+    setName(e.target.value);
   };
   // 필터 버튼
   const filterButtonClickHandler = button => {

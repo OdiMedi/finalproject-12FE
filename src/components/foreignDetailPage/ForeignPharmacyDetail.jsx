@@ -58,7 +58,9 @@ const ForeignPharmacyDetail = () => {
             </CSS.InfoMenuBoxDiv>
             <CSS.StoreDetailBoxDiv>
               <CSS.BookMarkPositionDiv>
-                <BookMark storeId={data.storeId} isCheck={data.bookmark} />
+                <BookmarkDiv>
+                  <BookMark storeId={data.storeId} isCheck={data.bookmark} />
+                </BookmarkDiv>
                 <span>{data.totalBookmark}</span>
               </CSS.BookMarkPositionDiv>
               <CSS.StoreDetailInfoBoxDiv>
@@ -106,3 +108,6 @@ const ForeignPharmacyDetail = () => {
 };
 
 export default ForeignPharmacyDetail;
+const BookmarkDiv = styled.div`
+  z-index: 1;
+`;
