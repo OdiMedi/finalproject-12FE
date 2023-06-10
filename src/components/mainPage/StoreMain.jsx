@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import Select from 'react-select';
 import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
-import locationIcon from '../../assets/locationIcon.png';
-import searchIcon from '../../assets/icon _search_.png';
-import polygon from '../../assets/Polygon.png';
-import PharmacyList from './PharmacyList';
-import MapApi from '../MapApi';
-import * as CSS from '../../style/globalStyle';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Select from 'react-select';
+import styled from 'styled-components';
 import { storeFilterList } from '../../api/storeList';
+import searchIcon from '../../assets/icon _search_.png';
+import locationIcon from '../../assets/locationIcon.png';
+import polygon from '../../assets/Polygon.png';
+import * as CSS from '../../style/globalStyle';
+import MapApi from '../MapApi';
+import PharmacyList from './PharmacyList';
 
 const IndicatorSeparator = null;
 const DropdownIndicator = () => <PolygonIcon />;
@@ -60,7 +60,8 @@ const StoreMain = () => {
   const [currentLatitude, setCurrentLatitude] = useState('');
   const [currentLongitude, setCurrentLongitude] = useState('');
   const navigate = useNavigate();
-
+  const currentLocation = useLocation();
+  const currentPageLocation = currentLocation.pathname;
   // 전체리스트 api로직
   const mutation = useMutation(storeFilterList, {
     onSuccess: data => {
@@ -172,6 +173,7 @@ const StoreMain = () => {
           storeLocation={storeList}
           isCurrent={isCurrent}
           navigate={navigate}
+          currentPageLocation={currentPageLocation}
         />
       )}
       <div>
