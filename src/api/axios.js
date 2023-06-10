@@ -36,7 +36,7 @@ api.interceptors.request.use(
     if (accesstoken) {
       config.headers.ACCESS_KEY = `Bearer ${accesstoken}`;
     }
-    // console.log('서버요청한다:::::::::', config);
+    console.log('서버요청한다:::::::::', config);
     return config;
   },
   error => {
@@ -90,7 +90,7 @@ api.interceptors.response.use(
       if (!modalRoot.hasChildNodes()) {
         root.render(
           <ModalPortal>
-            <LoginSnackBar />
+            <LoginSnackBar type="expire" />
           </ModalPortal>
         );
       }

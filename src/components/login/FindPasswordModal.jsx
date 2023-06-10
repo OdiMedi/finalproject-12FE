@@ -3,14 +3,11 @@ import styled from 'styled-components';
 import api from '../../api/axios';
 import NicknameX from '../../assets/nicknameX.png';
 import FindPwdIcon from '../../assets/findPwdIcon.png';
+import SearchIcon from '../../assets/searchIcon.png';
 
 const FindPasswordModal = ({ onAccess }) => {
   const [emailInput, setEmailInput] = useState('');
   const [alertError, setAlertError] = useState(false);
-
-  const handleXbox = () => {
-    onAccess(false);
-  };
 
   const emailInputChange = e => {
     setEmailInput(e.target.value);
@@ -20,7 +17,6 @@ const FindPasswordModal = ({ onAccess }) => {
     try {
       await api.post('user/find/password', { email: emailInput });
     } catch (error) {
-      console.log('error::::', error);
       setAlertError(true);
       return;
     }
@@ -30,8 +26,9 @@ const FindPasswordModal = ({ onAccess }) => {
   return (
     <PwdModalWrapDiv>
       <PwdFindDiv>
+        <SearchIconDiv />
         <PwdTitleP>비밀번호 찾기</PwdTitleP>
-        <PwdXDiv onClick={handleXbox} />
+        <PwdXDiv onClick={() => onAccess(false)} />
         <PwdInput
           value={emailInput}
           onChange={emailInputChange}
@@ -44,7 +41,7 @@ const FindPasswordModal = ({ onAccess }) => {
         <HelperTextP>
           이메일 입력 시, 이메일로 임시 비밀번호가 전송됩니다.
         </HelperTextP>
-        {/* {alertError && <ErrorAlertP>이메일이 존재하지 않습니다</ErrorAlertP>} */}
+        {alertError && <ErrorAlertP>이메일이 존재하지 않습니다</ErrorAlertP>}
       </PwdFindDiv>
     </PwdModalWrapDiv>
   );
@@ -160,4 +157,15 @@ const ErrorAlertP = styled.p`
   top: 206px;
   left: 201px;
   color: red;
+`;
+const SearchIconDiv = styled.div`
+  width: 19px;
+  height: 20px;
+  background-image: url(${SearchIcon});
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  top: 35px;
+  left: 188px;
 `;

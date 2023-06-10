@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
 import api from '../../api/axios';
 import KAKAO_AUTH_URL from './kakaoAuth';
 import LoginIconMain from '../../assets/loginIcon.png';
@@ -14,6 +13,7 @@ import FindPasswordModal from './FindPasswordModal';
 
 const LoginModal = () => {
   const [findPwdModal, setFindPwdModal] = useState(false);
+  const [errorCode, setErrorCode] = useState('');
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
     email: '',
@@ -33,7 +33,7 @@ const LoginModal = () => {
     try {
       const response = await api.post('/user/login', inputValue);
       localStorage.setItem('email', response.data.email);
-      localStorage.setItem('nickname', response.data.nickname); // 키값 수정 예정
+      localStorage.setItem('nickname', response.data.nickname);
 
       const accessHeader = response?.headers.get('ACCESS_KEY');
       const refreshHeader = response?.headers.get('REFRESH_KEY');
@@ -49,7 +49,8 @@ const LoginModal = () => {
       });
       navigate('/');
     } catch (error) {
-      console.log(error);
+      setErrorCode(error.response.data.errorCode);
+      console.log(error.response.data.errorCode);
     }
   };
 
@@ -101,10 +102,18 @@ const LoginModal = () => {
 
       <KakakoLink href={KAKAO_AUTH_URL} />
 
-      <WarningDiv>
-        <div />
-        <p>이메일 / 비밀번호를 다시 확인해주세요.</p>
-      </WarningDiv>
+      {errorCode === 'MEMBER_NOT_FOUND' && (
+        <WarningDiv>
+          <div />
+          <p>이메일을 다시 확인해주세요.</p>
+        </WarningDiv>
+      )}
+      {errorCode === 'INVALID_PASSWORD' && (
+        <WarningDiv>
+          <div />
+          <p>비밀번호를 다시 확인해주세요.</p>
+        </WarningDiv>
+      )}
     </LoginContainer>
   );
 };
@@ -113,12 +122,14 @@ export default LoginModal;
 
 const LoginContainer = styled.div`
   width: 500px;
-  /* height: 761px; */
+  /* height: 90vh; */
   margin: 0 auto;
   margin-top: 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  margin-bottom: 100px;
 `;
 export const LoginIconDiv = styled.div`
   width: 64px;
@@ -135,7 +146,7 @@ export const LoginTitleDiv = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  margin-bottom: 59px;
+  margin-bottom: 39px;
 `;
 export const LoginInput = styled.input`
   width: 500px;
@@ -211,7 +222,7 @@ export const KakakoLink = styled.a`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  margin-top: 58px;
+  margin-top: 28px;
 `;
 const WarningDiv = styled.div`
   width: 450px;
