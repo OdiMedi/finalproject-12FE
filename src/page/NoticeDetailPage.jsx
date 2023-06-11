@@ -32,7 +32,7 @@ const NoticeDetailPage = () => {
     ],
   };
   const noticeDetailPageMoveButtonHandler = id => {
-    alert(`${id}로 이동할 예정`);
+    navigate(`/noticeList/${id}`);
   };
   const noticeListMoveButtonHandler = () => {
     navigate('/noticeList');

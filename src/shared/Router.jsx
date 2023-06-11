@@ -12,6 +12,7 @@ import ForeignDetailPage from '../page/ForeignDetailPage';
 import NoticeList from '../page/NoticeList';
 import LoginSnackBar from '../components/login/LoginSnackBar';
 import NoticeDetailPage from '../page/NoticeDetailPage';
+import WriteNotice from '../page/WriteNotice';
 
 const Router = () => {
   return (
@@ -29,6 +30,7 @@ const Router = () => {
           <Route path="/foreignPage/:id" element={<ForeignDetailPage />} />
           <Route path="/noticeList" element={<NoticeList />} />
           <Route path="/noticeList/:id" element={<NoticeDetailPage />} />
+          <Route path="/WriteNotice" element={<WriteNotice />} />
           <Route path="/modal" element={<LoginSnackBar />} />
         </Routes>
       </Layout>

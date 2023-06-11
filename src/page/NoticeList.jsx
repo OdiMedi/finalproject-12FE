@@ -76,13 +76,19 @@ const NoticeList = () => {
   const noticeDetailPageMoveButtonHandler = id => {
     navigate(`/noticeList/${id}`);
   };
+  const writeNoticeMoveButtonHandler = () => {
+    navigate('/WriteNotice');
+  };
   return (
     <BackgroundMain>
       <NoticeH1>공지사항</NoticeH1>
       <WriteBoxDiv>
         <WriteButton>
           <WriteIconImg src={writeIcon} alt="" />
-          <WriteTextP> 글 작성 </WriteTextP>
+          <WriteTextP onClick={writeNoticeMoveButtonHandler}>
+            {' '}
+            글 작성{' '}
+          </WriteTextP>
         </WriteButton>
       </WriteBoxDiv>
       <ListSection>
