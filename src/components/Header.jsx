@@ -37,6 +37,9 @@ const Header = () => {
     }
   };
 
+  const noticeListMoveButtonHandler = () => {
+    navigate('/noticeList');
+  };
   return (
     <HeaderContainer>
       <div
@@ -48,7 +51,7 @@ const Header = () => {
       >
         <MainIconDiv onClick={() => navigate('/')} />
         <div style={{ marginLeft: '45vw' }}>
-          <HeaderBtn>고객센터</HeaderBtn>
+          <HeaderBtn onClick={noticeListMoveButtonHandler}>공지사항</HeaderBtn>
           {isLogin ? (
             <>
               <HeaderBtn onClick={() => navigate('/mypage')}>
