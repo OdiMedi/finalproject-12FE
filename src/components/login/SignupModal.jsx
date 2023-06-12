@@ -36,6 +36,7 @@ const SignupModal = () => {
       ...inputValue,
       [name]: value,
     });
+    setErrorCodeCheck('');
     if (!emailRegExp.test(value)) {
       setEmailCheck(false);
     } else {
@@ -49,6 +50,7 @@ const SignupModal = () => {
       ...inputValue,
       [name]: value,
     });
+    setErrorCodeCheck('');
     if (!nicknameRegExp.test(value)) {
       setNicknameCheck(false);
     } else {
@@ -62,6 +64,7 @@ const SignupModal = () => {
       ...inputValue,
       [name]: value,
     });
+    setErrorCodeCheck('');
     if (!passwordRegExp.test(value)) {
       setPasswordCheck(false);
     } else {
@@ -76,7 +79,8 @@ const SignupModal = () => {
   const submitCertifiNumber = async () => {
     try {
       setIsTimer(false);
-      await api.post('/user/signup/email', { email });
+      const response = await api.post('/user/signup/email', { email });
+
       setTimeout(() => {
         setIsTimer(true);
       }, 100);
@@ -94,7 +98,10 @@ const SignupModal = () => {
           validNumber: Number(validNumber),
           email,
         })
-        .then(res => setEmailAuth(res.data.checkNumber));
+        .then(res => {
+          setEmailAuth(res.data.checkNumber);
+          console.log('인증결과', res);
+        });
 
       setIsTimer(false);
     } catch (error) {
@@ -136,6 +143,9 @@ const SignupModal = () => {
           <HelperTextP>
             중복된 닉네임입니다. 다른 닉네임을 입력해주세요
           </HelperTextP>
+        )}
+        {errorCodeCheck === 'INVALID_REQUEST_PARAMETER' && nicknameCheck && (
+          <HelperTextP>닉네임을 입력해주세요</HelperTextP>
         )}
 
         {!nicknameCheck && (
