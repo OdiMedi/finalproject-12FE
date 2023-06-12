@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import styled from 'styled-components';
@@ -6,6 +6,7 @@ import writeIcon from '../assets/writeIcon.png';
 import menuIcon from '../assets/menuIcon.png';
 
 const NoticeDetailPage = () => {
+  const [existingWriting, setExistingWriting] = useState(null);
   const params = useParams();
   const navigate = useNavigate();
 
@@ -31,11 +32,22 @@ const NoticeDetailPage = () => {
       },
     ],
   };
+  useEffect(() => {
+    setExistingWriting({
+      title: dummyList.title,
+      content: dummyList.content,
+    });
+  }, []);
   const noticeDetailPageMoveButtonHandler = id => {
     navigate(`/noticeList/${id}`);
   };
   const noticeListMoveButtonHandler = () => {
     navigate('/noticeList');
+  };
+  const noticeModifyMoveButtonHandler = () => {
+    if (existingWriting !== null) {
+      navigate('/WriteNotice', { state: { existingWriting } });
+    }
   };
   return (
     <BackgroundMain>
@@ -43,7 +55,10 @@ const NoticeDetailPage = () => {
       <WriteBoxDiv>
         <WriteButton>
           <WriteIconImg src={writeIcon} alt="" />
-          <WriteTextP> 글 수정 </WriteTextP>
+          <WriteTextP onClick={noticeModifyMoveButtonHandler}>
+            {' '}
+            글 수정{' '}
+          </WriteTextP>
         </WriteButton>
         <WriteButton>
           <WriteIconImg src={menuIcon} alt="" />
