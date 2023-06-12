@@ -6,21 +6,12 @@ import { LoginBtn, TextBnt, KakakoLink } from './LoginModal';
 import KAKAO_AUTH_URL from './kakaoAuth';
 import LoginIconMain from '../../assets/loginIcon.png';
 import LoginTitleMain from '../../assets/loginTitle.png';
-import CertifiNumber from '../../assets/certificationSubmit.png';
-import CertifiEmail from '../../assets/emailCertification.png';
-import AlertIcon from '../../assets/alertIcon.png';
-import ExpireTimer from './ExpireTimer';
 
 const SignupModal = () => {
   const navigate = useNavigate();
   const [emailCheck, setEmailCheck] = useState(true);
   const [nicknameCheck, setNicknameCheck] = useState(true);
   const [passwordCheck, setPasswordCheck] = useState(true);
-  const [errorCodeCheck, setErrorCodeCheck] = useState('');
-  const [isTimer, setIsTimer] = useState(false);
-  const [validNumber, setValidNumber] = useState('');
-  const [emailAuth, setEmailAuth] = useState(false);
-  const [validSubmitNum, setValidSubmitNum] = useState(false);
   const [inputValue, setInputValue] = useState({
     email: '',
     nickname: '',
@@ -36,7 +27,6 @@ const SignupModal = () => {
       ...inputValue,
       [name]: value,
     });
-    setErrorCodeCheck('');
     if (!emailRegExp.test(value)) {
       setEmailCheck(false);
     } else {
@@ -50,7 +40,6 @@ const SignupModal = () => {
       ...inputValue,
       [name]: value,
     });
-    setErrorCodeCheck('');
     if (!nicknameRegExp.test(value)) {
       setNicknameCheck(false);
     } else {
@@ -64,48 +53,10 @@ const SignupModal = () => {
       ...inputValue,
       [name]: value,
     });
-    setErrorCodeCheck('');
     if (!passwordRegExp.test(value)) {
       setPasswordCheck(false);
     } else {
       setPasswordCheck(true);
-    }
-  };
-  const vaildNumHandler = e => {
-    const { value } = e.target;
-    setValidNumber(value);
-  };
-
-  const submitCertifiNumber = async () => {
-    try {
-      setIsTimer(false);
-      const response = await api.post('/user/signup/email', { email });
-
-      setTimeout(() => {
-        setIsTimer(true);
-      }, 100);
-      setValidSubmitNum(true);
-    } catch (error) {
-      setValidSubmitNum(false);
-      console.log(error);
-    }
-  };
-
-  const mailauthHandeler = async () => {
-    try {
-      await api
-        .post('/user/signup/email/valid', {
-          validNumber: Number(validNumber),
-          email,
-        })
-        .then(res => {
-          setEmailAuth(res.data.checkNumber);
-          console.log('인증결과', res);
-        });
-
-      setIsTimer(false);
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -117,9 +68,7 @@ const SignupModal = () => {
       await api.post('/user/signup', inputValue);
       navigate('/login');
     } catch (error) {
-      // console.log('sigunupValidation::::::::', error);
-      // console.log(error.response.data.errorCode);
-      setErrorCodeCheck(error.response.data.errorCode);
+      console.log('sigunupValidation::::::::', error);
     }
   };
   const redirectLogin = () => {
@@ -130,99 +79,43 @@ const SignupModal = () => {
       <SignUpIconDiv />
       <SignUpTitleDiv />
       <form autoComplete="off">
-        <NormalInputDiv bottom>
-          <SignUpInput
-            name="nickname"
-            value={nickname}
-            onChange={nicknameChange}
-            type="text"
-            placeholder="닉네임을 입력하세요."
-          />
-        </NormalInputDiv>
-        {errorCodeCheck === 'DUPLICATED_MEMBER' && (
-          <HelperTextP>
-            중복된 닉네임입니다. 다른 닉네임을 입력해주세요
-          </HelperTextP>
-        )}
-        {errorCodeCheck === 'INVALID_REQUEST_PARAMETER' && nicknameCheck && (
-          <HelperTextP>닉네임을 입력해주세요</HelperTextP>
-        )}
-
+        <SignUpInput
+          name="nickname"
+          value={nickname}
+          onChange={nicknameChange}
+          type="text"
+          placeholder="닉네임을 입력하세요."
+        />
         {!nicknameCheck && (
           <HelperTextP>
             닉네임은 한글, 영어(대소문자 구분), 숫자로 2~10자로 입력해주세요
           </HelperTextP>
         )}
-        <div>
-          <InputDiv>
-            <SignUpInput
-              name="email"
-              value={email}
-              onChange={changeEmail}
-              type="text"
-              placeholder="이메일을 입력하세요."
-              email
-            />
-            <CertificationSendDiv onClick={submitCertifiNumber} />
-          </InputDiv>
-          {validSubmitNum && (
-            <AlertHelperDiv>
-              <AlertEmailDiv />
-              <AlertTextP>메일이 전송되었습니다.</AlertTextP>
-            </AlertHelperDiv>
-          )}
-        </div>
+        <SignUpInput
+          name="email"
+          value={email}
+          onChange={changeEmail}
+          type="text"
+          placeholder="이메일을 입력하세요."
+        />
         {!emailCheck && (
           <HelperTextP>이메일 형식에 맞춰주세요(@ . 포함)</HelperTextP>
         )}
-        {errorCodeCheck === 'INVALID_REQUEST_PARAMETER' && emailCheck && (
-          <HelperTextP>이메일을 입력해주세요</HelperTextP>
-        )}
-        {validSubmitNum && (
-          <div>
-            <InputDiv>
-              <SignUpInput
-                name="email"
-                value={validNumber}
-                onChange={vaildNumHandler}
-                type="text"
-                placeholder="인증번호를 입력하세요."
-                email
-              />
-              <CertificationEmailDiv onClick={mailauthHandeler} />
-            </InputDiv>
-            <AlertHelperDiv>
-              <AlertEmailDiv />
-              <AlertTextP>
-                입력하신 메일로 전송된 인증번호를 입력해주세요.
-              </AlertTextP>
-              {isTimer && <ExpireTimer />}
-            </AlertHelperDiv>
-          </div>
-        )}
-        <NormalInputDiv top>
-          <SignUpInput
-            name="password"
-            value={password}
-            onChange={passwordChange}
-            type="password"
-            placeholder="비밀번호를 입력하세요."
-          />
-        </NormalInputDiv>
-
+        <SignUpInput
+          name="password"
+          value={password}
+          onChange={passwordChange}
+          type="password"
+          placeholder="비밀번호를 입력하세요."
+        />
         {!passwordCheck && (
           <HelperTextP>
             영어(대소문자 구분), 숫자로 8~15자로 입력해주세요
           </HelperTextP>
         )}
-        {errorCodeCheck === 'INVALID_REQUEST_PARAMETER' && passwordCheck && (
-          <HelperTextP>비밀번호를 입력해주세요</HelperTextP>
-        )}
-        <SubmitBtnWrapDiv>
-          <LoginBtn type="button" onClick={submitSignup}>
-            회원가입
-          </LoginBtn>
-        </SubmitBtnWrapDiv>
+        <LoginBtn type="button" onClick={submitSignup}>
+          회원가입
+        </LoginBtn>
       </form>
       <TextBnt onClick={redirectLogin}>로그인 창으로 돌아가기</TextBnt>
       {/* <KakakoLink href={KAKAO_AUTH_URL} /> */}
@@ -242,22 +135,13 @@ const SignupContainer = styled.div`
   margin-top: 60px;
   margin-bottom: 100px;
 `;
-const NormalInputDiv = styled.div`
-  ${props => (props.top ? 'margin-top: 15px;' : 'margin-bottom: 27px;')}
-`;
-
-const InputDiv = styled.div`
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  margin-top: 15px;
-`;
 
 const SignUpInput = styled.input`
-  width: ${props => (props.email ? '448px' : '630px')};
+  width: 500px;
   height: 60px;
   border: 1.5px solid #d9d9d9;
   border-radius: 5px;
+  margin-top: 26px;
   font-size: 20px;
   text-indent: 27px;
 
@@ -299,49 +183,4 @@ const SignUpTitleDiv = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   margin-bottom: 39px;
-`;
-const CertificationSendDiv = styled.div`
-  width: 162px;
-  height: 60px;
-  background-image: url(${CertifiNumber});
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  cursor: pointer;
-`;
-const CertificationEmailDiv = styled.div`
-  width: 162px;
-  height: 60px;
-  background-image: url(${CertifiEmail});
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  cursor: pointer;
-`;
-
-const AlertHelperDiv = styled.div`
-  display: flex;
-  gap: 11px;
-  align-items: center;
-  padding-left: 25px;
-  margin-top: 5px;
-`;
-const AlertEmailDiv = styled.div`
-  width: 14px;
-  height: 14px;
-  background-image: url(${AlertIcon});
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-`;
-const AlertTextP = styled.p`
-  font-weight: 400;
-  font-size: 15px;
-  letter-spacing: -0.5px;
-  color: #afaeb7;
-`;
-const SubmitBtnWrapDiv = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
 `;
