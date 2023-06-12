@@ -140,6 +140,7 @@ const SignupModal = () => {
   const redirectLogin = () => {
     navigate('/login');
   };
+
   let content;
 
   if (isValid) {
@@ -155,6 +156,7 @@ const SignupModal = () => {
   } else {
     content = <MarginDiv />;
   }
+
   return (
     <SignupContainer>
       <SignUpIconDiv />

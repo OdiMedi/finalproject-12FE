@@ -334,3 +334,22 @@ export const BusinessTimeDiv = styled.div`
   flex-direction: row;
   align-items: center;
 `;
+export const ListNumberBoxDiv = styled.div`
+  margin-top: 12px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  font-size: 10px;
+  color: #afaeb7;
+`;
+export const ListNumberButton = styled.button`
+  font-weight: ${({ isActive }) => (isActive ? '800' : '400')};
+  font-size: ${({ isActive }) => (isActive ? '16px' : '14px')};
+  color: #686868;
+  background-color: transparent;
+  height: 30px;
+  border: none;
+  cursor: pointer;
+`;
