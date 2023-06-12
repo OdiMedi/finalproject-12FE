@@ -12,12 +12,18 @@ const SignupModal = () => {
   const [emailCheck, setEmailCheck] = useState(true);
   const [nicknameCheck, setNicknameCheck] = useState(true);
   const [passwordCheck, setPasswordCheck] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [adminCode, setAdminCode] = useState('');
   const [inputValue, setInputValue] = useState({
     email: '',
     nickname: '',
     password: '',
   });
   const { email, nickname, password } = inputValue;
+
+  const adminCheckHandle = e => {
+    setIsAdmin(!isAdmin);
+  };
 
   const changeEmail = e => {
     const { name, value } = e.target;
@@ -59,7 +65,9 @@ const SignupModal = () => {
       setPasswordCheck(true);
     }
   };
-
+  const adminCodeChange = e => {
+    setAdminCode(e.target.value);
+  };
   const submitSignup = async () => {
     try {
       if (!(emailCheck && nicknameCheck && passwordCheck)) {
@@ -79,6 +87,23 @@ const SignupModal = () => {
       <SignUpIconDiv />
       <SignUpTitleDiv />
       <form autoComplete="off">
+        <AdminCheckDiv>
+          <AdminCheckBoxInput
+            type="checkbox"
+            value={isAdmin}
+            onChange={adminCheckHandle}
+          />
+          <p>관리자 계정</p>
+        </AdminCheckDiv>
+        {isAdmin && (
+          <SignUpInput
+            name="adminCode"
+            value={adminCode}
+            onChange={adminCodeChange}
+            type="text"
+            placeholder="관리자 암호를 입력해주세요."
+          />
+        )}
         <SignUpInput
           name="nickname"
           value={nickname}
@@ -132,7 +157,7 @@ const SignupContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 60px;
+  margin-top: 40px;
   margin-bottom: 100px;
 `;
 
@@ -182,5 +207,16 @@ const SignUpTitleDiv = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  margin-bottom: 39px;
+  margin-bottom: 20px;
+`;
+const AdminCheckDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+`;
+const AdminCheckBoxInput = styled.input`
+  width: 20px;
+  height: 20px;
 `;
