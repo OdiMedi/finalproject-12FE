@@ -9,6 +9,10 @@ import Layout from './Layout';
 import DetailPage from '../page/DetailPage';
 import ForeignPage from '../page/ForeignPage';
 import ForeignDetailPage from '../page/ForeignDetailPage';
+import NoticeList from '../page/NoticeList';
+import LoginSnackBar from '../components/login/LoginSnackBar';
+import NoticeDetailPage from '../page/NoticeDetailPage';
+import WriteNotice from '../page/WriteNotice';
 
 const Router = () => {
   return (
@@ -24,6 +28,10 @@ const Router = () => {
           <Route path="/mainPage/:id" element={<DetailPage />} />
           <Route path="/foreignPage" element={<ForeignPage />} />
           <Route path="/foreignPage/:id" element={<ForeignDetailPage />} />
+          <Route path="/noticeList" element={<NoticeList />} />
+          <Route path="/noticeList/:id" element={<NoticeDetailPage />} />
+          <Route path="/WriteNotice" element={<WriteNotice />} />
+          <Route path="/modal" element={<LoginSnackBar />} />
         </Routes>
       </Layout>
     </BrowserRouter>

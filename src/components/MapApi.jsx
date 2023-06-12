@@ -9,7 +9,13 @@ import currentMarkIcon from '../assets/currentMarkIcon.png';
 
 const { kakao } = window;
 
-const MapApi = ({ storeLocation, isCurrent, navigate }) => {
+const MapApi = ({
+  storeLocation,
+  isCurrent,
+  navigate,
+  currentPageLocation,
+}) => {
+  console.log(currentPageLocation);
   const [currentLocation, setCurrentLocation] = useState({
     center: {
       latitude: storeLocation.length > 0 ? storeLocation[0].latitude : 37.541,
@@ -46,7 +52,11 @@ const MapApi = ({ storeLocation, isCurrent, navigate }) => {
     };
     const map = new kakao.maps.Map(container, options);
     const overlayClickDetailPageHandler = id => {
-      navigate(`/mainPage/${id}`);
+      if (currentPageLocation === '/mainPage') {
+        navigate(`/mainPage/${id}`);
+      } else {
+        navigate(`/foreignPage/${id}`);
+      }
     };
 
     // 마커를 지도에 보여주기

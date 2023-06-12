@@ -93,6 +93,7 @@ export const LocationInfoIconDiv = styled.div`
   height: 48px;
   position: absolute;
   top: 42px;
+  background-color: transparent;
 `;
 export const InfoP = styled.div`
   margin-top: 23px;
