@@ -52,6 +52,7 @@ const gu = [
 ];
 
 const StoreMain = () => {
+  const [currentPage, setCurrentPage] = useState(0);
   const [name, setName] = useState('');
   const [storeList, setStoreList] = useState(null);
   const [selectedButton, setSelectedButton] = useState('');
@@ -59,6 +60,7 @@ const StoreMain = () => {
   const [isLocationInfo, setIsLocationInfo] = useState(false);
   const [currentLatitude, setCurrentLatitude] = useState('');
   const [currentLongitude, setCurrentLongitude] = useState('');
+  const [keyboard, setKeyboard] = useState([]);
   const navigate = useNavigate();
   const currentLocation = useLocation();
   const currentPageLocation = currentLocation.pathname;
@@ -107,6 +109,7 @@ const StoreMain = () => {
     nightBusiness: selectedButton === 'nightBusiness',
     currentLatitude,
     currentLongitude,
+    page: currentPage,
   });
 
   useEffect(() => {
@@ -124,13 +127,14 @@ const StoreMain = () => {
       nightBusiness: selectedButton === 'nightBusiness',
       currentLatitude,
       currentLongitude,
+      page: currentPage,
     }));
   };
 
   // 검색 조건이 변경될 때마다 searchData 업데이트
   useEffect(() => {
     updateSearchData();
-  }, [selectedButton, currentLatitude, currentLongitude]);
+  }, [selectedButton, currentLatitude, currentLongitude, currentPage]);
 
   useEffect(() => {
     if (isCurrent) {
@@ -165,12 +169,24 @@ const StoreMain = () => {
   const LocationHandleMouseLeave = () => {
     setIsLocationInfo(false);
   };
-
+  useEffect(() => {
+    // storeList?.numberOfElements 값이 변경될 때마다 keyboard 배열 업데이트
+    if (storeList?.totalPages !== undefined) {
+      const newKeyboard = Array.from(
+        { length: storeList.totalPages },
+        (v, i) => i
+      );
+      setKeyboard(newKeyboard);
+    }
+  }, [storeList?.numberOfElements]);
+  const handlePageClick = pageNumber => {
+    setCurrentPage(pageNumber);
+  };
   return (
     <CSS.MainContainer>
       {storeList && (
         <MapApi
-          storeLocation={storeList}
+          storeLocation={storeList.content}
           isCurrent={isCurrent}
           navigate={navigate}
           currentPageLocation={currentPageLocation}
@@ -234,11 +250,26 @@ const StoreMain = () => {
             </CSS.FilterButton>
           </CSS.FilterBoxDiv>
         </CSS.AllSearchButtonBoxDiv>
-        {storeList && storeList.length < 1 ? (
+        {storeList && storeList.content.length < 0 ? (
           <InformationMessageDiv>찾는 약국이 없습니다.</InformationMessageDiv>
         ) : (
           <PharmacyList data={storeList} />
         )}
+        <CSS.ListNumberBoxDiv>
+          {keyboard.map((item, index) => {
+            return (
+              <>
+                {index !== 0 && <span>|</span>}
+                <CSS.ListNumberButton
+                  isActive={currentPage === item}
+                  onClick={() => handlePageClick(item)}
+                >
+                  {item}
+                </CSS.ListNumberButton>
+              </>
+            );
+          })}
+        </CSS.ListNumberBoxDiv>
       </div>
     </CSS.MainContainer>
   );

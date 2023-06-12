@@ -12,7 +12,7 @@ const PharmacyList = ({ data }) => {
 
   return (
     <Article>
-      {data?.map(item => {
+      {data?.content.map(item => {
         return (
           <CSS.ItemBoxSection
             key={item.storeId}
@@ -41,7 +41,7 @@ export default PharmacyList;
 
 const Article = styled.article`
   width: 594px;
-  height: 480px;
+  height: 440px;
   padding-left: 23px;
   padding-right: 23px;
   padding-top: 20px;

@@ -13,7 +13,7 @@ const ForeignPharmacyList = ({ data }) => {
 
   return (
     <Article>
-      {data?.map(item => {
+      {data?.content.map(item => {
         const formattedTime = `${item.weekdaysTime.slice(3, 17)}`;
         return (
           <CSS.ItemBoxSection
@@ -43,7 +43,7 @@ export default ForeignPharmacyList;
 
 const Article = styled.article`
   width: 594px;
-  height: 395px;
+  height: 355px;
   padding-left: 23px;
   padding-right: 23px;
   padding-top: 20px;
