@@ -36,21 +36,18 @@ const Header = () => {
       console.log('error::::', error);
     }
   };
-
+  const storePageMoveButtonHandler = () => {
+    navigate('/mainPage');
+  };
   const noticeListMoveButtonHandler = () => {
     navigate('/noticeList');
   };
   return (
-    <HeaderContainer>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
+    <CssHeader>
+      <BackgroundDiv>
         <MainIconDiv onClick={() => navigate('/')} />
-        <div style={{ marginLeft: '45vw' }}>
+        <div>
+          <HeaderBtn onClick={storePageMoveButtonHandler}>약국찾기</HeaderBtn>
           <HeaderBtn onClick={noticeListMoveButtonHandler}>공지사항</HeaderBtn>
           {isLogin ? (
             <>
@@ -63,14 +60,20 @@ const Header = () => {
             <HeaderBtn onClick={() => navigate('/login')}>로그인</HeaderBtn>
           )}
         </div>
-      </div>
-    </HeaderContainer>
+      </BackgroundDiv>
+    </CssHeader>
   );
 };
 
 export default Header;
 
-const HeaderContainer = styled.div`
+const BackgroundDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 590px;
+`;
+const CssHeader = styled.header`
   display: flex;
   justify-content: center;
   height: 90px;
