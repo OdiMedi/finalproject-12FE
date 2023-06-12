@@ -10,6 +10,7 @@ import api from '../../api/axios';
 import CommentItem from './CommentItem';
 import ModalPortal from '../../shared/ModalPortal';
 import LoginSnackBar from '../login/LoginSnackBar';
+import SnackBar from '../SnackBar';
 
 const Comment = ({ storeId }) => {
   const [modal, setModal] = useState(false);
@@ -58,7 +59,7 @@ const Comment = ({ storeId }) => {
         </CSS.CommentAddButton>
         {token === undefined && modal && (
           <ModalPortal>
-            <LoginSnackBar type="authorization" />
+            <SnackBar />
           </ModalPortal>
         )}
         {token !== undefined && modal && (
