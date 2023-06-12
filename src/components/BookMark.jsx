@@ -49,7 +49,7 @@ const BookMark = ({ storeId, isCheck }) => {
           <OffBookMarkIconButton onClick={onClickBookMarkHandler} />
         )}
       </div>
-      {!isLogin && <SnackBar />}
+      {!isLogin && <SnackBar type="login" />}
     </>
   );
 };
