@@ -28,6 +28,7 @@ const Comment = ({ storeId }) => {
     ['getComment', storeId],
     getCommentHandler
   );
+  // console.log('댓글데이터::::', data);
 
   return (
     <CommentBoxSection>

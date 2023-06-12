@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-
 import MainLogo from '../assets/mainLogo.png';
 import pharmacy from '../assets/pharmacy.png';
 import conversation from '../assets/conversation.png';

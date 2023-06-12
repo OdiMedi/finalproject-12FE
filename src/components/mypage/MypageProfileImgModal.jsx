@@ -31,6 +31,7 @@ const MypageProfileImgModal = ({ onAccess }) => {
     formData.append('file', selectedFile);
     try {
       await api.post('/user/change/profile', formData);
+      onAccess(true);
     } catch (error) {
       console.log('profileImgError::::::', error);
     }

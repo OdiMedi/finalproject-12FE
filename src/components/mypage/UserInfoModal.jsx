@@ -1,9 +1,12 @@
+import Cookies from 'js-cookie';
 import styled from 'styled-components';
 import Xbutton from '../../assets/nicknameX.png';
 import profileDefault from '../../assets/profile.png';
 
 const UserInfoModal = ({ onAccess }) => {
   const nickName = localStorage.getItem('nickname');
+  const kakaoLogin = Cookies.get('authorization');
+
   const UserInfoClose = event => {
     event.stopPropagation();
     onAccess(false);
@@ -23,9 +26,11 @@ const UserInfoModal = ({ onAccess }) => {
           <UserInfoButton onClick={() => onAccess('nickname')}>
             닉네임 변경
           </UserInfoButton>
-          <UserInfoButton onClick={() => onAccess('password')}>
-            비밀번호 변경
-          </UserInfoButton>
+          {kakaoLogin === undefined && (
+            <UserInfoButton onClick={() => onAccess('password')}>
+              비밀번호 변경
+            </UserInfoButton>
+          )}
         </UserInfoBtnWrapDiv>
         <UnregisterButton onClick={() => onAccess('unregister')}>
           회원 탈퇴

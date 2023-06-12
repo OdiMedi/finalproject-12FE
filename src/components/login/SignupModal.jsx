@@ -16,6 +16,7 @@ const SignupModal = () => {
   const [emailCheck, setEmailCheck] = useState(true);
   const [nicknameCheck, setNicknameCheck] = useState(true);
   const [passwordCheck, setPasswordCheck] = useState(true);
+  const [errorCodeCheck, setErrorCodeCheck] = useState('');
   const [isTimer, setIsTimer] = useState(false);
   const [validNumber, setValidNumber] = useState('');
   const [emailAuth, setEmailAuth] = useState(false);
@@ -109,7 +110,9 @@ const SignupModal = () => {
       await api.post('/user/signup', inputValue);
       navigate('/login');
     } catch (error) {
-      console.log('sigunupValidation::::::::', error);
+      // console.log('sigunupValidation::::::::', error);
+      // console.log(error.response.data.errorCode);
+      setErrorCodeCheck(error.response.data.errorCode);
     }
   };
   const redirectLogin = () => {
@@ -129,6 +132,11 @@ const SignupModal = () => {
             placeholder="닉네임을 입력하세요."
           />
         </NormalInputDiv>
+        {errorCodeCheck === 'DUPLICATED_MEMBER' && (
+          <HelperTextP>
+            중복된 닉네임입니다. 다른 닉네임을 입력해주세요
+          </HelperTextP>
+        )}
 
         {!nicknameCheck && (
           <HelperTextP>
@@ -156,6 +164,9 @@ const SignupModal = () => {
         </div>
         {!emailCheck && (
           <HelperTextP>이메일 형식에 맞춰주세요(@ . 포함)</HelperTextP>
+        )}
+        {errorCodeCheck === 'INVALID_REQUEST_PARAMETER' && emailCheck && (
+          <HelperTextP>이메일을 입력해주세요</HelperTextP>
         )}
         {validSubmitNum && (
           <div>
@@ -193,6 +204,9 @@ const SignupModal = () => {
           <HelperTextP>
             영어(대소문자 구분), 숫자로 8~15자로 입력해주세요
           </HelperTextP>
+        )}
+        {errorCodeCheck === 'INVALID_REQUEST_PARAMETER' && passwordCheck && (
+          <HelperTextP>비밀번호를 입력해주세요</HelperTextP>
         )}
         <SubmitBtnWrapDiv>
           <LoginBtn type="button" onClick={submitSignup}>
