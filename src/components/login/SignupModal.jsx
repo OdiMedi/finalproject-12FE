@@ -13,13 +13,14 @@ const SignupModal = () => {
   const [nicknameCheck, setNicknameCheck] = useState(true);
   const [passwordCheck, setPasswordCheck] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [adminCode, setAdminCode] = useState('');
   const [inputValue, setInputValue] = useState({
     email: '',
     nickname: '',
     password: '',
+    adminCode: '',
   });
-  const { email, nickname, password } = inputValue;
+  console.log(inputValue);
+  const { email, nickname, password, adminCode } = inputValue;
 
   const adminCheckHandle = e => {
     setIsAdmin(!isAdmin);
@@ -66,7 +67,12 @@ const SignupModal = () => {
     }
   };
   const adminCodeChange = e => {
-    setAdminCode(e.target.value);
+    const { name, value } = e.target;
+
+    setInputValue({
+      ...inputValue,
+      [name]: value,
+    });
   };
   const submitSignup = async () => {
     try {
@@ -207,7 +213,7 @@ const SignUpTitleDiv = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 `;
 const AdminCheckDiv = styled.div`
   display: flex;
