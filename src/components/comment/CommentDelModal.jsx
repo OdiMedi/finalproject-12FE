@@ -3,7 +3,7 @@ import commentDelIcon from '../../assets/commentDel.png';
 import commentDelX from '../../assets/commentDelX.png';
 import commentDelText from '../../assets/commentDelText.png';
 
-const CommentDelModal = ({ onAccess }) => {
+const CommentDelModal = ({ onAccess, user }) => {
   const handleYesBtn = event => {
     event.stopPropagation();
     onAccess(true);
@@ -18,7 +18,12 @@ const CommentDelModal = ({ onAccess }) => {
       <CommentDelModalDiv>
         <CommentDelIcon />
         <CommentDelX onClick={DelModalClose} />
-        <CommentDelTextDiv />
+        {user ? (
+          <CommnetDelTextP>회원 탈퇴 하시겠습니까?</CommnetDelTextP>
+        ) : (
+          <CommnetDelTextP>댓글을 삭제하시겠습니까?</CommnetDelTextP>
+        )}
+
         <CommentDelBtn onClick={handleYesBtn}>
           <p>예</p>
         </CommentDelBtn>
@@ -71,16 +76,18 @@ const CommentDelX = styled.div`
   right: 17px;
   cursor: pointer;
 `;
-const CommentDelTextDiv = styled.div`
-  width: 179px;
-  height: 34px;
-  background-image: url(${commentDelText});
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
+const CommnetDelTextP = styled.div`
   position: absolute;
   top: 54px;
   right: 135px;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 34px;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.5px;
+
+  color: #ffffff;
 `;
 const CommentDelBtn = styled.button`
   position: absolute;
