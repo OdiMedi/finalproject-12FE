@@ -1,20 +1,48 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 const WriteNotice = () => {
+  const [isEdit, setIsEdit] = useState(false);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const location = useLocation();
+  useEffect(() => {
+    if (location.state !== null) {
+      console.log(location.state.existingWriting.title);
+      setIsEdit(!isEdit);
+      setTitle(location.state.existingWriting.title);
+      setContent(location.state.existingWriting.content);
+    }
+  }, []);
+  const titleChangeHandle = e => {
+    setTitle(e.target.value);
+  };
+  const contentChangeHandle = e => {
+    setContent(e.target.value);
+  };
+  const noticeSaveButtonHandler = () => {
+    if (isEdit) {
+      alert('수정하기');
+    } else {
+      alert('저장하기');
+    }
+  };
   return (
     <BackgroundMain>
       <NoticeH1>공지사항</NoticeH1>
       <TitleBoxDiv>
         <p>제목</p>
-        <TitleInput />
+        <TitleInput value={title} onChange={titleChangeHandle} />
       </TitleBoxDiv>
       <TitleBoxDiv>
         <p>내용</p>
-        <ContentTextarea />
+        <ContentTextarea value={content} onChange={contentChangeHandle} />
       </TitleBoxDiv>
       <ButtonPositionDiv>
-        <WriteButton>글 작성하기</WriteButton>
+        <WriteButton onClick={noticeSaveButtonHandler}>
+          {isEdit ? '글 수정하기' : '글 작성하기'}
+        </WriteButton>
       </ButtonPositionDiv>
     </BackgroundMain>
   );
@@ -55,6 +83,8 @@ const TitleInput = styled.input`
   padding-right: 20px;
   padding-top: 5px;
   padding-bottom: 5px;
+
+  font-size: 17px;
   &:focus {
     outline: none;
   }
@@ -66,6 +96,7 @@ const ContentTextarea = styled.textarea`
   height: 480px;
   padding: 20px;
   resize: none;
+  font-size: 17px;
 
   &:focus {
     outline: none;
