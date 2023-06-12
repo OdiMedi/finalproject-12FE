@@ -97,6 +97,7 @@ const ForeignMainPage = () => {
     english: languageSelectedButton === 'english',
     chinese: languageSelectedButton === 'chinese',
     japanese: languageSelectedButton === 'japanese',
+    page: currentPage,
   });
 
   useEffect(() => {
@@ -134,6 +135,7 @@ const ForeignMainPage = () => {
       english: languageSelectedButton === 'english',
       chinese: languageSelectedButton === 'chinese',
       japanese: languageSelectedButton === 'japanese',
+      page: currentPage,
     }));
   };
 
@@ -145,6 +147,7 @@ const ForeignMainPage = () => {
     currentLatitude,
     currentLongitude,
     languageSelectedButton,
+    currentPage,
   ]);
   useEffect(() => {
     if (isCurrent) {
