@@ -190,6 +190,9 @@ export const LoginBtn = styled.button`
   margin-bottom: 34px;
   margin-top: 26px;
   cursor: pointer;
+  &:hover {
+    box-shadow: 3px 3px 2px rgba(175, 174, 183, 0.5);
+  }
 `;
 const TextBtnWrap = styled.div`
   display: flex;
@@ -207,6 +210,10 @@ export const TextBnt = styled.button`
   border: none;
   background-color: transparent;
   cursor: pointer;
+
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 const LineDiv = styled.div`
   width: 17px;
