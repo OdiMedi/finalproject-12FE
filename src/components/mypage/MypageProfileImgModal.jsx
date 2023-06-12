@@ -15,10 +15,10 @@ const MypageProfileImgModal = ({ onAccess }) => {
     setSelectedFile(file);
     if (file) {
       const reader = new FileReader();
+      reader.readAsDataURL(file);
       reader.onload = () => {
         setPreviewImage(reader.result);
       };
-      reader.readAsDataURL(file);
     }
   };
 
@@ -30,9 +30,9 @@ const MypageProfileImgModal = ({ onAccess }) => {
     const formData = new FormData();
     formData.append('file', selectedFile);
     try {
-      const response = await api.post('/user/change/profile', formData);
+      await api.post('/user/change/profile', formData);
     } catch (error) {
-      console.log(error);
+      console.log('profileImgError::::::', error);
     }
   };
 

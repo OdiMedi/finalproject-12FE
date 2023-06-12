@@ -16,6 +16,7 @@ const Home = () => {
     <MainPageContainerDiv>
       <MainPageLeftDiv>
         <div>
+          <p className="engTitle">WHERE IS THE PHARMACY?</p>
           <p className="Hometitle">서울 내 약국 찾기 서비스</p>
           <MainPageLeftIconDiv />
         </div>
@@ -53,6 +54,12 @@ const MainPageContainerDiv = styled.div`
 `;
 
 const MainPageLeftDiv = styled.div`
+  .engTitle {
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: 0.2em;
+  }
   .Hometitle {
     font-weight: 500;
     font-size: 36px;

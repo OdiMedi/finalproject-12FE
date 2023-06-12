@@ -29,6 +29,15 @@ const LoginModal = () => {
     });
   };
 
+  const saveImageToLocalStorage = file => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64Image = reader.result;
+      localStorage.setItem('profileimg', base64Image);
+    };
+    reader.readAsDataURL(file);
+  }; // 프로필이미지 로컬스토리지 저장 함수
+
   const submitLogin = async () => {
     try {
       const response = await api.post('/user/login', inputValue);

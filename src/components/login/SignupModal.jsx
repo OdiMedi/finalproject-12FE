@@ -72,22 +72,23 @@ const SignupModal = () => {
     setValidNumber(value);
   };
 
-  const submitCertifiNumber = () => {
+  const submitCertifiNumber = async () => {
     try {
       setIsTimer(false);
-      api.post('user/signup/email', { email });
+      await api.post('/user/signup/email', { email });
       setTimeout(() => {
         setIsTimer(true);
       }, 100);
       setValidSubmitNum(true);
     } catch (error) {
+      setValidSubmitNum(false);
       console.log(error);
     }
   };
 
-  const mailauthHandeler = () => {
+  const mailauthHandeler = async () => {
     try {
-      api
+      await api
         .post('/user/signup/email/valid', {
           validNumber: Number(validNumber),
           email,
