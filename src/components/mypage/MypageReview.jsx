@@ -79,8 +79,9 @@ const MypageReview = ({
       <MypageReviewTextDiv>
         <ReveiwProfileDiv />
         <ReviewTextDiv>
-          <p className="reviewName">{nickname}</p>
-          <p className="reviewText">{contents}</p>
+          <ReviewNameP>{nickname}</ReviewNameP>
+          <ReviewTextP>{contents}</ReviewTextP>
+
           {/* <ReviewTextIconDiv>
             <ThubmUpDiv />
             <span>100</span>
@@ -125,22 +126,24 @@ const ReveiwProfileDiv = styled.div`
   margin-right: 16px;
 `;
 const ReviewTextDiv = styled.div`
-  width: 85%;
-  .reviewName {
-    font-weight: 800;
-    font-size: 15px;
-    line-height: 18px;
-    letter-spacing: 0.05em;
-    margin-bottom: 8px;
-  }
-  .reviewText {
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 17px;
-    letter-spacing: 0.05em;
-    margin-bottom: 9px;
-    word-wrap: break-word;
-  }
+  width: 560px;
+  display: flex;
+  flex-direction: column;
+`;
+const ReviewNameP = styled.p`
+  font-weight: 800;
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+`;
+const ReviewTextP = styled.p`
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: 0.05em;
+  margin-bottom: 9px;
+  word-wrap: break-word;
 `;
 const ReviewTextIconDiv = styled.div`
   display: flex;
@@ -187,7 +190,6 @@ const DeleteDiv = styled.div`
   cursor: pointer;
 `;
 const MypagePharDiv = styled.div`
-  width: 35%;
   display: flex;
   margin-right: 20px;
 `;
@@ -195,8 +197,7 @@ const MypagePharNameDiv = styled.div`
   display: flex;
   align-items: center;
   margin-right: 31px;
-  width: 40%;
-
+  width: 190px;
   div {
     width: 30px;
     height: 30px;
@@ -213,7 +214,7 @@ const MypagePharNameDiv = styled.div`
   }
 `;
 const MypagePharInfoDiv = styled.div`
-  width: 60%;
+  width: 300px;
   p {
     font-weight: 600;
     font-size: 12px;
