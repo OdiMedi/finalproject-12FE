@@ -105,7 +105,9 @@ const MypageReviewDiv = styled.div`
   display: flex;
   align-items: center;
   position: relative;
-  box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.3);
+  &:hover {
+    box-shadow: 3px 3px 2px rgba(175, 174, 183, 0.5);
+  }
 `;
 
 const MypageReviewTextDiv = styled.div`

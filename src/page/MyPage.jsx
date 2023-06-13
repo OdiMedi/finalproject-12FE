@@ -1,33 +1,33 @@
 import { useState } from 'react';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Cookies from 'js-cookie';
-import api from '../api/axios';
 import profile from '../assets/profile.png';
 import MypageBookmark from '../components/mypage/MypageBookmark';
 import MypageNicknameModal from '../components/mypage/MypageNicknameModal';
 import MypageReview from '../components/mypage/MypageReview';
 import ModalPortal from '../shared/ModalPortal';
 import MypagePwdModal from '../components/mypage/MypagePwdModal';
+import { getBookmark, getReview, unregister } from '../api/myPage';
+import CommentDelModal from '../components/comment/CommentDelModal';
 
 const MyPage = () => {
   const [activeButton, setActiveButton] = useState(1);
   const [nicknameModal, setNicknameModal] = useState(false);
   const [pwdModal, setPwdModal] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const MypageNickname = localStorage.getItem('nickname');
   const MypageEmail = localStorage.getItem('email');
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const getBookmark = async () => {
-    const response = await api.get('/api/bookmark');
-    return response;
-  };
-  const getReview = async () => {
-    const response = await api.get(`/api/comment/myComment`);
-    return response;
-  };
-
+  const mutation = useMutation(unregister, {
+    onSuccess: () => {
+      window.location.replace('/');
+    },
+    onError: error => {
+      alert('회원탈퇴에 실패했습니다.');
+    },
+  });
   const { data: reviewData, isLoading: isLoadingReview } = useQuery(
     'getReview',
     getReview
@@ -59,25 +59,12 @@ const MyPage = () => {
       setPwdModal(false);
     }
   };
-
-  const withdrawalHandle = async () => {
-    try {
-      const authorizationCookie = Cookies.get('authorization');
-      await api.delete('user/signout', {
-        headers: {
-          authorization: authorizationCookie,
-        },
-      });
-      alert('회원탈퇴가 정상적으로 되었습니다.');
-      Cookies.remove('accesstoken');
-      Cookies.remove('refreshtoken');
-      Cookies.remove('authorization');
-      localStorage.removeItem('email');
-      localStorage.removeItem('nickname');
-      // navigate('/');
-      window.location.replace('/');
-    } catch (error) {
-      console.log('withdrawal::::::', error);
+  const handleDelCheck = newValue => {
+    if (newValue === true) {
+      mutation.mutate();
+      setModalVisible(false);
+    } else if (newValue === false) {
+      setModalVisible(false);
     }
   };
 
@@ -94,7 +81,9 @@ const MyPage = () => {
           <WithdrawalBtn onClick={() => setPwdModal(true)}>
             비밀번호 변경
           </WithdrawalBtn>
-          <WithdrawalBtn onClick={withdrawalHandle}>회원탈퇴</WithdrawalBtn>
+          <WithdrawalBtn onClick={() => setModalVisible(true)}>
+            회원탈퇴
+          </WithdrawalBtn>
           {pwdModal && (
             <ModalPortal>
               <MypagePwdModal onAccess={handlePwdCheck} />
@@ -166,6 +155,11 @@ const MyPage = () => {
               );
             })}
         </BookmarkContainerDiv>
+      )}
+      {modalVisible && (
+        <ModalPortal>
+          <CommentDelModal onAccess={handleDelCheck} user="user" />
+        </ModalPortal>
       )}
     </MypageContainer>
   );

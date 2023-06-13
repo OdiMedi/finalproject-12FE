@@ -59,7 +59,11 @@ const ForeignPharmacyDetail = () => {
             <CSS.StoreDetailBoxDiv>
               <CSS.BookMarkPositionDiv>
                 <BookmarkDiv>
-                  <BookMark storeId={data.storeId} isCheck={data.bookmark} />
+                  <BookMark
+                    storeId={data.storeId}
+                    isCheck={data.bookmark}
+                    miniSize="detail"
+                  />
                 </BookmarkDiv>
                 <span>{data.totalBookmark}</span>
               </CSS.BookMarkPositionDiv>

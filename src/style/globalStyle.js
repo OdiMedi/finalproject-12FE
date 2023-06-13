@@ -276,10 +276,12 @@ export const StoreDetailBoxDiv = styled.div`
 
 export const BookMarkPositionDiv = styled.div`
   position: absolute;
+  top: 10px;
   left: 320px;
   gap: 8px;
   display: flex;
-  font-size: 23px;
+  align-content: center;
+  font-size: 18px;
 `;
 export const BusinessTypeSpan = styled.span`
   font-style: normal;

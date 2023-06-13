@@ -25,7 +25,6 @@ const LoginSnackBar = ({ type }) => {
                 <p>재로그인 해주세요</p>
               </>
             )}
-            {type === 'authorization' && <LoginSnackTitleDiv />}
           </LoginSnackDiv>
         </LoginSnackWrapDiv>
       )}
