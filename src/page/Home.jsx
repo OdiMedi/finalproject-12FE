@@ -16,7 +16,7 @@ const Home = () => {
     <MainPageContainerDiv>
       <MainPageLeftDiv>
         <div>
-          <p className="Hometitle">서울 내 약국 찾기 서비스</p>
+          <HomeTitleP>서울 내 약국 찾기 서비스</HomeTitleP>
           <MainPageLeftIconDiv />
         </div>
 
@@ -47,19 +47,23 @@ const MainPageContainerDiv = styled.div`
   display: flex;
   justify-content: space-evenly;
   width: 70%;
+  height: 650px;
   margin: 0 auto;
-  margin-top: 80px;
+  margin-top: 100px;
   gap: 50px;
 `;
-
 const MainPageLeftDiv = styled.div`
-  .Hometitle {
-    font-weight: 500;
-    font-size: 36px;
-    line-height: 55px;
-    letter-spacing: 0.05em;
-    margin-bottom: 30px;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+const HomeTitleP = styled.p`
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 55px;
+  letter-spacing: 0.05em;
+  margin-bottom: 30px;
 `;
 const MainPageLeftIconDiv = styled.div`
   width: 460px;
