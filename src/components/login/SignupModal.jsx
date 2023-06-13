@@ -12,6 +12,7 @@ import {
   confirmationNumber,
   sendVerificationCodeByEmail,
 } from '../../api/singUp';
+import { InfoTextDiv } from '../../style/globalStyle';
 
 const SignupModal = () => {
   const navigate = useNavigate();
@@ -38,10 +39,11 @@ const SignupModal = () => {
       admin: !admin,
     });
   };
+
   const sendEmailMutation = useMutation(sendVerificationCodeByEmail, {
     onSuccess: () => {
-      setIsSendEmail(!isSendEmail);
-      setIsValid(!isValid);
+      setIsSendEmail(true);
+      setIsValid(true);
     },
     onError: error => {
       setWarningMessage(error.message);
@@ -53,7 +55,6 @@ const SignupModal = () => {
     },
     onError: error => {
       alert('인증번호 실패');
-      // console.log( error.message);
       setWarningMessage(error.message);
     },
   });
@@ -141,22 +142,6 @@ const SignupModal = () => {
     navigate('/login');
   };
 
-  let content;
-
-  if (isValid) {
-    content = (
-      <ValidInfoDiv>
-        <EmailInfoImg src={emailInfo} alt="" />
-        <p>입력하신 메일로 전송된 인증번호를 입력해주세요.</p>
-      </ValidInfoDiv>
-    );
-  }
-  if (isConfirm) {
-    content = <WarningMessageP>이메일 인증에 성공했습니다.</WarningMessageP>;
-  } else {
-    content = <MarginDiv />;
-  }
-
   return (
     <SignupContainer>
       <SignUpIconDiv />
@@ -233,7 +218,16 @@ const SignupModal = () => {
             <Button onClick={confirmationNumberButtonHandler}>메일 인증</Button>
           </EmailBoxDiv>
         )}
-        {content}
+        {isValid && !isConfirm && (
+          <ValidInfoDiv>
+            <EmailInfoImg src={emailInfo} alt="" />
+            <p>입력하신 메일로 전송된 인증번호를 입력해주세요.</p>
+          </ValidInfoDiv>
+        )}
+        {isValid && isConfirm && (
+          <WarningMessageP>이메일 인증에 성공했습니다.</WarningMessageP>
+        )}
+        {!isValid && !isConfirm && <MarginDiv />}
         <SignUpInput
           size="500px"
           name="password"

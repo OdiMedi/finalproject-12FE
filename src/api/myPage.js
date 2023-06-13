@@ -25,7 +25,6 @@ const unregister = async () => {
     localStorage.removeItem('email');
     localStorage.removeItem('nickname');
     // navigate('/');
-    window.location.replace('/');
   } catch (error) {
     console.log('withdrawal::::::', error);
   }

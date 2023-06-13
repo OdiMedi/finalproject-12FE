@@ -188,7 +188,7 @@ export const LoginBtn = styled.button`
   letter-spacing: -0.5px;
   color: #ffffff;
   margin-bottom: 34px;
-  margin-top: 26px;
+  margin-top: 20px;
   cursor: pointer;
   &:hover {
     box-shadow: 3px 3px 2px rgba(175, 174, 183, 0.5);
