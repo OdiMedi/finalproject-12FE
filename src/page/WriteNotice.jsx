@@ -1,20 +1,47 @@
+import { useMutation, useQueryClient } from 'react-query';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { editNotice, saveNotice } from '../api/notice';
 
 const WriteNotice = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const location = useLocation();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const saveMutation = useMutation(saveNotice, {
+    onSuccess: () => {
+      navigate('/noticeList');
+      queryClient.invalidateQueries('inquiryStoreDetail');
+    },
+    onError: () => {
+      alert('작성실패');
+    },
+  });
+  const editMutation = useMutation(editNotice, {
+    onSuccess: () => {
+      navigate(`/noticeList/${location.state.existingWriting.id}`);
+      queryClient.invalidateQueries('getNoticeDetail');
+    },
+    onError: () => {
+      alert('수정실패');
+    },
+  });
   useEffect(() => {
     if (location.state !== null) {
-      console.log(location.state.existingWriting.title);
       setIsEdit(!isEdit);
       setTitle(location.state.existingWriting.title);
       setContent(location.state.existingWriting.content);
     }
   }, []);
+  const noticeData = {
+    title,
+    content,
+    id: location.state?.existingWriting.id,
+  };
   const titleChangeHandle = e => {
     setTitle(e.target.value);
   };
@@ -23,9 +50,10 @@ const WriteNotice = () => {
   };
   const noticeSaveButtonHandler = () => {
     if (isEdit) {
-      alert('수정하기');
+      alert(isEdit);
+      editMutation.mutate(noticeData);
     } else {
-      alert('저장하기');
+      saveMutation.mutate(noticeData);
     }
   };
   return (
@@ -83,7 +111,7 @@ const TitleInput = styled.input`
   padding-right: 20px;
   padding-top: 5px;
   padding-bottom: 5px;
-
+  white-space: pre-wrap;
   font-size: 17px;
   &:focus {
     outline: none;
@@ -97,7 +125,7 @@ const ContentTextarea = styled.textarea`
   padding: 20px;
   resize: none;
   font-size: 17px;
-
+  white-space: pre-wrap;
   &:focus {
     outline: none;
   }
