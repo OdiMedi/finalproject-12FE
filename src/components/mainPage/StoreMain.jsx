@@ -61,7 +61,7 @@ const StoreMain = () => {
   const [isLocationInfo, setIsLocationInfo] = useState(false);
   const [currentLatitude, setCurrentLatitude] = useState('');
   const [currentLongitude, setCurrentLongitude] = useState('');
-  const [keyboard, setKeyboard] = useState([]);
+  // const [keyboard, setKeyboard] = useState([]);
   const navigate = useNavigate();
   const currentLocation = useLocation();
   const currentPageLocation = currentLocation.pathname;
@@ -177,19 +177,19 @@ const StoreMain = () => {
   const LocationHandleMouseLeave = () => {
     setIsLocationInfo(false);
   };
-  useEffect(() => {
-    // storeList?.numberOfElements 값이 변경될 때마다 keyboard 배열 업데이트
-    if (storeList?.totalPages !== undefined) {
-      const newKeyboard = Array.from(
-        { length: storeList.totalPages },
-        (v, i) => i
-      );
-      setKeyboard(newKeyboard);
-    }
-  }, [storeList?.numberOfElements]);
-  const handlePageClick = pageNumber => {
-    setCurrentPage(pageNumber);
-  };
+  // useEffect(() => {
+  //   // storeList?.numberOfElements 값이 변경될 때마다 keyboard 배열 업데이트
+  //   if (storeList?.totalPages !== undefined) {
+  //     const newKeyboard = Array.from(
+  //       { length: storeList.totalPages },
+  //       (v, i) => i
+  //     );
+  //     setKeyboard(newKeyboard);
+  //   }
+  // }, [storeList?.numberOfElements]);
+  // const handlePageClick = pageNumber => {
+  //   setCurrentPage(pageNumber);
+  // };
   return (
     <CSS.MainContainer>
       {storeList && (
