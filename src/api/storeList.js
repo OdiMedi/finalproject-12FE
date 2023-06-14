@@ -14,7 +14,7 @@ const storeAllList = async () => {
 const storeFilterList = async props => {
   try {
     const response = await api.get(
-      `api/store/search?radius=1&latitude=${props.currentLatitude}&longitude=${props.currentLongitude}&storeName=${props.name}&gu=${props.gu}&open=${props.open}&holidayBusiness=${props.holidayBusiness}&nightBusiness=${props.nightBusiness}`
+      `api/store/search?radius=1&page=${props.page}&size=20&latitude=${props.currentLatitude}&longitude=${props.currentLongitude}&storeName=${props.name}&gu=${props.gu}&open=${props.open}&holidayBusiness=${props.holidayBusiness}&nightBusiness=${props.nightBusiness}`
     );
     return response.data;
   } catch (error) {

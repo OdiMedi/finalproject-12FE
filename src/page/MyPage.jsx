@@ -1,36 +1,33 @@
 import { useState } from 'react';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import api from '../api/axios';
 import profile from '../assets/profile.png';
 import MypageBookmark from '../components/mypage/MypageBookmark';
 import MypageNicknameModal from '../components/mypage/MypageNicknameModal';
 import MypageReview from '../components/mypage/MypageReview';
 import ModalPortal from '../shared/ModalPortal';
 import MypagePwdModal from '../components/mypage/MypagePwdModal';
-import DelModal from '../shared/DelModal';
-import UserInfoModal from '../components/mypage/UserInfoModal';
-import MypageProfileImgModal from '../components/mypage/MypageProfileImgModal';
+import { getBookmark, getReview, unregister } from '../api/myPage';
+import CommentDelModal from '../components/comment/CommentDelModal';
 
 const MyPage = () => {
   const [activeButton, setActiveButton] = useState(1);
-  const [userinfoModal, setUserInfoModal] = useState(false);
-  const [nicknameModal, setNickNameModal] = useState(false);
-  const [passwordModal, setPasswordModal] = useState(false);
-  const [unregisterModal, setUnregisterModal] = useState(false);
-  const [profileImgModal, setProfileImgModal] = useState(false);
+  const [nicknameModal, setNicknameModal] = useState(false);
+  const [pwdModal, setPwdModal] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const MypageNickname = localStorage.getItem('nickname');
   const MypageEmail = localStorage.getItem('email');
+  // const navigate = useNavigate();
 
-  const getBookmark = async () => {
-    const response = await api.get('/api/bookmark');
-    return response;
-  };
-  const getReview = async () => {
-    const response = await api.get(`/api/comment/myComment`);
-    return response;
-  };
-
+  const mutation = useMutation(unregister, {
+    onSuccess: () => {
+      window.location.replace('/');
+    },
+    onError: error => {
+      alert('회원탈퇴에 실패했습니다.');
+    },
+  });
   const { data: reviewData, isLoading: isLoadingReview } = useQuery(
     'getReview',
     getReview
@@ -41,27 +38,33 @@ const MyPage = () => {
     getBookmark
   );
 
-  const handleUserInfo = newValue => {
+  const handleClick = buttonId => {
+    setActiveButton(buttonId);
+  };
+
+  const nicknameHandle = () => {
+    setNicknameModal(true);
+  };
+  const handleNickCheck = newValue => {
     if (newValue === true) {
-      setUserInfoModal(true);
-      setNickNameModal(false);
-      setPasswordModal(false);
-      setUnregisterModal(false);
-      setProfileImgModal(false);
-    } else if (newValue === 'nickname') {
-      setNickNameModal(true);
-      setUserInfoModal(false);
-    } else if (newValue === 'password') {
-      setUserInfoModal(false);
-      setPasswordModal(true);
-    } else if (newValue === 'unregister') {
-      setUserInfoModal(false);
-      setUnregisterModal(true);
-    } else if (newValue === 'profileimg') {
-      setUserInfoModal(false);
-      setProfileImgModal(true);
-    } else {
-      setUserInfoModal(false);
+      setNicknameModal(false);
+    } else if (newValue === false) {
+      setNicknameModal(false);
+    }
+  };
+  const handlePwdCheck = newValue => {
+    if (newValue === true) {
+      setPwdModal(false);
+    } else if (newValue === false) {
+      setPwdModal(false);
+    }
+  };
+  const handleDelCheck = newValue => {
+    if (newValue === true) {
+      mutation.mutate();
+      setModalVisible(false);
+    } else if (newValue === false) {
+      setModalVisible(false);
     }
   };
 
@@ -72,32 +75,23 @@ const MyPage = () => {
         <ProfileImg />
         <ProfileDescDiv>
           <span>{MypageNickname}</span>
-          <button type="button" onClick={() => setUserInfoModal(true)}>
-            회원정보 수정
+          <button type="button" onClick={nicknameHandle}>
+            닉네임 변경
           </button>
-          {userinfoModal && (
+          <WithdrawalBtn onClick={() => setPwdModal(true)}>
+            비밀번호 변경
+          </WithdrawalBtn>
+          <WithdrawalBtn onClick={() => setModalVisible(true)}>
+            회원탈퇴
+          </WithdrawalBtn>
+          {pwdModal && (
             <ModalPortal>
-              <UserInfoModal onAccess={handleUserInfo} />
-            </ModalPortal>
-          )}
-          {profileImgModal && (
-            <ModalPortal>
-              <MypageProfileImgModal onAccess={handleUserInfo} />
+              <MypagePwdModal onAccess={handlePwdCheck} />
             </ModalPortal>
           )}
           {nicknameModal && (
             <ModalPortal>
-              <MypageNicknameModal onAccess={handleUserInfo} />
-            </ModalPortal>
-          )}
-          {passwordModal && (
-            <ModalPortal>
-              <MypagePwdModal onAccess={handleUserInfo} />
-            </ModalPortal>
-          )}
-          {unregisterModal && (
-            <ModalPortal>
-              <DelModal onAccess={handleUserInfo} type="unregister" />
+              <MypageNicknameModal onAccess={handleNickCheck} />
             </ModalPortal>
           )}
           <p>{MypageEmail}</p>
@@ -107,14 +101,14 @@ const MyPage = () => {
         <TabButton
           type="button"
           isActive={activeButton === 1}
-          onClick={() => setActiveButton(1)}
+          onClick={() => handleClick(1)}
         >
           <p>작성 댓글 {reviewData?.data.length}</p>
         </TabButton>
         <TabButton
           type="button"
           isActive={activeButton === 2}
-          onClick={() => setActiveButton(2)}
+          onClick={() => handleClick(2)}
         >
           <p>찜한 약국 {bookmarkData?.data.length}</p>
         </TabButton>
@@ -161,6 +155,11 @@ const MyPage = () => {
               );
             })}
         </BookmarkContainerDiv>
+      )}
+      {modalVisible && (
+        <ModalPortal>
+          <CommentDelModal onAccess={handleDelCheck} user="user" />
+        </ModalPortal>
       )}
     </MypageContainer>
   );
@@ -210,12 +209,6 @@ const ProfileDescDiv = styled.div`
     background: #fafafa;
     border: 0.3px solid #d9d9d9;
     border-radius: 3px;
-    width: 80px;
-    height: 24px;
-    font-weight: 600;
-    font-size: 11px;
-    line-height: 6px;
-    color: #686868;
   }
   p {
     font-family: 'Pretendard';

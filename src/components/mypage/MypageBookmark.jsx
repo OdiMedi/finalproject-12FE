@@ -91,7 +91,9 @@ const BookmarkWrapDiv = styled.div`
   margin-bottom: 25px;
   padding: 32px 20px 31px 36px;
   cursor: pointer;
-  box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.3);
+  &:hover {
+    box-shadow: 3px 3px 2px rgba(175, 174, 183, 0.5);
+  }
 `;
 const BookmarkTitleDiv = styled.div`
   display: flex;

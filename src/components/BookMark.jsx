@@ -8,7 +8,7 @@ import offBookmark from '../assets/offBookMark.png';
 import onBookmark from '../assets/onBookMark.png';
 import SnackBar from './SnackBar';
 
-const BookMark = ({ storeId, isCheck }) => {
+const BookMark = ({ storeId, isCheck, miniSize }) => {
   const [bookMarkCheck, setBookMarkCheck] = useState(isCheck);
   const [isLogin, setIsLogin] = useState(true);
 
@@ -44,12 +44,18 @@ const BookMark = ({ storeId, isCheck }) => {
     <>
       <div>
         {bookMarkCheck ? (
-          <OnBookMarkIconButton onClick={onClickBookMarkHandler} />
+          <OnBookMarkIconButton
+            type={miniSize}
+            onClick={onClickBookMarkHandler}
+          />
         ) : (
-          <OffBookMarkIconButton onClick={onClickBookMarkHandler} />
+          <OffBookMarkIconButton
+            type={miniSize}
+            onClick={onClickBookMarkHandler}
+          />
         )}
       </div>
-      {!isLogin && <SnackBar />}
+      {!isLogin && <SnackBar type="login" />}
     </>
   );
 };
@@ -58,17 +64,27 @@ export default BookMark;
 
 const OnBookMarkIconButton = styled.button`
   background-image: url(${onBookmark});
-  background-size: 30px 30px;
+  background-size: ${props =>
+    props.type === 'detail' ? '18px 18px' : '30px 30px'};
   background-color: transparent;
+  background-repeat: no-repeat;
   border: none;
-  width: 30px;
-  height: 30px;
+  width: ${props => (props.type === 'detail' ? '18px' : '30px')};
+  height: ${props => (props.type === 'detail' ? '18px' : '30px')};
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 const OffBookMarkIconButton = styled.button`
   background-image: url(${offBookmark});
-  background-size: 30px 30px;
+  background-size: ${props =>
+    props.type === 'detail' ? '18px 18px' : '30px 30px'};
   background-color: transparent;
+  background-repeat: no-repeat;
   border: none;
-  width: 30px;
-  height: 30px;
+  width: ${props => (props.type === 'detail' ? '18px' : '30px')};
+  height: ${props => (props.type === 'detail' ? '18px' : '30px')};
+  &:hover {
+    transform: scale(1.1);
+  }
 `;

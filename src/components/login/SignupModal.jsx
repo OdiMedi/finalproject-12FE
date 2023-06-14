@@ -1,24 +1,68 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useMutation } from 'react-query';
 import styled from 'styled-components';
 import api from '../../api/axios';
-import { LoginBtn, TextBnt, KakakoLink } from './LoginModal';
-import KAKAO_AUTH_URL from './kakaoAuth';
 import LoginIconMain from '../../assets/loginIcon.png';
 import LoginTitleMain from '../../assets/loginTitle.png';
+import emailInfo from '../../assets/emailInfo.png';
+import SnackBar from '../SnackBar';
+import { LoginBtn, TextBnt } from './LoginModal';
+import {
+  confirmationNumber,
+  sendVerificationCodeByEmail,
+} from '../../api/singUp';
+import { InfoTextDiv } from '../../style/globalStyle';
 
 const SignupModal = () => {
   const navigate = useNavigate();
   const [emailCheck, setEmailCheck] = useState(true);
   const [nicknameCheck, setNicknameCheck] = useState(true);
   const [passwordCheck, setPasswordCheck] = useState(true);
+  const [warningMessage, setWarningMessage] = useState('');
+  const [validNumber, setValidNumber] = useState('');
+  const [isSendEmail, setIsSendEmail] = useState(false);
+  const [isValid, setIsValid] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
   const [inputValue, setInputValue] = useState({
     email: '',
     nickname: '',
     password: '',
+    adminToken: '',
+    admin: false,
   });
-  const { email, nickname, password } = inputValue;
+  const { email, nickname, password, adminToken, admin } = inputValue;
 
+  const adminCheckHandle = () => {
+    setInputValue({
+      ...inputValue,
+      admin: !admin,
+    });
+  };
+
+  const sendEmailMutation = useMutation(sendVerificationCodeByEmail, {
+    onSuccess: () => {
+      setIsSendEmail(true);
+      setIsValid(true);
+    },
+    onError: error => {
+      setWarningMessage(error.message);
+    },
+  });
+  const confirmationMutation = useMutation(confirmationNumber, {
+    onSuccess: () => {
+      setIsConfirm(!isConfirm);
+    },
+    onError: error => {
+      alert('인증번호 실패');
+      setWarningMessage(error.message);
+    },
+  });
+  useEffect(() => {
+    <SnackBar type="warningMessage" message={warningMessage} />;
+  }, [warningMessage]);
+
+  console.log(`에러메세지`, warningMessage);
   const changeEmail = e => {
     const { name, value } = e.target;
     const emailRegExp =
@@ -59,7 +103,29 @@ const SignupModal = () => {
       setPasswordCheck(true);
     }
   };
+  const adminTokenChange = e => {
+    const { name, value } = e.target;
 
+    setInputValue({
+      ...inputValue,
+      [name]: value,
+    });
+  };
+  const validNumberChange = e => {
+    setValidNumber(e.target.value);
+  };
+  const validNumberPortButtonHandler = () => {
+    const nicknameRegExp = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]{2,10}$/;
+    if (!nicknameRegExp.test(email)) {
+      sendEmailMutation.mutate(inputValue.email);
+    }
+  };
+  const confirmationNumberButtonHandler = () => {
+    confirmationMutation.mutate({
+      email: inputValue.email,
+      validNumber,
+    });
+  };
   const submitSignup = async () => {
     try {
       if (!(emailCheck && nicknameCheck && passwordCheck)) {
@@ -68,18 +134,42 @@ const SignupModal = () => {
       await api.post('/user/signup', inputValue);
       navigate('/login');
     } catch (error) {
-      console.log('sigunupValidation::::::::', error);
+      setWarningMessage(error.response.data.message);
+      console.log('sigunupValidation::::::::', error.response.data.message);
     }
   };
   const redirectLogin = () => {
     navigate('/login');
   };
+
   return (
     <SignupContainer>
       <SignUpIconDiv />
       <SignUpTitleDiv />
-      <form autoComplete="off">
+      <form autoComplete="off" onSubmit={e => e.preventDefault()}>
+        <AdminCheckDiv>
+          <AdminCheckBoxInput
+            type="checkbox"
+            value={admin}
+            onChange={adminCheckHandle}
+          />
+          <p>관리자 계정</p>
+        </AdminCheckDiv>
+
+        <MarginDiv />
+        {admin && (
+          <SignUpInput
+            size="500px"
+            name="adminToken"
+            value={adminToken}
+            onChange={adminTokenChange}
+            type="text"
+            placeholder="관리자 암호를 입력해주세요."
+          />
+        )}
+        <MarginDiv />
         <SignUpInput
+          size="500px"
           name="nickname"
           value={nickname}
           onChange={nicknameChange}
@@ -91,17 +181,55 @@ const SignupModal = () => {
             닉네임은 한글, 영어(대소문자 구분), 숫자로 2~10자로 입력해주세요
           </HelperTextP>
         )}
-        <SignUpInput
-          name="email"
-          value={email}
-          onChange={changeEmail}
-          type="text"
-          placeholder="이메일을 입력하세요."
-        />
+        <MarginDiv />
+        <EmailBoxDiv>
+          <SignUpInput
+            position="email"
+            size="320px"
+            name="email"
+            value={email}
+            onChange={changeEmail}
+            type="text"
+            placeholder="이메일을 입력하세요."
+          />
+          <Button onClick={validNumberPortButtonHandler}>인증번호 전송</Button>
+        </EmailBoxDiv>
         {!emailCheck && (
           <HelperTextP>이메일 형식에 맞춰주세요(@ . 포함)</HelperTextP>
         )}
+        {isValid ? (
+          <ValidInfoDiv>
+            <EmailInfoImg src={emailInfo} art="" />
+            <p>메일이 전송 되었습니다.</p>
+          </ValidInfoDiv>
+        ) : (
+          <MarginDiv />
+        )}
+        {isSendEmail && (
+          <EmailBoxDiv>
+            <SignUpInput
+              size="320px"
+              name="validNumber"
+              value={validNumber}
+              onChange={validNumberChange}
+              type="text"
+              placeholder="인증번호를 입력하세요."
+            />
+            <Button onClick={confirmationNumberButtonHandler}>메일 인증</Button>
+          </EmailBoxDiv>
+        )}
+        {isValid && !isConfirm && (
+          <ValidInfoDiv>
+            <EmailInfoImg src={emailInfo} alt="" />
+            <p>입력하신 메일로 전송된 인증번호를 입력해주세요.</p>
+          </ValidInfoDiv>
+        )}
+        {isValid && isConfirm && (
+          <WarningMessageP>이메일 인증에 성공했습니다.</WarningMessageP>
+        )}
+        {!isValid && !isConfirm && <MarginDiv />}
         <SignUpInput
+          size="500px"
           name="password"
           value={password}
           onChange={passwordChange}
@@ -113,12 +241,17 @@ const SignupModal = () => {
             영어(대소문자 구분), 숫자로 8~15자로 입력해주세요
           </HelperTextP>
         )}
+        <WarningMessageP>{warningMessage}</WarningMessageP>
+        <MarginDiv />
         <LoginBtn type="button" onClick={submitSignup}>
           회원가입
         </LoginBtn>
       </form>
       <TextBnt onClick={redirectLogin}>로그인 창으로 돌아가기</TextBnt>
       {/* <KakakoLink href={KAKAO_AUTH_URL} /> */}
+      {/* {warningMessage && (
+        <SnackBar type="warningMessage" message={warningMessage} />
+      )} */}
     </SignupContainer>
   );
 };
@@ -132,16 +265,15 @@ const SignupContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 60px;
+  margin-top: 40px;
   margin-bottom: 100px;
 `;
 
 const SignUpInput = styled.input`
-  width: 500px;
-  height: 60px;
+  width: ${props => `${props.size}`};
+  height: 50px;
   border: 1.5px solid #d9d9d9;
   border-radius: 5px;
-  margin-top: 26px;
   font-size: 20px;
   text-indent: 27px;
 
@@ -163,6 +295,10 @@ const SignUpInput = styled.input`
     color: transparent;
   }
 `;
+const MarginDiv = styled.div`
+  margin-top: 30px;
+`;
+
 const HelperTextP = styled.p`
   color: #fa5938;
   margin-top: 5px;
@@ -182,5 +318,64 @@ const SignUpTitleDiv = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  margin-bottom: 39px;
+  margin-bottom: 30px;
+`;
+const AdminCheckDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+`;
+const AdminCheckBoxInput = styled.input`
+  width: 20px;
+  height: 20px;
+`;
+const WarningMessageP = styled.p`
+  margin-left: 10px;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 34px;
+  color: #fa5938;
+`;
+const EmailBoxDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+const Button = styled.button`
+  width: 160px;
+  height: 50px;
+  margin-left: 20px;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: -0.5px;
+  color: #ffffff;
+  background-color: #fa5938;
+
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 3px 3px 2px rgba(175, 174, 183, 0.5);
+  }
+`;
+const ValidInfoDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #afaeb7;
+  margin-left: 10px;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 34px;
+  gap: 11px;
+`;
+const EmailInfoImg = styled.img`
+  width: 14px;
+  height: 14px;
 `;

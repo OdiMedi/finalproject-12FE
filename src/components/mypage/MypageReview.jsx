@@ -10,7 +10,6 @@ import DeleteIcon from '../../assets/trashIcon.png';
 import api from '../../api/axios';
 import mypageIcon from '../../assets/mypageIcon.png';
 import ModalPortal from '../../shared/ModalPortal';
-import DelModal from '../../shared/DelModal';
 
 const MypageReview = ({
   storeId,
@@ -59,11 +58,11 @@ const MypageReview = ({
 
   return (
     <MypageReviewDiv onClick={reviewDetailPage}>
-      {modalVisible && (
+      {/* {modalVisible && (
         <ModalPortal>
           <DelModal onAccess={handleDelCheck} type="commentDelete" />
         </ModalPortal>
-      )}
+      )} */}
       <DeleteDiv onClick={reviewDelBtnHandle} />
       <MypagePharDiv>
         <MypagePharNameDiv>
@@ -105,7 +104,9 @@ const MypageReviewDiv = styled.div`
   display: flex;
   align-items: center;
   position: relative;
-  box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.3);
+  &:hover {
+    box-shadow: 3px 3px 2px rgba(175, 174, 183, 0.5);
+  }
 `;
 
 const MypageReviewTextDiv = styled.div`

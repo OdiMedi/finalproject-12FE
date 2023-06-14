@@ -54,6 +54,7 @@ const gu = [
 ];
 
 const ForeignMainPage = () => {
+  const [currentPage, setCurrentPage] = useState(0);
   const [name, setName] = useState('');
   const [storeList, setStoreList] = useState(null);
   const [selectedButton, setSelectedButton] = useState('');
@@ -63,6 +64,7 @@ const ForeignMainPage = () => {
   const [isLanguageInfo, setIsLanguageInfo] = useState(false);
   const [currentLatitude, setCurrentLatitude] = useState('');
   const [currentLongitude, setCurrentLongitude] = useState('');
+  const [keyboard, setKeyboard] = useState([]);
   const navigate = useNavigate();
 
   // 전체리스트 api로직
@@ -95,6 +97,7 @@ const ForeignMainPage = () => {
     english: languageSelectedButton === 'english',
     chinese: languageSelectedButton === 'chinese',
     japanese: languageSelectedButton === 'japanese',
+    page: currentPage,
   });
 
   useEffect(() => {
@@ -132,6 +135,7 @@ const ForeignMainPage = () => {
       english: languageSelectedButton === 'english',
       chinese: languageSelectedButton === 'chinese',
       japanese: languageSelectedButton === 'japanese',
+      page: currentPage,
     }));
   };
 
@@ -143,6 +147,7 @@ const ForeignMainPage = () => {
     currentLatitude,
     currentLongitude,
     languageSelectedButton,
+    currentPage,
   ]);
   useEffect(() => {
     if (isCurrent) {
@@ -192,12 +197,24 @@ const ForeignMainPage = () => {
       }
     }
   };
-
+  useEffect(() => {
+    // storeList?.numberOfElements 값이 변경될 때마다 keyboard 배열 업데이트
+    if (storeList?.totalPages !== undefined) {
+      const newKeyboard = Array.from(
+        { length: storeList.totalPages },
+        (v, i) => i
+      );
+      setKeyboard(newKeyboard);
+    }
+  }, [storeList?.numberOfElements]);
+  const handlePageClick = pageNumber => {
+    setCurrentPage(pageNumber);
+  };
   return (
     <CSS.MainContainer>
       {storeList && (
         <MapApi
-          storeLocation={storeList}
+          storeLocation={storeList.content}
           isCurrent={isCurrent}
           navigate={navigate}
         />
@@ -291,11 +308,26 @@ const ForeignMainPage = () => {
             </CSS.FilterButton>
           </LanguageButtonBoxDiv>
         </AllLanguageSearchButtonBoxDiv>
-        {storeList && storeList.length < 1 ? (
+        {storeList && storeList.content.length < 1 ? (
           <InformationMessageDiv>No pharmacies found</InformationMessageDiv>
         ) : (
           <ForeignPharmacyList data={storeList} />
         )}
+        <CSS.ListNumberBoxDiv>
+          {keyboard.map((item, index) => {
+            return (
+              <>
+                {index !== 0 && <span>|</span>}
+                <CSS.ListNumberButton
+                  isActive={currentPage === item}
+                  onClick={() => handlePageClick(item)}
+                >
+                  {item}
+                </CSS.ListNumberButton>
+              </>
+            );
+          })}
+        </CSS.ListNumberBoxDiv>
       </div>
     </CSS.MainContainer>
   );

@@ -12,7 +12,7 @@ const SnackBar = () => {
     if (isOpen) {
       setTimeout(() => {
         setIsOpen(false);
-      }, 2000);
+      }, 1500);
     }
   }, [isOpen]);
 
@@ -61,6 +61,9 @@ const SnackDiv = styled.div`
   align-items: center;
   position: absolute;
 
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 34px;
   p {
     color: white;
   }
