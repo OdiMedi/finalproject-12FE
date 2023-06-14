@@ -9,7 +9,14 @@ import commentDelete from '../../assets/commentDelete.png';
 import CommentDelModal from './CommentDelModal';
 import ModalPortal from '../../shared/ModalPortal';
 
-const CommentItem = ({ storeId, commentId, nickname, contents, check }) => {
+const CommentItem = ({
+  storeId,
+  commentId,
+  nickname,
+  contents,
+  check,
+  imageUrl,
+}) => {
   const [isEdit, setIsEdit] = useState(true);
   const [editText, setEditText] = useState(contents);
   const [modalVisible, setModalVisible] = useState(false);
@@ -57,7 +64,11 @@ const CommentItem = ({ storeId, commentId, nickname, contents, check }) => {
 
   return (
     <CommentItemDiv key={commentId}>
-      <DefaultProfileImg src={defaultImage} alt="profileImg" />
+      {imageUrl === '' ? (
+        <DefaultProfileImg src={defaultImage} alt="profileImg" />
+      ) : (
+        <DefaultProfileImg url={imageUrl} alt="profileImg" />
+      )}
       <CommentContentBoxDiv>
         <NicknameH1>{nickname}</NicknameH1>
         {isEdit ? (

@@ -10,12 +10,14 @@ import ModalPortal from '../shared/ModalPortal';
 import MypagePwdModal from '../components/mypage/MypagePwdModal';
 import { getBookmark, getReview, unregister } from '../api/myPage';
 import CommentDelModal from '../components/comment/CommentDelModal';
+import UserInformationModal from '../components/mypage/UserInformationModal';
 
 const MyPage = () => {
   const [activeButton, setActiveButton] = useState(1);
   const [nicknameModal, setNicknameModal] = useState(false);
   const [pwdModal, setPwdModal] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [isUserInformation, setIsUserInformation] = useState(false);
   const MypageNickname = localStorage.getItem('nickname');
   const MypageEmail = localStorage.getItem('email');
   // const navigate = useNavigate();
@@ -67,7 +69,9 @@ const MyPage = () => {
       setModalVisible(false);
     }
   };
-
+  const userInformationButtonHandler = () => {
+    setIsUserInformation(!isUserInformation);
+  };
   return (
     <MypageContainer>
       <MypageTitle>마이페이지</MypageTitle>
@@ -75,6 +79,14 @@ const MyPage = () => {
         <ProfileImg />
         <ProfileDescDiv>
           <span>{MypageNickname}</span>
+          <WithdrawalBtn onClick={userInformationButtonHandler}>
+            회원정보
+          </WithdrawalBtn>
+          {isUserInformation && (
+            <ModalPortal>
+              <UserInformationModal onAccess={userInformationButtonHandler} />
+            </ModalPortal>
+          )}
           <button type="button" onClick={nicknameHandle}>
             닉네임 변경
           </button>

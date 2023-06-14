@@ -11,6 +11,7 @@ const NoticeList = () => {
   const [keyboard, setKeyboard] = useState([]);
   const navigate = useNavigate();
 
+  // ['getNoticeList', currentPage]이거 알아보기
   const { data } = useQuery(['getNoticeList', currentPage], () =>
     getNoticeList(currentPage)
   );
@@ -24,7 +25,7 @@ const NoticeList = () => {
   const writeNoticeMoveButtonHandler = () => {
     navigate('/WriteNotice');
   };
-
+  console.log(data);
   useEffect(() => {
     if (data?.totalPages !== undefined) {
       const newKeyboard = Array.from({ length: data.totalPages }, (v, i) => i);

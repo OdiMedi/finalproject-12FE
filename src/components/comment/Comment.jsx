@@ -30,7 +30,7 @@ const Comment = ({ storeId }) => {
     ['getComment', storeId],
     getCommentHandler
   );
-
+  console.log(`상세페이지`, data);
   return (
     <CommentBoxSection>
       <CSS.CommentInfoDiv>
@@ -48,6 +48,7 @@ const Comment = ({ storeId }) => {
                 nickname={item.nickname}
                 contents={item.contents}
                 check={item.check}
+                imageUrl={item.imageUrl}
               />
             );
           })}
