@@ -30,7 +30,7 @@ const Comment = ({ storeId }) => {
     ['getComment', storeId],
     getCommentHandler
   );
-  console.log(`상세페이지`, data);
+
   return (
     <CommentBoxSection>
       <CSS.CommentInfoDiv>

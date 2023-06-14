@@ -1,13 +1,24 @@
 import { useState } from 'react';
+import { useMutation } from 'react-query';
 import styled from 'styled-components';
 import api from '../../api/axios';
+import { updateNickBtn } from '../../api/myPage';
 import NicknameX from '../../assets/nicknameX.png';
 
-const MypageNicknameModal = ({ onAccess }) => {
+const MypageNicknameModal = ({ onAccess, nickName }) => {
   const [nickInput, setNickInput] = useState('');
   const [alertError, setAlertError] = useState(false);
   const [nicknameCheck, setNicknameCheck] = useState(true);
 
+  const mutation = useMutation(updateNickBtn, {
+    onSuccess: () => {
+      onAccess(false);
+      setAlertError(false);
+    },
+    onError: () => {
+      setAlertError(true);
+    },
+  });
   const nickInputChange = e => {
     const { value } = e.target;
     setNickInput(value);
@@ -18,35 +29,31 @@ const MypageNicknameModal = ({ onAccess }) => {
       setNicknameCheck(true);
     }
   };
-  const updateNickBtn = async () => {
-    if (!nicknameCheck) {
-      return;
+  const nickNameChangeHandler = () => {
+    if (nicknameCheck) {
+      mutation.mutate(nickInput);
     }
-    try {
-      const response = await api.post(`user/change/nickname`, {
-        newName: nickInput,
-      });
-      localStorage.setItem('nickname', response.data.nickname);
-    } catch (error) {
-      console.log('updateError:::::', error);
-      setAlertError(true);
-      return;
-    }
-    onAccess(false);
-    setAlertError(false);
   };
   return (
     <NickNameModalWrapDiv>
       <NicknameUpdataDiv>
         <NicknameTitleP>닉네임 변경</NicknameTitleP>
         <NicknameXDiv onClick={() => onAccess(true)} />
-        <NicknameInput onChange={nickInputChange} value={nickInput} />
-        {!nicknameCheck && (
-          <HelperTextP>
-            닉네임은 한글, 영어(대소문자 구분), 숫자로 2~10자로 입력해주세요
-          </HelperTextP>
-        )}
-        <NicknameButton onClick={updateNickBtn}>변경하기</NicknameButton>
+        <div>
+          닉네임
+          <NicknameInput
+            onChange={nickInputChange}
+            value={nickInput}
+            placeholder={nickName}
+          />
+        </div>
+        <HelperTextP>
+          {!nicknameCheck &&
+            '닉네임은 한글, 영어(대소문자 구분), 숫자로 2~10자로 입력해주세요'}
+        </HelperTextP>
+        <NicknameButton onClick={nickNameChangeHandler}>
+          회원정보 수정하기
+        </NicknameButton>
         {alertError && (
           <ErrorAlertP>
             중복된 닉네임이 존재합니다. 다른 닉네임을 입력해주세요
@@ -73,14 +80,16 @@ const NicknameUpdataDiv = styled.div`
   background: #ffffff;
   border-radius: 30px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
 `;
 const NicknameTitleP = styled.p`
   font-weight: 800;
   font-size: 18px;
   line-height: 34px;
-  position: absolute;
-  top: 29px;
-  left: 227px;
 `;
 
 const NicknameXDiv = styled.div`
@@ -96,15 +105,19 @@ const NicknameXDiv = styled.div`
 `;
 
 const NicknameInput = styled.input`
-  background: #ededed;
-  border-radius: 10px;
-  width: 462px;
-  height: 39px;
-  border: none;
+  background-color: transparent;
+  border: 1.5px solid #d9d9d9;
+  border-radius: 5px;
+  margin-left: 20px;
+  margin-top: 25px;
+  margin-bottom: 15px;
+  padding-left: 10px;
+  width: 255px;
+  height: 34px;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 34px;
   outline: none;
-  position: absolute;
-  top: 83px;
-  left: 39px;
 `;
 
 const NicknameButton = styled.button`
@@ -113,23 +126,19 @@ const NicknameButton = styled.button`
   width: 360px;
   height: 40px;
   border: none;
-  position: absolute;
-  top: 172px;
-  left: 92px;
+  margin-top: 15px;
+  font-weight: 900;
+  font-size: 15px;
+  line-height: 34px;
+  color: #ffffff;
 `;
 const ErrorAlertP = styled.p`
   font-weight: 500;
   font-size: 12px;
   line-height: 32px;
-  position: absolute;
-  top: 196px;
-  left: 131px;
-  color: red;
+  color: #fa5938;
 `;
 const HelperTextP = styled.p`
   color: #fa5938;
-  position: absolute;
   font-size: 13px;
-  top: 130px;
-  left: 45px;
 `;
