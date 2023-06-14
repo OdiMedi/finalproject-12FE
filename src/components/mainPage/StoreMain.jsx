@@ -3,13 +3,14 @@ import { useMutation } from 'react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import styled from 'styled-components';
+import Pagination from 'react-js-pagination';
+import PharmacyList from './PharmacyList';
 import { storeFilterList } from '../../api/storeList';
 import searchIcon from '../../assets/icon _search_.png';
 import locationIcon from '../../assets/locationIcon.png';
 import polygon from '../../assets/Polygon.png';
 import * as CSS from '../../style/globalStyle';
 import MapApi from '../MapApi';
-import PharmacyList from './PharmacyList';
 
 const IndicatorSeparator = null;
 const DropdownIndicator = () => <PolygonIcon />;
@@ -64,10 +65,17 @@ const StoreMain = () => {
   const navigate = useNavigate();
   const currentLocation = useLocation();
   const currentPageLocation = currentLocation.pathname;
+  // const [page, setPage] = useState(0);
+
+  const handlePageChange = newPage => {
+    setCurrentPage(newPage);
+  };
+
   // 전체리스트 api로직
   const mutation = useMutation(storeFilterList, {
     onSuccess: data => {
       setStoreList(data);
+      console.log(data);
     },
     onError: error => {
       alert(error.message);
@@ -109,7 +117,7 @@ const StoreMain = () => {
     nightBusiness: selectedButton === 'nightBusiness',
     currentLatitude,
     currentLongitude,
-    page: currentPage,
+    page: currentPage !== 0 ? currentPage - 1 : currentPage,
   });
 
   useEffect(() => {
@@ -127,7 +135,7 @@ const StoreMain = () => {
       nightBusiness: selectedButton === 'nightBusiness',
       currentLatitude,
       currentLongitude,
-      page: currentPage,
+      page: currentPage !== 0 ? currentPage - 1 : currentPage,
     }));
   };
 
@@ -255,7 +263,7 @@ const StoreMain = () => {
         ) : (
           <PharmacyList data={storeList} />
         )}
-        <CSS.ListNumberBoxDiv>
+        {/* <CSS.ListNumberBoxDiv>
           {keyboard.map((item, index) => {
             return (
               <>
@@ -269,7 +277,21 @@ const StoreMain = () => {
               </>
             );
           })}
-        </CSS.ListNumberBoxDiv>
+        </CSS.ListNumberBoxDiv> */}
+        {storeList && (
+          <CSS.PaginationBoxDiv>
+            <Pagination
+              activePage={currentPage}
+              itemsCountPerPage={20}
+              totalItemsCount={storeList.totalElements}
+              pageRangeDisplayed={5}
+              initialPage={0}
+              prevPageText="<"
+              nextPageText=">"
+              onChange={handlePageChange}
+            />
+          </CSS.PaginationBoxDiv>
+        )}
       </div>
     </CSS.MainContainer>
   );
