@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import Pagination from 'react-js-pagination';
+
 import { getNoticeList } from '../api/notice';
 import writeIcon from '../assets/writeIcon.png';
 import * as CSS from '../style/globalStyle';
@@ -12,14 +14,19 @@ const NoticeList = () => {
   const [keyboard, setKeyboard] = useState([]);
   const navigate = useNavigate();
 
-  // ['getNoticeList', currentPage]이거 알아보기
-  const { data } = useQuery(['getNoticeList', currentPage], () =>
-    getNoticeList(currentPage)
-  );
-
-  const handlePageClick = pageNumber => {
-    setCurrentPage(pageNumber);
+  const handlePageChange = newPage => {
+    setCurrentPage(newPage);
   };
+  const currentPageNum = currentPage !== 0 ? currentPage - 1 : currentPage;
+  // ['getNoticeList', currentPage]이거 알아보기
+  const { data } = useQuery(['getNoticeList', currentPageNum], () =>
+    getNoticeList(currentPageNum)
+  );
+  console.log(data);
+
+  // const handlePageClick = pageNumber => {
+  //   setCurrentPage(pageNumber);
+  // };
   const noticeDetailPageMoveButtonHandler = id => {
     navigate(`/noticeList/${id}`);
   };
@@ -27,13 +34,13 @@ const NoticeList = () => {
     navigate('/WriteNotice');
   };
 
-  useEffect(() => {
-    if (data?.totalPages !== undefined) {
-      const newKeyboard = Array.from({ length: data?.totalPages }, (v, i) => i);
-      setKeyboard(newKeyboard);
-    }
-  }, [data?.numberOfElements]);
-  console.log(data);
+  // useEffect(() => {
+  //   if (data?.totalPages !== undefined) {
+  //     const newKeyboard = Array.from({ length: data?.totalPages }, (v, i) => i);
+  //     setKeyboard(newKeyboard);
+  //   }
+  // }, [data?.numberOfElements]);
+  // console.log(data);
   return (
     <BackgroundMain>
       <NoticeH1>공지사항</NoticeH1>
@@ -70,7 +77,7 @@ const NoticeList = () => {
           );
         })}
       </ListSection>
-      <CSS.ListNumberBoxDiv>
+      {/* <CSS.ListNumberBoxDiv>
         {keyboard.map((item, index) => {
           return (
             <>
@@ -84,7 +91,21 @@ const NoticeList = () => {
             </>
           );
         })}
-      </CSS.ListNumberBoxDiv>
+      </CSS.ListNumberBoxDiv> */}
+      {data && (
+        <CSS.PaginationBoxDiv>
+          <Pagination
+            activePage={currentPage}
+            itemsCountPerPage={8}
+            totalItemsCount={data.totalElements}
+            pageRangeDisplayed={5}
+            initialPage={0}
+            prevPageText="<"
+            nextPageText=">"
+            onChange={handlePageChange}
+          />
+        </CSS.PaginationBoxDiv>
+      )}
     </BackgroundMain>
   );
 };

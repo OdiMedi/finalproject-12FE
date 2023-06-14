@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Select from 'react-select';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
+import Pagination from 'react-js-pagination';
 
 import ForeignPharmacyList from './ForeignPharmacyList';
 import MapApi from '../MapApi';
@@ -67,6 +68,9 @@ const ForeignMainPage = () => {
   const [keyboard, setKeyboard] = useState([]);
   const navigate = useNavigate();
 
+  const handlePageChange = newPage => {
+    setCurrentPage(newPage);
+  };
   // 전체리스트 api로직
   const mutation = useMutation(ForeignStoreFilterList, {
     onSuccess: data => {
@@ -97,7 +101,7 @@ const ForeignMainPage = () => {
     english: languageSelectedButton === 'english',
     chinese: languageSelectedButton === 'chinese',
     japanese: languageSelectedButton === 'japanese',
-    page: currentPage,
+    page: currentPage !== 0 ? currentPage - 1 : currentPage,
   });
 
   useEffect(() => {
@@ -135,7 +139,7 @@ const ForeignMainPage = () => {
       english: languageSelectedButton === 'english',
       chinese: languageSelectedButton === 'chinese',
       japanese: languageSelectedButton === 'japanese',
-      page: currentPage,
+      page: currentPage !== 0 ? currentPage - 1 : currentPage,
     }));
   };
 
@@ -197,19 +201,19 @@ const ForeignMainPage = () => {
       }
     }
   };
-  useEffect(() => {
-    // storeList?.numberOfElements 값이 변경될 때마다 keyboard 배열 업데이트
-    if (storeList?.totalPages !== undefined) {
-      const newKeyboard = Array.from(
-        { length: storeList.totalPages },
-        (v, i) => i
-      );
-      setKeyboard(newKeyboard);
-    }
-  }, [storeList?.numberOfElements]);
-  const handlePageClick = pageNumber => {
-    setCurrentPage(pageNumber);
-  };
+  // useEffect(() => {
+  //   // storeList?.numberOfElements 값이 변경될 때마다 keyboard 배열 업데이트
+  //   if (storeList?.totalPages !== undefined) {
+  //     const newKeyboard = Array.from(
+  //       { length: storeList.totalPages },
+  //       (v, i) => i
+  //     );
+  //     setKeyboard(newKeyboard);
+  //   }
+  // }, [storeList?.numberOfElements]);
+  // const handlePageClick = pageNumber => {
+  //   setCurrentPage(pageNumber);
+  // };
   return (
     <CSS.MainContainer>
       {storeList && (
@@ -313,7 +317,7 @@ const ForeignMainPage = () => {
         ) : (
           <ForeignPharmacyList data={storeList} />
         )}
-        <CSS.ListNumberBoxDiv>
+        {/* <CSS.ListNumberBoxDiv>
           {keyboard.map((item, index) => {
             return (
               <>
@@ -327,7 +331,21 @@ const ForeignMainPage = () => {
               </>
             );
           })}
-        </CSS.ListNumberBoxDiv>
+        </CSS.ListNumberBoxDiv> */}
+        {storeList && (
+          <CSS.PaginationBoxDiv>
+            <Pagination
+              activePage={currentPage}
+              itemsCountPerPage={20}
+              totalItemsCount={storeList.totalElements}
+              pageRangeDisplayed={5}
+              initialPage={0}
+              prevPageText="<"
+              nextPageText=">"
+              onChange={handlePageChange}
+            />
+          </CSS.PaginationBoxDiv>
+        )}
       </div>
     </CSS.MainContainer>
   );
