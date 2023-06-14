@@ -1,10 +1,9 @@
 import api from './axios';
 
 const getNoticeList = async props => {
-  console.log('어느번호?', props);
   try {
     const response = await api.get(`/api/board?page=${props}&size=8`);
-    return response.data;
+    return response;
   } catch (error) {
     console.log(error);
     throw error;
@@ -14,7 +13,6 @@ const getNoticeList = async props => {
 const getNoticeDetail = async props => {
   try {
     const response = await api.get(`/api/board/${props}`);
-    // 공지사항 아이디
     return response.data;
   } catch (error) {
     console.log(error);
@@ -38,8 +36,7 @@ const saveNotice = async props => {
 
 const editNotice = async props => {
   try {
-    // 보드 아이디가 들어가야함.
-    const response = await api.post(`/api/board/${props}`, {
+    const response = await api.put(`/api/board/${props.id}`, {
       title: props.title,
       content: props.content,
     });
@@ -50,5 +47,14 @@ const editNotice = async props => {
     throw error.response.data;
   }
 };
+const deleteNotice = async props => {
+  try {
+    const response = await api.delete(`/api/board/${props}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 
-export { getNoticeList, getNoticeDetail, saveNotice, editNotice };
+export { getNoticeList, getNoticeDetail, saveNotice, editNotice, deleteNotice };

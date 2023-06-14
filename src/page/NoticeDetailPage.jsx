@@ -1,50 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { getNoticeDetail } from '../api/notice';
+import { deleteNotice, getNoticeDetail } from '../api/notice';
 import menuIcon from '../assets/menuIcon.png';
 import writeIcon from '../assets/writeIcon.png';
+import DeleteIcon from '../assets/trashIcon.png';
 
 const NoticeDetailPage = () => {
   const [existingWriting, setExistingWriting] = useState(null);
   const params = useParams();
   const navigate = useNavigate();
-
-  const dummyList = {
-    id: params.id,
-    title: '이건 공지입니다.',
-    content:
-      '이런 저런 오류가 발생하여 이렇게 저렇게 수정하였습니다 이런식으로 사용해주시기 바랍니다',
-    nickname: 'uri',
-    creationDate: '2023.07.07',
-    noticeList: [
-      {
-        id: 1,
-        title: '이건 공지입니다.',
-        nickname: 'uri',
-        creationDate: '2023.07.07',
-      },
-      {
-        id: 2,
-        title: '이건 공지입니다.',
-        nickname: 'uri',
-        creationDate: '2023.07.07',
-      },
-    ],
-  };
-
+  const queryClient = useQueryClient();
   const { data } = useQuery(['getNoticeDetail', params.id], () =>
     getNoticeDetail(params.id)
   );
-
+  const deleteMutation = useMutation(deleteNotice, {
+    onSuccess: () => {
+      navigate(`/noticeList`);
+      queryClient.invalidateQueries('getNoticeList');
+    },
+    onError: () => {
+      alert('삭제실패');
+    },
+  });
   useEffect(() => {
     setExistingWriting({
       title: data?.title,
       content: data?.content,
+      id: data?.id,
     });
   }, [data]);
-  console.log(data);
+
   const noticeDetailPageMoveButtonHandler = id => {
     navigate(`/noticeList/${id}`);
   };
@@ -56,10 +43,21 @@ const NoticeDetailPage = () => {
       navigate('/WriteNotice', { state: { existingWriting } });
     }
   };
+  const noticeListDeleteButtonHandler = () => {
+    deleteMutation.mutate(data.id);
+    alert(data.id);
+  };
+  console.log(data);
   return (
     <BackgroundMain>
       <NoticeH1>공지사항</NoticeH1>
       <WriteBoxDiv>
+        <WriteButton>
+          <WriteIconImg src={DeleteIcon} alt="" />
+          <WriteTextP onClick={noticeListDeleteButtonHandler}>
+            글 삭제
+          </WriteTextP>
+        </WriteButton>
         <WriteButton>
           <WriteIconImg src={writeIcon} alt="" />
           <WriteTextP onClick={noticeModifyMoveButtonHandler}>
@@ -226,7 +224,7 @@ const ContentDiv = styled.div`
   padding-right: 27px;
   padding-bottom: 25px;
   border-bottom: 1px solid #dadada;
-
+  white-space: pre-line;
   height: 350px;
   font-weight: 500;
   font-size: 16px;

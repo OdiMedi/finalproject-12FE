@@ -32,9 +32,11 @@ axiosRetry(api, {
 api.interceptors.request.use(
   config => {
     const accesstoken = Cookies.get('accesstoken');
+    const refreshtoken = Cookies.get('refreshtoken');
 
     if (accesstoken) {
       config.headers.ACCESS_KEY = `Bearer ${accesstoken}`;
+      config.headers.REFRESH_KEY = `Bearer ${refreshtoken}`;
     }
     console.log('서버요청한다:::::::::', config);
     return config;
@@ -63,15 +65,17 @@ api.interceptors.response.use(
       },
     } = error;
     // const contentType = error.config.headers['Content-Type'];
-
+    // console.log('AxiosError', AxiosError);
     if (errorCode === 'EXPIRED_ACCESS_TOKEN') {
       const refresh = Cookies.get('refreshtoken');
+      // const access = Cookies.get('accesstoken');
 
       const originReq = config;
 
       await api
         .get('/api/bookmark', {
           headers: { REFRESH_KEY: `Bearer ${refresh}` },
+          // headers: { ACCESS_KEY: `Bearer ${access}` },
         })
         .then(response => {
           const { access_key: newAccessToken } = response.headers;

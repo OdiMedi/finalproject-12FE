@@ -48,6 +48,7 @@ const Comment = ({ storeId }) => {
                 nickname={item.nickname}
                 contents={item.contents}
                 check={item.check}
+                imageUrl={item.imageUrl}
               />
             );
           })}

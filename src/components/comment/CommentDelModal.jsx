@@ -19,11 +19,10 @@ const CommentDelModal = ({ onAccess, user }) => {
         <CommentDelIcon />
         <CommentDelX onClick={DelModalClose} />
         {user ? (
-          <CommnetDelTextP>회원 탈퇴 하시겠습니까?</CommnetDelTextP>
+          <CommnetDelTextP>오디약 회원을 탈퇴 하시겠습니까?</CommnetDelTextP>
         ) : (
           <CommnetDelTextP>댓글을 삭제하시겠습니까?</CommnetDelTextP>
         )}
-
         <CommentDelBtn onClick={handleYesBtn}>
           <p>예</p>
         </CommentDelBtn>
@@ -52,6 +51,11 @@ const CommentDelModalDiv = styled.div`
   box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 `;
 const CommentDelIcon = styled.div`
   width: 21px;
@@ -60,9 +64,6 @@ const CommentDelIcon = styled.div`
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  position: absolute;
-  top: 17px;
-  left: 215px;
 `;
 const CommentDelX = styled.div`
   width: 11px;
@@ -77,9 +78,6 @@ const CommentDelX = styled.div`
   cursor: pointer;
 `;
 const CommnetDelTextP = styled.div`
-  position: absolute;
-  top: 54px;
-  right: 135px;
   font-weight: 600;
   font-size: 18px;
   line-height: 34px;
@@ -90,11 +88,8 @@ const CommnetDelTextP = styled.div`
   color: #ffffff;
 `;
 const CommentDelBtn = styled.button`
-  position: absolute;
   width: 79px;
   height: 32px;
-  left: 186px;
-  top: 110px;
   background: #ffffff;
   border-radius: 32px;
   border: none;

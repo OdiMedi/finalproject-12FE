@@ -29,4 +29,15 @@ const unregister = async () => {
     console.log('withdrawal::::::', error);
   }
 };
-export { getReview, getBookmark, unregister };
+const updateNickBtn = async props => {
+  try {
+    const response = await api.post(`user/change/nickname`, {
+      newName: props,
+    });
+    localStorage.setItem('nickname', response.data.nickname);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+export { getReview, getBookmark, unregister, updateNickBtn };

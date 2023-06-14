@@ -2,23 +2,22 @@ import { useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { getBookmark, getReview, unregister } from '../api/myPage';
 import profile from '../assets/profile.png';
+import CommentDelModal from '../components/comment/CommentDelModal';
 import MypageBookmark from '../components/mypage/MypageBookmark';
 import MypageNicknameModal from '../components/mypage/MypageNicknameModal';
+import MypagePwdModal from '../components/mypage/MypagePwdModal';
 import MypageReview from '../components/mypage/MypageReview';
 import ModalPortal from '../shared/ModalPortal';
-import MypagePwdModal from '../components/mypage/MypagePwdModal';
-import { getBookmark, getReview, unregister } from '../api/myPage';
-import CommentDelModal from '../components/comment/CommentDelModal';
 
 const MyPage = () => {
   const [activeButton, setActiveButton] = useState(1);
-  const [nicknameModal, setNicknameModal] = useState(false);
   const [pwdModal, setPwdModal] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const MypageNickname = localStorage.getItem('nickname');
   const MypageEmail = localStorage.getItem('email');
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const mutation = useMutation(unregister, {
     onSuccess: () => {
@@ -42,16 +41,6 @@ const MyPage = () => {
     setActiveButton(buttonId);
   };
 
-  const nicknameHandle = () => {
-    setNicknameModal(true);
-  };
-  const handleNickCheck = newValue => {
-    if (newValue === true) {
-      setNicknameModal(false);
-    } else if (newValue === false) {
-      setNicknameModal(false);
-    }
-  };
   const handlePwdCheck = newValue => {
     if (newValue === true) {
       setPwdModal(false);
@@ -67,17 +56,20 @@ const MyPage = () => {
       setModalVisible(false);
     }
   };
-
+  const userInformationButtonHandler = () => {
+    navigate('/userInformation');
+  };
   return (
     <MypageContainer>
-      <MypageTitle>마이페이지</MypageTitle>
+      <MypageTitleH1>마이페이지</MypageTitleH1>
       <MyprofileDiv>
         <ProfileImg />
         <ProfileDescDiv>
           <span>{MypageNickname}</span>
-          <button type="button" onClick={nicknameHandle}>
-            닉네임 변경
-          </button>
+          <WithdrawalBtn onClick={userInformationButtonHandler}>
+            회원정보
+          </WithdrawalBtn>
+
           <WithdrawalBtn onClick={() => setPwdModal(true)}>
             비밀번호 변경
           </WithdrawalBtn>
@@ -89,11 +81,7 @@ const MyPage = () => {
               <MypagePwdModal onAccess={handlePwdCheck} />
             </ModalPortal>
           )}
-          {nicknameModal && (
-            <ModalPortal>
-              <MypageNicknameModal onAccess={handleNickCheck} />
-            </ModalPortal>
-          )}
+
           <p>{MypageEmail}</p>
         </ProfileDescDiv>
       </MyprofileDiv>
@@ -173,7 +161,7 @@ const MypageContainer = styled.div`
   width: 70vw;
   margin-bottom: 100px;
 `;
-const MypageTitle = styled.p`
+const MypageTitleH1 = styled.h1`
   height: 43px;
   font-family: 'Pretendard';
   font-size: 36px;
