@@ -94,6 +94,9 @@ const MainIconDiv = styled.div`
   background-image: url(${mainIcon});
   background-size: 133px 40px;
   cursor: pointer;
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 const HeaderBtn = styled.button`
   height: 27px;
@@ -105,4 +108,7 @@ const HeaderBtn = styled.button`
   line-height: 27px;
   letter-spacing: 0.05em;
   cursor: pointer;
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
