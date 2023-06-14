@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { unregister } from '../api/myPage';
+import CommentDelModal from '../components/comment/CommentDelModal';
 import MypageNicknameModal from '../components/mypage/MypageNicknameModal';
 import MypagePwdModal from '../components/mypage/MypagePwdModal';
 import ModalPortal from '../shared/ModalPortal';
@@ -9,10 +12,20 @@ import * as CSS from '../style/mypage';
 const UserInformation = () => {
   const [nicknameModal, setNicknameModal] = useState(false);
   const [pwdModal, setPwdModal] = useState(false);
-
+  const [modalVisible, setModalVisible] = useState(false);
   const MyPageNickname = localStorage.getItem('nickname');
   const MyPageEmail = localStorage.getItem('email');
   const navigate = useNavigate();
+
+  const mutation = useMutation(unregister, {
+    onSuccess: () => {
+      window.location.replace('/');
+    },
+    onError: error => {
+      alert('회원탈퇴에 실패했습니다.');
+    },
+  });
+
   const myPageMoveButtonHandler = () => {
     navigate('/mypage');
   };
@@ -33,7 +46,14 @@ const UserInformation = () => {
       setPwdModal(false);
     }
   };
-
+  const handleDelCheck = newValue => {
+    if (newValue === true) {
+      mutation.mutate();
+      setModalVisible(false);
+    } else if (newValue === false) {
+      setModalVisible(false);
+    }
+  };
   return (
     <CSS.MypageContainer>
       <TitleBoxDiv>
@@ -63,7 +83,14 @@ const UserInformation = () => {
             <MypagePwdModal onAccess={handlePwdCheck} />
           </ModalPortal>
         )}
-        <WithdrawButton>회원탈퇴</WithdrawButton>
+        <WithdrawButton onClick={() => setModalVisible(true)}>
+          회원탈퇴
+        </WithdrawButton>
+        {modalVisible && (
+          <ModalPortal>
+            <CommentDelModal onAccess={handleDelCheck} user="user" />
+          </ModalPortal>
+        )}
       </UserInfoSection>
     </CSS.MypageContainer>
   );

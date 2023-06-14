@@ -6,26 +6,16 @@ import { getBookmark, getReview, unregister } from '../api/myPage';
 import profile from '../assets/profile.png';
 import CommentDelModal from '../components/comment/CommentDelModal';
 import MypageBookmark from '../components/mypage/MypageBookmark';
-import MypageNicknameModal from '../components/mypage/MypageNicknameModal';
-import MypagePwdModal from '../components/mypage/MypagePwdModal';
 import MypageReview from '../components/mypage/MypageReview';
 import ModalPortal from '../shared/ModalPortal';
 
 const MyPage = () => {
   const [activeButton, setActiveButton] = useState(1);
-  const [modalVisible, setModalVisible] = useState(false);
+
   const MypageNickname = localStorage.getItem('nickname');
   const MypageEmail = localStorage.getItem('email');
   const navigate = useNavigate();
 
-  const mutation = useMutation(unregister, {
-    onSuccess: () => {
-      window.location.replace('/');
-    },
-    onError: error => {
-      alert('회원탈퇴에 실패했습니다.');
-    },
-  });
   const { data: reviewData, isLoading: isLoadingReview } = useQuery(
     'getReview',
     getReview
@@ -40,14 +30,6 @@ const MyPage = () => {
     setActiveButton(buttonId);
   };
 
-  const handleDelCheck = newValue => {
-    if (newValue === true) {
-      mutation.mutate();
-      setModalVisible(false);
-    } else if (newValue === false) {
-      setModalVisible(false);
-    }
-  };
   const userInformationButtonHandler = () => {
     navigate('/userInformation');
   };
@@ -57,15 +39,12 @@ const MyPage = () => {
       <MyprofileDiv>
         <ProfileImg />
         <ProfileDescDiv>
-          <span>{MypageNickname}</span>
-          <WithdrawalBtn onClick={userInformationButtonHandler}>
-            회원정보
-          </WithdrawalBtn>
-
-          <WithdrawalBtn onClick={() => setModalVisible(true)}>
-            회원탈퇴
-          </WithdrawalBtn>
-
+          <div>
+            <span>{MypageNickname}</span>
+            <WithdrawalBtn onClick={userInformationButtonHandler}>
+              회원정보 수정
+            </WithdrawalBtn>
+          </div>
           <p>{MypageEmail}</p>
         </ProfileDescDiv>
       </MyprofileDiv>
@@ -128,11 +107,6 @@ const MyPage = () => {
             })}
         </BookmarkContainerDiv>
       )}
-      {modalVisible && (
-        <ModalPortal>
-          <CommentDelModal onAccess={handleDelCheck} user="user" />
-        </ModalPortal>
-      )}
     </MypageContainer>
   );
 };
@@ -167,7 +141,11 @@ const ProfileImg = styled.div`
 `;
 const ProfileDescDiv = styled.div`
   margin-left: 58px;
-
+  display: flex;
+  flex-direction: column;
+  div {
+    display: flex;
+  }
   span {
     font-family: 'Pretendard';
     font-weight: 800;
@@ -175,12 +153,6 @@ const ProfileDescDiv = styled.div`
     line-height: 36px;
     letter-spacing: 0.05em;
     margin-right: 21px;
-  }
-  button {
-    font-family: 'Pretendard';
-    background: #fafafa;
-    border: 0.3px solid #d9d9d9;
-    border-radius: 3px;
   }
   p {
     font-family: 'Pretendard';
@@ -222,6 +194,18 @@ const BookmarkContainerDiv = styled.div`
   padding-top: 20px;
 `;
 const WithdrawalBtn = styled.button`
-  border: none;
-  margin-left: 15px;
+  width: 80px;
+  height: 32px;
+  background-color: #fafafa;
+  border: 0.3px solid #d9d9d9;
+  border-radius: 3px;
+  margin-left: 32px;
+  color: #686868;
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 6px;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 3px 3px 2px rgba(175, 174, 183, 0.5);
+  }
 `;
