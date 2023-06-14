@@ -1,13 +1,11 @@
 import { useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { getBookmark, getReview, unregister } from '../api/myPage';
+import { getBookmark, getReview } from '../api/myPage';
 import profile from '../assets/profile.png';
-import CommentDelModal from '../components/comment/CommentDelModal';
 import MypageBookmark from '../components/mypage/MypageBookmark';
 import MypageReview from '../components/mypage/MypageReview';
-import ModalPortal from '../shared/ModalPortal';
 
 const MyPage = () => {
   const [activeButton, setActiveButton] = useState(1);

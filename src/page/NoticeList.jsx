@@ -8,7 +8,6 @@ import * as CSS from '../style/globalStyle';
 
 const NoticeList = () => {
   const [currentPage, setCurrentPage] = useState(0);
-  const [isManager, setIsManager] = useState(false);
   const [keyboard, setKeyboard] = useState([]);
   const navigate = useNavigate();
 
@@ -17,7 +16,6 @@ const NoticeList = () => {
     getNoticeList(currentPage)
   );
 
-  const noticeData = data?.data;
   const handlePageClick = pageNumber => {
     setCurrentPage(pageNumber);
   };
@@ -29,15 +27,11 @@ const NoticeList = () => {
   };
 
   useEffect(() => {
-    if (noticeData?.totalPages !== undefined) {
-      const newKeyboard = Array.from(
-        { length: noticeData?.totalPages },
-        (v, i) => i
-      );
+    if (data?.totalPages !== undefined) {
+      const newKeyboard = Array.from({ length: data.totalPages }, (v, i) => i);
       setKeyboard(newKeyboard);
     }
-  }, [noticeData?.numberOfElements]);
-  console.log('header', data);
+  }, [data?.numberOfElements]);
   return (
     <BackgroundMain>
       <NoticeH1>공지사항</NoticeH1>
@@ -57,7 +51,7 @@ const NoticeList = () => {
           <NoticeP size="150px">작성자</NoticeP>
           <NoticeP size="250px">작성날짜</NoticeP>
         </TitleDiv>
-        {noticeData?.content.map(item => {
+        {data?.content.map(item => {
           return (
             <NoticeItemDiv key={item.id}>
               <NoticeP size="108px">{item.id}</NoticeP>
