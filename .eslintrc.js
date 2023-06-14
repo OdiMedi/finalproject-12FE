@@ -37,4 +37,12 @@ module.exports = {
     'react/no-unknown-property': 0,
     'react/jsx-no-useless-fragment': 'off',
   },
+  settings: {
+    // import/resolver` 는 `eslint-plugin-import` 의 경로 설정 옵션
+    'import/resolver': {
+      node: {
+        paths: ['src'],
+      },
+    },
+  },
 };
