@@ -23,14 +23,14 @@ const Comment = ({ storeId }) => {
   const getCommentHandler = async () => {
     const response = await api.get(`/api/comment/${storeId}`);
 
-    return response;
+    return response.data;
   };
 
   const { data, isLoading } = useQuery(
     ['getComment', storeId],
     getCommentHandler
   );
-
+  // console.log('데이터 받아오는 공간', data);
   return (
     <CommentBoxSection>
       <CSS.CommentInfoDiv>
@@ -39,7 +39,7 @@ const Comment = ({ storeId }) => {
       </CSS.CommentInfoDiv>
       <CommentListArticle>
         {!isLoading &&
-          data?.data.map(item => {
+          data?.map(item => {
             return (
               <CommentItem
                 key={item.commentId}

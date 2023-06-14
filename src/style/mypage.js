@@ -17,6 +17,10 @@ export const MypageTitleH1 = styled.h1`
   margin-bottom: 40px;
   color: #0d0d0d;
   cursor: pointer;
+  &:hover {
+    transform: scale(1.05);
+  }
+
 `;
 export const ProfileImg = styled.div`
   width: 180px;

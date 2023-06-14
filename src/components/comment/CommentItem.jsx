@@ -61,13 +61,14 @@ const CommentItem = ({
     const { value } = e.target;
     setEditText(value);
   };
-
+  console.log('imageUrl', imageUrl);
   return (
     <CommentItemDiv key={commentId}>
       {imageUrl === '' ? (
         <DefaultProfileImg src={defaultImage} alt="profileImg" />
       ) : (
-        <DefaultProfileImg url={imageUrl} alt="profileImg" />
+        <DefaultProfileImg src={imageUrl} alt="profileImg" />
+
       )}
       <CommentContentBoxDiv>
         <NicknameH1>{nickname}</NicknameH1>
@@ -138,6 +139,7 @@ const DefaultProfileImg = styled.img`
   width: 46px;
   height: 46px;
   margin-right: 34px;
+  border-radius: 50%;
 `;
 const CommentBubbleIconImg = styled.img`
   width: 10px;
