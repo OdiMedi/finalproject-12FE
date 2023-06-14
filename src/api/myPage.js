@@ -40,4 +40,16 @@ const updateNickBtn = async props => {
     throw error;
   }
 };
-export { getReview, getBookmark, unregister, updateNickBtn };
+const editProfileImg = async props => {
+  try {
+    const response = await api.post(`/user/change/profile`, props);
+    localStorage.setItem('ProfileImg', response.data.file);
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export { getReview, getBookmark, unregister, updateNickBtn, editProfileImg };

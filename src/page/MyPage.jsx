@@ -12,6 +12,8 @@ const MyPage = () => {
 
   const MypageNickname = localStorage.getItem('nickname');
   const MypageEmail = localStorage.getItem('email');
+  const MyProfileImg = localStorage.getItem('ProfileImg');
+
   const navigate = useNavigate();
 
   const { data: reviewData, isLoading: isLoadingReview } = useQuery(
@@ -35,7 +37,8 @@ const MyPage = () => {
     <MypageContainer>
       <MypageTitleH1>마이페이지</MypageTitleH1>
       <MyprofileDiv>
-        <ProfileImg />
+        {!MyProfileImg && <ProfileImg />}
+        {MyProfileImg && <EditImg src={MyProfileImg} art="profileImage" />}
         <ProfileDescDiv>
           <div>
             <span>{MypageNickname}</span>
@@ -206,4 +209,10 @@ const WithdrawalBtn = styled.button`
   &:hover {
     box-shadow: 3px 3px 2px rgba(175, 174, 183, 0.5);
   }
+`;
+const EditImg = styled.img`
+  width: 180px;
+  height: 180px;
+  margin-top: 50px;
+  border-radius: 50%;
 `;

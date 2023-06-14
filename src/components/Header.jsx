@@ -94,9 +94,6 @@ const MainIconDiv = styled.div`
   background-image: url(${mainIcon});
   background-size: 133px 40px;
   cursor: pointer;
-  &:hover {
-    transform: scale(1.05);
-  }
 `;
 const HeaderBtn = styled.button`
   height: 27px;
