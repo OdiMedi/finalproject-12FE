@@ -68,7 +68,6 @@ const CommentItem = ({
         <DefaultProfileImg src={defaultImage} alt="profileImg" />
       ) : (
         <DefaultProfileImg src={imageUrl} alt="profileImg" />
-
       )}
       <CommentContentBoxDiv>
         <NicknameH1>{nickname}</NicknameH1>
