@@ -13,6 +13,7 @@ import NoticeList from '../page/NoticeList';
 import LoginSnackBar from '../components/login/LoginSnackBar';
 import NoticeDetailPage from '../page/NoticeDetailPage';
 import WriteNotice from '../page/WriteNotice';
+import UserInformation from '../page/UserInformation';
 
 const Router = () => {
   return (
@@ -31,6 +32,7 @@ const Router = () => {
           <Route path="/noticeList" element={<NoticeList />} />
           <Route path="/noticeList/:id" element={<NoticeDetailPage />} />
           <Route path="/WriteNotice" element={<WriteNotice />} />
+          <Route path="/userInformation" element={<UserInformation />} />
           <Route path="/modal" element={<LoginSnackBar />} />
         </Routes>
       </Layout>

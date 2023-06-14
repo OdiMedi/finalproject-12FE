@@ -1,75 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { getNoticeList } from '../api/notice';
 import writeIcon from '../assets/writeIcon.png';
-
-const dummyList = [
-  {
-    id: 1,
-    title: '이건 공지입니다.',
-    nickname: 'uri',
-    creationDate: '2023.07.07',
-  },
-  {
-    id: 2,
-    title: '이건 공지입니다.',
-    nickname: 'uri',
-    creationDate: '2023.07.07',
-  },
-  {
-    id: 3,
-    title: '이건 공지입니다.',
-    nickname: 'uri',
-    creationDate: '2023.07.07',
-  },
-  {
-    id: 4,
-    title: '이건 공지입니다.',
-    nickname: 'uri',
-    creationDate: '2023.07.07',
-  },
-  {
-    id: 5,
-    title: '이건 공지입니다.',
-    nickname: 'uri',
-    creationDate: '2023.07.07',
-  },
-  {
-    id: 6,
-    title: '이건 공지입니다.',
-    nickname: 'uri',
-    creationDate: '2023.07.07',
-  },
-  {
-    id: 7,
-    title: '이건 공지입니다.',
-    nickname: 'uri',
-    creationDate: '2023.07.07',
-  },
-  {
-    id: 8,
-    title: '이건 공지입니다.',
-    nickname: 'uri',
-    creationDate: '2023.07.07',
-  },
-  // {
-  //   id: 9,
-  //   title: '이건 공지입니다.',
-  //   nickname: 'uri',
-  //   creationDate: '2023.07.07',
-  // },
-];
+import * as CSS from '../style/globalStyle';
 
 const NoticeList = () => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [isManager, setIsManager] = useState(false);
+  const [keyboard, setKeyboard] = useState([]);
   const navigate = useNavigate();
-  const itemsPerPage = 8;
-  const totalItems = dummyList.length;
 
-  const NoticeListPageNumber = [];
-  for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i += 1) {
-    NoticeListPageNumber.push(i);
-  }
+  // ['getNoticeList', currentPage]이거 알아보기
+  const { data } = useQuery(['getNoticeList', currentPage], () =>
+    getNoticeList(currentPage)
+  );
+
+  const noticeData = data?.data;
   const handlePageClick = pageNumber => {
     setCurrentPage(pageNumber);
   };
@@ -79,6 +27,17 @@ const NoticeList = () => {
   const writeNoticeMoveButtonHandler = () => {
     navigate('/WriteNotice');
   };
+
+  useEffect(() => {
+    if (noticeData?.totalPages !== undefined) {
+      const newKeyboard = Array.from(
+        { length: noticeData?.totalPages },
+        (v, i) => i
+      );
+      setKeyboard(newKeyboard);
+    }
+  }, [noticeData?.numberOfElements]);
+  console.log(data);
   return (
     <BackgroundMain>
       <NoticeH1>공지사항</NoticeH1>
@@ -98,7 +57,7 @@ const NoticeList = () => {
           <NoticeP size="150px">작성자</NoticeP>
           <NoticeP size="250px">작성날짜</NoticeP>
         </TitleDiv>
-        {dummyList.map(item => {
+        {noticeData?.content.map(item => {
           return (
             <NoticeItemDiv key={item.id}>
               <NoticeP size="108px">{item.id}</NoticeP>
@@ -110,26 +69,26 @@ const NoticeList = () => {
                 {item.title}
               </NoticeP>
               <NoticeP size="150px">{item.nickname}</NoticeP>
-              <NoticeP size="250px">{item.creationDate}</NoticeP>
+              <NoticeP size="250px">{item.createdAt}</NoticeP>
             </NoticeItemDiv>
           );
         })}
       </ListSection>
-      <ListNumberBoxDiv>
-        {NoticeListPageNumber.map((item, index) => {
+      <CSS.ListNumberBoxDiv>
+        {keyboard.map((item, index) => {
           return (
             <>
               {index !== 0 && <span>|</span>}
-              <ListNumberButton
+              <CSS.ListNumberButton
                 isActive={currentPage === item}
                 onClick={() => handlePageClick(item)}
               >
                 {item}
-              </ListNumberButton>
+              </CSS.ListNumberButton>
             </>
           );
         })}
-      </ListNumberBoxDiv>
+      </CSS.ListNumberBoxDiv>
     </BackgroundMain>
   );
 };

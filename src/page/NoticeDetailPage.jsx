@@ -1,43 +1,37 @@
 import React, { useEffect, useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
-
 import styled from 'styled-components';
-import writeIcon from '../assets/writeIcon.png';
+import { deleteNotice, getNoticeDetail } from '../api/notice';
 import menuIcon from '../assets/menuIcon.png';
+import writeIcon from '../assets/writeIcon.png';
+import DeleteIcon from '../assets/trashIcon.png';
 
 const NoticeDetailPage = () => {
   const [existingWriting, setExistingWriting] = useState(null);
   const params = useParams();
   const navigate = useNavigate();
-
-  const dummyList = {
-    id: params.id,
-    title: '이건 공지입니다.',
-    content:
-      '이런 저런 오류가 발생하여 이렇게 저렇게 수정하였습니다 이런식으로 사용해주시기 바랍니다',
-    nickname: 'uri',
-    creationDate: '2023.07.07',
-    noticeList: [
-      {
-        id: 1,
-        title: '이건 공지입니다.',
-        nickname: 'uri',
-        creationDate: '2023.07.07',
-      },
-      {
-        id: 2,
-        title: '이건 공지입니다.',
-        nickname: 'uri',
-        creationDate: '2023.07.07',
-      },
-    ],
-  };
+  const queryClient = useQueryClient();
+  const { data } = useQuery(['getNoticeDetail', params.id], () =>
+    getNoticeDetail(params.id)
+  );
+  const deleteMutation = useMutation(deleteNotice, {
+    onSuccess: () => {
+      navigate(`/noticeList`);
+      queryClient.invalidateQueries('getNoticeList');
+    },
+    onError: () => {
+      alert('삭제실패');
+    },
+  });
   useEffect(() => {
     setExistingWriting({
-      title: dummyList.title,
-      content: dummyList.content,
+      title: data?.title,
+      content: data?.content,
+      id: data?.id,
     });
-  }, []);
+  }, [data]);
+
   const noticeDetailPageMoveButtonHandler = id => {
     navigate(`/noticeList/${id}`);
   };
@@ -49,10 +43,21 @@ const NoticeDetailPage = () => {
       navigate('/WriteNotice', { state: { existingWriting } });
     }
   };
+  const noticeListDeleteButtonHandler = () => {
+    deleteMutation.mutate(data.id);
+    alert(data.id);
+  };
+  console.log(data);
   return (
     <BackgroundMain>
       <NoticeH1>공지사항</NoticeH1>
       <WriteBoxDiv>
+        <WriteButton>
+          <WriteIconImg src={DeleteIcon} alt="" />
+          <WriteTextP onClick={noticeListDeleteButtonHandler}>
+            글 삭제
+          </WriteTextP>
+        </WriteButton>
         <WriteButton>
           <WriteIconImg src={writeIcon} alt="" />
           <WriteTextP onClick={noticeModifyMoveButtonHandler}>
@@ -66,63 +71,67 @@ const NoticeDetailPage = () => {
         </WriteButton>
       </WriteBoxDiv>
       <ListSection>
-        <TitleDiv>
-          <NoticeDetailP
-            weight="700"
-            size="108px"
-            fontSize="20px"
-            position="center"
-          >
-            제목
-          </NoticeDetailP>
-          <NoticeDetailP weight="500" size="577px" fontSize="20px">
-            {dummyList.title}
-          </NoticeDetailP>
-          <NoticeDetailP
-            weight="700"
-            size="150px"
-            fontSize="20px"
-            position="center"
-          >
-            작성일자
-          </NoticeDetailP>
-          <NoticeDetailP weight="500" size="210px" fontSize="20px">
-            {dummyList.creationDate}
-          </NoticeDetailP>
-        </TitleDiv>
-        <ContentDiv>{dummyList.content}</ContentDiv>
-        <NoticeItemDiv>
-          <NoticeP size="108px" key={dummyList.noticeList[0].id}>
-            이전글
-          </NoticeP>
-          <NoticeP
-            size="617px"
-            cursor="pointer"
-            onClick={() =>
-              noticeDetailPageMoveButtonHandler(dummyList.noticeList[0].id)
-            }
-          >
-            {dummyList.noticeList[0].title}
-          </NoticeP>
-          <NoticeP size="150px">{dummyList.noticeList[0].nickname}</NoticeP>
-          <NoticeP size="250px">{dummyList.noticeList[0].creationDate}</NoticeP>
-        </NoticeItemDiv>
-        <NoticeItemDiv>
-          <NoticeP size="108px" key={dummyList.noticeList[0].id}>
-            다음글
-          </NoticeP>
-          <NoticeP
-            size="617px"
-            cursor="pointer"
-            onClick={() =>
-              noticeDetailPageMoveButtonHandler(dummyList.noticeList[1].id)
-            }
-          >
-            {dummyList.noticeList[1].title}
-          </NoticeP>
-          <NoticeP size="150px">{dummyList.noticeList[1].nickname}</NoticeP>
-          <NoticeP size="250px">{dummyList.noticeList[1].creationDate}</NoticeP>
-        </NoticeItemDiv>
+        {data && (
+          <>
+            <TitleDiv>
+              <NoticeDetailP
+                weight="700"
+                size="108px"
+                fontSize="20px"
+                position="center"
+              >
+                제목
+              </NoticeDetailP>
+              <NoticeDetailP weight="500" size="577px" fontSize="20px">
+                {data.title}
+              </NoticeDetailP>
+              <NoticeDetailP
+                weight="700"
+                size="150px"
+                fontSize="20px"
+                position="center"
+              >
+                작성일자
+              </NoticeDetailP>
+              <NoticeDetailP weight="500" size="210px" fontSize="20px">
+                {data.createdAt}
+              </NoticeDetailP>
+            </TitleDiv>
+            <ContentDiv>{data.content}</ContentDiv>
+            {data.prevId !== null && (
+              <NoticeItemDiv>
+                <NoticeP size="108px" key={data.prevId}>
+                  이전글
+                </NoticeP>
+                <NoticeP
+                  size="617px"
+                  cursor="pointer"
+                  onClick={() => noticeDetailPageMoveButtonHandler(data.prevId)}
+                >
+                  {data.prevTitle}
+                </NoticeP>
+                <NoticeP size="150px">{data.prevNickname}</NoticeP>
+                <NoticeP size="250px">{data.prevCreatedAt}</NoticeP>
+              </NoticeItemDiv>
+            )}
+            {data.nextId !== null && (
+              <NoticeItemDiv>
+                <NoticeP size="108px" key={data.nextId}>
+                  다음글
+                </NoticeP>
+                <NoticeP
+                  size="617px"
+                  cursor="pointer"
+                  onClick={() => noticeDetailPageMoveButtonHandler(data.nextId)}
+                >
+                  {data.nextTitle}
+                </NoticeP>
+                <NoticeP size="150px">{data.nextNickname}</NoticeP>
+                <NoticeP size="250px">{data.nextCreatedAt}</NoticeP>
+              </NoticeItemDiv>
+            )}
+          </>
+        )}
       </ListSection>
     </BackgroundMain>
   );
@@ -215,7 +224,7 @@ const ContentDiv = styled.div`
   padding-right: 27px;
   padding-bottom: 25px;
   border-bottom: 1px solid #dadada;
-
+  white-space: pre-line;
   height: 350px;
   font-weight: 500;
   font-size: 16px;
