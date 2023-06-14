@@ -13,7 +13,6 @@ import ModalPortal from '../shared/ModalPortal';
 
 const MyPage = () => {
   const [activeButton, setActiveButton] = useState(1);
-  const [pwdModal, setPwdModal] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const MypageNickname = localStorage.getItem('nickname');
   const MypageEmail = localStorage.getItem('email');
@@ -41,13 +40,6 @@ const MyPage = () => {
     setActiveButton(buttonId);
   };
 
-  const handlePwdCheck = newValue => {
-    if (newValue === true) {
-      setPwdModal(false);
-    } else if (newValue === false) {
-      setPwdModal(false);
-    }
-  };
   const handleDelCheck = newValue => {
     if (newValue === true) {
       mutation.mutate();
@@ -70,17 +62,9 @@ const MyPage = () => {
             회원정보
           </WithdrawalBtn>
 
-          <WithdrawalBtn onClick={() => setPwdModal(true)}>
-            비밀번호 변경
-          </WithdrawalBtn>
           <WithdrawalBtn onClick={() => setModalVisible(true)}>
             회원탈퇴
           </WithdrawalBtn>
-          {pwdModal && (
-            <ModalPortal>
-              <MypagePwdModal onAccess={handlePwdCheck} />
-            </ModalPortal>
-          )}
 
           <p>{MypageEmail}</p>
         </ProfileDescDiv>

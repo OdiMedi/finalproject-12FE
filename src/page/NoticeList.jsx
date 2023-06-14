@@ -37,7 +37,7 @@ const NoticeList = () => {
       setKeyboard(newKeyboard);
     }
   }, [noticeData?.numberOfElements]);
-  console.log(data);
+  console.log('header', data);
   return (
     <BackgroundMain>
       <NoticeH1>공지사항</NoticeH1>

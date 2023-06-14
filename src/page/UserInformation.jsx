@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import MypageNicknameModal from '../components/mypage/MypageNicknameModal';
+import MypagePwdModal from '../components/mypage/MypagePwdModal';
 import ModalPortal from '../shared/ModalPortal';
 import * as CSS from '../style/mypage';
 
 const UserInformation = () => {
   const [nicknameModal, setNicknameModal] = useState(false);
+  const [pwdModal, setPwdModal] = useState(false);
 
   const MyPageNickname = localStorage.getItem('nickname');
   const MyPageEmail = localStorage.getItem('email');
@@ -24,6 +26,14 @@ const UserInformation = () => {
       setNicknameModal(false);
     }
   };
+  const handlePwdCheck = newValue => {
+    if (newValue === true) {
+      setPwdModal(false);
+    } else if (newValue === false) {
+      setPwdModal(false);
+    }
+  };
+
   return (
     <CSS.MypageContainer>
       <TitleBoxDiv>
@@ -47,7 +57,12 @@ const UserInformation = () => {
             />
           </ModalPortal>
         )}
-        <EditButton>비밀번호 변경</EditButton>
+        <EditButton onClick={() => setPwdModal(true)}>비밀번호 변경</EditButton>
+        {pwdModal && (
+          <ModalPortal>
+            <MypagePwdModal onAccess={handlePwdCheck} />
+          </ModalPortal>
+        )}
         <WithdrawButton>회원탈퇴</WithdrawButton>
       </UserInfoSection>
     </CSS.MypageContainer>
