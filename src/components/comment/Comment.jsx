@@ -64,7 +64,9 @@ const Comment = ({ storeId }) => {
           </ModalPortal>
         )}
         {token !== undefined && modal && (
-          <WriteComment modal={modal} setModal={setModal} storeId={storeId} />
+          <ModalPortal>
+            <WriteComment modal={modal} setModal={setModal} storeId={storeId} />
+          </ModalPortal>
         )}
       </ButtonBoxDiv>
     </CommentBoxSection>

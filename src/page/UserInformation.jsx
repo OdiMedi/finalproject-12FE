@@ -18,6 +18,7 @@ const UserInformation = () => {
 
   const MyPageNickname = localStorage.getItem('nickname');
   const MyPageEmail = localStorage.getItem('email');
+  const MyProfileImg = localStorage.getItem('ProfileImg');
   const navigate = useNavigate();
 
   const mutation = useMutation(unregister, {
@@ -61,7 +62,8 @@ const UserInformation = () => {
         <CSS.MypageTitleH1>회원정보 수정</CSS.MypageTitleH1>
       </TitleBoxDiv>
       <UserInfoSection>
-        <CSS.ProfileImg />
+        {!MyProfileImg && <CSS.ProfileImg />}
+        {MyProfileImg && <EditImg src={MyProfileImg} art="profileImage" />}
         <UserNickNameP>{MyPageNickname}</UserNickNameP>
         <UserEmailP>{MyPageEmail}</UserEmailP>
         <EditButton onClick={profileImgHandle}>프로필 사진 변경</EditButton>
@@ -163,4 +165,10 @@ const UserEmailP = styled.p`
   line-height: 24px;
   color: #0d0d0d;
   margin-bottom: 50px;
+`;
+const EditImg = styled.img`
+  width: 180px;
+  height: 180px;
+  margin-top: 50px;
+  border-radius: 50%;
 `;

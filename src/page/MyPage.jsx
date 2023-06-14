@@ -132,7 +132,7 @@ const MypageTitleH1 = styled.h1`
 const MyprofileDiv = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 54px;
+  margin-left: 30px;
 `;
 const ProfileImg = styled.div`
   width: 180px;
@@ -213,6 +213,5 @@ const WithdrawalBtn = styled.button`
 const EditImg = styled.img`
   width: 180px;
   height: 180px;
-  margin-top: 50px;
   border-radius: 50%;
 `;
