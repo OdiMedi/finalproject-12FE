@@ -3,11 +3,7 @@ import api from './axios';
 const getNoticeList = async props => {
   try {
     const response = await api.get(`/api/board?page=${props}&size=8`);
-
-    const isAdmin = response?.headers.get('Admincheck');
-    console.log('isAdmin', response?.headers);
-    const responseData = { response, isAdmin };
-    return responseData;
+    return response.data;
   } catch (error) {
     console.log(error);
     throw error;

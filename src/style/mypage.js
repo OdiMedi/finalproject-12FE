@@ -20,6 +20,7 @@ export const MypageTitleH1 = styled.h1`
   &:hover {
     transform: scale(1.05);
   }
+
 `;
 export const ProfileImg = styled.div`
   width: 180px;
