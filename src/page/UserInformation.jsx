@@ -4,15 +4,18 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { unregister } from '../api/myPage';
 import CommentDelModal from '../components/comment/CommentDelModal';
+import EditProfileImg from '../components/mypage/EditProfileImg';
 import MypageNicknameModal from '../components/mypage/MypageNicknameModal';
 import MypagePwdModal from '../components/mypage/MypagePwdModal';
 import ModalPortal from '../shared/ModalPortal';
 import * as CSS from '../style/mypage';
 
 const UserInformation = () => {
+  const [profileImg, setProfileImg] = useState(false);
   const [nicknameModal, setNicknameModal] = useState(false);
   const [pwdModal, setPwdModal] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+
   const MyPageNickname = localStorage.getItem('nickname');
   const MyPageEmail = localStorage.getItem('email');
   const navigate = useNavigate();
@@ -30,21 +33,11 @@ const UserInformation = () => {
     navigate('/mypage');
   };
   const nicknameHandle = () => {
-    setNicknameModal(true);
+    setNicknameModal(!nicknameModal);
   };
-  const handleNickCheck = newValue => {
-    if (newValue === true) {
-      setNicknameModal(false);
-    } else if (newValue === false) {
-      setNicknameModal(false);
-    }
-  };
-  const handlePwdCheck = newValue => {
-    if (newValue === true) {
-      setPwdModal(false);
-    } else if (newValue === false) {
-      setPwdModal(false);
-    }
+
+  const handlePwdCheck = () => {
+    setPwdModal(!pwdModal);
   };
   const handleDelCheck = newValue => {
     if (newValue === true) {
@@ -54,6 +47,10 @@ const UserInformation = () => {
       setModalVisible(false);
     }
   };
+  const profileImgHandle = () => {
+    setProfileImg(!profileImg);
+  };
+
   return (
     <CSS.MypageContainer>
       <TitleBoxDiv>
@@ -67,17 +64,25 @@ const UserInformation = () => {
         <CSS.ProfileImg />
         <UserNickNameP>{MyPageNickname}</UserNickNameP>
         <UserEmailP>{MyPageEmail}</UserEmailP>
-        <EditButton>프로필 사진 변경</EditButton>
-        <EditButton onClick={nicknameHandle}>닉네임 변경</EditButton>
-        {nicknameModal && (
+        <EditButton onClick={profileImgHandle}>프로필 사진 변경</EditButton>
+        {profileImg && (
           <ModalPortal>
-            <MypageNicknameModal
-              onAccess={handleNickCheck}
+            <EditProfileImg
+              onAccess={profileImgHandle}
               nickName={MyPageNickname}
             />
           </ModalPortal>
         )}
-        <EditButton onClick={() => setPwdModal(true)}>비밀번호 변경</EditButton>
+        <EditButton onClick={nicknameHandle}>닉네임 변경</EditButton>
+        {nicknameModal && (
+          <ModalPortal>
+            <MypageNicknameModal
+              onAccess={nicknameHandle}
+              nickName={MyPageNickname}
+            />
+          </ModalPortal>
+        )}
+        <EditButton onClick={handlePwdCheck}>비밀번호 변경</EditButton>
         {pwdModal && (
           <ModalPortal>
             <MypagePwdModal onAccess={handlePwdCheck} />

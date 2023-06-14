@@ -12,7 +12,7 @@ const MypageNicknameModal = ({ onAccess, nickName }) => {
 
   const mutation = useMutation(updateNickBtn, {
     onSuccess: () => {
-      onAccess(false);
+      onAccess(true);
       setAlertError(false);
     },
     onError: () => {
@@ -38,7 +38,7 @@ const MypageNicknameModal = ({ onAccess, nickName }) => {
     <NickNameModalWrapDiv>
       <NicknameUpdataDiv>
         <NicknameTitleP>닉네임 변경</NicknameTitleP>
-        <NicknameXDiv onClick={() => onAccess(true)} />
+        <NicknameXDiv onClick={() => onAccess(false)} />
         <div>
           닉네임
           <NicknameInput
@@ -102,6 +102,7 @@ const NicknameXDiv = styled.div`
   position: absolute;
   top: 17px;
   right: 21px;
+  cursor: pointer;
 `;
 
 const NicknameInput = styled.input`
