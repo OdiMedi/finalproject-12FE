@@ -9,7 +9,13 @@ import infoIcon from '../../assets/infoIcon.png';
 
 import { commentUpdate, saveComment } from '../../api/comment';
 
-const WriteComment = ({ content, commentId, storeId, onAccess }) => {
+const WriteComment = ({
+  content,
+  commentId,
+  storeId,
+  onAccess,
+  mainPageLocation,
+}) => {
   const [contents, setContents] = useState(content);
   const [warningMessage, setWarningMessage] = useState('');
   const queryClient = useQueryClient();
@@ -61,7 +67,9 @@ const WriteComment = ({ content, commentId, storeId, onAccess }) => {
       });
     }
   };
-
+  const placeholder = mainPageLocation
+    ? '소중한 후기를 입력해주세요! (100자 이내)'
+    : 'Write Your Comment! (100 characters or less)';
   return (
     <ModalOverlayDiv>
       <ModalContentDiv>
@@ -69,13 +77,13 @@ const WriteComment = ({ content, commentId, storeId, onAccess }) => {
 
         <CSS.CommentInfoDiv>
           <CSS.CommentIconImg src={commentIcon} alt="commentIcon" />
-          <span>이용 후기</span>
+          <span>{mainPageLocation ? '이용 후기' : 'Comment'}</span>
         </CSS.CommentInfoDiv>
         <TextBoxTextarea
           value={contents}
           name="contents"
           onChange={commentOnChangeHandler}
-          placeholder="소중한 후기를 입력해주세요! (100자 이내)"
+          placeholder={placeholder}
         />
 
         <ValidInfoDiv>
@@ -92,7 +100,16 @@ const WriteComment = ({ content, commentId, storeId, onAccess }) => {
           onClick={commentSaveClickButtonHandler}
         >
           <CSS.ComposeImg src={compose} art="" />
-          <span>{!commentId ? '후기 남기기' : '후기 수정하기'}</span>
+          {mainPageLocation && !commentId ? (
+            <span>후기 남기기</span>
+          ) : (
+            <span>done</span>
+          )}
+          {!mainPageLocation && commentId ? (
+            <span>후기 수정하기</span>
+          ) : (
+            <span>revision</span>
+          )}
         </CSS.CommentAddButton>
       </ModalContentDiv>
     </ModalOverlayDiv>

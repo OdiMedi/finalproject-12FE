@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import Cookies from 'js-cookie';
@@ -15,13 +15,20 @@ import LoginSnackBar from '../login/LoginSnackBar';
 import SnackBar from '../SnackBar';
 import { getComment } from '../../api/comment';
 
-const Comment = ({ storeId }) => {
+const Comment = ({ storeId, location }) => {
   const [modal, setModal] = useState(false);
+  const [mainPageLocation, setMainPageLocation] = useState(false);
   const token = Cookies.get('accesstoken');
 
+  useEffect(() => {
+    if (location === 'mainPage') {
+      setMainPageLocation(true);
+    }
+  }, []);
   const CommentAddModalOpenHandler = () => {
     setModal(!modal);
   };
+
   const { data, isLoading } = useQuery(['getComment', storeId], () =>
     getComment(storeId)
   );
@@ -31,7 +38,7 @@ const Comment = ({ storeId }) => {
     <CommentBoxSection>
       <CSS.CommentInfoDiv>
         <CSS.CommentIconImg src={commentIcon} alt="" />
-        <span>이용후기</span>
+        <span>{mainPageLocation ? '이용후기' : 'comments'}</span>
       </CSS.CommentInfoDiv>
       <CommentListArticle>
         {!isLoading &&
@@ -52,7 +59,11 @@ const Comment = ({ storeId }) => {
       <ButtonBoxDiv>
         <CSS.CommentAddButton size="360px" onClick={CommentAddModalOpenHandler}>
           <CSS.ComposeImg src={compose} art="" />
-          <span>소중한 후기를 남겨주세요.</span>
+          <span>
+            {mainPageLocation
+              ? '소중한 후기를 남겨주세요.'
+              : 'Please leave a valuable review.'}
+          </span>
         </CSS.CommentAddButton>
         {token === undefined && modal && (
           <ModalPortal>
@@ -62,6 +73,7 @@ const Comment = ({ storeId }) => {
         {token !== undefined && modal && (
           <ModalPortal>
             <WriteComment
+              mainPageLocation={mainPageLocation}
               onAccess={CommentAddModalOpenHandler}
               storeId={storeId}
             />

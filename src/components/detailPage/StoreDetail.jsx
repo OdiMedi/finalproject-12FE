@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import MapApi from '../MapApi';
 import { inquiryStoreDetail } from '../../api/storeList';
@@ -15,6 +15,7 @@ const StoreDetail = () => {
   const [isMore, setIsMore] = useState(false);
   const navigate = useNavigate();
   const params = useParams();
+
   const moveStoreListClickHandler = () => {
     navigate('/mainPage');
   };
@@ -100,7 +101,7 @@ const StoreDetail = () => {
                 </CSS.OpenCheckBoxDiv>
               </CSS.StoreDetailInfoBoxDiv>
             </CSS.StoreDetailBoxDiv>
-            <Comment storeId={data.storeId} />
+            <Comment storeId={data.storeId} location="mainPage" />
           </CSS.DetailBoxArticle>
         </>
       )}

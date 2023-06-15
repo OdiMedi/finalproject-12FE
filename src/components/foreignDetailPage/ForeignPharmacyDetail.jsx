@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 
 import MapApi from '../MapApi';
@@ -16,6 +16,7 @@ const ForeignPharmacyDetail = () => {
   const [isMore, setIsMore] = useState(false);
   const navigate = useNavigate();
   const params = useParams();
+
   const moveStoreListClickHandler = () => {
     navigate('/foreignPage');
   };
@@ -49,6 +50,7 @@ const ForeignPharmacyDetail = () => {
                 information
               </CSS.InfoTextDiv>
               <CSS.InfoTextDiv
+                hover="hover"
                 role="button"
                 onClick={moveStoreListClickHandler}
               >
@@ -103,7 +105,7 @@ const ForeignPharmacyDetail = () => {
                 </CSS.OpenCheckBoxDiv>
               </CSS.StoreDetailInfoBoxDiv>
             </CSS.StoreDetailBoxDiv>
-            <Comment storeId={data.storeId} />
+            <Comment storeId={data.storeId} location="foreignPage" />
           </CSS.DetailBoxArticle>
         </>
       )}
