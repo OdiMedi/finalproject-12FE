@@ -5,12 +5,15 @@ import Cookies from 'js-cookie';
 import commentIcon from '../../assets/commentIcon.png';
 import compose from '../../assets/compose.png';
 import * as CSS from '../../style/globalStyle';
+
 import WriteComment from './WriteComment';
 import api from '../../api/axios';
 import CommentItem from './CommentItem';
 import ModalPortal from '../../shared/ModalPortal';
 import LoginSnackBar from '../login/LoginSnackBar';
+
 import SnackBar from '../SnackBar';
+import { getComment } from '../../api/comment';
 
 const Comment = ({ storeId }) => {
   const [modal, setModal] = useState(false);
@@ -19,18 +22,11 @@ const Comment = ({ storeId }) => {
   const CommentAddModalOpenHandler = () => {
     setModal(!modal);
   };
-
-  const getCommentHandler = async () => {
-    const response = await api.get(`/api/comment/${storeId}`);
-
-    return response.data;
-  };
-
-  const { data, isLoading } = useQuery(
-    ['getComment', storeId],
-    getCommentHandler
+  const { data, isLoading } = useQuery(['getComment', storeId], () =>
+    getComment(storeId)
   );
-  // console.log('데이터 받아오는 공간', data);
+
+  console.log('데이터 받아오는 공간', data);
   return (
     <CommentBoxSection>
       <CSS.CommentInfoDiv>
@@ -65,7 +61,10 @@ const Comment = ({ storeId }) => {
         )}
         {token !== undefined && modal && (
           <ModalPortal>
-            <WriteComment modal={modal} setModal={setModal} storeId={storeId} />
+            <WriteComment
+              onAccess={CommentAddModalOpenHandler}
+              storeId={storeId}
+            />
           </ModalPortal>
         )}
       </ButtonBoxDiv>

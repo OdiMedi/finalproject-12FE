@@ -6,6 +6,7 @@ import api from '../../api/axios';
 import LoginIconMain from '../../assets/loginIcon.png';
 import LoginTitleMain from '../../assets/loginTitle.png';
 import emailInfo from '../../assets/emailInfo.png';
+import infoIcon from '../../assets/infoIcon.png';
 import SnackBar from '../SnackBar';
 import { LoginBtn, TextBnt } from './LoginModal';
 import {
@@ -19,6 +20,9 @@ const SignupModal = () => {
   const [emailCheck, setEmailCheck] = useState(true);
   const [nicknameCheck, setNicknameCheck] = useState(true);
   const [passwordCheck, setPasswordCheck] = useState(true);
+  const [confirmWarningMessage, setConfirmWarningMessage] = useState(
+    '입력하신 메일로 전송된 인증번호를 입력해주세요.'
+  );
   const [warningMessage, setWarningMessage] = useState('');
   const [validNumber, setValidNumber] = useState('');
   const [isSendEmail, setIsSendEmail] = useState(false);
@@ -54,8 +58,8 @@ const SignupModal = () => {
       setIsConfirm(!isConfirm);
     },
     onError: error => {
-      alert('인증번호 실패');
-      setWarningMessage(error.message);
+      // alert('인증번호 실패');
+      setConfirmWarningMessage('인증번호가 일치하지 않습니다.');
     },
   });
   useEffect(() => {
@@ -220,8 +224,8 @@ const SignupModal = () => {
         )}
         {isValid && !isConfirm && (
           <ValidInfoDiv>
-            <EmailInfoImg src={emailInfo} alt="" />
-            <p>입력하신 메일로 전송된 인증번호를 입력해주세요.</p>
+            <EmailInfoImg src={infoIcon} alt="" />
+            <WarningMessageP>{confirmWarningMessage}</WarningMessageP>
           </ValidInfoDiv>
         )}
         {isValid && isConfirm && (
@@ -241,7 +245,10 @@ const SignupModal = () => {
             영어(대소문자 구분), 숫자로 8~15자로 입력해주세요
           </HelperTextP>
         )}
-        <WarningMessageP>{warningMessage}</WarningMessageP>
+        <ValidInfoDiv>
+          <EmailInfoImg src={infoIcon} alt="" />
+          <WarningMessageP>{warningMessage}</WarningMessageP>
+        </ValidInfoDiv>
         <MarginDiv />
         <LoginBtn type="button" onClick={submitSignup}>
           회원가입
@@ -332,7 +339,6 @@ const AdminCheckBoxInput = styled.input`
   height: 20px;
 `;
 const WarningMessageP = styled.p`
-  margin-left: 10px;
   font-weight: 500;
   font-size: 15px;
   line-height: 34px;

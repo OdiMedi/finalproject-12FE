@@ -22,6 +22,7 @@ const MypageReview = ({
   callNumber,
   weekday,
   foreign,
+  imageUrl,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const MypageReview = ({
       },
     }
   );
-
+  console.log(imageUrl);
   const handleDelCheck = newValue => {
     if (newValue === true) {
       mypageCommentDelMutaion.mutate();
@@ -77,7 +78,11 @@ const MypageReview = ({
         </MypagePharInfoDiv>
       </MypagePharDiv>
       <MypageReviewTextDiv>
-        <ReveiwProfileDiv />
+        {imageUrl === '' ? (
+          <ReviewProfileDiv />
+        ) : (
+          <ReviewProfileImg src={imageUrl} art="profileImage" />
+        )}
         <ReviewTextDiv>
           <ReviewNameP>{nickname}</ReviewNameP>
           <ReviewTextP>{contents}</ReviewTextP>
@@ -115,14 +120,20 @@ const MypageReviewTextDiv = styled.div`
   width: 60%;
   display: flex;
   align-items: center;
+  border-radius: 50%;
 `;
-const ReveiwProfileDiv = styled.div`
+const ReviewProfileDiv = styled.div`
   width: 54px;
   height: 54px;
   background-image: url(${profileIcon});
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  margin-right: 16px;
+`;
+const ReviewProfileImg = styled.img`
+  width: 54px;
+  height: 54px;
   margin-right: 16px;
 `;
 const ReviewTextDiv = styled.div`

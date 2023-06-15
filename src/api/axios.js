@@ -100,7 +100,7 @@ api.interceptors.response.use(
       }
       setTimeout(() => {
         window.location.replace('/login');
-      }, 5000);
+      }, 1000);
     }
 
     if (errorCode === 'DUPLICATED_MEMBER') {

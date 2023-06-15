@@ -262,9 +262,9 @@ export const InfoTextDiv = styled.div`
   text-align: center;
   margin-top: 15px;
   margin-bottom: 15px;
-  cursor: pointer;
+  cursor: ${props => (props.hover === 'hover' ? 'pointer' : '')};
   &:hover {
-    transform: scale(1.08);
+    transform: ${props => (props.hover === 'hover' ? 'scale(1.1)' : 'none')};
   }
 `;
 // 상세 내용

@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import styled from 'styled-components';
 import api from '../../api/axios';
-import defaultImage from '../../assets/defaultImage.png';
-import commentBubble from '../../assets/commentBubble.png';
-import commentEdit from '../../assets/commentEdit.png';
 import commentDelete from '../../assets/commentDelete.png';
-import CommentDelModal from './CommentDelModal';
+import commentEdit from '../../assets/commentEdit.png';
+import defaultImage from '../../assets/defaultImage.png';
 import ModalPortal from '../../shared/ModalPortal';
+import CommentDelModal from './CommentDelModal';
+import WriteComment from './WriteComment';
 
 const CommentItem = ({
   storeId,
@@ -17,24 +17,9 @@ const CommentItem = ({
   check,
   imageUrl,
 }) => {
-  const [isEdit, setIsEdit] = useState(true);
-  const [editText, setEditText] = useState(contents);
   const [modalVisible, setModalVisible] = useState(false);
-
+  const [isModal, setIsModal] = useState(false);
   const queryClient = useQueryClient();
-
-  const commentUpdateMutation = useMutation(
-    newComment => api.put(`/api/comment/${storeId}/${commentId}`, newComment),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('getComment');
-      },
-    }
-  );
-  const updateComment = () => {
-    commentUpdateMutation.mutate({ contents: editText });
-    setIsEdit(prev => !prev);
-  };
 
   const commentDeleteMutation = useMutation(
     () => api.delete(`/api/comment/${storeId}/${commentId}`),
@@ -54,14 +39,9 @@ const CommentItem = ({
   };
 
   const handleEditClick = () => {
-    setIsEdit(prev => !prev);
+    setIsModal(prev => !prev);
   };
 
-  const handleInputChange = e => {
-    const { value } = e.target;
-    setEditText(value);
-  };
-  console.log('imageUrl', imageUrl);
   return (
     <CommentItemDiv key={commentId}>
       {imageUrl === '' ? (
@@ -71,43 +51,31 @@ const CommentItem = ({
       )}
       <CommentContentBoxDiv>
         <NicknameH1>{nickname}</NicknameH1>
-        {isEdit ? (
-          <ContentInput id={commentId} type="text" value={editText} disabled />
-        ) : (
-          <ContentInputFocus
-            id="commentFocus"
-            type="text"
-            value={editText}
-            onChange={handleInputChange}
-          />
-        )}
-        <ReCommentButton>
-          <CommentBubbleIconImg src={commentBubble} alt="" />
-        </ReCommentButton>
+        <ContentP>{contents}</ContentP>
       </CommentContentBoxDiv>
       {check && (
         <CommentBtnWrapDiv>
-          {isEdit ? (
-            <CommentEditButton
-              type="button"
-              name={commentId}
-              onClick={handleEditClick}
-            />
-          ) : (
-            <button type="button" name={commentId} onClick={updateComment}>
-              확인
-            </button>
-          )}
-          {isEdit ? (
-            <CommentDeleteButton
-              type="button"
-              commentid={commentId}
-              onClick={() => setModalVisible(true)}
-            />
-          ) : (
-            ''
-          )}
+          <CommentEditButton
+            type="button"
+            name={commentId}
+            onClick={handleEditClick}
+          />
+          <CommentDeleteButton
+            type="button"
+            commentid={commentId}
+            onClick={() => setModalVisible(true)}
+          />
         </CommentBtnWrapDiv>
+      )}
+      {isModal && (
+        <ModalPortal>
+          <WriteComment
+            onAccess={handleEditClick}
+            storeId={storeId}
+            commentId={commentId}
+            content={contents}
+          />
+        </ModalPortal>
       )}
       {modalVisible && (
         <ModalPortal>
@@ -140,11 +108,6 @@ const DefaultProfileImg = styled.img`
   margin-right: 34px;
   border-radius: 50%;
 `;
-const CommentBubbleIconImg = styled.img`
-  width: 10px;
-  height: 10px;
-  margin-right: 5px;
-`;
 
 const CommentContentBoxDiv = styled.div`
   display: flex;
@@ -158,36 +121,12 @@ const NicknameH1 = styled.h1`
   font-size: 13px;
   font-weight: 800;
 `;
-const ContentInput = styled.input`
-  // span -> input으로 수정
+const ContentP = styled.p`
   font-size: 12px;
   width: 100%;
   border: none;
   /* border: 1px solid #fa5938; */
   background-color: transparent;
-`;
-const ContentInputFocus = styled.input`
-  font-size: 12px;
-  width: 100%;
-  border: 2px solid #fa5938;
-  caret-color: #fa5938;
-
-  &:focus {
-    border: 2px solid #fa5938;
-    outline: none;
-  }
-`;
-const ReCommentButton = styled.button`
-  border: none;
-  font-size: 8px;
-  color: #686868;
-  height: 11px;
-  display: flex;
-  align-items: center;
-  text-align: left;
-  background-color: transparent;
-  padding-left: 0;
-  cursor: pointer;
 `;
 const CommentEditButton = styled.button`
   width: 20px;
