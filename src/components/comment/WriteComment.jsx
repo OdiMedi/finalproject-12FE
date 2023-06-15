@@ -5,7 +5,8 @@ import commentIcon from '../../assets/commentIcon.png';
 import closeIcon from '../../assets/closeIcon.png';
 import compose from '../../assets/compose.png';
 import * as CSS from '../../style/globalStyle';
-import api from '../../api/axios';
+import infoIcon from '../../assets/infoIcon.png';
+
 import { commentUpdate, saveComment } from '../../api/comment';
 
 const WriteComment = ({ content, commentId, storeId, onAccess }) => {
@@ -75,8 +76,17 @@ const WriteComment = ({ content, commentId, storeId, onAccess }) => {
           name="contents"
           onChange={commentOnChangeHandler}
           placeholder="소중한 후기를 입력해주세요! (100자 이내)"
-        ></TextBoxTextarea>
-        <p>{warningMessage}</p>
+        />
+
+        <ValidInfoDiv>
+          {warningMessage && (
+            <>
+              <EmailInfoImg src={infoIcon} alt="" />
+              <WarningMessageP>{warningMessage}</WarningMessageP>
+            </>
+          )}
+        </ValidInfoDiv>
+
         <CSS.CommentAddButton
           size="360px"
           onClick={commentSaveClickButtonHandler}
@@ -126,7 +136,6 @@ const TextBoxTextarea = styled.textarea`
   width: 462px;
   height: 197px;
   margin-top: 22px;
-  margin-bottom: 16px;
   background-color: #ededed;
   border: none;
   border-radius: 10px;
@@ -150,4 +159,27 @@ const CloseButton = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
+`;
+const ValidInfoDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #afaeb7;
+  margin-left: 10px;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 34px;
+  margin-top: 15px;
+  gap: 11px;
+  height: 18px;
+`;
+const EmailInfoImg = styled.img`
+  width: 14px;
+  height: 14px;
+`;
+const WarningMessageP = styled.p`
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 34px;
+  color: #fa5938;
 `;
