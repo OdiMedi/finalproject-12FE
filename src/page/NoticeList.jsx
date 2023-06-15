@@ -10,7 +10,7 @@ import * as CSS from '../style/globalStyle';
 
 const NoticeList = () => {
   const [currentPage, setCurrentPage] = useState(0);
-  const [isManager, setIsManager] = useState(false);
+  const [isManager, setIsManager] = useState(true);
   // const [keyboard, setKeyboard] = useState([]);
   const navigate = useNavigate();
 
@@ -44,8 +44,9 @@ const NoticeList = () => {
   return (
     <BackgroundMain>
       <NoticeH1>공지사항</NoticeH1>
-      {isManager ? (
-        <WriteBoxDiv>
+
+      <WriteBoxDiv>
+        {isManager && (
           <WriteButton>
             <WriteIconImg src={writeIcon} alt="" />
             <WriteTextP onClick={writeNoticeMoveButtonHandler}>
@@ -53,10 +54,9 @@ const NoticeList = () => {
               글 작성{' '}
             </WriteTextP>
           </WriteButton>
-        </WriteBoxDiv>
-      ) : (
-        <WriteBoxDiv />
-      )}
+        )}
+      </WriteBoxDiv>
+
       <ListSection>
         <TitleDiv>
           <NoticeP size="108px">번호</NoticeP>

@@ -9,6 +9,7 @@ import DeleteIcon from '../assets/trashIcon.png';
 
 const NoticeDetailPage = () => {
   const [existingWriting, setExistingWriting] = useState(null);
+  const [isManager, setIsManager] = useState(false);
   const params = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -30,8 +31,11 @@ const NoticeDetailPage = () => {
       content: data?.content,
       id: data?.id,
     });
+    if (data?.adminCheck) {
+      setIsManager(!isManager);
+    }
   }, [data]);
-
+  console.log('어드민 확인용', data);
   const noticeDetailPageMoveButtonHandler = id => {
     navigate(`/noticeList/${id}`);
   };
@@ -52,19 +56,23 @@ const NoticeDetailPage = () => {
     <BackgroundMain>
       <NoticeH1>공지사항</NoticeH1>
       <WriteBoxDiv>
-        <WriteButton>
-          <WriteIconImg src={DeleteIcon} alt="" />
-          <WriteTextP onClick={noticeListDeleteButtonHandler}>
-            글 삭제
-          </WriteTextP>
-        </WriteButton>
-        <WriteButton>
-          <WriteIconImg src={writeIcon} alt="" />
-          <WriteTextP onClick={noticeModifyMoveButtonHandler}>
-            {' '}
-            글 수정{' '}
-          </WriteTextP>
-        </WriteButton>
+        {isManager && (
+          <>
+            <WriteButton>
+              <WriteIconImg src={DeleteIcon} alt="" />
+              <WriteTextP onClick={noticeListDeleteButtonHandler}>
+                글 삭제
+              </WriteTextP>
+            </WriteButton>
+            <WriteButton>
+              <WriteIconImg src={writeIcon} alt="" />
+              <WriteTextP onClick={noticeModifyMoveButtonHandler}>
+                {' '}
+                글 수정{' '}
+              </WriteTextP>
+            </WriteButton>
+          </>
+        )}
         <WriteButton>
           <WriteIconImg src={menuIcon} alt="" />
           <WriteTextP onClick={noticeListMoveButtonHandler}>목록</WriteTextP>
