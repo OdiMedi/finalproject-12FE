@@ -37,7 +37,7 @@ const MyPage = () => {
     <MypageContainer>
       <MypageTitleH1>마이페이지</MypageTitleH1>
       <MyprofileDiv>
-        {MyProfileImg === 'null' ? (
+        {MyProfileImg === 'null' || !MyProfileImg ? (
           <EditImg src={profile} art="defaultProfileImage" />
         ) : (
           <EditImg src={MyProfileImg} art="profileImage" />

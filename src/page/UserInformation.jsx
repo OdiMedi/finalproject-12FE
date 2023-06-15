@@ -62,10 +62,12 @@ const UserInformation = () => {
         <CSS.MypageTitleH1>회원정보 수정</CSS.MypageTitleH1>
       </TitleBoxDiv>
       <UserInfoSection>
-        {MyProfileImg === 'null' && <CSS.ProfileImg />}
-        {MyProfileImg !== 'null' && (
+        {MyProfileImg === 'null' && !MyProfileImg ? (
+          <CSS.ProfileImg />
+        ) : (
           <EditImg src={MyProfileImg} art="profileImage" />
         )}
+
         <UserNickNameP>{MyPageNickname}</UserNickNameP>
         <UserEmailP>{MyPageEmail}</UserEmailP>
         <EditButton onClick={profileImgHandle}>프로필 사진 변경</EditButton>
