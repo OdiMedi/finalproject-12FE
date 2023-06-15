@@ -62,7 +62,7 @@ const UserInformation = () => {
         <CSS.MypageTitleH1>회원정보 수정</CSS.MypageTitleH1>
       </TitleBoxDiv>
       <UserInfoSection>
-        {MyProfileImg === 'null' && !MyProfileImg ? (
+        {MyProfileImg === 'null' || !MyProfileImg ? (
           <CSS.ProfileImg />
         ) : (
           <EditImg src={MyProfileImg} art="profileImage" />
