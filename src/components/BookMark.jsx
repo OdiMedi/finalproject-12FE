@@ -71,6 +71,7 @@ const OnBookMarkIconButton = styled.button`
   border: none;
   width: ${props => (props.type === 'detail' ? '18px' : '30px')};
   height: ${props => (props.type === 'detail' ? '18px' : '30px')};
+  cursor: pointer;
   &:hover {
     transform: scale(1.1);
   }
@@ -84,6 +85,7 @@ const OffBookMarkIconButton = styled.button`
   border: none;
   width: ${props => (props.type === 'detail' ? '18px' : '30px')};
   height: ${props => (props.type === 'detail' ? '18px' : '30px')};
+  cursor: pointer;
   &:hover {
     transform: scale(1.1);
   }
