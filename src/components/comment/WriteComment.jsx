@@ -6,49 +6,66 @@ import closeIcon from '../../assets/closeIcon.png';
 import compose from '../../assets/compose.png';
 import * as CSS from '../../style/globalStyle';
 import api from '../../api/axios';
+import { commentUpdate, saveComment } from '../../api/comment';
 
-const WriteComment = ({ modal, setModal, storeId }) => {
-  const [comment, setComment] = useState({ contents: '' });
-  const { contents } = comment;
+const WriteComment = ({ content, commentId, storeId, onAccess }) => {
+  const [contents, setContents] = useState(content);
+  const [warningMessage, setWarningMessage] = useState('');
   const queryClient = useQueryClient();
 
+  const saveCommentMutation = useMutation(saveComment, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('getComment');
+      onAccess(true);
+    },
+    onError: error => {
+      alert('등록실패');
+    },
+  });
+
+  const EditCommentMutation = useMutation(commentUpdate, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('getComment');
+      onAccess(true);
+    },
+    onError: error => {
+      alert('수정실패');
+    },
+  });
   const commentOnChangeHandler = e => {
-    const { name, value } = e.target;
+    const { value } = e.target;
     if (value.length > 100) {
-      alert('댓글은 100자 이내로만 작성해주세요');
+      setWarningMessage('댓글은 100자 이내로만 작성해주세요');
       return;
     }
-    setComment({ ...comment, [name]: value });
+    setContents(value);
   };
-
-  // 모달창 닫는 버튼
-  const closeButtonClickHandler = () => {
-    setModal(!modal);
-  };
-
-  const commentMutation = useMutation(
-    newComment => api.post(`/api/comment/${storeId}`, newComment),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('getComment');
-        setModal(false);
-      },
-    }
-  );
 
   // 댓글 저장 버튼
   const commentSaveClickButtonHandler = () => {
     if (!contents || contents.trim() === '') {
-      alert('1글자라도 입력 후 저장이 가능합니다.');
+      setWarningMessage('1글자라도 입력 후 저장이 가능합니다.');
       return;
     }
-    commentMutation.mutate(comment);
+    if (!commentId) {
+      saveCommentMutation.mutate({
+        contents,
+        storeId,
+      });
+    } else {
+      EditCommentMutation.mutate({
+        contents,
+        storeId,
+        commentId,
+      });
+    }
   };
 
   return (
     <ModalOverlayDiv>
       <ModalContentDiv>
-        <CloseButton onClick={closeButtonClickHandler} />
+        <CloseButton onClick={() => onAccess(true)} />
+
         <CSS.CommentInfoDiv>
           <CSS.CommentIconImg src={commentIcon} alt="commentIcon" />
           <span>이용 후기</span>
@@ -59,12 +76,13 @@ const WriteComment = ({ modal, setModal, storeId }) => {
           onChange={commentOnChangeHandler}
           placeholder="소중한 후기를 입력해주세요! (100자 이내)"
         ></TextBoxTextarea>
+        <p>{warningMessage}</p>
         <CSS.CommentAddButton
           size="360px"
           onClick={commentSaveClickButtonHandler}
         >
           <CSS.ComposeImg src={compose} art="" />
-          <span>후기 남기기</span>
+          <span>{!commentId ? '후기 남기기' : '후기 수정하기'}</span>
         </CSS.CommentAddButton>
       </ModalContentDiv>
     </ModalOverlayDiv>

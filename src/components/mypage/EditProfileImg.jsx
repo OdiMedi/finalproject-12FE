@@ -11,6 +11,7 @@ const EditProfileImg = ({ onAccess }) => {
   const mutation = useMutation(editProfileImg, {
     onSuccess: data => {
       setProfileImage(data.file);
+      onAccess(true);
     },
     onError: error => {
       console.log(error);
@@ -124,22 +125,6 @@ const FiledInput = styled.input`
   cursor: pointer;
 `;
 
-const ImgUploadInput = styled.input`
-  background-color: #fafafa;
-  border: 0.5px solid #afaeb7;
-  border-radius: 20px;
-  width: 209px;
-  height: 29px;
-  margin-top: 11px;
-  font-weight: 900;
-  font-size: 12px;
-  line-height: 34px;
-  color: #686868;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-`;
 const UploadInfoP = styled.p`
   font-weight: 500;
   font-size: 10px;
@@ -173,14 +158,4 @@ const NicknameButton = styled.button`
   font-size: 15px;
   line-height: 34px;
   color: #ffffff;
-`;
-const ErrorAlertP = styled.p`
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 32px;
-  color: #fa5938;
-`;
-const HelperTextP = styled.p`
-  color: #fa5938;
-  font-size: 13px;
 `;

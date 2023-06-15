@@ -13,7 +13,7 @@ const MyPage = () => {
   const MypageNickname = localStorage.getItem('nickname');
   const MypageEmail = localStorage.getItem('email');
   const MyProfileImg = localStorage.getItem('ProfileImg');
-
+  console.log('MyProfileImg', MyProfileImg);
   const navigate = useNavigate();
 
   const { data: reviewData, isLoading: isLoadingReview } = useQuery(
@@ -37,8 +37,12 @@ const MyPage = () => {
     <MypageContainer>
       <MypageTitleH1>마이페이지</MypageTitleH1>
       <MyprofileDiv>
-        {!MyProfileImg && <ProfileImg />}
-        {MyProfileImg && <EditImg src={MyProfileImg} art="profileImage" />}
+        {MyProfileImg === 'null' ? (
+          <EditImg src={profile} art="defaultProfileImage" />
+        ) : (
+          <EditImg src={MyProfileImg} art="profileImage" />
+        )}
+
         <ProfileDescDiv>
           <div>
             <span>{MypageNickname}</span>
@@ -82,6 +86,7 @@ const MyPage = () => {
                   callNumber={item.callNumber}
                   weekday={item.weekdaysTime}
                   foreign={item.foreign}
+                  imageUrl={item.imageUrl}
                 />
               );
             })}
@@ -132,7 +137,7 @@ const MypageTitleH1 = styled.h1`
 const MyprofileDiv = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 54px;
+  margin-left: 30px;
 `;
 const ProfileImg = styled.div`
   width: 180px;
@@ -213,6 +218,5 @@ const WithdrawalBtn = styled.button`
 const EditImg = styled.img`
   width: 180px;
   height: 180px;
-  margin-top: 50px;
   border-radius: 50%;
 `;

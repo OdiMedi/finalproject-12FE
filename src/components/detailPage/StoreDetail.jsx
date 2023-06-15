@@ -46,6 +46,7 @@ const StoreDetail = () => {
                 약국정보
               </CSS.InfoTextDiv>
               <CSS.InfoTextDiv
+                hover="hover"
                 role="button"
                 onClick={moveStoreListClickHandler}
               >
