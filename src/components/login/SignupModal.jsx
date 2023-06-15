@@ -1,33 +1,33 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import api from '../../api/axios';
-import LoginIconMain from '../../assets/loginIcon.png';
-import LoginTitleMain from '../../assets/loginTitle.png';
-import emailInfo from '../../assets/emailInfo.png';
-import infoIcon from '../../assets/infoIcon.png';
-import SnackBar from '../SnackBar';
-import { LoginBtn, TextBnt } from './LoginModal';
 import {
   confirmationNumber,
   sendVerificationCodeByEmail,
 } from '../../api/singUp';
-import { InfoTextDiv } from '../../style/globalStyle';
+import emailInfo from '../../assets/emailInfo.png';
+import infoIcon from '../../assets/infoIcon.png';
+import LoginIconMain from '../../assets/loginIcon.png';
+import LoginTitleMain from '../../assets/loginTitle.png';
+import SnackBar from '../SnackBar';
+import { LoginBtn, TextBnt } from './LoginModal';
+import Timer from './Timer';
 
 const SignupModal = () => {
   const navigate = useNavigate();
   const [emailCheck, setEmailCheck] = useState(true);
   const [nicknameCheck, setNicknameCheck] = useState(true);
   const [passwordCheck, setPasswordCheck] = useState(true);
-  const [confirmWarningMessage, setConfirmWarningMessage] = useState(
-    '입력하신 메일로 전송된 인증번호를 입력해주세요.'
-  );
+  const [confirmWarningMessage, setConfirmWarningMessage] = useState('');
   const [warningMessage, setWarningMessage] = useState('');
   const [validNumber, setValidNumber] = useState('');
   const [isSendEmail, setIsSendEmail] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const [isConfirm, setIsConfirm] = useState(false);
+  const [limit, setLimit] = useState(179);
+  const [timerCount, setTimerCount] = useState(0);
   const [inputValue, setInputValue] = useState({
     email: '',
     nickname: '',
@@ -48,6 +48,13 @@ const SignupModal = () => {
     onSuccess: () => {
       setIsSendEmail(true);
       setIsValid(true);
+      setWarningMessage('');
+      setConfirmWarningMessage(
+        '입력하신 메일로 전송된 인증번호를 입력해주세요.'
+      );
+      setValidNumber('');
+      setLimit(179);
+      setTimerCount(prevCount => prevCount + 1);
     },
     onError: error => {
       setWarningMessage(error.message);
@@ -56,10 +63,10 @@ const SignupModal = () => {
   const confirmationMutation = useMutation(confirmationNumber, {
     onSuccess: () => {
       setIsConfirm(!isConfirm);
+      setConfirmWarningMessage('이메일 인증에 성공했습니다.');
     },
     onError: error => {
-      // alert('인증번호 실패');
-      setConfirmWarningMessage('인증번호가 일치하지 않습니다.');
+      setConfirmWarningMessage(error.message);
     },
   });
   useEffect(() => {
@@ -180,12 +187,17 @@ const SignupModal = () => {
           type="text"
           placeholder="닉네임을 입력하세요."
         />
-        {!nicknameCheck && (
-          <HelperTextP>
-            닉네임은 한글, 영어(대소문자 구분), 숫자로 2~10자로 입력해주세요
-          </HelperTextP>
+        {!nicknameCheck ? (
+          <ValidInfoDiv>
+            <EmailInfoImg src={infoIcon} alt="" />
+            <WarningMessageP>
+              닉네임은 한글, 영어(대소문자 구분), 숫자로 2~10자로 입력해주세요.
+            </WarningMessageP>
+          </ValidInfoDiv>
+        ) : (
+          <MarginDiv />
         )}
-        <MarginDiv />
+
         <EmailBoxDiv>
           <SignUpInput
             position="email"
@@ -205,6 +217,10 @@ const SignupModal = () => {
           <ValidInfoDiv>
             <EmailInfoImg src={emailInfo} art="" />
             <p>메일이 전송 되었습니다.</p>
+            <LimitTimerP>
+              만료 시간
+              <Timer timeLimit={limit} key={timerCount} />
+            </LimitTimerP>
           </ValidInfoDiv>
         ) : (
           <MarginDiv />
@@ -222,15 +238,14 @@ const SignupModal = () => {
             <Button onClick={confirmationNumberButtonHandler}>메일 인증</Button>
           </EmailBoxDiv>
         )}
-        {isValid && !isConfirm && (
+
+        {confirmWarningMessage && (
           <ValidInfoDiv>
             <EmailInfoImg src={infoIcon} alt="" />
             <WarningMessageP>{confirmWarningMessage}</WarningMessageP>
           </ValidInfoDiv>
         )}
-        {isValid && isConfirm && (
-          <WarningMessageP>이메일 인증에 성공했습니다.</WarningMessageP>
-        )}
+
         {!isValid && !isConfirm && <MarginDiv />}
         <SignUpInput
           size="500px"
@@ -246,8 +261,12 @@ const SignupModal = () => {
           </HelperTextP>
         )}
         <ValidInfoDiv>
-          <EmailInfoImg src={infoIcon} alt="" />
-          <WarningMessageP>{warningMessage}</WarningMessageP>
+          {warningMessage && (
+            <>
+              <EmailInfoImg src={infoIcon} alt="" />
+              <WarningMessageP>{warningMessage}</WarningMessageP>
+            </>
+          )}
         </ValidInfoDiv>
         <MarginDiv />
         <LoginBtn type="button" onClick={submitSignup}>
@@ -282,7 +301,7 @@ const SignUpInput = styled.input`
   border: 1.5px solid #d9d9d9;
   border-radius: 5px;
   font-size: 20px;
-  text-indent: 27px;
+  text-indent: 15px;
 
   &:focus {
     border-color: #fa5938;
@@ -384,4 +403,9 @@ const ValidInfoDiv = styled.div`
 const EmailInfoImg = styled.img`
   width: 14px;
   height: 14px;
+`;
+const LimitTimerP = styled.p`
+  display: flex;
+  gap: 7px;
+  margin-left: 150px;
 `;
