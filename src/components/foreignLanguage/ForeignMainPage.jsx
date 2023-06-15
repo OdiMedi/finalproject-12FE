@@ -354,13 +354,15 @@ const ForeignMainPage = () => {
 export default ForeignMainPage;
 
 const InformationMessageDiv = styled.div`
-  height: 300px;
+  height: 375px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 30px;
   font-weight: 700;
   color: #5f5e5e;
+  border-top: 1px solid #dadada;
+  border-bottom: 1px solid #dadada;
 `;
 const LanguageInfoIconButton = styled.button`
   background-color: transparent;

@@ -139,12 +139,6 @@ const MyprofileDiv = styled.div`
   align-items: center;
   margin-left: 30px;
 `;
-const ProfileImg = styled.div`
-  width: 180px;
-  height: 180px;
-  background-image: url(${profile});
-  background-size: 180px 180px;
-`;
 const ProfileDescDiv = styled.div`
   margin-left: 58px;
   display: flex;
@@ -158,7 +152,6 @@ const ProfileDescDiv = styled.div`
     font-size: 30px;
     line-height: 36px;
     letter-spacing: 0.05em;
-    margin-right: 21px;
   }
   p {
     font-family: 'Pretendard';

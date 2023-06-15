@@ -10,8 +10,8 @@ import * as CSS from '../style/globalStyle';
 
 const NoticeList = () => {
   const [currentPage, setCurrentPage] = useState(0);
-  const [isManager, setIsManager] = useState(false);
-  const [keyboard, setKeyboard] = useState([]);
+  const [isManager, setIsManager] = useState(true);
+  // const [keyboard, setKeyboard] = useState([]);
   const navigate = useNavigate();
 
   const handlePageChange = newPage => {
@@ -44,15 +44,19 @@ const NoticeList = () => {
   return (
     <BackgroundMain>
       <NoticeH1>공지사항</NoticeH1>
+
       <WriteBoxDiv>
-        <WriteButton>
-          <WriteIconImg src={writeIcon} alt="" />
-          <WriteTextP onClick={writeNoticeMoveButtonHandler}>
-            {' '}
-            글 작성{' '}
-          </WriteTextP>
-        </WriteButton>
+        {isManager && (
+          <WriteButton>
+            <WriteIconImg src={writeIcon} alt="" />
+            <WriteTextP onClick={writeNoticeMoveButtonHandler}>
+              {' '}
+              글 작성{' '}
+            </WriteTextP>
+          </WriteButton>
+        )}
       </WriteBoxDiv>
+
       <ListSection>
         <TitleDiv>
           <NoticeP size="108px">번호</NoticeP>
@@ -161,6 +165,8 @@ const WriteBoxDiv = styled.div`
   display: flex;
   justify-content: end;
   gap: 30px;
+  margin-bottom: 20px;
+  height: 31px;
 `;
 const WriteButton = styled.button`
   display: flex;
@@ -169,7 +175,6 @@ const WriteButton = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
-  margin-bottom: 28px;
 `;
 const WriteIconImg = styled.img`
   width: 20px;
@@ -178,7 +183,7 @@ const WriteIconImg = styled.img`
 const WriteTextP = styled.p`
   font-weight: 600;
   font-size: 20px;
-  line-height: 24px;
+  /* height: 20px; */
   color: #686868;
 `;
 const ListNumberBoxDiv = styled.div`
