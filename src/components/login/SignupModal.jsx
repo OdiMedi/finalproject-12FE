@@ -73,7 +73,6 @@ const SignupModal = () => {
     <SnackBar type="warningMessage" message={warningMessage} />;
   }, [warningMessage]);
 
-  console.log(`에러메세지`, warningMessage);
   const changeEmail = e => {
     const { name, value } = e.target;
     const emailRegExp =
@@ -146,7 +145,6 @@ const SignupModal = () => {
       navigate('/login');
     } catch (error) {
       setWarningMessage(error.response.data.message);
-      console.log('sigunupValidation::::::::', error.response.data.message);
     }
   };
   const redirectLogin = () => {

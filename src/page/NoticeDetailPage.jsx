@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -9,10 +9,16 @@ import DeleteIcon from '../assets/trashIcon.png';
 
 const NoticeDetailPage = () => {
   const [existingWriting, setExistingWriting] = useState(null);
-  const [isManager, setIsManager] = useState(false);
+  const [isManager, setIsManager] = useState('');
   const params = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (localStorage.getItem('type')) {
+      setIsManager(localStorage.getItem('type'));
+    }
+  }, []);
   const { data } = useQuery(['getNoticeDetail', params.id], () =>
     getNoticeDetail(params.id)
   );
@@ -22,7 +28,7 @@ const NoticeDetailPage = () => {
       queryClient.invalidateQueries('getNoticeList');
     },
     onError: () => {
-      alert('삭제실패');
+      console.log('삭제실패');
     },
   });
   useEffect(() => {
@@ -35,7 +41,7 @@ const NoticeDetailPage = () => {
       setIsManager(!isManager);
     }
   }, [data]);
-  console.log('어드민 확인용', data);
+
   const noticeDetailPageMoveButtonHandler = id => {
     navigate(`/noticeList/${id}`);
   };
@@ -49,14 +55,13 @@ const NoticeDetailPage = () => {
   };
   const noticeListDeleteButtonHandler = () => {
     deleteMutation.mutate(data.id);
-    alert(data.id);
   };
-  console.log(data);
+
   return (
     <BackgroundMain>
       <NoticeH1>공지사항</NoticeH1>
       <WriteBoxDiv>
-        {isManager && (
+        {isManager === 'ADMIN' && (
           <>
             <WriteButton>
               <WriteIconImg src={DeleteIcon} alt="" />

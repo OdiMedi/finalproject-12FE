@@ -75,10 +75,9 @@ const StoreMain = () => {
   const mutation = useMutation(storeFilterList, {
     onSuccess: data => {
       setStoreList(data);
-      console.log(data);
     },
     onError: error => {
-      alert(error.message);
+      console.log(error.message);
     },
   });
 

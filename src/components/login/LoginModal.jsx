@@ -39,6 +39,7 @@ const LoginModal = () => {
       localStorage.setItem('email', response.data.email);
       localStorage.setItem('nickname', response.data.nickname);
       localStorage.setItem('ProfileImg', response.data.imageURL);
+      localStorage.setItem('type', response.data.type);
 
       const accessHeader = response?.headers.get('ACCESS_KEY');
       const refreshHeader = response?.headers.get('REFRESH_KEY');

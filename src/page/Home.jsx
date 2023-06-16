@@ -16,6 +16,7 @@ const Home = () => {
     <MainPageContainerDiv>
       <MainPageLeftDiv>
         <div>
+          <HomeForeignP>WHERE IS THE PHARMACY?</HomeForeignP>
           <HomeTitleP>서울 내 약국 찾기 서비스</HomeTitleP>
           <MainPageLeftIconDiv />
         </div>
@@ -127,4 +128,10 @@ const MainPageRightDiv = styled.div`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+`;
+const HomeForeignP = styled.p`
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0.3em;
 `;

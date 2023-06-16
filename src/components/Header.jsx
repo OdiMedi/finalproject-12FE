@@ -24,13 +24,13 @@ const Header = () => {
           authorization: authorizationCookie,
         },
       });
-      console.log('response::::', response);
       Cookies.remove('accesstoken');
       Cookies.remove('refreshtoken');
       Cookies.remove('authorization');
       localStorage.removeItem('email');
       localStorage.removeItem('nickname');
       localStorage.removeItem('ProfileImg');
+      localStorage.removeItem('type');
       setIsLogin(prev => !prev);
       navigate('/');
     } catch (error) {
