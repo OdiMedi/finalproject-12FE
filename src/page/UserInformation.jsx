@@ -29,7 +29,7 @@ const UserInformation = () => {
       alert('회원탈퇴에 실패했습니다.');
     },
   });
-
+  const userType = localStorage.getItem('type');
   const myPageMoveButtonHandler = () => {
     navigate('/mypage');
   };
@@ -88,7 +88,9 @@ const UserInformation = () => {
             />
           </ModalPortal>
         )}
-        <EditButton onClick={handlePwdCheck}>비밀번호 변경</EditButton>
+        {userType === 'SOCIAL' && (
+          <EditButton onClick={handlePwdCheck}>비밀번호 변경</EditButton>
+        )}
         {pwdModal && (
           <ModalPortal>
             <MypagePwdModal onAccess={handlePwdCheck} />
