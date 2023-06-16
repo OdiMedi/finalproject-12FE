@@ -88,7 +88,7 @@ const UserInformation = () => {
             />
           </ModalPortal>
         )}
-        {userType === 'SOCIAL' && (
+        {userType !== 'SOCIAL' && (
           <EditButton onClick={handlePwdCheck}>비밀번호 변경</EditButton>
         )}
         {pwdModal && (
