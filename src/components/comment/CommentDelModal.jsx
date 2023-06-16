@@ -36,7 +36,7 @@ export default CommentDelModal;
 const DelModalWrapDiv = styled.div`
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(153, 152, 152, 0.2);
   display: flex;
   justify-content: center;
   align-items: center;

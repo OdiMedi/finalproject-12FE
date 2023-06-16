@@ -4,6 +4,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import styled from 'styled-components';
 import Pagination from 'react-js-pagination';
+import LoadingSpinner from '../LoadingSpinner';
+import ModalPortal from '../../shared/ModalPortal';
 import PharmacyList from './PharmacyList';
 import { storeFilterList } from '../../api/storeList';
 import searchIcon from '../../assets/icon _search_.png';
@@ -61,6 +63,7 @@ const StoreMain = () => {
   const [currentLatitude, setCurrentLatitude] = useState('');
   const [currentLongitude, setCurrentLongitude] = useState('');
   const [selectedOption, setSelectedOption] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   // const [keyboard, setKeyboard] = useState([]);
   const navigate = useNavigate();
@@ -87,19 +90,23 @@ const StoreMain = () => {
     setSelectedOption('');
     setIsCurrent(!isCurrent);
     if (!isCurrent) {
+      setIsLoading(true); // 로딩 시작
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           ({ coords }) => {
             const { latitude, longitude } = coords;
             setCurrentLatitude(latitude);
             setCurrentLongitude(longitude);
+            setIsLoading(false); // 로딩 완료
           },
           error => {
             console.error('위치 정보를 가져오는데 실패했습니다:', error);
+            setIsLoading(false); // 로딩 완료
           }
         );
       } else {
         console.error('Geolocation이 지원되지 않는 환경입니다.');
+        setIsLoading(false); // 로딩 완료
       }
     }
   };
@@ -228,6 +235,8 @@ const StoreMain = () => {
               styles={customStyles}
               value={selectedOption}
               placeholder="지역구"
+              isSearchable={false}
+              isDisabled={false}
             />
 
             <CSS.FilterButton
@@ -241,6 +250,11 @@ const StoreMain = () => {
                 <CSS.LocationInfoIconDiv>
                   <CSS.InfoP>내 주변 약국이 거리순으로 표시됩니다.</CSS.InfoP>
                 </CSS.LocationInfoIconDiv>
+              )}
+              {isLoading && (
+                <ModalPortal>
+                  <LoadingSpinner />
+                </ModalPortal>
               )}
             </CSS.FilterButton>
           </CSS.SearchButtonBoxDiv>

@@ -42,8 +42,8 @@ const ForeignPharmacyList = ({ data }) => {
 export default ForeignPharmacyList;
 
 const Article = styled.article`
-  width: 594px;
-  height: 355px;
+  width: 593px;
+  height: 340px;
   padding-left: 23px;
   padding-right: 23px;
   padding-top: 20px;
