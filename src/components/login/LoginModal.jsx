@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -10,15 +10,18 @@ import KakaoIcon from '../../assets/kakaoIcon.png';
 import WarnIcon from '../../assets/warnIcon.png';
 import ModalPortal from '../../shared/ModalPortal';
 import FindPasswordModal from './FindPasswordModal';
+import KakaoLoginInfoModal from './KakaoLoginInfoModal';
 
 const LoginModal = () => {
   const [findPwdModal, setFindPwdModal] = useState(false);
   const [errorCode, setErrorCode] = useState('');
-  const navigate = useNavigate();
+  const [kakaoModalVisible, setKakaoModalVisible] = useState(false);
+  const [isModal, setIsModal] = useState(false);
   const [inputValue, setInputValue] = useState({
     email: '',
     password: '',
   });
+  const navigate = useNavigate();
 
   const { email, password } = inputValue;
   const inputChange = e => {
@@ -66,6 +69,17 @@ const LoginModal = () => {
     }
   };
 
+  const kakaoModalOpenHandler = () => {
+    setIsModal(prev => !prev);
+  };
+  const kakaoLoginButtonHandler = () => {
+    setKakaoModalVisible(true);
+  };
+  useEffect(() => {
+    if (kakaoModalVisible) {
+      window.location.href = KAKAO_AUTH_URL;
+    }
+  }, [kakaoModalVisible]);
   return (
     <LoginContainer>
       {findPwdModal && (
@@ -101,8 +115,16 @@ const LoginModal = () => {
         <TextBnt onClick={() => navigate('/signup')}>회원가입</TextBnt>
       </TextBtnWrap>
 
-      <KakakoLink href={KAKAO_AUTH_URL} />
-
+      {/* <KakakoDiv href={KAKAO_AUTH_URL}/> */}
+      <KakakoDiv onClick={kakaoModalOpenHandler} />
+      {isModal && (
+        <ModalPortal>
+          <KakaoLoginInfoModal
+            onAccess={kakaoModalOpenHandler}
+            onCallback={kakaoLoginButtonHandler}
+          />
+        </ModalPortal>
+      )}
       {errorCode === 'MEMBER_NOT_FOUND' && (
         <WarningDiv>
           <div />
@@ -223,7 +245,7 @@ const LineDiv = styled.div`
   transform: rotate(-90deg);
   margin: 0 27px 0 28px;
 `;
-export const KakakoLink = styled.a`
+export const KakakoDiv = styled.div`
   width: 72px;
   height: 72px;
   background-image: url(${KakaoIcon});
@@ -231,6 +253,12 @@ export const KakakoLink = styled.a`
   background-repeat: no-repeat;
   background-position: center;
   margin-top: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 3px 3px 2px rgba(175, 174, 183, 0.5);
+  }
 `;
 const WarningDiv = styled.div`
   width: 450px;
