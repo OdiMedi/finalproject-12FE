@@ -116,8 +116,9 @@ const BottomIconLeftDiv = styled.div`
   background-repeat: no-repeat;
 `;
 const BottomIconRightDiv = styled.div`
-  width: 110px;
-  height: 110px;
+  width: 225px;
+  height: 158px;
+  margin-left: 50px;
   background-image: url(${conversation});
   background-size: contain;
   background-repeat: no-repeat;
