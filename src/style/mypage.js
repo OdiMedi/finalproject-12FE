@@ -5,7 +5,6 @@ export const MypageContainer = styled.div`
   margin: 0 auto;
   margin-top: 57px;
   width: 70vw;
-  margin-bottom: 100px;
 `;
 export const MypageTitleH1 = styled.h1`
   height: 43px;

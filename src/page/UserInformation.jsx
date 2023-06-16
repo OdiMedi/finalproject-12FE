@@ -175,6 +175,5 @@ const UserEmailP = styled.p`
 const EditImg = styled.img`
   width: 180px;
   height: 180px;
-  margin-top: 50px;
   border-radius: 50%;
 `;
