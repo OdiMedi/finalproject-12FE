@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import styled from 'styled-components';
+import { useState, useEffect } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import commentIcon from '../../assets/commentIcon.png';
+import styled from 'styled-components';
 import closeIcon from '../../assets/closeIcon.png';
+import commentIcon from '../../assets/commentIcon.png';
 import compose from '../../assets/compose.png';
-import * as CSS from '../../style/globalStyle';
 import infoIcon from '../../assets/infoIcon.png';
+import * as CSS from '../../style/globalStyle';
 
 import { commentUpdate, saveComment } from '../../api/comment';
 
@@ -18,6 +18,8 @@ const WriteComment = ({
 }) => {
   const [contents, setContents] = useState(content);
   const [warningMessage, setWarningMessage] = useState('');
+  const [foreignEditPage, setForeignEditPage] = useState(false);
+  const [writeType, setWriteType] = useState('');
   const queryClient = useQueryClient();
 
   const saveCommentMutation = useMutation(saveComment, {
@@ -29,7 +31,21 @@ const WriteComment = ({
       alert('등록실패');
     },
   });
-
+  useEffect(() => {
+    console.log('mainPageLocation, commentId', mainPageLocation, commentId);
+    if (mainPageLocation && !commentId) {
+      setWriteType('후기 남기기');
+    }
+    if (mainPageLocation && commentId) {
+      setWriteType('후기 수정하기');
+    }
+    if (!mainPageLocation && !commentId) {
+      setWriteType('done');
+    }
+    if (!mainPageLocation && commentId) {
+      setWriteType('revision');
+    }
+  }, []);
   const EditCommentMutation = useMutation(commentUpdate, {
     onSuccess: () => {
       queryClient.invalidateQueries('getComment');
@@ -100,16 +116,7 @@ const WriteComment = ({
           onClick={commentSaveClickButtonHandler}
         >
           <CSS.ComposeImg src={compose} art="" />
-          {mainPageLocation && !commentId ? (
-            <span>후기 남기기</span>
-          ) : (
-            <span>done</span>
-          )}
-          {!mainPageLocation && commentId ? (
-            <span>후기 수정하기</span>
-          ) : (
-            <span>revision</span>
-          )}
+          <span>{writeType}</span>
         </CSS.CommentAddButton>
       </ModalContentDiv>
     </ModalOverlayDiv>

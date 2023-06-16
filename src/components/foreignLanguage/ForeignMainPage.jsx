@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
 import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Pagination from 'react-js-pagination';
 
 import ForeignPharmacyList from './ForeignPharmacyList';
@@ -67,6 +67,8 @@ const ForeignMainPage = () => {
   const [currentLongitude, setCurrentLongitude] = useState('');
   const [keyboard, setKeyboard] = useState([]);
   const navigate = useNavigate();
+  const currentLocation = useLocation();
+  const currentPageLocation = currentLocation.pathname;
 
   const handlePageChange = newPage => {
     setCurrentPage(newPage);
@@ -221,6 +223,7 @@ const ForeignMainPage = () => {
           storeLocation={storeList.content}
           isCurrent={isCurrent}
           navigate={navigate}
+          currentPageLocation={currentPageLocation}
         />
       )}
       <div>

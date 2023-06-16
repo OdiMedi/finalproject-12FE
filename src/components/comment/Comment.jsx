@@ -28,7 +28,7 @@ const Comment = ({ storeId, location }) => {
   const CommentAddModalOpenHandler = () => {
     setModal(!modal);
   };
-
+  console.log(location);
   const { data, isLoading } = useQuery(['getComment', storeId], () =>
     getComment(storeId)
   );

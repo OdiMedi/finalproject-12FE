@@ -1,15 +1,16 @@
-import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import api from '../../api/axios';
-import KAKAO_AUTH_URL from './kakaoAuth';
-import LoginIconMain from '../../assets/loginIcon.png';
-import LoginTitleMain from '../../assets/loginTitle.png';
 import KakaoIcon from '../../assets/kakaoIcon.png';
+import LoginIconMain from '../../assets/loginIcon.png';
+import kakaoButton from '../../assets/kakaoButton.png';
+import LoginTitleMain from '../../assets/loginTitle.png';
 import WarnIcon from '../../assets/warnIcon.png';
 import ModalPortal from '../../shared/ModalPortal';
 import FindPasswordModal from './FindPasswordModal';
+import KAKAO_AUTH_URL from './kakaoAuth';
 import KakaoLoginInfoModal from './KakaoLoginInfoModal';
 
 const LoginModal = () => {
@@ -108,15 +109,12 @@ const LoginModal = () => {
           로그인
         </LoginBtn>
       </form>
-
-      <TextBtnWrap>
-        <TextBnt onClick={findPwdModalVisible}>비밀번호 찾기</TextBnt>
-        <LineDiv />
-        <TextBnt onClick={() => navigate('/signup')}>회원가입</TextBnt>
-      </TextBtnWrap>
-
-      {/* <KakakoDiv href={KAKAO_AUTH_URL}/> */}
-      <KakakoDiv onClick={kakaoModalOpenHandler} />
+      <OrBoxDiv>
+        <OrLineDiv />
+        <p>또는</p>
+        <OrLineDiv />
+      </OrBoxDiv>
+      <KakaoButtonDiv onClick={kakaoModalOpenHandler} />
       {isModal && (
         <ModalPortal>
           <KakaoLoginInfoModal
@@ -125,6 +123,12 @@ const LoginModal = () => {
           />
         </ModalPortal>
       )}
+      <TextBtnWrap>
+        <TextBnt onClick={findPwdModalVisible}>비밀번호 찾기</TextBnt>
+        <LineDiv />
+        <TextBnt onClick={() => navigate('/signup')}>회원가입</TextBnt>
+      </TextBtnWrap>
+
       {errorCode === 'MEMBER_NOT_FOUND' && (
         <WarningDiv>
           <div />
@@ -210,7 +214,6 @@ export const LoginBtn = styled.button`
   line-height: 34px;
   letter-spacing: -0.5px;
   color: #ffffff;
-  margin-bottom: 34px;
   margin-top: 20px;
   cursor: pointer;
   &:hover {
@@ -241,7 +244,7 @@ export const TextBnt = styled.button`
 const LineDiv = styled.div`
   width: 17px;
   height: 0px;
-  border: 0.8px solid #686868;
+  border: 0.5px solid #686868;
   transform: rotate(-90deg);
   margin: 0 27px 0 28px;
 `;
@@ -287,6 +290,26 @@ const WarningDiv = styled.div`
   }
 `;
 
+const OrBoxDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 76px;
+  gap: 32px;
+`;
+
+const OrLineDiv = styled.div`
+  width: 100px;
+  height: 0.5px;
+  background-color: #686868;
+`;
+const KakaoButtonDiv = styled.div`
+  background-image: url(${kakaoButton});
+  background-size: cover;
+  width: 500px;
+  height: 64px;
+  margin-bottom: 46px;
+`;
 /* <카카오 소셜 로그인 flow>
 프론트엔드로 부터 인가 코드를 전달 받는다.
 전달 받은 인가 코드를 가지고, 카카오 인증 서버에 토큰 발급 요청을 보낸다.
