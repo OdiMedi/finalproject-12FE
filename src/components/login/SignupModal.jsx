@@ -109,6 +109,7 @@ const SignupModal = () => {
     });
     if (!passwordRegExp.test(value)) {
       setPasswordCheck(false);
+      setWarningMessage('비밀번호는 영어(대소문자),숫자로만 입력해주세요. ');
     } else {
       setPasswordCheck(true);
     }
