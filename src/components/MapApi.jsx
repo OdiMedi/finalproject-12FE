@@ -54,11 +54,12 @@ const MapApi = ({
     const overlayClickDetailPageHandler = id => {
       if (currentPageLocation === '/mainPage') {
         navigate(`/mainPage/${id}`);
-      } else {
+      }
+      if (currentPageLocation === '/foreignPage') {
         navigate(`/foreignPage/${id}`);
       }
     };
-
+    console.log('currentPageLocation', currentPageLocation);
     // 마커를 지도에 보여주기
     storeLocation.forEach(location => {
       const marker = new kakao.maps.Marker({
