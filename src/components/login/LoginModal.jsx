@@ -236,6 +236,7 @@ export const TextBnt = styled.button`
   color: #686868;
   border: none;
   background-color: transparent;
+  margin-top: 30px;
   cursor: pointer;
 
   &:hover {

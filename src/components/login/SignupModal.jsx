@@ -53,11 +53,11 @@ const SignupModal = () => {
         '입력하신 메일로 전송된 인증번호를 입력해주세요.'
       );
       setValidNumber('');
-      setLimit(179);
+      setLimit(5);
       setTimerCount(prevCount => prevCount + 1);
     },
     onError: error => {
-      setWarningMessage(error.message);
+      setWarningMessage(error.message.replace(/\[|\]/g, ''));
     },
   });
   const confirmationMutation = useMutation(confirmationNumber, {
@@ -66,7 +66,7 @@ const SignupModal = () => {
       setConfirmWarningMessage('이메일 인증에 성공했습니다.');
     },
     onError: error => {
-      setConfirmWarningMessage(error.message);
+      setConfirmWarningMessage(error.message.replace(/\[|\]/g, ''));
     },
   });
   useEffect(() => {
@@ -102,7 +102,7 @@ const SignupModal = () => {
   };
   const passwordChange = e => {
     const { name, value } = e.target;
-    const passwordRegExp = /^(?=.*[A-Za-z])(?=.*[0-9]).{8,15}$/;
+    const passwordRegExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,15}$/;
     setInputValue({
       ...inputValue,
       [name]: value,
@@ -125,8 +125,9 @@ const SignupModal = () => {
     setValidNumber(e.target.value);
   };
   const validNumberPortButtonHandler = () => {
-    const nicknameRegExp = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]{2,10}$/;
-    if (!nicknameRegExp.test(email)) {
+    const nicknameRegExp =
+      /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
+    if (nicknameRegExp.test(email)) {
       sendEmailMutation.mutate(inputValue.email);
     }
   };
@@ -253,11 +254,6 @@ const SignupModal = () => {
           type="password"
           placeholder="비밀번호를 입력하세요."
         />
-        {!passwordCheck && (
-          <HelperTextP>
-            영어(대소문자 구분), 숫자로 8~15자로 입력해주세요
-          </HelperTextP>
-        )}
         <ValidInfoDiv>
           {warningMessage && (
             <>

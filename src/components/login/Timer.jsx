@@ -7,12 +7,14 @@ const Timer = ({ timeLimit, key }) => {
     setCount(timeLimit); // 타이머를 초기화
 
     const id = setInterval(() => {
-      setCount(prevCount => prevCount - 1);
+      setCount(prevCount => {
+        if (prevCount > 0) {
+          return prevCount - 1;
+        }
+        clearInterval(id); // count가 0이 되면 인터벌을 멈춤
+        return prevCount;
+      });
     }, 1000);
-
-    if (count === 0) {
-      clearInterval(id);
-    }
 
     return () => clearInterval(id);
   }, [timeLimit, key]); // timeLimit과 key를 의존성 배열에 추가
