@@ -107,6 +107,10 @@ const BottomBtnDiv = styled.div`
       margin-top: 9px;
     }
   }
+  &:hover {
+    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.25);
+    transform: scale(1.02);
+  }
 `;
 const BottomIconLeftDiv = styled.div`
   width: 110px;
