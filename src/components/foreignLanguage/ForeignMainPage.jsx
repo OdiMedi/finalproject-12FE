@@ -4,12 +4,10 @@ import Select from 'react-select';
 import { useMutation } from 'react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Pagination from 'react-js-pagination';
-
 import ForeignPharmacyList from './ForeignPharmacyList';
 import MapApi from '../MapApi';
 import * as CSS from '../../style/globalStyle';
 import { ForeignStoreFilterList } from '../../api/foreignList';
-
 import locationIcon from '../../assets/locationIcon.png';
 import polygon from '../../assets/Polygon.png';
 import languageInfoIcon from '../../assets/languageInfoIcon.png';
@@ -26,34 +24,33 @@ const customStyles = {
   }),
 };
 
-const gu = [
-  'gangnam-gu',
-  'gangdong-gu',
-  'gangbuk-gu',
-  'gangseo-gu',
-  'gwanak-gu',
-  'gwangjin-gu',
-  'guro-gu',
-  'geumcheon-gu',
-  'nowon-gu',
-  'dobong-gu',
-  'dongdaemun-gu',
-  'dongjak-gu',
-  'Mapo-gu',
-  'seodaemun-gu',
-  'seocho-gu',
-  'seongdong-gu',
-  'seongbuk-gu',
-  'songpa-gu',
-  'yeongdeungpo-gu',
-  'yangcheon-gu',
-  'yongsan-gu',
-  'eunpyeong-gu',
-  'jongno-gu',
-  'jung-gu',
-  'jungnang-gu',
+const options = [
+  { value: 'gangnam-gu', label: 'gangnam-gu' },
+  { value: 'gangdong-gu', label: 'gangdong-gu' },
+  { value: 'gangbuk-gu', label: 'gangbuk-gu' },
+  { value: 'gangseo-gu', label: 'gangseo-gu' },
+  { value: 'gwanak-gu', label: 'gwanak-gu' },
+  { value: 'gwangjin-gu', label: 'gwangjin-gu' },
+  { value: 'guro-gu', label: 'guro-gu' },
+  { value: 'geumcheon-gu', label: 'geumcheon-gu' },
+  { value: 'nowon-gu', label: 'nowon-gu' },
+  { value: 'dobong-gu', label: 'dobong-gu' },
+  { value: 'dongdaemun-gu', label: 'dongdaemun-gu' },
+  { value: 'dongjak-gu', label: 'dongjak-gu' },
+  { value: 'Mapo-gu', label: 'Mapo-gu' },
+  { value: 'seodaemun-gu', label: 'seodaemun-gu' },
+  { value: 'seocho-gu', label: 'seocho-gu' },
+  { value: 'seongdong-gu', label: 'seongdong-gu' },
+  { value: 'seongbuk-gu', label: 'seongbuk-gu' },
+  { value: 'songpa-gu', label: 'songpa-gu' },
+  { value: 'yeongdeungpo-gu', label: 'yeongdeungpo-gu' },
+  { value: 'yangcheon-gu', label: 'yangcheon-gu' },
+  { value: 'yongsan-gu', label: 'yongsan-gu' },
+  { value: 'eunpyeong-gu', label: 'eunpyeong-gu' },
+  { value: 'jongno-gu', label: '종로jongno-gu구' },
+  { value: 'jung-gu', label: 'jung-gu' },
+  { value: 'jungnang-gu', label: 'jungnang-gu' },
 ];
-
 const ForeignMainPage = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [name, setName] = useState('');
@@ -65,7 +62,8 @@ const ForeignMainPage = () => {
   const [isLanguageInfo, setIsLanguageInfo] = useState(false);
   const [currentLatitude, setCurrentLatitude] = useState('');
   const [currentLongitude, setCurrentLongitude] = useState('');
-  const [keyboard, setKeyboard] = useState([]);
+  const [selectedOption, setSelectedOption] = useState('');
+
   const navigate = useNavigate();
   const currentLocation = useLocation();
   const currentPageLocation = currentLocation.pathname;
@@ -82,24 +80,40 @@ const ForeignMainPage = () => {
       alert(error.message);
     },
   });
-  const statusGuOptions = gu.map(location => ({
-    value: location,
-    label: location,
-  }));
 
-  const [selectGuStatus, setSelectGuStatus] = useState(statusGuOptions[0]);
+  const currentLocationButtonHandler = () => {
+    setSelectedOption('');
+    setIsCurrent(!isCurrent);
+    if (!isCurrent) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          ({ coords }) => {
+            const { latitude, longitude } = coords;
+            setCurrentLatitude(latitude);
+            setCurrentLongitude(longitude);
+          },
+          error => {
+            console.error('위치 정보를 가져오는데 실패했습니다:', error);
+          }
+        );
+      } else {
+        console.error('Geolocation이 지원되지 않는 환경입니다.');
+      }
+    }
+  };
+
   const onChangeNameSearchHandler = e => {
     setName(e.target.value);
   };
 
   const [searchData, setSearchData] = useState({
     name,
-    gu: currentLatitude === '' ? selectGuStatus.value : '',
+    gu: selectedOption.value === undefined ? '' : selectedOption.value,
     open: selectedButton === 'open',
     holidayBusiness: selectedButton === 'holidayBusiness',
     nightBusiness: selectedButton === 'nightBusiness',
-    currentLatitude: currentLatitude === undefined ? '' : currentLatitude,
-    currentLongitude: currentLongitude === undefined ? '' : currentLongitude,
+    currentLatitude,
+    currentLongitude,
     english: languageSelectedButton === 'english',
     chinese: languageSelectedButton === 'chinese',
     japanese: languageSelectedButton === 'japanese',
@@ -132,12 +146,12 @@ const ForeignMainPage = () => {
     setSearchData(prevSearchData => ({
       ...prevSearchData,
       name,
-      gu: currentLatitude === '' ? selectGuStatus.value : '',
+      gu: selectedOption.value === undefined ? '' : selectedOption.value,
       open: selectedButton === 'open',
       holidayBusiness: selectedButton === 'holidayBusiness',
       nightBusiness: selectedButton === 'nightBusiness',
-      currentLatitude: currentLatitude === undefined ? '' : currentLatitude,
-      currentLongitude: currentLongitude === undefined ? '' : currentLongitude,
+      currentLatitude,
+      currentLongitude,
       english: languageSelectedButton === 'english',
       chinese: languageSelectedButton === 'chinese',
       japanese: languageSelectedButton === 'japanese',
@@ -156,14 +170,18 @@ const ForeignMainPage = () => {
     currentPage,
   ]);
   useEffect(() => {
-    if (isCurrent) {
+    if (isCurrent && selectedOption !== '') {
       setCurrentLatitude('');
       setCurrentLongitude('');
       setIsCurrent(!isCurrent);
-    } else {
+    } else if (!isCurrent && selectedOption === '') {
+      updateSearchData();
+    } else if (!isCurrent && selectedOption !== '') {
+      updateSearchData();
+    } else if (isCurrent && selectedOption === '') {
       updateSearchData();
     }
-  }, [selectGuStatus]);
+  }, [selectedOption]);
   const onClickSearchButtonHandler = () => {
     updateSearchData();
   };
@@ -184,25 +202,6 @@ const ForeignMainPage = () => {
     });
   };
 
-  const currentLocationButtonHandler = () => {
-    setIsCurrent(!isCurrent);
-    if (!isCurrent) {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          ({ coords }) => {
-            const { latitude, longitude } = coords;
-            setCurrentLatitude(latitude);
-            setCurrentLongitude(longitude);
-          },
-          error => {
-            console.error('위치 정보를 가져오는데 실패했습니다:', error);
-          }
-        );
-      } else {
-        console.error('Geolocation이 지원되지 않는 환경입니다.');
-      }
-    }
-  };
   // useEffect(() => {
   //   // storeList?.numberOfElements 값이 변경될 때마다 keyboard 배열 업데이트
   //   if (storeList?.totalPages !== undefined) {
@@ -242,11 +241,13 @@ const ForeignMainPage = () => {
         <CSS.AllSearchButtonBoxDiv>
           <CSS.SearchButtonBoxDiv>
             <StyledSelect
-              defaultValue={selectGuStatus}
-              onChange={setSelectGuStatus}
-              options={statusGuOptions}
+              defaultValue={selectedOption}
+              onChange={setSelectedOption}
+              options={options}
               components={customComponents}
               styles={customStyles}
+              value={selectedOption}
+              placeholder="part-gu"
             />
             <CSS.FilterButton
               onClick={() => currentLocationButtonHandler('currentLocation')}
@@ -409,6 +410,7 @@ const StyledSelect = styled(Select).attrs({
     border: none;
     border-radius: 20px;
     line-height: 1.3;
+    text-align: center;
     cursor: pointer;
   }
   .react-select__single-value {
@@ -422,6 +424,7 @@ const StyledSelect = styled(Select).attrs({
     font-size: 11px;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
   }
   .react-select__option {
     background-color: transparent; /* option 배경색 */
@@ -434,6 +437,10 @@ const StyledSelect = styled(Select).attrs({
   .react-select__option--is-focused {
     border: 1px solid #afaeb7;
     color: black; /* hover 상태의 option 텍스트 색상 */
+  }
+  .react-select__placeholder {
+    color: white;
+    font-weight: 500;
   }
 `;
 // 검색버튼 전체 박스

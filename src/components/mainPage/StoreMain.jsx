@@ -24,34 +24,33 @@ const customStyles = {
   }),
 };
 
-const gu = [
-  '강남구',
-  '강동구',
-  '강북구',
-  '강서구',
-  '관악구',
-  '광진구',
-  '구로구',
-  '금천구',
-  '노원구',
-  '도봉구',
-  '동대문구',
-  '동작구',
-  '마포구',
-  '서대문구',
-  '서초구',
-  '성동구',
-  '성북구',
-  '송파구',
-  '영등포구',
-  '양천구',
-  '용산구',
-  '은평구',
-  '종로구',
-  '중구',
-  '중랑구',
+const options = [
+  { value: '강남구', label: '강남구' },
+  { value: '강동구', label: '강동구' },
+  { value: '강북구', label: '강북구' },
+  { value: '강서구', label: '강서구' },
+  { value: '관악구', label: '관악구' },
+  { value: '광진구', label: '광진구' },
+  { value: '구로구', label: '구로구' },
+  { value: '금천구', label: '금천구' },
+  { value: '노원구', label: '노원구' },
+  { value: '도봉구', label: '도봉구' },
+  { value: '동대문구', label: '동대문구' },
+  { value: '동작구', label: '동작구' },
+  { value: '마포구', label: '마포구' },
+  { value: '서대문구', label: '서대문구' },
+  { value: '서초구', label: '서초구' },
+  { value: '성동구', label: '성동구' },
+  { value: '성북구', label: '성북구' },
+  { value: '송파구', label: '송파구' },
+  { value: '영등포구', label: '영등포구' },
+  { value: '양천구', label: '양천구' },
+  { value: '용산구', label: '용산구' },
+  { value: '은평구', label: '은평구' },
+  { value: '종로구', label: '종로구' },
+  { value: '중구', label: '중구' },
+  { value: '중랑구', label: '중랑구' },
 ];
-
 const StoreMain = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [name, setName] = useState('');
@@ -61,6 +60,8 @@ const StoreMain = () => {
   const [isLocationInfo, setIsLocationInfo] = useState(false);
   const [currentLatitude, setCurrentLatitude] = useState('');
   const [currentLongitude, setCurrentLongitude] = useState('');
+  const [selectedOption, setSelectedOption] = useState('');
+
   // const [keyboard, setKeyboard] = useState([]);
   const navigate = useNavigate();
   const currentLocation = useLocation();
@@ -83,6 +84,7 @@ const StoreMain = () => {
 
   // 내위치 가져오는 로직
   const currentLocationButtonHandler = () => {
+    setSelectedOption('');
     setIsCurrent(!isCurrent);
     if (!isCurrent) {
       if (navigator.geolocation) {
@@ -101,16 +103,16 @@ const StoreMain = () => {
       }
     }
   };
-  const statusGuOptions = gu.map(location => ({
-    value: location,
-    label: location,
-  }));
 
-  const [selectGuStatus, setSelectGuStatus] = useState(statusGuOptions[0]);
+  // const statusGuOptions = gu.map(location => ({
+  //   value: location,
+  //   label: location,
+  // }));
 
   const [searchData, setSearchData] = useState({
     name,
-    gu: currentLatitude === '' ? selectGuStatus.value : '',
+    // gu: currentLatitude === '' ? selectedOption.value : '',
+    gu: selectedOption.value === undefined ? '' : selectedOption.value,
     open: selectedButton === 'open',
     holidayBusiness: selectedButton === 'holidayBusiness',
     nightBusiness: selectedButton === 'nightBusiness',
@@ -128,7 +130,7 @@ const StoreMain = () => {
     setSearchData(prevSearchData => ({
       ...prevSearchData,
       name,
-      gu: currentLatitude === '' ? selectGuStatus.value : '',
+      gu: selectedOption.value === undefined ? '' : selectedOption.value,
       open: selectedButton === 'open',
       holidayBusiness: selectedButton === 'holidayBusiness',
       nightBusiness: selectedButton === 'nightBusiness',
@@ -144,14 +146,18 @@ const StoreMain = () => {
   }, [selectedButton, currentLatitude, currentLongitude, currentPage]);
 
   useEffect(() => {
-    if (isCurrent) {
+    if (isCurrent && selectedOption !== '') {
       setCurrentLatitude('');
       setCurrentLongitude('');
       setIsCurrent(!isCurrent);
-    } else {
+    } else if (!isCurrent && selectedOption === '') {
+      updateSearchData();
+    } else if (!isCurrent && selectedOption !== '') {
+      updateSearchData();
+    } else if (isCurrent && selectedOption === '') {
       updateSearchData();
     }
-  }, [selectGuStatus]);
+  }, [selectedOption]);
 
   const onClickSearchButtonHandler = () => {
     updateSearchData();
@@ -215,11 +221,13 @@ const StoreMain = () => {
         <CSS.AllSearchButtonBoxDiv>
           <CSS.SearchButtonBoxDiv>
             <StyledSelect
-              defaultValue={selectGuStatus}
-              onChange={setSelectGuStatus}
-              options={statusGuOptions}
+              defaultValue={selectedOption}
+              onChange={setSelectedOption}
+              options={options}
               components={customComponents}
               styles={customStyles}
+              value={selectedOption}
+              placeholder="지역구"
             />
 
             <CSS.FilterButton
@@ -374,5 +382,9 @@ const StyledSelect = styled(Select).attrs({
   .react-select__option--is-focused {
     border: 1px solid #afaeb7;
     color: black; /* hover 상태의 option 텍스트 색상 */
+  }
+  .react-select__placeholder {
+    color: white;
+    font-weight: 600;
   }
 `;
