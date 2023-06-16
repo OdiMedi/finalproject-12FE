@@ -13,7 +13,6 @@ const saveComment = async props => {
 };
 
 const commentUpdate = async props => {
-  console.log('왜대체 수정은 아되는데우ㅏㅔ에ㅔ??', props);
   try {
     const response = await api.put(
       `/api/comment/${props.storeId}/${props.commentId}`,

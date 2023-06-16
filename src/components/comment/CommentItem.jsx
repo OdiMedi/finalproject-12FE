@@ -74,6 +74,7 @@ const CommentItem = ({
             storeId={storeId}
             commentId={commentId}
             content={contents}
+            mainPageLocation="true"
           />
         </ModalPortal>
       )}

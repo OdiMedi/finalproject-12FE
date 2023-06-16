@@ -16,6 +16,7 @@ const Home = () => {
     <MainPageContainerDiv>
       <MainPageLeftDiv>
         <div>
+          <HomeForeignP>WHERE IS THE PHARMACY?</HomeForeignP>
           <HomeTitleP>서울 내 약국 찾기 서비스</HomeTitleP>
           <MainPageLeftIconDiv />
         </div>
@@ -115,8 +116,9 @@ const BottomIconLeftDiv = styled.div`
   background-repeat: no-repeat;
 `;
 const BottomIconRightDiv = styled.div`
-  width: 110px;
-  height: 110px;
+  width: 225px;
+  height: 158px;
+  margin-left: 50px;
   background-image: url(${conversation});
   background-size: contain;
   background-repeat: no-repeat;
@@ -127,4 +129,10 @@ const MainPageRightDiv = styled.div`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+`;
+const HomeForeignP = styled.p`
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0.3em;
 `;

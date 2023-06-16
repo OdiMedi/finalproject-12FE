@@ -15,7 +15,6 @@ const MapApi = ({
   navigate,
   currentPageLocation,
 }) => {
-  console.log(currentPageLocation);
   const [currentLocation, setCurrentLocation] = useState({
     center: {
       latitude: storeLocation.length > 0 ? storeLocation[0].latitude : 37.541,
@@ -59,7 +58,6 @@ const MapApi = ({
         navigate(`/foreignPage/${id}`);
       }
     };
-    console.log('currentPageLocation', currentPageLocation);
     // 마커를 지도에 보여주기
     storeLocation.forEach(location => {
       const marker = new kakao.maps.Marker({

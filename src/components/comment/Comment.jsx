@@ -1,19 +1,17 @@
-import { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { useQuery } from 'react-query';
 import Cookies from 'js-cookie';
+import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
+import styled from 'styled-components';
 import commentIcon from '../../assets/commentIcon.png';
 import compose from '../../assets/compose.png';
 import * as CSS from '../../style/globalStyle';
 
-import WriteComment from './WriteComment';
-import api from '../../api/axios';
-import CommentItem from './CommentItem';
 import ModalPortal from '../../shared/ModalPortal';
-import LoginSnackBar from '../login/LoginSnackBar';
+import CommentItem from './CommentItem';
+import WriteComment from './WriteComment';
 
-import SnackBar from '../SnackBar';
 import { getComment } from '../../api/comment';
+import SnackBar from '../SnackBar';
 
 const Comment = ({ storeId, location }) => {
   const [modal, setModal] = useState(false);
@@ -28,12 +26,10 @@ const Comment = ({ storeId, location }) => {
   const CommentAddModalOpenHandler = () => {
     setModal(!modal);
   };
-  console.log(location);
   const { data, isLoading } = useQuery(['getComment', storeId], () =>
     getComment(storeId)
   );
 
-  console.log('데이터 받아오는 공간', data);
   return (
     <CommentBoxSection>
       <CSS.CommentInfoDiv>

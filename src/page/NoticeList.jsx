@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import Pagination from 'react-js-pagination';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Pagination from 'react-js-pagination';
 
 import { getNoticeList } from '../api/notice';
 import writeIcon from '../assets/writeIcon.png';
@@ -10,10 +10,14 @@ import * as CSS from '../style/globalStyle';
 
 const NoticeList = () => {
   const [currentPage, setCurrentPage] = useState(0);
-  const [isManager, setIsManager] = useState(true);
-  // const [keyboard, setKeyboard] = useState([]);
+  const [isManager, setIsManager] = useState('');
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (localStorage.getItem('type')) {
+      setIsManager(localStorage.getItem('type'));
+    }
+  }, []);
   const handlePageChange = newPage => {
     setCurrentPage(newPage);
   };
@@ -22,11 +26,7 @@ const NoticeList = () => {
   const { data } = useQuery(['getNoticeList', currentPageNum], () =>
     getNoticeList(currentPageNum)
   );
-  console.log(data);
 
-  // const handlePageClick = pageNumber => {
-  //   setCurrentPage(pageNumber);
-  // };
   const noticeDetailPageMoveButtonHandler = id => {
     navigate(`/noticeList/${id}`);
   };
@@ -34,19 +34,12 @@ const NoticeList = () => {
     navigate('/WriteNotice');
   };
 
-  // useEffect(() => {
-  //   if (data?.totalPages !== undefined) {
-  //     const newKeyboard = Array.from({ length: data?.totalPages }, (v, i) => i);
-  //     setKeyboard(newKeyboard);
-  //   }
-  // }, [data?.numberOfElements]);
-  // console.log(data);
   return (
     <BackgroundMain>
       <NoticeH1>공지사항</NoticeH1>
 
       <WriteBoxDiv>
-        {isManager && (
+        {isManager === 'ADMIN' && (
           <WriteButton>
             <WriteIconImg src={writeIcon} alt="" />
             <WriteTextP onClick={writeNoticeMoveButtonHandler}>
@@ -81,21 +74,6 @@ const NoticeList = () => {
           );
         })}
       </ListSection>
-      {/* <CSS.ListNumberBoxDiv>
-        {keyboard.map((item, index) => {
-          return (
-            <>
-              {index !== 0 && <span>|</span>}
-              <CSS.ListNumberButton
-                isActive={currentPage === item}
-                onClick={() => handlePageClick(item)}
-              >
-                {item}
-              </CSS.ListNumberButton>
-            </>
-          );
-        })}
-      </CSS.ListNumberBoxDiv> */}
       {data && (
         <CSS.PaginationBoxDiv>
           <Pagination
@@ -185,23 +163,4 @@ const WriteTextP = styled.p`
   font-size: 20px;
   /* height: 20px; */
   color: #686868;
-`;
-const ListNumberBoxDiv = styled.div`
-  margin-top: 12px;
-  width: 1131px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  font-size: 10px;
-  color: #afaeb7;
-`;
-const ListNumberButton = styled.button`
-  font-weight: ${({ isActive }) => (isActive ? '700' : '400')};
-  font-size: 14px;
-  color: #686868;
-  background-color: transparent;
-  height: 30px;
-  border: none;
-  cursor: pointer;
 `;

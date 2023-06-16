@@ -38,7 +38,7 @@ api.interceptors.request.use(
       config.headers.ACCESS_KEY = `Bearer ${accesstoken}`;
       config.headers.REFRESH_KEY = `Bearer ${refreshtoken}`;
     }
-    console.log('서버요청한다:::::::::', config);
+
     return config;
   },
   error => {

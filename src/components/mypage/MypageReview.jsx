@@ -3,9 +3,6 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import profileIcon from '../../assets/profile.png';
-import ThumbUp from '../../assets/thumbup.png';
-import ThumbDown from '../../assets/thumbdown.png';
-import Ellipsis from '../../assets/ellipsis.png';
 import DeleteIcon from '../../assets/trashIcon.png';
 import api from '../../api/axios';
 import mypageIcon from '../../assets/mypageIcon.png';
@@ -36,7 +33,7 @@ const MypageReview = ({
       },
     }
   );
-  console.log(imageUrl);
+
   const handleDelCheck = newValue => {
     if (newValue === true) {
       mypageCommentDelMutaion.mutate();
@@ -86,14 +83,6 @@ const MypageReview = ({
         <ReviewTextDiv>
           <ReviewNameP>{nickname}</ReviewNameP>
           <ReviewTextP>{contents}</ReviewTextP>
-
-          {/* <ReviewTextIconDiv>
-            <ThubmUpDiv />
-            <span>100</span>
-            <ThubmDownDiv />
-            <span>1</span>
-            <EllipsispDiv />
-          </ReviewTextIconDiv> */}
         </ReviewTextDiv>
       </MypageReviewTextDiv>
     </MypageReviewDiv>
@@ -156,39 +145,7 @@ const ReviewTextP = styled.p`
   margin-bottom: 9px;
   word-wrap: break-word;
 `;
-const ReviewTextIconDiv = styled.div`
-  display: flex;
-  align-items: center;
-  span {
-    font-weight: 600;
-    font-size: 8px;
-    line-height: 10px;
-    letter-spacing: 0.05em;
-    color: #686868;
-  }
-`;
-const ThubmUpDiv = styled.div`
-  width: 16px;
-  height: 16px;
-  background-image: url(${ThumbUp});
-  background-size: 16px 16px;
-  margin-right: 6.5px;
-`;
-const ThubmDownDiv = styled.div`
-  width: 16px;
-  height: 16px;
-  background-image: url(${ThumbDown});
-  background-size: 16px 16px;
-  margin-left: 26px;
-  margin-right: 6px;
-`;
-const EllipsispDiv = styled.div`
-  width: 16.5px;
-  height: 3px;
-  background-image: url(${Ellipsis});
-  background-size: 16.5px 3px;
-  margin-left: 26px;
-`;
+
 const DeleteDiv = styled.div`
   position: absolute;
   top: 10px;
