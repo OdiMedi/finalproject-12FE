@@ -51,5 +51,23 @@ const editProfileImg = async props => {
     throw error;
   }
 };
+const editPassword = async props => {
+  try {
+    const response = await api.post(`/user/change/password`, {
+      newPassword: props,
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw error.response.data;
+  }
+};
 
-export { getReview, getBookmark, unregister, updateNickBtn, editProfileImg };
+export {
+  getReview,
+  getBookmark,
+  unregister,
+  updateNickBtn,
+  editProfileImg,
+  editPassword,
+};

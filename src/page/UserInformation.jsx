@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -26,7 +26,7 @@ const UserInformation = () => {
       window.location.replace('/');
     },
     onError: error => {
-      alert('회원탈퇴에 실패했습니다.');
+      console.log('회원탈퇴에 실패했습니다.');
     },
   });
   const userType = localStorage.getItem('type');

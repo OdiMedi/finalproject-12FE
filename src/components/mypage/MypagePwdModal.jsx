@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { useMutation } from 'react-query';
 import styled from 'styled-components';
+import { editPassword } from '../../api/myPage';
 import NicknameX from '../../assets/nicknameX.png';
-import api from '../../api/axios';
 
 const MypagePwdModal = ({ onAccess }) => {
   const [pwdInput, setPwdInput] = useState('');
@@ -9,9 +10,10 @@ const MypagePwdModal = ({ onAccess }) => {
   const [pwdCheck, setPwdCheck] = useState(true);
   const [pwdSameCheck, setPwdSameCheck] = useState(false);
   const [pwdSameHelper, setPwdSameHelper] = useState(true);
+  const [wringMessage, setWringMessage] = useState('');
   const pwdOnChange = e => {
     const { value } = e.target;
-    const passwordRegExp = /^(?=.*[A-Za-z])(?=.*[0-9]).{8,15}$/;
+    const passwordRegExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,15}$/;
     setPwdInput(value);
     if (!passwordRegExp.test(value)) {
       setPwdCheck(false);
@@ -24,23 +26,22 @@ const MypagePwdModal = ({ onAccess }) => {
     setPwdSameInput(value);
     setPwdSameHelper(true);
   };
-
-  const editPasswordHandle = async () => {
+  const mutation = useMutation(editPassword, {
+    onSuccess: () => {
+      onAccess(false);
+    },
+    onError: error => {
+      setWringMessage(error.message.replace(/\[|\]/g, ''));
+    },
+  });
+  const editPasswordHandle = () => {
     if (pwdInput === pwdSameInput) {
       setPwdSameCheck(true);
     } else {
-      setPwdSameCheck(false);
+      setWringMessage('비밀번호가 일치하지 않습니다.');
     }
-    if (pwdSameCheck === false) {
-      setPwdSameHelper(false);
-      return;
-    }
-    try {
-      await api.post('/user/change/password', { newPassword: pwdInput });
-    } catch (error) {
-      console.log(error);
-    }
-    onAccess(false);
+
+    mutation.mutate(pwdSameInput);
   };
   return (
     <NickNameModalWrapDiv>
@@ -59,7 +60,8 @@ const MypagePwdModal = ({ onAccess }) => {
             />
           </PasswordInputBox>
           <HelperTextP>
-            {!pwdCheck && '영어(대소문자 구분), 숫자로 8~15자로 입력해주세요'}
+            {!pwdCheck &&
+              '비밀번호는 8~15자 알파벳 대소문자, 숫자로 작성해주세요.'}
           </HelperTextP>
           <PasswordInputBox>
             <p>비밀번호 확인</p>
@@ -70,9 +72,7 @@ const MypagePwdModal = ({ onAccess }) => {
               onChange={pwdSameOnChange}
             />
           </PasswordInputBox>
-          <HelperTextP>
-            {!pwdSameHelper && '비밀번호가 일치하지 않습니다'}
-          </HelperTextP>
+          <HelperTextP>{wringMessage}</HelperTextP>
         </NicknameInputWrapDiv>
 
         <NicknameButton onClick={editPasswordHandle}>
