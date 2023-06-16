@@ -30,6 +30,7 @@ const Header = () => {
       Cookies.remove('authorization');
       localStorage.removeItem('email');
       localStorage.removeItem('nickname');
+      localStorage.removeItem('ProfileImg');
       setIsLogin(prev => !prev);
       navigate('/');
     } catch (error) {
