@@ -179,7 +179,6 @@ const TabButton = styled.button`
     font-weight: 400;
     font-size: 20px;
     line-height: 32px;
-    font-family: 'Pretendard';
     letter-spacing: -0.5px;
   }
 `;
