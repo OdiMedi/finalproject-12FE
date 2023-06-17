@@ -127,7 +127,6 @@ const MypageContainer = styled.div`
 `;
 const MypageTitleH1 = styled.h1`
   height: 43px;
-  font-family: 'Pretendard';
   font-size: 36px;
   font-weight: 800;
   line-height: 43px;
@@ -147,14 +146,12 @@ const ProfileDescDiv = styled.div`
     display: flex;
   }
   span {
-    font-family: 'Pretendard';
     font-weight: 800;
     font-size: 30px;
     line-height: 36px;
     letter-spacing: 0.05em;
   }
   p {
-    font-family: 'Pretendard';
     font-weight: 600;
     font-size: 20px;
     line-height: 24px;

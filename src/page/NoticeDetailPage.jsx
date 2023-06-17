@@ -19,6 +19,7 @@ const NoticeDetailPage = () => {
       setIsManager(localStorage.getItem('type'));
     }
   }, []);
+  console.log(`isManager`, isManager);
   const { data } = useQuery(['getNoticeDetail', params.id], () =>
     getNoticeDetail(params.id)
   );
@@ -37,9 +38,6 @@ const NoticeDetailPage = () => {
       content: data?.content,
       id: data?.id,
     });
-    if (data?.adminCheck) {
-      setIsManager(!isManager);
-    }
   }, [data]);
 
   const noticeDetailPageMoveButtonHandler = id => {

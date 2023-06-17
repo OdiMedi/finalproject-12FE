@@ -23,6 +23,8 @@ const BookMark = ({ storeId, isCheck, miniSize }) => {
       onSuccess: () => {
         setBookMarkCheck(prev => !prev);
         queryClient.invalidateQueries('inquiryStoreDetail');
+        queryClient.invalidateQueries('storeFilterList');
+        queryClient.invalidateQueries('ForeignStoreFilterList');
         queryClient.invalidateQueries('ForeignStoreDetail');
       },
     }
