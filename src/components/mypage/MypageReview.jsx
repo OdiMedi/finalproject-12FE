@@ -100,8 +100,10 @@ const MypageReviewDiv = styled.div`
   display: flex;
   align-items: center;
   position: relative;
+  cursor: pointer;
   &:hover {
     box-shadow: 3px 3px 2px rgba(175, 174, 183, 0.5);
+    transform: scale(1.02);
   }
 `;
 

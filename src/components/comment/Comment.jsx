@@ -94,7 +94,26 @@ const CommentListArticle = styled.article`
   width: 610px;
   height: 285px;
   border-top: 1px solid #dadada;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    width: 7px;
+    background-color: transparent;
+    border-radius: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    /* width: 10px; */
+    height: 50%;
+    background-color: #dadada;
+    border-radius: 10px;
+    height: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: #dadada;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    background-clip: padding-box;
+  }
 `;
 const ButtonBoxDiv = styled.div`
   display: flex;
