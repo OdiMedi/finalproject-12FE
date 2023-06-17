@@ -203,6 +203,7 @@ export const ItemBoxSection = styled.section`
   gap: 30px;
   &:hover {
     box-shadow: 3px 3px 2px rgba(175, 174, 183, 0.5);
+    transition: 0.4;
   }
 `;
 // 리스트 타이틀
