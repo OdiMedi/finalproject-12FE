@@ -49,4 +49,22 @@ const Article = styled.article`
   border-bottom: 1px solid #dadada;
   overflow-y: scroll;
   overflow-x: hidden;
+  &::-webkit-scrollbar {
+    width: 7px;
+    background-color: transparent;
+    border-radius: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    /* width: 10px; */
+    height: 10%;
+    background-color: #dadada;
+    border-radius: 10px;
+    height: 30px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: #dadada;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    background-clip: padding-box;
+  }
 `;

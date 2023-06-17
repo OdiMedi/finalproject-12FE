@@ -7,6 +7,7 @@ import api from '../api/axios';
 import offBookmark from '../assets/offBookMark.png';
 import onBookmark from '../assets/onBookMark.png';
 import SnackBar from './SnackBar';
+import ModalPortal from '../shared/ModalPortal';
 
 const BookMark = ({ storeId, isCheck, miniSize }) => {
   const [bookMarkCheck, setBookMarkCheck] = useState(isCheck);
@@ -55,7 +56,11 @@ const BookMark = ({ storeId, isCheck, miniSize }) => {
           />
         )}
       </div>
-      {!isLogin && <SnackBar type="login" />}
+      {!isLogin && (
+        <ModalPortal>
+          <SnackBar type="login" />
+        </ModalPortal>
+      )}
     </>
   );
 };

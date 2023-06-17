@@ -22,7 +22,7 @@ const SnackBar = ({ type }) => {
         <SnackWrapDiv>
           <SnackDiv>
             <CSS.InfoIconImg src={warnIcon} alt="" />
-            {type === '' && <p>로그인 후 이용해주세요.</p>}
+            {type === 'login' && <p>로그인 후 이용해주세요.</p>}
             {type === 'passWord' && (
               <p>비밀번호가 성공적으로 변경되었습니다.</p>
             )}
