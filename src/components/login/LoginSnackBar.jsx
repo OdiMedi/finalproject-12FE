@@ -25,6 +25,11 @@ const LoginSnackBar = ({ type }) => {
                 <p>재로그인 해주세요</p>
               </>
             )}
+            {type === 'passWord' && (
+              <>
+                <p>비밀번호가 성공적으로 변경되었습니다.</p>
+              </>
+            )}
           </LoginSnackDiv>
         </LoginSnackWrapDiv>
       )}

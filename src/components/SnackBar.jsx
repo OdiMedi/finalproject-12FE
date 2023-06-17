@@ -5,7 +5,7 @@ import snack from '../assets/loginSnack.png';
 import * as CSS from '../style/globalStyle';
 import warnIcon from '../assets/warnIcon.png';
 
-const SnackBar = () => {
+const SnackBar = ({ type }) => {
   const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
@@ -22,7 +22,10 @@ const SnackBar = () => {
         <SnackWrapDiv>
           <SnackDiv>
             <CSS.InfoIconImg src={warnIcon} alt="" />
-            <p>로그인 후 이용해주세요.</p>
+            {type === '' && <p>로그인 후 이용해주세요.</p>}
+            {type === 'passWord' && (
+              <p>비밀번호가 성공적으로 변경되었습니다.</p>
+            )}
           </SnackDiv>
         </SnackWrapDiv>
       )}
@@ -35,17 +38,10 @@ export default SnackBar;
 const SnackWrapDiv = styled.div`
   width: 100vw;
   height: 100vh;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  position: fixed;
-  background-color: rgba(49, 49, 49, 0.4);
-  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
-  z-index: 10;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: rgba(0, 0, 0, 0.2);
 `;
 
 const SnackDiv = styled.div`

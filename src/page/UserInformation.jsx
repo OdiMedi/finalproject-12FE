@@ -4,9 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { unregister } from '../api/myPage';
 import CommentDelModal from '../components/comment/CommentDelModal';
+import LoginSnackBar from '../components/login/LoginSnackBar';
 import EditProfileImg from '../components/mypage/EditProfileImg';
 import MypageNicknameModal from '../components/mypage/MypageNicknameModal';
 import MypagePwdModal from '../components/mypage/MypagePwdModal';
+import SnackBar from '../components/SnackBar';
 import ModalPortal from '../shared/ModalPortal';
 import * as CSS from '../style/mypage';
 
@@ -15,6 +17,7 @@ const UserInformation = () => {
   const [nicknameModal, setNicknameModal] = useState(false);
   const [pwdModal, setPwdModal] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [pwdSnackBar, setPwdSnackBar] = useState('');
 
   const MyPageNickname = localStorage.getItem('nickname');
   const MyPageEmail = localStorage.getItem('email');
@@ -93,7 +96,15 @@ const UserInformation = () => {
         )}
         {pwdModal && (
           <ModalPortal>
-            <MypagePwdModal onAccess={handlePwdCheck} />
+            <MypagePwdModal
+              onAccess={handlePwdCheck}
+              onSuccess={() => setPwdSnackBar('success')}
+            />
+          </ModalPortal>
+        )}
+        {pwdSnackBar === 'success' && (
+          <ModalPortal>
+            <SnackBar type="passWord" />
           </ModalPortal>
         )}
         <WithdrawButton onClick={() => setModalVisible(true)}>

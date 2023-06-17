@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { editPassword } from '../../api/myPage';
 import NicknameX from '../../assets/nicknameX.png';
 
-const MypagePwdModal = ({ onAccess }) => {
+const MypagePwdModal = ({ onAccess, onSuccess }) => {
   const [pwdInput, setPwdInput] = useState('');
   const [pwdSameInput, setPwdSameInput] = useState('');
   const [pwdCheck, setPwdCheck] = useState(true);
@@ -40,7 +40,7 @@ const MypagePwdModal = ({ onAccess }) => {
     } else {
       setWringMessage('비밀번호가 일치하지 않습니다.');
     }
-
+    onSuccess();
     mutation.mutate(pwdSameInput);
   };
   return (
