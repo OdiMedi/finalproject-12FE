@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { useQuery } from 'react-query';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
@@ -80,13 +80,13 @@ const ForeignPharmacyDetail = () => {
                   />
                 </CSS.BusinessTimeDiv>
                 {data.saturdayTime !== null && isMore && (
-                  <div>saturdayTime {data.saturdayTime}</div>
+                  <DateDiv>saturdayTime {data.saturdayTime}</DateDiv>
                 )}
                 {data.sundayTime !== null && isMore && (
-                  <div>sundayTime {data.sundayTime}</div>
+                  <DateDiv>sundayTime {data.sundayTime}</DateDiv>
                 )}
                 {data.holidayTime !== null && isMore && (
-                  <div>holidayTime {data.holidayTime}</div>
+                  <DateDiv>holidayTime {data.holidayTime}</DateDiv>
                 )}
 
                 <CSS.OpenCheckBoxDiv>
@@ -116,4 +116,18 @@ const ForeignPharmacyDetail = () => {
 export default ForeignPharmacyDetail;
 const BookmarkDiv = styled.div`
   z-index: 1;
+`;
+// 키프레임 정의
+const slideDown = keyframes`
+  from {
+    transform: translateY(-50%);
+  }
+  to {
+    transform: translateY(0);
+  }
+`;
+
+// 애니메이션을 적용할 컴포넌트 스타일 정의
+const DateDiv = styled.div`
+  animation: ${slideDown} 0.5s ease-out;
 `;

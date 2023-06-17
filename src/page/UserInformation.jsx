@@ -150,6 +150,7 @@ const EditButton = styled.button`
   cursor: pointer;
   &:hover {
     box-shadow: 3px 3px 2px rgba(175, 174, 183, 0.5);
+    transition: 0.4;
   }
 `;
 const WithdrawButton = styled.button`

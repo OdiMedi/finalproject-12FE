@@ -100,6 +100,11 @@ const CommentItemDiv = styled.div`
   border-top: 1px solid #dadada;
   border-bottom: 1px solid #dadada;
   position: relative;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 3px 3px 2px rgba(175, 174, 183, 0.5);
+    transition: 0.4;
+  }
 `;
 
 // 이미지
