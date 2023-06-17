@@ -166,6 +166,7 @@ const NoticeH1 = styled.h1`
 const ListSection = styled.section`
   border-top: 1px solid #dadada;
   border-bottom: 1px solid #dadada;
+  padding-bottom: 50px;
 `;
 
 const TitleDiv = styled.div`
