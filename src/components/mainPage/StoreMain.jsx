@@ -84,7 +84,7 @@ const StoreMain = () => {
       console.log(error.message);
     },
   });
-
+  console.log(isCurrent);
   // 내위치 가져오는 로직
   const currentLocationButtonHandler = () => {
     setSelectedOption('');
@@ -123,8 +123,8 @@ const StoreMain = () => {
     open: selectedButton === 'open',
     holidayBusiness: selectedButton === 'holidayBusiness',
     nightBusiness: selectedButton === 'nightBusiness',
-    currentLatitude,
-    currentLongitude,
+    currentLatitude: isCurrent === false ? '' : currentLatitude,
+    currentLongitude: isCurrent === false ? '' : currentLongitude,
     page: currentPage !== 0 ? currentPage - 1 : currentPage,
   });
 
@@ -141,8 +141,8 @@ const StoreMain = () => {
       open: selectedButton === 'open',
       holidayBusiness: selectedButton === 'holidayBusiness',
       nightBusiness: selectedButton === 'nightBusiness',
-      currentLatitude,
-      currentLongitude,
+      currentLatitude: isCurrent === false ? '' : currentLatitude,
+      currentLongitude: isCurrent === false ? '' : currentLongitude,
       page: currentPage !== 0 ? currentPage - 1 : currentPage,
     }));
   };
