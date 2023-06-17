@@ -53,7 +53,7 @@ const SignupModal = () => {
         '입력하신 메일로 전송된 인증번호를 입력해주세요.'
       );
       setValidNumber('');
-      setLimit(5);
+      setLimit(180);
       setTimerCount(prevCount => prevCount + 1);
     },
     onError: error => {
