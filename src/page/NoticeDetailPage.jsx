@@ -236,7 +236,7 @@ const ContentDiv = styled.div`
   padding-bottom: 25px;
   border-bottom: 1px solid #dadada;
   white-space: pre-line;
-  height: 350px;
+  /* height: 350px; */
   font-weight: 500;
   font-size: 16px;
   line-height: 30px;
