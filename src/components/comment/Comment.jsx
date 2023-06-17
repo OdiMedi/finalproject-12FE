@@ -95,6 +95,7 @@ const CommentListArticle = styled.article`
   height: 285px;
   border-top: 1px solid #dadada;
   border-bottom: 1px solid #dadada;
+
   overflow-y: scroll;
   overflow-x: hidden;
   &::-webkit-scrollbar {
