@@ -46,7 +46,9 @@ const EditProfileImg = ({ onAccess }) => {
             프로필 사진 업로드
           </ImgUploadButton>
         </FiledInputWrapperForm>
-        <UploadInfoP>변경할 사진을 업로드 해주세요!</UploadInfoP>
+        <UploadInfoP>
+          변경할 사진을 정방향 사이즈로 업로드 해주세요!
+        </UploadInfoP>
         <NicknameButton onClick={profileImgEditButtonHandler}>
           회원정보 수정하기
         </NicknameButton>
@@ -127,7 +129,7 @@ const FiledInput = styled.input`
 
 const UploadInfoP = styled.p`
   font-weight: 500;
-  font-size: 10px;
+  font-size: 15px;
   line-height: 34px;
   color: #686868;
 `;

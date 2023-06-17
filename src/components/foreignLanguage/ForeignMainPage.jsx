@@ -49,7 +49,7 @@ const options = [
   { value: 'yangcheon-gu', label: 'yangcheon-gu' },
   { value: 'yongsan-gu', label: 'yongsan-gu' },
   { value: 'eunpyeong-gu', label: 'eunpyeong-gu' },
-  { value: 'jongno-gu', label: '종로jongno-gu구' },
+  { value: 'jongno-gu', label: 'jongno-gu' },
   { value: 'jung-gu', label: 'jung-gu' },
   { value: 'jungnang-gu', label: 'jungnang-gu' },
 ];

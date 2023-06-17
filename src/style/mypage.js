@@ -8,7 +8,6 @@ export const MypageContainer = styled.div`
 `;
 export const MypageTitleH1 = styled.h1`
   height: 43px;
-  font-family: 'Pretendard';
   font-size: 36px;
   font-weight: 800;
   line-height: 43px;
