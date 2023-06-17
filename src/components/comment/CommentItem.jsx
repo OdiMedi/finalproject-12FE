@@ -139,6 +139,7 @@ const CommentEditButton = styled.button`
   background-color: transparent;
   border: none;
   margin-right: 10px;
+  cursor: pointer;
 `;
 const CommentDeleteButton = styled.button`
   width: 14px;
@@ -149,6 +150,7 @@ const CommentDeleteButton = styled.button`
   background-size: cover;
   background-color: transparent;
   border: none;
+  cursor: pointer;
 `;
 const CommentBtnWrapDiv = styled.div`
   position: absolute;

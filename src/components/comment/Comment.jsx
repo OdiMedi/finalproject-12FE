@@ -63,7 +63,7 @@ const Comment = ({ storeId, location }) => {
         </CSS.CommentAddButton>
         {token === undefined && modal && (
           <ModalPortal>
-            <SnackBar />
+            <SnackBar type="login" />
           </ModalPortal>
         )}
         {token !== undefined && modal && (
