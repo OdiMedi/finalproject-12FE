@@ -1,4 +1,4 @@
-import LoginModal from '../components/login/LoginModal';
+import LoginModal from '../components/login/Login';
 
 const Login = () => {
   return <LoginModal />;

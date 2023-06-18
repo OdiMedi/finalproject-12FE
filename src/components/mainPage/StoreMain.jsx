@@ -202,6 +202,7 @@ const StoreMain = () => {
   // const handlePageClick = pageNumber => {
   //   setCurrentPage(pageNumber);
   // };
+  console.log(storeList?.content.length);
   return (
     <CSS.MainContainer>
       {storeList && (
@@ -279,7 +280,7 @@ const StoreMain = () => {
             </CSS.FilterButton>
           </CSS.FilterBoxDiv>
         </CSS.AllSearchButtonBoxDiv>
-        {storeList && storeList.content.length < 0 ? (
+        {storeList && storeList.content.length === 0 ? (
           <InformationMessageDiv>찾는 약국이 없습니다.</InformationMessageDiv>
         ) : (
           <PharmacyList data={storeList} />
