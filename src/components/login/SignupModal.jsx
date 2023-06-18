@@ -12,7 +12,7 @@ import infoIcon from '../../assets/infoIcon.png';
 import LoginIconMain from '../../assets/loginIcon.png';
 import LoginTitleMain from '../../assets/loginTitle.png';
 import SnackBar from '../SnackBar';
-import { LoginBtn, TextBnt } from './Login';
+import { LoginBtn, TextBnt } from './LoginModal';
 import Timer from './Timer';
 
 const SignupModal = () => {
