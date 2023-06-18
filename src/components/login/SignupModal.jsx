@@ -12,7 +12,7 @@ import infoIcon from '../../assets/infoIcon.png';
 import LoginIconMain from '../../assets/loginIcon.png';
 import LoginTitleMain from '../../assets/loginTitle.png';
 import SnackBar from '../SnackBar';
-import { LoginBtn, TextBnt } from './LoginModal';
+import { LoginBtn, TextBnt } from './Login';
 import Timer from './Timer';
 
 const SignupModal = () => {
@@ -90,10 +90,12 @@ const SignupModal = () => {
   const nicknameChange = e => {
     const { name, value } = e.target;
     const nicknameRegExp = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]{2,10}$/;
-    setInputValue({
-      ...inputValue,
-      [name]: value,
-    });
+    if (value.length <= 10) {
+      setInputValue({
+        ...inputValue,
+        [name]: value,
+      });
+    }
     if (!nicknameRegExp.test(value)) {
       setNicknameCheck(false);
     } else {

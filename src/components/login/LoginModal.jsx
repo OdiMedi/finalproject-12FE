@@ -216,27 +216,31 @@ export const LoginBtn = styled.button`
   letter-spacing: -0.5px;
   color: #ffffff;
   margin-top: 20px;
+  margin-bottom: 20px;
   cursor: pointer;
   &:hover {
     box-shadow: 3px 3px 2px rgba(175, 174, 183, 0.5);
+    transition: 0.2;
   }
 `;
 const TextBtnWrap = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
 `;
 export const TextBnt = styled.button`
-  height: 34px;
+  width: 200px;
   font-size: 18px;
   line-height: 34px;
   letter-spacing: -0.5px;
   font-weight: 500;
   display: flex;
   align-items: center;
+  justify-content: center;
   color: #686868;
   border: none;
   background-color: transparent;
-  margin-top: 30px;
+
   cursor: pointer;
 
   &:hover {
@@ -296,7 +300,7 @@ const OrBoxDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 76px;
+  height: 30px;
   gap: 32px;
 `;
 
@@ -310,7 +314,14 @@ const KakaoButtonDiv = styled.div`
   background-size: cover;
   width: 500px;
   height: 64px;
-  margin-bottom: 46px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  border-radius: 32px;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 3px 3px 2px rgba(175, 174, 183, 0.5);
+    transition: 0.2;
+  }
 `;
 /* <카카오 소셜 로그인 flow>
 프론트엔드로 부터 인가 코드를 전달 받는다.
