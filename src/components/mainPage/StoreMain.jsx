@@ -279,7 +279,7 @@ const StoreMain = () => {
             </CSS.FilterButton>
           </CSS.FilterBoxDiv>
         </CSS.AllSearchButtonBoxDiv>
-        {storeList?.content.length === 0 ? (
+        {storeList && storeList.content.length === 0 ? (
           <InformationMessageDiv>찾는 약국이 없습니다.</InformationMessageDiv>
         ) : (
           <PharmacyList data={storeList} />
@@ -299,7 +299,7 @@ const StoreMain = () => {
             );
           })}
         </CSS.ListNumberBoxDiv> */}
-        {storeList && (
+        {storeList?.content.length > 0 && (
           <CSS.PaginationBoxDiv>
             <Pagination
               activePage={currentPage}

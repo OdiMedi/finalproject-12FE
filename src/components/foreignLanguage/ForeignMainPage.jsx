@@ -350,7 +350,7 @@ const ForeignMainPage = () => {
             );
           })}
         </CSS.ListNumberBoxDiv> */}
-        {storeList && (
+        {storeList?.content.length > 0 && (
           <CSS.PaginationBoxDiv>
             <Pagination
               activePage={currentPage}
