@@ -311,12 +311,15 @@ const SignupModal = () => {
           maxLength={15}
         />
         <ValidInfoDiv>
-          {warningMessage && (
-            <>
-              <EmailInfoImg src={infoIcon} alt="" />
-              <WarningMessageP>{warningMessage}</WarningMessageP>
-            </>
-          )}
+          {warningMessage &&
+            warningMessage !==
+              '[비밀번호는 8~15자 알파벳 대소문자, 숫자로 작성해주세요.]' &&
+            warningMessage !== '이미 존재하는 nickname 입니다.' && (
+              <>
+                <EmailInfoImg src={infoIcon} alt="" />
+                <WarningMessageP>정보를 기입해주세요.</WarningMessageP>
+              </>
+            )}
         </ValidInfoDiv>
         {warningMessage ===
         '[비밀번호는 8~15자 알파벳 대소문자, 숫자로 작성해주세요.]' ? (
