@@ -142,7 +142,7 @@ export const SearchInput = styled.input`
   font-size: 20px;
   background-color: #f5f5f5;
   border: none;
-  padding-left: 30px;
+  text-indent: 15px;
   border-radius: 10px;
   margin-left: 13px;
   &:focus {
@@ -222,6 +222,7 @@ export const StoreIconImage = styled.img`
 export const TitleH1 = styled.h1`
   font-size: ${props => `${props.size}`};
   line-height: 1.2;
+  cursor: pointer;
 `;
 // 상세정보
 export const DetailInformationDiv = styled.div`
