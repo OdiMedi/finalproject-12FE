@@ -12,6 +12,7 @@ import ModalPortal from '../../shared/ModalPortal';
 import FindPasswordModal from './FindPasswordModal';
 import KAKAO_AUTH_URL from './kakaoAuth';
 import KakaoLoginInfoModal from './KakaoLoginInfoModal';
+import SnackBar from '../SnackBar';
 
 const LoginModal = () => {
   const [findPwdModal, setFindPwdModal] = useState(false);
@@ -128,7 +129,11 @@ const LoginModal = () => {
         <TextBnt onClick={() => navigate('/signup')}>회원가입</TextBnt>
       </TextBtnWrap>
 
-      {errorCode === 'MEMBER_NOT_FOUND' && (
+      <ModalPortal>
+        <SnackBar type="error" />
+      </ModalPortal>
+
+      {/* {errorCode === 'MEMBER_NOT_FOUND' && (
         <WarningDiv>
           <div />
           <p>이메일을 다시 확인해주세요.</p>
@@ -139,7 +144,7 @@ const LoginModal = () => {
           <div />
           <p>비밀번호를 다시 확인해주세요.</p>
         </WarningDiv>
-      )}
+      )} */}
     </LoginContainer>
   );
 };

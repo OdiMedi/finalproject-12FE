@@ -5,7 +5,7 @@ import snack from '../assets/loginSnack.png';
 import * as CSS from '../style/globalStyle';
 import warnIcon from '../assets/warnIcon.png';
 
-const SnackBar = ({ type }) => {
+const SnackBar = ({ type, error }) => {
   const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
@@ -26,6 +26,7 @@ const SnackBar = ({ type }) => {
             {type === 'passWord' && (
               <p>비밀번호가 성공적으로 변경되었습니다.</p>
             )}
+            {type === 'error' && <p>error</p>}
           </SnackDiv>
         </SnackWrapDiv>
       )}
