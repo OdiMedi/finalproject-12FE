@@ -35,6 +35,13 @@ const LoginModal = () => {
   };
 
   const submitLogin = async () => {
+    if (email.length === 0) {
+      return;
+    }
+    if (password.length === 0) {
+      return;
+    }
+
     try {
       const response = await api.post('/user/login', inputValue);
       localStorage.setItem('email', response.data.email);
@@ -55,6 +62,7 @@ const LoginModal = () => {
       });
       navigate('/');
     } catch (error) {
+      console.log(error.respose);
       setErrorCode(error.response.data.errorCode);
     }
   };
@@ -129,11 +137,11 @@ const LoginModal = () => {
         <TextBnt onClick={() => navigate('/signup')}>회원가입</TextBnt>
       </TextBtnWrap>
 
-      <ModalPortal>
+      {/* <ModalPortal>
         <SnackBar type="error" />
-      </ModalPortal>
+      </ModalPortal> */}
 
-      {/* {errorCode === 'MEMBER_NOT_FOUND' && (
+      {errorCode === 'MEMBER_NOT_FOUND' && (
         <WarningDiv>
           <div />
           <p>이메일을 다시 확인해주세요.</p>
@@ -144,7 +152,7 @@ const LoginModal = () => {
           <div />
           <p>비밀번호를 다시 확인해주세요.</p>
         </WarningDiv>
-      )} */}
+      )}
     </LoginContainer>
   );
 };

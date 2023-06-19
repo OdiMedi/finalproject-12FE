@@ -322,15 +322,13 @@ const SignupModal = () => {
             )}
         </ValidInfoDiv>
         {warningMessage ===
-        '[비밀번호는 8~15자 알파벳 대소문자, 숫자로 작성해주세요.]' ? (
+          '[비밀번호는 8~15자 알파벳 대소문자, 숫자로 작성해주세요.]' && (
           <ValidInfoDiv>
             <EmailInfoImg src={infoIcon} alt="" />
             <WarningMessageP>
               비밀번호는 8~15자 알파벳 대소문자, 숫자로 작성해주세요.
             </WarningMessageP>
           </ValidInfoDiv>
-        ) : (
-          <MarginDiv />
         )}
 
         <LoginBtn type="button" onClick={submitSignup}>
