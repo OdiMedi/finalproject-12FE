@@ -16,17 +16,6 @@ const StoreDetail = () => {
   const navigate = useNavigate();
   const params = useParams();
 
-  const slideDown = keyframes`
-  0% {
-    top: -50px;
-  }
-  50% {
-    top: 100px;
-  }
-  100% {
-    top: 200px;
-  }
-`;
   const moveStoreListClickHandler = () => {
     navigate('/mainPage');
   };

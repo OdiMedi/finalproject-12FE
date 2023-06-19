@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import snack from '../assets/loginSnack.png';
 
 import * as CSS from '../style/globalStyle';
 import warnIcon from '../assets/warnIcon.png';
 
-const SnackBar = ({ type }) => {
+const SnackBar = ({ type, error }) => {
   const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
@@ -26,6 +26,7 @@ const SnackBar = ({ type }) => {
             {type === 'passWord' && (
               <p>비밀번호가 성공적으로 변경되었습니다.</p>
             )}
+            {type === 'error' && <p>{error}</p>}
           </SnackDiv>
         </SnackWrapDiv>
       )}
@@ -40,13 +41,24 @@ const SnackWrapDiv = styled.div`
   height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.2);
+  /* align-items: center; */
+  padding-top: 20px;
+  /* background-color: rgba(0, 0, 0, 0.2); */
 `;
 
+// 키프레임 정의
+const slideDown = keyframes`
+  from {
+    transform: translateY(-50%);
+  }
+  to {
+    transform: translateY(0);
+  }
+`;
 const SnackDiv = styled.div`
-  width: 450px;
-  height: 80px;
+  animation: ${slideDown} 0.5s ease-out;
+  width: 350px;
+  height: 50px;
   background-image: url(${snack});
   background-position: center;
   background-repeat: no-repeat;
@@ -57,6 +69,7 @@ const SnackDiv = styled.div`
   align-items: center;
   position: absolute;
 
+  border-radius: 10px;
   font-weight: 500;
   font-size: 18px;
   line-height: 34px;

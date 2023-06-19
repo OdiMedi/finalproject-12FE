@@ -12,6 +12,7 @@ import ModalPortal from '../../shared/ModalPortal';
 import FindPasswordModal from './FindPasswordModal';
 import KAKAO_AUTH_URL from './kakaoAuth';
 import KakaoLoginInfoModal from './KakaoLoginInfoModal';
+import SnackBar from '../SnackBar';
 
 const LoginModal = () => {
   const [findPwdModal, setFindPwdModal] = useState(false);
@@ -34,6 +35,13 @@ const LoginModal = () => {
   };
 
   const submitLogin = async () => {
+    if (email.length === 0) {
+      return;
+    }
+    if (password.length === 0) {
+      return;
+    }
+
     try {
       const response = await api.post('/user/login', inputValue);
       localStorage.setItem('email', response.data.email);
@@ -54,6 +62,7 @@ const LoginModal = () => {
       });
       navigate('/');
     } catch (error) {
+      console.log(error.respose);
       setErrorCode(error.response.data.errorCode);
     }
   };
@@ -127,6 +136,10 @@ const LoginModal = () => {
         <LineDiv />
         <TextBnt onClick={() => navigate('/signup')}>회원가입</TextBnt>
       </TextBtnWrap>
+
+      {/* <ModalPortal>
+        <SnackBar type="error" />
+      </ModalPortal> */}
 
       {errorCode === 'MEMBER_NOT_FOUND' && (
         <WarningDiv>
