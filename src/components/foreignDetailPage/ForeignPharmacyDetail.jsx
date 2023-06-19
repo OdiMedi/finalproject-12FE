@@ -80,13 +80,13 @@ const ForeignPharmacyDetail = () => {
                   />
                 </CSS.BusinessTimeDiv>
                 {data.saturdayTime !== null && isMore && (
-                  <DateDiv>saturdayTime {data.saturdayTime}</DateDiv>
+                  <DateDiv>SaturdayTime {data.saturdayTime}</DateDiv>
                 )}
                 {data.sundayTime !== null && isMore && (
-                  <DateDiv>sundayTime {data.sundayTime}</DateDiv>
+                  <DateDiv>SundayTime {data.sundayTime}</DateDiv>
                 )}
                 {data.holidayTime !== null && isMore && (
-                  <DateDiv>holidayTime {data.holidayTime}</DateDiv>
+                  <DateDiv>HolidayTime {data.holidayTime}</DateDiv>
                 )}
 
                 <CSS.OpenCheckBoxDiv>

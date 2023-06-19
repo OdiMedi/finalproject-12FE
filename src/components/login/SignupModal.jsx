@@ -29,6 +29,7 @@ const SignupModal = () => {
   const [isConfirm, setIsConfirm] = useState(false);
   const [limit, setLimit] = useState(179);
   const [timerCount, setTimerCount] = useState(0);
+  const [valid, setValid] = useState(false);
 
   const [emailWarning, setEmailWarning] = useState(null);
   const [inputValue, setInputValue] = useState({
@@ -64,7 +65,8 @@ const SignupModal = () => {
   const confirmationMutation = useMutation(confirmationNumber, {
     onSuccess: () => {
       setIsConfirm(!isConfirm);
-      setConfirmWarningMessage('이메일 인증에 성공했습니다.');
+      // setConfirmWarningMessage('이메일 인증에 성공했습니다.');
+      setValid(!valid);
     },
     onError: error => {
       setConfirmWarningMessage(error.message.replace(/\[|\]/g, ''));
@@ -110,15 +112,20 @@ const SignupModal = () => {
   const passwordChange = e => {
     const { name, value } = e.target;
     const passwordRegExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,15}$/;
-    setInputValue({
-      ...inputValue,
-      [name]: value,
-    });
+    if (value.length <= 15) {
+      setInputValue({
+        ...inputValue,
+        [name]: value,
+      });
+    }
     if (!passwordRegExp.test(value)) {
       setPasswordCheck(false);
-      setWarningMessage('비밀번호는 영어(대소문자),숫자로만 입력해주세요. ');
+      setWarningMessage(
+        '비밀번호는 영어(대소문자),숫자로 8~15자로 입력해주세요. '
+      );
     } else {
       setPasswordCheck(true);
+      setWarningMessage('');
     }
   };
   const adminTokenChange = e => {
@@ -207,62 +214,85 @@ const SignupModal = () => {
         ) : (
           <MarginDiv />
         )}
-
-        <EmailBoxDiv>
-          <SignUpInput
-            position="email"
-            size="320px"
-            name="email"
-            value={email}
-            onChange={changeEmail}
-            type="text"
-            placeholder="이메일을 입력하세요."
-          />
-          <Button onClick={validNumberPortButtonHandler}>인증번호 전송</Button>
-        </EmailBoxDiv>
-        {emailWarning && (
-          <ValidInfoDiv>
-            <EmailInfoImg src={infoIcon} alt="" />
-            <WarningMessageP>{emailWarning}</WarningMessageP>
-          </ValidInfoDiv>
-        )}
-        {!emailWarning && !isValid && <MarginDiv />}
-        {isValid && (
-          <ValidInfoDiv>
-            <EmailInfoImg src={emailInfo} art="" />
-            <p>메일이 전송 되었습니다.</p>
-            <LimitTimerP>
-              만료 시간
-              <Timer timeLimit={limit} key={timerCount} />
-            </LimitTimerP>
-          </ValidInfoDiv>
-        )}
-        {isSendEmail && (
-          <EmailBoxDiv>
+        {!valid ? (
+          <>
+            <EmailBoxDiv>
+              <SignUpInput
+                position="email"
+                size="320px"
+                name="email"
+                value={email}
+                onChange={changeEmail}
+                type="text"
+                placeholder="이메일을 입력하세요."
+              />
+              <Button onClick={validNumberPortButtonHandler}>
+                인증번호 전송
+              </Button>
+            </EmailBoxDiv>
+            {emailWarning && (
+              <ValidInfoDiv>
+                <EmailInfoImg src={infoIcon} alt="" />
+                <WarningMessageP>{emailWarning}</WarningMessageP>
+              </ValidInfoDiv>
+            )}
+            {!emailWarning && !isValid && <MarginDiv />}
+            {isValid && (
+              <ValidInfoDiv>
+                <EmailInfoImg src={emailInfo} art="" />
+                <p>메일이 전송 되었습니다.</p>
+                <LimitTimerP>
+                  만료 시간
+                  <Timer timeLimit={limit} key={timerCount} />
+                </LimitTimerP>
+              </ValidInfoDiv>
+            )}
+            {isSendEmail && (
+              <EmailBoxDiv>
+                <SignUpInput
+                  size="320px"
+                  name="validNumber"
+                  value={validNumber}
+                  onChange={validNumberChange}
+                  type="text"
+                  placeholder="인증번호를 입력하세요."
+                />
+                <Button onClick={confirmationNumberButtonHandler}>
+                  메일 인증
+                </Button>
+              </EmailBoxDiv>
+            )}
+            {confirmInfoMessage && !confirmWarningMessage && (
+              <ValidInfoDiv>
+                <EmailInfoImg src={emailInfo} art="" />
+                <p>{confirmInfoMessage}</p>
+              </ValidInfoDiv>
+            )}
+            {confirmWarningMessage && (
+              <ValidInfoDiv>
+                <EmailInfoImg src={infoIcon} alt="" />
+                <WarningMessageP>{confirmWarningMessage}</WarningMessageP>
+              </ValidInfoDiv>
+            )}
+          </>
+        ) : (
+          <>
             <SignUpInput
-              size="320px"
-              name="validNumber"
-              value={validNumber}
-              onChange={validNumberChange}
+              position="email"
+              size="500px"
+              name="email"
+              value={email}
+              onChange={changeEmail}
               type="text"
-              placeholder="인증번호를 입력하세요."
+              placeholder="이메일을 입력하세요."
+              disabled
             />
-            <Button onClick={confirmationNumberButtonHandler}>메일 인증</Button>
-          </EmailBoxDiv>
+            <ValidInfoDiv>
+              <EmailInfoImg src={emailInfo} art="" />
+              <p>인증이 완료되었습니다.</p>
+            </ValidInfoDiv>
+          </>
         )}
-        {confirmInfoMessage && !confirmWarningMessage && (
-          <ValidInfoDiv>
-            <EmailInfoImg src={emailInfo} art="" />
-            <p>{confirmInfoMessage}</p>
-          </ValidInfoDiv>
-        )}
-        {confirmWarningMessage && (
-          <ValidInfoDiv>
-            <EmailInfoImg src={infoIcon} alt="" />
-            <WarningMessageP>{confirmWarningMessage}</WarningMessageP>
-          </ValidInfoDiv>
-        )}
-
         {/* {!isValid && !isConfirm && <MarginDiv />} */}
         <SignUpInput
           size="500px"
