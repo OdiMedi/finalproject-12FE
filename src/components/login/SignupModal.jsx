@@ -21,6 +21,7 @@ const SignupModal = () => {
   const [nicknameCheck, setNicknameCheck] = useState(true);
   const [passwordCheck, setPasswordCheck] = useState(true);
   const [confirmWarningMessage, setConfirmWarningMessage] = useState('');
+  const [confirmInfoMessage, setConfirmInfoMessage] = useState('');
   const [warningMessage, setWarningMessage] = useState('');
   const [validNumber, setValidNumber] = useState('');
   const [isSendEmail, setIsSendEmail] = useState(false);
@@ -28,6 +29,8 @@ const SignupModal = () => {
   const [isConfirm, setIsConfirm] = useState(false);
   const [limit, setLimit] = useState(179);
   const [timerCount, setTimerCount] = useState(0);
+
+  const [emailWarning, setEmailWarning] = useState(null);
   const [inputValue, setInputValue] = useState({
     email: '',
     nickname: '',
@@ -49,15 +52,13 @@ const SignupModal = () => {
       setIsSendEmail(true);
       setIsValid(true);
       setWarningMessage('');
-      setConfirmWarningMessage(
-        '입력하신 메일로 전송된 인증번호를 입력해주세요.'
-      );
+      setConfirmInfoMessage('입력하신 메일로 전송된 인증번호를 입력해주세요.');
       setValidNumber('');
       setLimit(180);
       setTimerCount(prevCount => prevCount + 1);
     },
     onError: error => {
-      setWarningMessage(error.message.replace(/\[|\]/g, ''));
+      setEmailWarning(error.message.replace(/\[|\]/g, ''));
     },
   });
   const confirmationMutation = useMutation(confirmationNumber, {
@@ -81,9 +82,13 @@ const SignupModal = () => {
       ...inputValue,
       [name]: value,
     });
+    if (value.length === 1) {
+      setEmailWarning('이메일 형식에 맞춰주세요(@ . 포함)');
+    }
     if (!emailRegExp.test(value)) {
       setEmailCheck(false);
     } else {
+      setEmailWarning(null);
       setEmailCheck(true);
     }
   };
@@ -130,6 +135,9 @@ const SignupModal = () => {
   const validNumberPortButtonHandler = () => {
     const nicknameRegExp =
       /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
+    if (email.length === 0) {
+      setEmailWarning('이메일을 입력해주세요.');
+    }
     if (nicknameRegExp.test(email)) {
       sendEmailMutation.mutate(inputValue.email);
     }
@@ -212,10 +220,14 @@ const SignupModal = () => {
           />
           <Button onClick={validNumberPortButtonHandler}>인증번호 전송</Button>
         </EmailBoxDiv>
-        {!emailCheck && (
-          <HelperTextP>이메일 형식에 맞춰주세요(@ . 포함)</HelperTextP>
+        {emailWarning && (
+          <ValidInfoDiv>
+            <EmailInfoImg src={infoIcon} alt="" />
+            <WarningMessageP>{emailWarning}</WarningMessageP>
+          </ValidInfoDiv>
         )}
-        {isValid ? (
+        {!emailWarning && !isValid && <MarginDiv />}
+        {isValid && (
           <ValidInfoDiv>
             <EmailInfoImg src={emailInfo} art="" />
             <p>메일이 전송 되었습니다.</p>
@@ -224,8 +236,6 @@ const SignupModal = () => {
               <Timer timeLimit={limit} key={timerCount} />
             </LimitTimerP>
           </ValidInfoDiv>
-        ) : (
-          <MarginDiv />
         )}
         {isSendEmail && (
           <EmailBoxDiv>
@@ -240,7 +250,12 @@ const SignupModal = () => {
             <Button onClick={confirmationNumberButtonHandler}>메일 인증</Button>
           </EmailBoxDiv>
         )}
-
+        {confirmInfoMessage && !confirmWarningMessage && (
+          <ValidInfoDiv>
+            <EmailInfoImg src={emailInfo} art="" />
+            <p>{confirmInfoMessage}</p>
+          </ValidInfoDiv>
+        )}
         {confirmWarningMessage && (
           <ValidInfoDiv>
             <EmailInfoImg src={infoIcon} alt="" />
@@ -248,7 +263,7 @@ const SignupModal = () => {
           </ValidInfoDiv>
         )}
 
-        {!isValid && !isConfirm && <MarginDiv />}
+        {/* {!isValid && !isConfirm && <MarginDiv />} */}
         <SignUpInput
           size="500px"
           name="password"

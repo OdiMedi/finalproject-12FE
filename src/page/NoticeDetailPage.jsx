@@ -19,7 +19,6 @@ const NoticeDetailPage = () => {
       setIsManager(localStorage.getItem('type'));
     }
   }, []);
-  console.log(`isManager`, isManager);
   const { data } = useQuery(['getNoticeDetail', params.id], () =>
     getNoticeDetail(params.id)
   );

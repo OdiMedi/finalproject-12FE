@@ -126,7 +126,6 @@ const ForeignMainPage = () => {
     japanese: languageSelectedButton === 'japanese',
     page: currentPage !== 0 ? currentPage - 1 : currentPage,
   });
-  console.log(isCurrent);
   useEffect(() => {
     mutation.mutate(searchData);
   }, [searchData]);

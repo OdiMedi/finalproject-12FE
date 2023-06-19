@@ -43,7 +43,6 @@ const LoginModal = () => {
 
       const accessHeader = response?.headers.get('ACCESS_KEY');
       const refreshHeader = response?.headers.get('REFRESH_KEY');
-      console.dir(response);
       const accessToken = accessHeader?.split(' ')[1];
       const refreshToken = refreshHeader?.split(' ')[1];
 
@@ -56,7 +55,6 @@ const LoginModal = () => {
       navigate('/');
     } catch (error) {
       setErrorCode(error.response.data.errorCode);
-      console.log(error.response.data.errorCode);
     }
   };
 

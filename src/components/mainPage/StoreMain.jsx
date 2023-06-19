@@ -84,7 +84,7 @@ const StoreMain = () => {
       console.log(error.message);
     },
   });
-  console.log(isCurrent);
+
   // 내위치 가져오는 로직
   const currentLocationButtonHandler = () => {
     setSelectedOption('');

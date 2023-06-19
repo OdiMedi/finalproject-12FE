@@ -13,7 +13,6 @@ const MyPage = () => {
   const MypageNickname = localStorage.getItem('nickname');
   const MypageEmail = localStorage.getItem('email');
   const MyProfileImg = localStorage.getItem('ProfileImg');
-  console.log('MyProfileImg', MyProfileImg);
   const navigate = useNavigate();
 
   const { data: reviewData, isLoading: isLoadingReview } = useQuery(
