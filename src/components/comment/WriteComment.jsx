@@ -32,7 +32,6 @@ const WriteComment = ({
     },
   });
   useEffect(() => {
-    console.log('mainPageLocation, commentId', mainPageLocation, commentId);
     if (mainPageLocation && !commentId) {
       setWriteType('후기 남기기');
     }
