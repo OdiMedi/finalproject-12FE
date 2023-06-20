@@ -129,10 +129,12 @@ const NicknameH1 = styled.h1`
 `;
 const ContentP = styled.p`
   font-size: 12px;
-  width: 100%;
+  width: 450px;
   border: none;
   /* border: 1px solid #fa5938; */
   background-color: transparent;
+  word-wrap: break-word;
+  white-space: pre-line;
 `;
 const CommentEditButton = styled.button`
   width: 20px;

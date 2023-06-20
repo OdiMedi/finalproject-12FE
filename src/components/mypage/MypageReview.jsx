@@ -47,22 +47,24 @@ const MypageReview = ({
     setModalVisible(true);
   };
 
-  const reviewDetailPage = () => {
-    if (foreign === false) {
-      navigate(`/mainPage/${storeId}`);
-    } else if (foreign === true) {
-      navigate(`/foreignPage/${storeId}`);
+  const reviewDetailPage = event => {
+    if (!modalVisible) {
+      if (foreign === false) {
+        navigate(`/mainPage/${storeId}`);
+      } else if (foreign === true) {
+        navigate(`/foreignPage/${storeId}`);
+      }
     }
   };
 
   return (
     <MypageReviewDiv onClick={reviewDetailPage}>
+      <DeleteDiv onClick={reviewDelBtnHandle} />
       {modalVisible && (
         <ModalPortal>
           <CommentDelModal onAccess={handleDelCheck} />
         </ModalPortal>
       )}
-      <DeleteDiv onClick={reviewDelBtnHandle} />
       <MypagePharDiv>
         <MypagePharNameDiv>
           <div />
@@ -121,10 +123,12 @@ const ReviewProfileDiv = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   margin-right: 16px;
+  border-radius: 50%;
 `;
 const ReviewProfileImg = styled.img`
   width: 54px;
   height: 54px;
+  border-radius: 50%;
   margin-right: 16px;
 `;
 const ReviewTextDiv = styled.div`

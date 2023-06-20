@@ -56,10 +56,9 @@ const WriteComment = ({
   });
   const commentOnChangeHandler = e => {
     const { value } = e.target;
-    if (value.length > 100) {
-      setWarningMessage('댓글은 100자 이내로만 작성해주세요');
-      return;
-    }
+
+    setWarningMessage('댓글은 100자 이내로만 작성해주세요');
+
     setContents(value);
   };
 
@@ -99,6 +98,7 @@ const WriteComment = ({
           name="contents"
           onChange={commentOnChangeHandler}
           placeholder={placeholder}
+          maxLength={99}
         />
 
         <ValidInfoDiv>

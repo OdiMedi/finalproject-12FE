@@ -24,7 +24,7 @@ export const FilterButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 6px;
+  /* gap: 6px; */
   font-weight: 800;
   font-size: 16px;
   position: relative;
