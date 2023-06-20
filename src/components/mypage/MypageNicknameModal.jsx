@@ -6,7 +6,7 @@ import { updateNickBtn } from '../../api/myPage';
 import NicknameX from '../../assets/nicknameX.png';
 
 const MypageNicknameModal = ({ onAccess, nickName }) => {
-  const [nickInput, setNickInput] = useState('');
+  const [nickInput, setNickInput] = useState(nickName);
   const [alertError, setAlertError] = useState(false);
   const [nicknameCheck, setNicknameCheck] = useState(true);
 
@@ -41,11 +41,7 @@ const MypageNicknameModal = ({ onAccess, nickName }) => {
         <NicknameXDiv onClick={() => onAccess(false)} />
         <div>
           닉네임
-          <NicknameInput
-            onChange={nickInputChange}
-            value={nickInput}
-            placeholder={nickName}
-          />
+          <NicknameInput onChange={nickInputChange} value={nickInput} />
         </div>
         <HelperTextP>
           {!nicknameCheck &&
