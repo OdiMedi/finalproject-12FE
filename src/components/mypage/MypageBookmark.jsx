@@ -1,13 +1,9 @@
-import styled from 'styled-components';
 import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import MypageIcon from '../../assets/mypageIcon.png';
-import holiydayTrue from '../../assets/holidayTrue.png';
-import holiydayFalse from '../../assets/holidayFalse.png';
-import nightTimeTrue from '../../assets/nightTimeTrue.png';
-import nightTimeFalse from '../../assets/nightTimeFalse.png';
-import BookmarkCheck from '../../assets/bookmarkCheck.png';
+import styled from 'styled-components';
 import api from '../../api/axios';
+import BookmarkCheck from '../../assets/bookmarkCheck.png';
+import MypageIcon from '../../assets/mypageIcon.png';
 import * as CSS from '../../style/globalStyle';
 
 const MypageBookmark = props => {
