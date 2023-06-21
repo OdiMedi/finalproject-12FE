@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import Select from 'react-select';
+import Pagination from 'react-js-pagination';
 import { useMutation } from 'react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Pagination from 'react-js-pagination';
-import LoadingSpinner from '../LoadingSpinner';
-import ModalPortal from '../../shared/ModalPortal';
-import ForeignPharmacyList from './ForeignPharmacyList';
-import MapApi from '../MapApi';
-import * as CSS from '../../style/globalStyle';
+import Select from 'react-select';
+import { useRecoilState } from 'recoil';
+import styled from 'styled-components';
 import { ForeignStoreFilterList } from '../../api/foreignList';
+import languageInfoIcon from '../../assets/languageInfoIcon.png';
 import locationIcon from '../../assets/locationIcon.png';
 import polygon from '../../assets/Polygon.png';
-import languageInfoIcon from '../../assets/languageInfoIcon.png';
+import ForeignStoreFilterAtom from '../../recoil/ForeignStoreFilterAtom';
+import ModalPortal from '../../shared/ModalPortal';
+import * as CSS from '../../style/globalStyle';
+import LoadingSpinner from '../LoadingSpinner';
+import MapApi from '../MapApi';
+import ForeignPharmacyList from './ForeignPharmacyList';
 
 const IndicatorSeparator = null;
 const DropdownIndicator = () => <PolygonIcon />;
@@ -53,18 +55,30 @@ const options = [
   { value: 'jung-gu', label: 'jung-gu' },
   { value: 'jungnang-gu', label: 'jungnang-gu' },
 ];
+
 const ForeignMainPage = () => {
-  const [currentPage, setCurrentPage] = useState(0);
-  const [name, setName] = useState('');
+  const [storeFilter, setStoreFilter] = useRecoilState(ForeignStoreFilterAtom);
+  const [currentPage, setCurrentPage] = useState(storeFilter.page);
+  const [name, setName] = useState(storeFilter.name);
   const [storeList, setStoreList] = useState(null);
-  const [selectedButton, setSelectedButton] = useState('');
-  const [languageSelectedButton, setLanguageSelectedButton] = useState('');
+  const [selectedButton, setSelectedButton] = useState(
+    storeFilter.selectedButton
+  );
+  const [languageSelectedButton, setLanguageSelectedButton] = useState(
+    storeFilter.languageSelectedButton
+  );
   const [isCurrent, setIsCurrent] = useState(false);
   const [isLocationInfo, setIsLocationInfo] = useState(false);
   const [isLanguageInfo, setIsLanguageInfo] = useState(false);
-  const [currentLatitude, setCurrentLatitude] = useState('');
-  const [currentLongitude, setCurrentLongitude] = useState('');
-  const [selectedOption, setSelectedOption] = useState('');
+  const [currentLatitude, setCurrentLatitude] = useState(
+    storeFilter.currentLatitude
+  );
+  const [currentLongitude, setCurrentLongitude] = useState(
+    storeFilter.currentLongitude
+  );
+  const [selectedOption, setSelectedOption] = useState(
+    storeFilter.selectedOption
+  );
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -83,7 +97,9 @@ const ForeignMainPage = () => {
       alert(error.message);
     },
   });
-
+  useEffect(() => {
+    mutation.mutate(storeFilter);
+  }, [storeFilter]);
   const currentLocationButtonHandler = () => {
     setSelectedOption('');
     setIsCurrent(!isCurrent);
@@ -113,22 +129,50 @@ const ForeignMainPage = () => {
     setName(e.target.value);
   };
 
-  const [searchData, setSearchData] = useState({
-    name,
-    gu: selectedOption.value === undefined ? '' : selectedOption.value,
-    open: selectedButton === 'open',
-    holidayBusiness: selectedButton === 'holidayBusiness',
-    nightBusiness: selectedButton === 'nightBusiness',
-    currentLatitude: isCurrent === false ? '' : currentLatitude,
-    currentLongitude: isCurrent === false ? '' : currentLongitude,
-    english: languageSelectedButton === 'english',
-    chinese: languageSelectedButton === 'chinese',
-    japanese: languageSelectedButton === 'japanese',
-    page: currentPage !== 0 ? currentPage - 1 : currentPage,
-  });
-  useEffect(() => {
-    mutation.mutate(searchData);
-  }, [searchData]);
+  // const [searchData, setSearchData] = useState({
+  //   name,
+  //   gu: selectedOption.value === undefined ? '' : selectedOption.value,
+  //   open: selectedButton === 'open',
+  //   holidayBusiness: selectedButton === 'holidayBusiness',
+  //   nightBusiness: selectedButton === 'nightBusiness',
+  //   currentLatitude: isCurrent === false ? '' : currentLatitude,
+  //   currentLongitude: isCurrent === false ? '' : currentLongitude,
+  //   english: languageSelectedButton === 'english',
+  //   chinese: languageSelectedButton === 'chinese',
+  //   japanese: languageSelectedButton === 'japanese',
+  //   page: currentPage !== 0 ? currentPage - 1 : currentPage,
+  // });
+
+  // searchData 객체의 변화 감지를 위해 새로운 상태로 업데이트
+  const updateStoreFilter = () => {
+    const updatedStoreFilter = {
+      ...storeFilter,
+      name,
+      gu:
+        selectedOption && selectedOption.value === ''
+          ? ''
+          : selectedOption && selectedOption.value,
+      open: selectedButton === 'open',
+      holidayBusiness: selectedButton === 'holidayBusiness',
+      nightBusiness: selectedButton === 'nightBusiness',
+      currentLatitude: isCurrent === false ? '' : currentLatitude,
+      currentLongitude: isCurrent === false ? '' : currentLongitude,
+      english: languageSelectedButton === 'english',
+      chinese: languageSelectedButton === 'chinese',
+      japanese: languageSelectedButton === 'japanese',
+      selectedButton,
+      languageSelectedButton,
+      selectedOption:
+        selectedOption && selectedOption.value === undefined
+          ? ''
+          : selectedOption,
+      page: currentPage !== 0 ? currentPage - 1 : currentPage,
+    };
+    setStoreFilter(updatedStoreFilter);
+  };
+  // useEffect(() => {
+  //   mutation.mutate(searchData);
+  // }, [searchData]);
 
   // 언어 안내아이콘 버튼 hover 이벤트
   const languageHandleMouseEnter = () => {
@@ -147,33 +191,17 @@ const ForeignMainPage = () => {
   const LocationHandleMouseLeave = () => {
     setIsLocationInfo(false);
   };
-  // searchData 객체의 변화 감지를 위해 새로운 상태로 업데이트
-  const updateSearchData = () => {
-    setSearchData(prevSearchData => ({
-      ...prevSearchData,
-      name,
-      gu: selectedOption.value === undefined ? '' : selectedOption.value,
-      open: selectedButton === 'open',
-      holidayBusiness: selectedButton === 'holidayBusiness',
-      nightBusiness: selectedButton === 'nightBusiness',
-      currentLatitude: isCurrent === false ? '' : currentLatitude,
-      currentLongitude: isCurrent === false ? '' : currentLongitude,
-      english: languageSelectedButton === 'english',
-      chinese: languageSelectedButton === 'chinese',
-      japanese: languageSelectedButton === 'japanese',
-      page: currentPage !== 0 ? currentPage - 1 : currentPage,
-    }));
-  };
 
   // 검색 조건이 변경될 때마다 searchData 업데이트
   useEffect(() => {
-    updateSearchData();
+    updateStoreFilter();
   }, [
     selectedButton,
     currentLatitude,
     currentLongitude,
     languageSelectedButton,
     currentPage,
+    selectedOption,
   ]);
   useEffect(() => {
     if (isCurrent && selectedOption !== '') {
@@ -181,15 +209,15 @@ const ForeignMainPage = () => {
       setCurrentLongitude('');
       setIsCurrent(!isCurrent);
     } else if (!isCurrent && selectedOption === '') {
-      updateSearchData();
+      updateStoreFilter();
     } else if (!isCurrent && selectedOption !== '') {
-      updateSearchData();
+      updateStoreFilter();
     } else if (isCurrent && selectedOption === '') {
-      updateSearchData();
+      updateStoreFilter();
     }
   }, [selectedOption]);
   const onClickSearchButtonHandler = () => {
-    updateSearchData();
+    updateStoreFilter();
   };
   const filterButtonClickHandler = button => {
     setSelectedButton(prevSelectedButton => {
