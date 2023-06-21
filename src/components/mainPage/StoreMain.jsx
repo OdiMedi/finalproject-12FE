@@ -87,7 +87,6 @@ const StoreMain = () => {
   const handlePageChange = newPage => {
     setCurrentPage(newPage);
   };
-  console.log(selectedOption);
   // 전체리스트 api로직
   const mutation = useMutation(storeFilterList, {
     onSuccess: data => {
