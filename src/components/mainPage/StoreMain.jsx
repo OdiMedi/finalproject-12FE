@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'react';
+import Pagination from 'react-js-pagination';
 import { useMutation } from 'react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Select from 'react-select';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import Pagination from 'react-js-pagination';
-import LoadingSpinner from '../LoadingSpinner';
-import ModalPortal from '../../shared/ModalPortal';
-import PharmacyList from './PharmacyList';
 import { storeFilterList } from '../../api/storeList';
 import searchIcon from '../../assets/icon _search_.png';
 import locationIcon from '../../assets/locationIcon.png';
 import polygon from '../../assets/Polygon.png';
+import storeFilterAtom from '../../recoil/storeFilterAtom';
+import ModalPortal from '../../shared/ModalPortal';
 import * as CSS from '../../style/globalStyle';
+import LoadingSpinner from '../LoadingSpinner';
 import MapApi from '../MapApi';
+import PharmacyList from './PharmacyList';
 
 const IndicatorSeparator = null;
 const DropdownIndicator = () => <PolygonIcon />;
@@ -54,15 +56,26 @@ const options = [
   { value: '중랑구', label: '중랑구' },
 ];
 const StoreMain = () => {
-  const [currentPage, setCurrentPage] = useState(0);
-  const [name, setName] = useState('');
+  const [storeFilter, setStoreFilter] = useRecoilState(storeFilterAtom);
+  const [currentPage, setCurrentPage] = useState(storeFilter.page);
+  const [name, setName] = useState(storeFilter.name);
   const [storeList, setStoreList] = useState(null);
-  const [selectedButton, setSelectedButton] = useState('');
+  const [selectedButton, setSelectedButton] = useState(
+    storeFilter.selectedButton
+  );
   const [isCurrent, setIsCurrent] = useState(false);
   const [isLocationInfo, setIsLocationInfo] = useState(false);
-  const [currentLatitude, setCurrentLatitude] = useState('');
-  const [currentLongitude, setCurrentLongitude] = useState('');
-  const [selectedOption, setSelectedOption] = useState('');
+  const [currentLatitude, setCurrentLatitude] = useState(
+    storeFilter.currentLatitude
+  );
+  const [currentLongitude, setCurrentLongitude] = useState(
+    storeFilter.currentLongitude
+  );
+  // const [selectedOption, setSelectedOption] = useState(storeFilter.gu);
+  const [selectedOption, setSelectedOption] = useState(
+    storeFilter.selectedOption
+  );
+
   const [isLoading, setIsLoading] = useState(false);
 
   // const [keyboard, setKeyboard] = useState([]);
@@ -74,7 +87,7 @@ const StoreMain = () => {
   const handlePageChange = newPage => {
     setCurrentPage(newPage);
   };
-
+  console.log(selectedOption);
   // 전체리스트 api로직
   const mutation = useMutation(storeFilterList, {
     onSuccess: data => {
@@ -111,46 +124,46 @@ const StoreMain = () => {
     }
   };
 
-  // const statusGuOptions = gu.map(location => ({
-  //   value: location,
-  //   label: location,
-  // }));
-
-  const [searchData, setSearchData] = useState({
-    name,
-    // gu: currentLatitude === '' ? selectedOption.value : '',
-    gu: selectedOption.value === undefined ? '' : selectedOption.value,
-    open: selectedButton === 'open',
-    holidayBusiness: selectedButton === 'holidayBusiness',
-    nightBusiness: selectedButton === 'nightBusiness',
-    currentLatitude: isCurrent === false ? '' : currentLatitude,
-    currentLongitude: isCurrent === false ? '' : currentLongitude,
-    page: currentPage !== 0 ? currentPage - 1 : currentPage,
-  });
-
   useEffect(() => {
-    mutation.mutate(searchData);
-  }, [searchData]);
+    setStoreFilter(prev => ({
+      ...prev,
+      selectedButton,
+      selectedOption,
+    }));
+  }, [setStoreFilter, selectedButton, selectedOption]);
 
-  // searchData 객체의 변화 감지를 위해 새로운 상태로 업데이트
-  const updateSearchData = () => {
-    setSearchData(prevSearchData => ({
-      ...prevSearchData,
+  const updateStoreFilter = () => {
+    const updatedStoreFilter = {
+      ...storeFilter,
       name,
-      gu: selectedOption.value === undefined ? '' : selectedOption.value,
+      gu:
+        selectedOption && selectedOption.value === ''
+          ? ''
+          : selectedOption && selectedOption.value,
       open: selectedButton === 'open',
       holidayBusiness: selectedButton === 'holidayBusiness',
       nightBusiness: selectedButton === 'nightBusiness',
       currentLatitude: isCurrent === false ? '' : currentLatitude,
       currentLongitude: isCurrent === false ? '' : currentLongitude,
       page: currentPage !== 0 ? currentPage - 1 : currentPage,
-    }));
+      selectedButton,
+      selectedOption:
+        selectedOption && selectedOption.value === undefined
+          ? ''
+          : selectedOption,
+    };
+    setStoreFilter(updatedStoreFilter);
   };
 
-  // 검색 조건이 변경될 때마다 searchData 업데이트
   useEffect(() => {
-    updateSearchData();
-  }, [selectedButton, currentLatitude, currentLongitude, currentPage]);
+    updateStoreFilter();
+  }, [
+    selectedButton,
+    currentLatitude,
+    currentLongitude,
+    currentPage,
+    selectedOption,
+  ]);
 
   useEffect(() => {
     if (isCurrent && selectedOption !== '') {
@@ -158,16 +171,20 @@ const StoreMain = () => {
       setCurrentLongitude('');
       setIsCurrent(!isCurrent);
     } else if (!isCurrent && selectedOption === '') {
-      updateSearchData();
+      updateStoreFilter();
     } else if (!isCurrent && selectedOption !== '') {
-      updateSearchData();
+      updateStoreFilter();
     } else if (isCurrent && selectedOption === '') {
-      updateSearchData();
+      updateStoreFilter();
     }
   }, [selectedOption]);
 
+  useEffect(() => {
+    mutation.mutate(storeFilter);
+  }, [storeFilter]);
+
   const onClickSearchButtonHandler = () => {
-    updateSearchData();
+    updateStoreFilter();
   };
   const onChangeNameSearchHandler = e => {
     setName(e.target.value);
@@ -189,19 +206,7 @@ const StoreMain = () => {
   const LocationHandleMouseLeave = () => {
     setIsLocationInfo(false);
   };
-  // useEffect(() => {
-  //   // storeList?.numberOfElements 값이 변경될 때마다 keyboard 배열 업데이트
-  //   if (storeList?.totalPages !== undefined) {
-  //     const newKeyboard = Array.from(
-  //       { length: storeList.totalPages },
-  //       (v, i) => i
-  //     );
-  //     setKeyboard(newKeyboard);
-  //   }
-  // }, [storeList?.numberOfElements]);
-  // const handlePageClick = pageNumber => {
-  //   setCurrentPage(pageNumber);
-  // };
+
   return (
     <CSS.MainContainer>
       {storeList && (
@@ -284,21 +289,6 @@ const StoreMain = () => {
         ) : (
           <PharmacyList data={storeList} />
         )}
-        {/* <CSS.ListNumberBoxDiv>
-          {keyboard.map((item, index) => {
-            return (
-              <>
-                {index !== 0 && <span>|</span>}
-                <CSS.ListNumberButton
-                  isActive={currentPage === item}
-                  onClick={() => handlePageClick(item)}
-                >
-                  {item}
-                </CSS.ListNumberButton>
-              </>
-            );
-          })}
-        </CSS.ListNumberBoxDiv> */}
         {storeList?.content.length > 0 && (
           <CSS.PaginationBoxDiv>
             <Pagination
