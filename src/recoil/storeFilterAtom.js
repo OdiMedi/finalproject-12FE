@@ -4,7 +4,7 @@ const storeFilterAtom = atom({
   key: 'storeFilter',
   default: {
     name: '',
-    gu: '',
+    gu: '지역구',
     open: false,
     holidayBusiness: false,
     nightBusiness: false,
@@ -12,7 +12,7 @@ const storeFilterAtom = atom({
     currentLongitude: '',
     page: 0,
     selectedButton: '',
-    selectedOption: { value: '', label: '' },
+    selectedOption: { value: '지역구', label: '지역구' },
   },
 });
 export default storeFilterAtom;
