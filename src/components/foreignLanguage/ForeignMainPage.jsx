@@ -70,6 +70,7 @@ const ForeignMainPage = () => {
   const [isCurrent, setIsCurrent] = useState(false);
   const [isLocationInfo, setIsLocationInfo] = useState(false);
   const [isLanguageInfo, setIsLanguageInfo] = useState(false);
+  const [languageInfo, setLanguageInfo] = useState('');
   const [currentLatitude, setCurrentLatitude] = useState(
     storeFilter.currentLatitude
   );
@@ -158,10 +159,25 @@ const ForeignMainPage = () => {
   };
 
   // 언어 안내아이콘 버튼 hover 이벤트
-  const languageHandleMouseEnter = () => {
+  const languageHandleMouseEnter = active => {
     setIsLanguageInfo(true);
+    if (active === 'english') {
+      setLanguageInfo(
+        'We provide information about pharmacies where English communication is possible.'
+      );
+    }
+    if (active === 'chinese') {
+      setLanguageInfo('我们提供关于能够进行中文交流的药店信息。');
+    }
+    if (active === 'japanese') {
+      setLanguageInfo('日本語が可能な薬局をご案内いたします。');
+    }
+    if (active === '') {
+      setLanguageInfo(
+        'We provide information on pharmacies that are capable of communication in foreign languages.'
+      );
+    }
   };
-
   const languageHandleMouseLeave = () => {
     setIsLanguageInfo(false);
   };
@@ -304,9 +320,7 @@ const ForeignMainPage = () => {
           </CSS.FilterBoxDiv>
         </CSS.AllSearchButtonBoxDiv>
         <AllLanguageSearchButtonBoxDiv>
-          {isLanguageInfo && (
-            <CSS.InfoDiv>Languages spoken by pharmacists</CSS.InfoDiv>
-          )}
+          {isLanguageInfo && <CSS.InfoDiv>{languageInfo}</CSS.InfoDiv>}
           <LanguageInfoIconButton
             onMouseEnter={languageHandleMouseEnter}
             onMouseLeave={languageHandleMouseLeave}
@@ -315,18 +329,24 @@ const ForeignMainPage = () => {
             <CSS.FilterButton
               onClick={() => filterLanguageButtonClickHandler('english')}
               active={languageSelectedButton === 'english'}
+              onMouseEnter={() => languageHandleMouseEnter('english')}
+              onMouseLeave={() => languageHandleMouseLeave('english')}
             >
               ENG
             </CSS.FilterButton>
             <CSS.FilterButton
               onClick={() => filterLanguageButtonClickHandler('japanese')}
               active={languageSelectedButton === 'japanese'}
+              onMouseEnter={() => languageHandleMouseEnter('japanese')}
+              onMouseLeave={() => languageHandleMouseLeave('japanese')}
             >
               JP
             </CSS.FilterButton>
             <CSS.FilterButton
               onClick={() => filterLanguageButtonClickHandler('chinese')}
               active={languageSelectedButton === 'chinese'}
+              onMouseEnter={() => languageHandleMouseEnter('chinese')}
+              onMouseLeave={() => languageHandleMouseLeave('chinese')}
             >
               CN
             </CSS.FilterButton>
