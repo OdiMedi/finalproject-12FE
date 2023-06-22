@@ -48,7 +48,7 @@ const Header = () => {
       <BackgroundDiv>
         <MainIconDiv onClick={() => navigate('/')} />
         <div>
-          <HeaderBtn onClick={storePageMoveButtonHandler}>약국찾기</HeaderBtn>
+          <HeaderBtn onClick={storePageMoveButtonHandler}>약국검색</HeaderBtn>
           <HeaderBtn onClick={noticeListMoveButtonHandler}>공지사항</HeaderBtn>
           {isLogin ? (
             <>

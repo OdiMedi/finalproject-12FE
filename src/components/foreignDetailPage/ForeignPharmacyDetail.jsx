@@ -55,7 +55,7 @@ const ForeignPharmacyDetail = () => {
                 onClick={moveStoreListClickHandler}
               >
                 <CSS.MenuIconImg src={menuIcon} alt="" />
-                <span>list</span>
+                <span>Go back</span>
               </CSS.InfoTextDiv>
             </CSS.InfoMenuBoxDiv>
             <CSS.StoreDetailBoxDiv>

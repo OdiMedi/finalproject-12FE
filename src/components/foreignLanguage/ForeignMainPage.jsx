@@ -129,27 +129,13 @@ const ForeignMainPage = () => {
     setName(e.target.value);
   };
 
-  // const [searchData, setSearchData] = useState({
-  //   name,
-  //   gu: selectedOption.value === undefined ? '' : selectedOption.value,
-  //   open: selectedButton === 'open',
-  //   holidayBusiness: selectedButton === 'holidayBusiness',
-  //   nightBusiness: selectedButton === 'nightBusiness',
-  //   currentLatitude: isCurrent === false ? '' : currentLatitude,
-  //   currentLongitude: isCurrent === false ? '' : currentLongitude,
-  //   english: languageSelectedButton === 'english',
-  //   chinese: languageSelectedButton === 'chinese',
-  //   japanese: languageSelectedButton === 'japanese',
-  //   page: currentPage !== 0 ? currentPage - 1 : currentPage,
-  // });
-
   // searchData 객체의 변화 감지를 위해 새로운 상태로 업데이트
   const updateStoreFilter = () => {
     const updatedStoreFilter = {
       ...storeFilter,
       name,
       gu:
-        selectedOption && selectedOption.value === ''
+        selectedOption && selectedOption.value === 'part-gu'
           ? ''
           : selectedOption && selectedOption.value,
       open: selectedButton === 'open',
@@ -163,16 +149,13 @@ const ForeignMainPage = () => {
       selectedButton,
       languageSelectedButton,
       selectedOption:
-        selectedOption && selectedOption.value === undefined
+        selectedOption && selectedOption.value === 'part-gu'
           ? ''
           : selectedOption,
       page: currentPage !== 0 ? currentPage - 1 : currentPage,
     };
     setStoreFilter(updatedStoreFilter);
   };
-  // useEffect(() => {
-  //   mutation.mutate(searchData);
-  // }, [searchData]);
 
   // 언어 안내아이콘 버튼 hover 이벤트
   const languageHandleMouseEnter = () => {
@@ -235,20 +218,11 @@ const ForeignMainPage = () => {
       return button; // 새로운 버튼 선택
     });
   };
-
-  // useEffect(() => {
-  //   // storeList?.numberOfElements 값이 변경될 때마다 keyboard 배열 업데이트
-  //   if (storeList?.totalPages !== undefined) {
-  //     const newKeyboard = Array.from(
-  //       { length: storeList.totalPages },
-  //       (v, i) => i
-  //     );
-  //     setKeyboard(newKeyboard);
-  //   }
-  // }, [storeList?.numberOfElements]);
-  // const handlePageClick = pageNumber => {
-  //   setCurrentPage(pageNumber);
-  // };
+  const handleOnKeyPress = e => {
+    if (e.key === 'Enter') {
+      onClickSearchButtonHandler(); // Enter 입력이 되면 클릭 이벤트 실행
+    }
+  };
   return (
     <CSS.MainContainer>
       {storeList && (
@@ -269,6 +243,7 @@ const ForeignMainPage = () => {
             value={name}
             onChange={onChangeNameSearchHandler}
             placeholder="Search For a Pharmacy Name or Select a Filter"
+            onKeyPress={handleOnKeyPress}
           />
           <CSS.SearchButton onClick={onClickSearchButtonHandler} />
         </CSS.SearchBox>
@@ -362,21 +337,6 @@ const ForeignMainPage = () => {
         ) : (
           <ForeignPharmacyList data={storeList} />
         )}
-        {/* <CSS.ListNumberBoxDiv>
-          {keyboard.map((item, index) => {
-            return (
-              <>
-                {index !== 0 && <span>|</span>}
-                <CSS.ListNumberButton
-                  isActive={currentPage === item}
-                  onClick={() => handlePageClick(item)}
-                >
-                  {item}
-                </CSS.ListNumberButton>
-              </>
-            );
-          })}
-        </CSS.ListNumberBoxDiv> */}
         {storeList?.content.length > 0 && (
           <CSS.PaginationBoxDiv>
             <Pagination
