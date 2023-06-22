@@ -111,21 +111,21 @@ export const ComposeImg = styled.img`
   margin-right: 15px;
 `;
 export const InfoDiv = styled.div`
-  width: 176px;
+  width: 220px;
   height: 40px;
   background-color: #fd8b2b;
   box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.3);
   color: #ffffff;
   border-radius: 15px;
   padding: 14px 10px;
-  font-weight: 800;
+  font-weight: 500;
   font-size: 15px;
   line-height: 20px;
-  margin-right: 47px;
+  margin-right: 5px;
   display: flex;
   align-items: center;
   text-align: center;
-  letter-spacing: -0.5px;
+  /* letter-spacing: 0.5px; */
 `;
 // 검색 박스
 export const SearchBox = styled.div`
