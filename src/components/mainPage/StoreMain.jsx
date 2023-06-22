@@ -136,7 +136,7 @@ const StoreMain = () => {
       ...storeFilter,
       name,
       gu:
-        selectedOption && selectedOption.value === ''
+        selectedOption && selectedOption.value === '지역구'
           ? ''
           : selectedOption && selectedOption.value,
       open: selectedButton === 'open',
@@ -147,7 +147,7 @@ const StoreMain = () => {
       page: currentPage !== 0 ? currentPage - 1 : currentPage,
       selectedButton,
       selectedOption:
-        selectedOption && selectedOption.value === undefined
+        selectedOption && selectedOption.value === '지역구'
           ? ''
           : selectedOption,
     };
@@ -205,7 +205,11 @@ const StoreMain = () => {
   const LocationHandleMouseLeave = () => {
     setIsLocationInfo(false);
   };
-
+  const handleOnKeyPress = e => {
+    if (e.key === 'Enter') {
+      onClickSearchButtonHandler(); // Enter 입력이 되면 클릭 이벤트 실행
+    }
+  };
   return (
     <CSS.MainContainer>
       {storeList && (
@@ -226,6 +230,7 @@ const StoreMain = () => {
             value={name}
             onChange={onChangeNameSearchHandler}
             placeholder="약국명 검색 또는 하단의 필터 선택"
+            onKeyPress={handleOnKeyPress}
           />
           <SearchButton onClick={onClickSearchButtonHandler} />
         </CSS.SearchBox>

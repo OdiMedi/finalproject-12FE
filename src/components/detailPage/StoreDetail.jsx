@@ -52,7 +52,7 @@ const StoreDetail = () => {
                 onClick={moveStoreListClickHandler}
               >
                 <CSS.MenuIconImg src={menuIcon} alt="" />
-                <span>목록</span>
+                <span>뒤로가기</span>
               </CSS.InfoTextDiv>
             </CSS.InfoMenuBoxDiv>
             <CSS.StoreDetailBoxDiv>
