@@ -33,7 +33,7 @@ const Home = () => {
           <BottomBtnDiv onClick={() => navigate('/foreignPage')}>
             <BottomIconRightDiv />
             <p>FOR FOREIGNER</p>
-            <p>Searching For ENG Speaking</p>
+            <p>Foreign Language Speaking Search</p>
           </BottomBtnDiv>
         </MainLeftBottomDiv>
       </MainPageLeftDiv>
@@ -121,7 +121,7 @@ const BottomIconLeftDiv = styled.div`
 `;
 const BottomIconRightDiv = styled.div`
   width: 225px;
-  height: 158px;
+  height: 110px;
   margin-left: 50px;
   background-image: url(${conversation});
   background-size: contain;

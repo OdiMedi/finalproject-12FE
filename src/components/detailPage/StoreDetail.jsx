@@ -23,7 +23,7 @@ const StoreDetail = () => {
   const { data } = useQuery('inquiryStoreDetail', () =>
     inquiryStoreDetail(params.id)
   );
-
+  console.log(data);
   const formattedTimeMoreButtonHandler = () => {
     setIsMore(!isMore);
   };
@@ -72,17 +72,14 @@ const StoreDetail = () => {
                 <div>{data.address}</div>
                 <CSS.BusinessTimeDiv>
                   <div>{data.weekdaysTime}</div>
-                  <CSS.MoreIconButton
-                    onClick={formattedTimeMoreButtonHandler}
-                  />
                 </CSS.BusinessTimeDiv>
-                {data.saturdayTime !== null && isMore && (
+                {data.saturdayTime !== null && (
                   <DateDiv>토요일 {data.saturdayTime}</DateDiv>
                 )}
-                {data.sundayTime !== null && isMore && (
+                {data.sundayTime !== null && (
                   <DateDiv>일요일 {data.sundayTime}</DateDiv>
                 )}
-                {data.holidayTime !== null && isMore && (
+                {data.holidayTime !== null && (
                   <DateDiv>공휴일 {data.holidayTime}</DateDiv>
                 )}
                 <CSS.OpenCheckBoxDiv>
@@ -92,7 +89,7 @@ const StoreDetail = () => {
                       <span>공휴일 영업</span>
                     </CSS.BusinessTypeSpan>
                   )}
-                  {data.nightBusiness !== null && (
+                  {data.nightBusiness && (
                     <CSS.BusinessTypeSpan>
                       <CSS.SharpStyleSpan># </CSS.SharpStyleSpan>
                       <span>야간 영업</span>
@@ -126,5 +123,5 @@ const slideDown = keyframes`
 
 // 애니메이션을 적용할 컴포넌트 스타일 정의
 const DateDiv = styled.div`
-  animation: ${slideDown} 0.5s ease-out;
+  /* animation: ${slideDown} 0.5s ease-out; */
 `;

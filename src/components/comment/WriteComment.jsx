@@ -61,7 +61,7 @@ const WriteComment = ({
 
     setContents(value);
   };
-
+  console.log(mainPageLocation);
   // 댓글 저장 버튼
   const commentSaveClickButtonHandler = () => {
     if (!contents || contents.trim() === '') {
@@ -72,6 +72,7 @@ const WriteComment = ({
       saveCommentMutation.mutate({
         contents,
         storeId,
+        foreign: !mainPageLocation,
       });
     } else {
       EditCommentMutation.mutate({

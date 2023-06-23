@@ -98,11 +98,14 @@ const SignupModal = () => {
     const { name, value } = e.target;
     const nicknameRegExp = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]{2,10}$/;
     if (value.length <= 10) {
+      setNicknameCheck(false);
+
       setInputValue({
         ...inputValue,
         [name]: value,
       });
     }
+
     if (!nicknameRegExp.test(value)) {
       setNicknameCheck(false);
     } else {

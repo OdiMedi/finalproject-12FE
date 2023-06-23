@@ -76,7 +76,7 @@ const MypagePwdModal = ({ onAccess, onSuccess }) => {
         </NicknameInputWrapDiv>
 
         <NicknameButton onClick={editPasswordHandle}>
-          회원정보 수정하기
+          비밀번호 수정하기
         </NicknameButton>
       </NicknameUpdataDiv>
     </NickNameModalWrapDiv>
