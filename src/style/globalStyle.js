@@ -4,6 +4,7 @@ import offCurrentLocationIcon from '../assets/offCurrentLocationIcon.png';
 import searchIcon from '../assets/icon _search_.png';
 import locationInfoIcon from '../assets/locationInfoIcon.png';
 import moreIcon from '../assets/moreIcon.png';
+import emailInfo from '../assets/emailInfo.png';
 
 // 전체리스트 페이지 (MainPage)
 export const MainContainer = styled.main`
@@ -24,7 +25,6 @@ export const FilterButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  /* gap: 6px; */
   font-weight: 800;
   font-size: 16px;
   position: relative;
@@ -405,4 +405,28 @@ export const PaginationBoxDiv = styled.div`
     height: 30px;
     color: #808080;
   }
+`;
+export const MarginDiv = styled.div`
+  margin-top: 30px;
+`;
+export const EmailInfoImg = styled.img`
+  width: 14px;
+  height: 14px;
+`;
+export const WarningMessageP = styled.p`
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 34px;
+  color: #fa5938;
+`;
+export const ValidInfoDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #afaeb7;
+  margin-left: 10px;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 34px;
+  gap: 11px;
 `;

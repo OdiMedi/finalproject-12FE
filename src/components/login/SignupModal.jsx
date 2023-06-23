@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -14,6 +14,7 @@ import LoginTitleMain from '../../assets/loginTitle.png';
 import SnackBar from '../SnackBar';
 import { LoginBtn, TextBnt } from './LoginModal';
 import Timer from './Timer';
+import * as CSS from '../../style/globalStyle';
 
 const SignupModal = () => {
   const navigate = useNavigate();
@@ -40,6 +41,9 @@ const SignupModal = () => {
     admin: false,
   });
   const { email, nickname, password, adminToken, admin } = inputValue;
+  const nicknameInput = useRef();
+  const passwordInput = useRef();
+  const emailInput = useRef();
 
   const adminCheckHandle = () => {
     setInputValue({
@@ -97,6 +101,8 @@ const SignupModal = () => {
   const nicknameChange = e => {
     const { name, value } = e.target;
     const nicknameRegExp = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]{2,10}$/;
+    setWarningMessage('');
+
     if (value.length <= 10) {
       setNicknameCheck(false);
 
@@ -143,6 +149,8 @@ const SignupModal = () => {
     setValidNumber(e.target.value);
   };
   const validNumberPortButtonHandler = () => {
+    setEmailWarning('');
+
     const nicknameRegExp =
       /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
     if (email.length === 0) {
@@ -158,7 +166,31 @@ const SignupModal = () => {
       validNumber,
     });
   };
+  console.log('isValid', isValid);
   const submitSignup = async () => {
+    if (nickname.length === 0) {
+      nicknameInput.current.focus();
+      return;
+    }
+    if (email.length === 0) {
+      emailInput.current.focus();
+      return;
+    }
+    if (!emailCheck) {
+      setEmailWarning('이메일 형식에 맞춰주세요(@ . 포함)');
+      emailInput.current.focus();
+      return;
+    }
+    if (!isValid) {
+      setEmailWarning('이메일 인증을 해주세요.');
+      return;
+    }
+
+    if (password.length === 0) {
+      passwordInput.current.focus();
+      return;
+    }
+
     try {
       if (!(emailCheck && nicknameCheck && passwordCheck)) {
         return;
@@ -187,7 +219,7 @@ const SignupModal = () => {
           <p>관리자 계정</p>
         </AdminCheckDiv>
 
-        <MarginDiv />
+        <CSS.MarginDiv />
         {admin && (
           <SignUpInput
             size="500px"
@@ -198,8 +230,9 @@ const SignupModal = () => {
             placeholder="관리자 암호를 입력해주세요."
           />
         )}
-        <MarginDiv />
+        <CSS.MarginDiv />
         <SignUpInput
+          ref={nicknameInput}
           size="500px"
           name="nickname"
           value={nickname}
@@ -209,25 +242,26 @@ const SignupModal = () => {
           maxLength={10}
         />
         {warningMessage === '이미 존재하는 nickname 입니다.' && (
-          <ValidInfoDiv>
-            <EmailInfoImg src={infoIcon} alt="" />
-            <WarningMessageP>{warningMessage}</WarningMessageP>
-          </ValidInfoDiv>
+          <CSS.ValidInfoDiv>
+            <CSS.EmailInfoImg src={infoIcon} alt="" />
+            <CSS.WarningMessageP>{warningMessage}</CSS.WarningMessageP>
+          </CSS.ValidInfoDiv>
         )}
         {warningMessage !== '이미 존재하는 nickname 입니다.' &&
-          nicknameCheck && <MarginDiv />}
+          nicknameCheck && <CSS.MarginDiv />}
         {!nicknameCheck && (
-          <ValidInfoDiv>
-            <EmailInfoImg src={infoIcon} alt="" />
-            <WarningMessageP>
+          <CSS.ValidInfoDiv>
+            <CSS.EmailInfoImg src={infoIcon} alt="" />
+            <CSS.WarningMessageP>
               닉네임은 한글, 영어(대소문자 구분), 숫자로 2~10자로 입력해주세요.
-            </WarningMessageP>
-          </ValidInfoDiv>
+            </CSS.WarningMessageP>
+          </CSS.ValidInfoDiv>
         )}
         {!valid ? (
           <>
             <EmailBoxDiv>
               <SignUpInput
+                ref={emailInput}
                 position="email"
                 size="320px"
                 name="email"
@@ -241,21 +275,21 @@ const SignupModal = () => {
               </Button>
             </EmailBoxDiv>
             {emailWarning && (
-              <ValidInfoDiv>
-                <EmailInfoImg src={infoIcon} alt="" />
-                <WarningMessageP>{emailWarning}</WarningMessageP>
-              </ValidInfoDiv>
+              <CSS.ValidInfoDiv>
+                <CSS.EmailInfoImg src={infoIcon} alt="" />
+                <CSS.WarningMessageP>{emailWarning}</CSS.WarningMessageP>
+              </CSS.ValidInfoDiv>
             )}
-            {!emailWarning && !isValid && <MarginDiv />}
+            {!emailWarning && !isValid && <CSS.MarginDiv />}
             {isValid && (
-              <ValidInfoDiv>
-                <EmailInfoImg src={emailInfo} art="" />
+              <CSS.ValidInfoDiv>
+                <CSS.EmailInfoImg src={emailInfo} art="" />
                 <p>메일이 전송 되었습니다.</p>
                 <LimitTimerP>
                   만료 시간
                   <Timer timeLimit={limit} key={timerCount} />
                 </LimitTimerP>
-              </ValidInfoDiv>
+              </CSS.ValidInfoDiv>
             )}
             {isSendEmail && (
               <EmailBoxDiv>
@@ -273,16 +307,18 @@ const SignupModal = () => {
               </EmailBoxDiv>
             )}
             {confirmInfoMessage && !confirmWarningMessage && (
-              <ValidInfoDiv>
-                <EmailInfoImg src={emailInfo} art="" />
+              <CSS.ValidInfoDiv>
+                <CSS.EmailInfoImg src={emailInfo} art="" />
                 <p>{confirmInfoMessage}</p>
-              </ValidInfoDiv>
+              </CSS.ValidInfoDiv>
             )}
             {confirmWarningMessage && (
-              <ValidInfoDiv>
-                <EmailInfoImg src={infoIcon} alt="" />
-                <WarningMessageP>{confirmWarningMessage}</WarningMessageP>
-              </ValidInfoDiv>
+              <CSS.ValidInfoDiv>
+                <CSS.EmailInfoImg src={infoIcon} alt="" />
+                <CSS.WarningMessageP>
+                  {confirmWarningMessage}
+                </CSS.WarningMessageP>
+              </CSS.ValidInfoDiv>
             )}
           </>
         ) : (
@@ -297,14 +333,15 @@ const SignupModal = () => {
               placeholder="이메일을 입력하세요."
               disabled
             />
-            <ValidInfoDiv>
-              <EmailInfoImg src={emailInfo} art="" />
+            <CSS.ValidInfoDiv>
+              <CSS.EmailInfoImg src={emailInfo} art="" />
               <p>인증이 완료되었습니다.</p>
-            </ValidInfoDiv>
+            </CSS.ValidInfoDiv>
           </>
         )}
-        {/* {!isValid && !isConfirm && <MarginDiv />} */}
+        {/* {!isValid && !isConfirm && <CSS.MarginDiv />} */}
         <SignUpInput
+          ref={passwordInput}
           size="500px"
           name="password"
           value={password}
@@ -313,25 +350,25 @@ const SignupModal = () => {
           placeholder="비밀번호를 입력하세요."
           maxLength={15}
         />
-        <ValidInfoDiv>
+        <CSS.ValidInfoDiv>
           {warningMessage &&
             warningMessage !==
               '[비밀번호는 8~15자 알파벳 대소문자, 숫자로 작성해주세요.]' &&
             warningMessage !== '이미 존재하는 nickname 입니다.' && (
               <>
-                <EmailInfoImg src={infoIcon} alt="" />
-                <WarningMessageP>정보를 기입해주세요.</WarningMessageP>
+                <CSS.EmailInfoImg src={infoIcon} alt="" />
+                <CSS.WarningMessageP>정보를 기입해주세요.</CSS.WarningMessageP>
               </>
             )}
-        </ValidInfoDiv>
+        </CSS.ValidInfoDiv>
         {warningMessage ===
           '[비밀번호는 8~15자 알파벳 대소문자, 숫자로 작성해주세요.]' && (
-          <ValidInfoDiv>
-            <EmailInfoImg src={infoIcon} alt="" />
-            <WarningMessageP>
+          <CSS.ValidInfoDiv>
+            <CSS.EmailInfoImg src={infoIcon} alt="" />
+            <CSS.WarningMessageP>
               비밀번호는 8~15자 알파벳 대소문자, 숫자로 작성해주세요.
-            </WarningMessageP>
-          </ValidInfoDiv>
+            </CSS.WarningMessageP>
+          </CSS.ValidInfoDiv>
         )}
 
         <LoginBtn type="button" onClick={submitSignup}>
@@ -339,10 +376,6 @@ const SignupModal = () => {
         </LoginBtn>
       </form>
       <TextBnt onClick={redirectLogin}>로그인 창으로 돌아가기</TextBnt>
-      {/* <KakakoLink href={KAKAO_AUTH_URL} /> */}
-      {/* {warningMessage && (
-        <SnackBar type="warningMessage" message={warningMessage} />
-      )} */}
     </SignupContainer>
   );
 };
@@ -351,7 +384,6 @@ export default SignupModal;
 
 const SignupContainer = styled.div`
   width: 500px;
-  /* height: 760px; */
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -386,9 +418,6 @@ const SignUpInput = styled.input`
     color: transparent;
   }
 `;
-const MarginDiv = styled.div`
-  margin-top: 30px;
-`;
 
 const HelperTextP = styled.p`
   color: #fa5938;
@@ -422,12 +451,6 @@ const AdminCheckBoxInput = styled.input`
   width: 20px;
   height: 20px;
 `;
-const WarningMessageP = styled.p`
-  font-weight: 500;
-  font-size: 15px;
-  line-height: 34px;
-  color: #fa5938;
-`;
 const EmailBoxDiv = styled.div`
   display: flex;
   flex-direction: row;
@@ -454,21 +477,7 @@ const Button = styled.button`
     box-shadow: 3px 3px 2px rgba(175, 174, 183, 0.5);
   }
 `;
-const ValidInfoDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  color: #afaeb7;
-  margin-left: 10px;
-  font-weight: 500;
-  font-size: 15px;
-  line-height: 34px;
-  gap: 11px;
-`;
-const EmailInfoImg = styled.img`
-  width: 14px;
-  height: 14px;
-`;
+
 const LimitTimerP = styled.p`
   display: flex;
   gap: 7px;

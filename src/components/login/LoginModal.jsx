@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import api from '../../api/axios';
@@ -11,7 +11,9 @@ import WarnIcon from '../../assets/warnIcon.png';
 import ModalPortal from '../../shared/ModalPortal';
 import FindPasswordModal from './FindPasswordModal';
 import KAKAO_AUTH_URL from './kakaoAuth';
+import infoIcon from '../../assets/infoIcon.png';
 import KakaoLoginInfoModal from './KakaoLoginInfoModal';
+import * as CSS from '../../style/globalStyle';
 import SnackBar from '../SnackBar';
 
 const LoginModal = () => {
@@ -19,15 +21,19 @@ const LoginModal = () => {
   const [errorCode, setErrorCode] = useState('');
   const [kakaoModalVisible, setKakaoModalVisible] = useState(false);
   const [isModal, setIsModal] = useState(false);
+  const [isWarning, setIsWarning] = useState(false);
   const [inputValue, setInputValue] = useState({
     email: '',
     password: '',
   });
   const navigate = useNavigate();
+  const emailInput = useRef();
+  const passwordInput = useRef();
 
   const { email, password } = inputValue;
   const inputChange = e => {
     const { name, value } = e.target;
+    setIsWarning(false);
     setInputValue({
       ...inputValue,
       [name]: value,
@@ -36,9 +42,11 @@ const LoginModal = () => {
 
   const submitLogin = async () => {
     if (email.length === 0) {
+      emailInput.current.focus();
       return;
     }
     if (password.length === 0) {
+      passwordInput.current.focus();
       return;
     }
 
@@ -64,6 +72,7 @@ const LoginModal = () => {
     } catch (error) {
       console.log(error.respose);
       setErrorCode(error.response.data.errorCode);
+      setIsWarning(true);
     }
   };
 
@@ -100,6 +109,7 @@ const LoginModal = () => {
       <LoginTitleDiv />
       <form autoComplete="off">
         <LoginInput
+          ref={emailInput}
           name="email"
           value={email}
           onChange={inputChange}
@@ -107,12 +117,29 @@ const LoginModal = () => {
           placeholder="이메일을 입력하세요."
         />
         <LoginInput
+          ref={passwordInput}
           name="password"
           value={password}
           onChange={inputChange}
           type="password"
           placeholder="비밀번호를 입력하세요."
         />
+        {errorCode === 'MEMBER_NOT_FOUND' && isWarning && (
+          <CSS.ValidInfoDiv>
+            <CSS.EmailInfoImg src={infoIcon} alt="" />
+            <CSS.WarningMessageP>
+              이메일을 다시 확인해주세요.
+            </CSS.WarningMessageP>
+          </CSS.ValidInfoDiv>
+        )}
+        {errorCode === 'INVALID_PASSWORD' && isWarning && (
+          <CSS.ValidInfoDiv>
+            <CSS.EmailInfoImg src={infoIcon} alt="" />
+            <CSS.WarningMessageP>
+              비밀번호를 다시 확인해주세요.
+            </CSS.WarningMessageP>
+          </CSS.ValidInfoDiv>
+        )}
         <LoginBtn onClick={submitLogin} type="button">
           로그인
         </LoginBtn>
@@ -131,28 +158,12 @@ const LoginModal = () => {
           />
         </ModalPortal>
       )}
+
       <TextBtnWrap>
         <TextBnt onClick={findPwdModalVisible}>비밀번호 찾기</TextBnt>
         <LineDiv />
         <TextBnt onClick={() => navigate('/signup')}>회원가입</TextBnt>
       </TextBtnWrap>
-
-      {/* <ModalPortal>
-        <SnackBar type="error" />
-      </ModalPortal> */}
-
-      {errorCode === 'MEMBER_NOT_FOUND' && (
-        <WarningDiv>
-          <div />
-          <p>이메일을 다시 확인해주세요.</p>
-        </WarningDiv>
-      )}
-      {errorCode === 'INVALID_PASSWORD' && (
-        <WarningDiv>
-          <div />
-          <p>비밀번호를 다시 확인해주세요.</p>
-        </WarningDiv>
-      )}
     </LoginContainer>
   );
 };
