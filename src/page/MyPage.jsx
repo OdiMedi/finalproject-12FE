@@ -6,6 +6,7 @@ import { getBookmark, getReview } from '../api/myPage';
 import profile from '../assets/profile.png';
 import MypageBookmark from '../components/mypage/MypageBookmark';
 import MypageReview from '../components/mypage/MypageReview';
+import * as CSS from '../style/globalStyle';
 
 const MyPage = () => {
   const [activeButton, setActiveButton] = useState(1);
@@ -33,6 +34,12 @@ const MyPage = () => {
     navigate('/userInformation');
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
   return (
     <MypageContainer>
       <MypageTitleH1>마이페이지</MypageTitleH1>
@@ -113,6 +120,7 @@ const MyPage = () => {
             })}
         </BookmarkContainerDiv>
       )}
+      <CSS.TopIconDiv onClick={scrollToTop} />
     </MypageContainer>
   );
 };
@@ -124,6 +132,8 @@ const MypageContainer = styled.div`
   margin-top: 57px;
   width: 70vw;
   margin-bottom: 100px;
+  position: relative;
+  /* background-color: red; */
 `;
 const MypageTitleH1 = styled.h1`
   height: 43px;
