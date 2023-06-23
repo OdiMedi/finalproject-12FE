@@ -97,6 +97,8 @@ const SignupModal = () => {
   const nicknameChange = e => {
     const { name, value } = e.target;
     const nicknameRegExp = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]{2,10}$/;
+    setWarningMessage('');
+
     if (value.length <= 10) {
       setNicknameCheck(false);
 

@@ -7,12 +7,12 @@ export const MypageContainer = styled.div`
   width: 70vw;
 `;
 export const MypageTitleH1 = styled.h1`
-  height: 43px;
+  /* height: 43px; */
   font-size: 36px;
   font-weight: 800;
   line-height: 43px;
   letter-spacing: 0.05em;
-  margin-bottom: 40px;
+  /* margin-bottom: 40px; */
   color: #0d0d0d;
   cursor: pointer;
   &:hover {

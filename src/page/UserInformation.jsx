@@ -125,9 +125,11 @@ export default UserInformation;
 const TitleBoxDiv = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
   font-size: 36px;
   gap: 24px;
   color: #a7a3a3;
+  margin-bottom: 40px;
 `;
 const UserInfoSection = styled.section`
   display: flex;
