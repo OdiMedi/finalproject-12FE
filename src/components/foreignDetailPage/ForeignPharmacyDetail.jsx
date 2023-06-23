@@ -105,7 +105,11 @@ const ForeignPharmacyDetail = () => {
                 </CSS.OpenCheckBoxDiv>
               </CSS.StoreDetailInfoBoxDiv>
             </CSS.StoreDetailBoxDiv>
-            <Comment storeId={data.storeId} location="foreignPage" />
+            <Comment
+              totalCommentsNum={data.totalCommentsNum}
+              storeId={data.storeId}
+              location="foreignPage"
+            />
           </CSS.DetailBoxArticle>
         </>
       )}

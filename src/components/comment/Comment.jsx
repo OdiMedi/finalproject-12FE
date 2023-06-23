@@ -13,7 +13,7 @@ import WriteComment from './WriteComment';
 import { getComment } from '../../api/comment';
 import SnackBar from '../SnackBar';
 
-const Comment = ({ storeId, location }) => {
+const Comment = ({ storeId, location, totalCommentsNum }) => {
   const [modal, setModal] = useState(false);
   const [mainPageLocation, setMainPageLocation] = useState(false);
   const token = Cookies.get('accesstoken');
@@ -29,12 +29,15 @@ const Comment = ({ storeId, location }) => {
   const { data, isLoading } = useQuery(['getComment', storeId], () =>
     getComment(storeId)
   );
-
   return (
     <CommentBoxSection>
       <CSS.CommentInfoDiv>
         <CSS.CommentIconImg src={commentIcon} alt="" />
-        <span>{mainPageLocation ? '이용후기' : 'comments'}</span>
+        <span>
+          {mainPageLocation
+            ? `이용후기 ${totalCommentsNum}개`
+            : `${totalCommentsNum} comments`}
+        </span>
       </CSS.CommentInfoDiv>
       <CommentListArticle>
         {!isLoading &&

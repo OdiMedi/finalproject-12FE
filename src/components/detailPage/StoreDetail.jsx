@@ -23,7 +23,6 @@ const StoreDetail = () => {
   const { data } = useQuery('inquiryStoreDetail', () =>
     inquiryStoreDetail(params.id)
   );
-  console.log(data);
   const formattedTimeMoreButtonHandler = () => {
     setIsMore(!isMore);
   };
@@ -98,7 +97,11 @@ const StoreDetail = () => {
                 </CSS.OpenCheckBoxDiv>
               </CSS.StoreDetailInfoBoxDiv>
             </CSS.StoreDetailBoxDiv>
-            <Comment storeId={data.storeId} location="mainPage" />
+            <Comment
+              totalCommentsNum={data.totalCommentsNum}
+              storeId={data.storeId}
+              location="mainPage"
+            />
           </CSS.DetailBoxArticle>
         </>
       )}

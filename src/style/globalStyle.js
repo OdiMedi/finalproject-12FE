@@ -4,6 +4,7 @@ import offCurrentLocationIcon from '../assets/offCurrentLocationIcon.png';
 import searchIcon from '../assets/icon _search_.png';
 import locationInfoIcon from '../assets/locationInfoIcon.png';
 import moreIcon from '../assets/moreIcon.png';
+import topIcon from '../assets/topIcon.webp';
 import emailInfo from '../assets/emailInfo.png';
 
 // 전체리스트 페이지 (MainPage)
@@ -429,4 +430,19 @@ export const ValidInfoDiv = styled.div`
   font-size: 15px;
   line-height: 34px;
   gap: 11px;
+`;
+export const TopIconDiv = styled.div`
+  width: 50px;
+  height: 50px;
+  background-image: url(${topIcon});
+  background-size: 30px 30px;
+  background-repeat: no-repeat;
+  background-color: #fd8b2b;
+  background-position: center;
+  border-radius: 50%;
+  border: none;
+  position: fixed;
+  bottom: 100px;
+  right: 150px;
+  cursor: pointer;
 `;
