@@ -50,7 +50,7 @@ const EditProfileImg = ({ onAccess }) => {
           변경할 사진을 정방향 사이즈로 업로드 해주세요!
         </UploadInfoP>
         <NicknameButton onClick={profileImgEditButtonHandler}>
-          회원정보 수정하기
+          프로필이미지 수정하기
         </NicknameButton>
       </NicknameUpdataDiv>
     </NickNameModalWrapDiv>
@@ -160,4 +160,5 @@ const NicknameButton = styled.button`
   font-size: 15px;
   line-height: 34px;
   color: #ffffff;
+  cursor: pointer;
 `;

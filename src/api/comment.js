@@ -4,6 +4,7 @@ const saveComment = async props => {
   try {
     const response = await api.post(`/api/comment/${props.storeId}`, {
       contents: props.contents,
+      foreign: props.foreign,
     });
     return response.data;
   } catch (error) {

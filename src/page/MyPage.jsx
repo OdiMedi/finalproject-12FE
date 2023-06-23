@@ -32,6 +32,7 @@ const MyPage = () => {
   const userInformationButtonHandler = () => {
     navigate('/userInformation');
   };
+
   return (
     <MypageContainer>
       <MypageTitleH1>마이페이지</MypageTitleH1>

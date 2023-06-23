@@ -48,7 +48,7 @@ const MypageNicknameModal = ({ onAccess, nickName }) => {
             '닉네임은 한글, 영어(대소문자 구분), 숫자로 2~10자로 입력해주세요'}
         </HelperTextP>
         <NicknameButton onClick={nickNameChangeHandler}>
-          회원정보 수정하기
+          닉네임 수정하기
         </NicknameButton>
         {alertError && (
           <ErrorAlertP>
@@ -128,6 +128,7 @@ const NicknameButton = styled.button`
   font-size: 15px;
   line-height: 34px;
   color: #ffffff;
+  cursor: pointer;
 `;
 const ErrorAlertP = styled.p`
   font-weight: 500;

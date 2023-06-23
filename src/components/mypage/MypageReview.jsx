@@ -48,8 +48,6 @@ const MypageReview = ({
   };
   const reviewDetailPage = event => {
     if (!modalVisible) {
-      console.log('foreign', foreign);
-
       if (foreign === false) {
         navigate(`/mainPage/${storeId}`);
       } else if (foreign === true) {
