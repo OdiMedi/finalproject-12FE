@@ -31,7 +31,10 @@ const ForeignPharmacyList = ({ data }) => {
               <span>{item.address}</span>
               <span>Mon - Fri {formattedTime}</span>
             </CSS.DetailInformationDiv>
-            <BookMark storeId={item.storeId} isCheck={item.bookmark} />
+            <CSS.BookMarkBoxDiv>
+              <BookMark storeId={item.storeId} isCheck={item.bookmark} />
+              <p>2ea</p>
+            </CSS.BookMarkBoxDiv>
           </CSS.ItemBoxSection>
         );
       })}
