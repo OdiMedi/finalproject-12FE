@@ -453,3 +453,4 @@ export const BookMarkBoxDiv = styled.div`
   align-items: center;
   gap: 10px;
 `;
+
