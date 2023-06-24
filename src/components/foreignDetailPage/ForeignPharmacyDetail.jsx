@@ -96,7 +96,7 @@ const ForeignPharmacyDetail = () => {
                       <span>HOLIDAYS OPEN</span>
                     </CSS.BusinessTypeSpan>
                   )}
-                  {data.nightBusiness !== null && (
+                  {data.nightBusiness && (
                     <CSS.BusinessTypeSpan>
                       <CSS.SharpStyleSpan># </CSS.SharpStyleSpan>
                       <span>NIGHT OPEN</span>

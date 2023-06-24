@@ -29,7 +29,10 @@ const PharmacyList = ({ data }) => {
               <span>{item.address}</span>
               <span>{item.weekdaysTime}</span>
             </CSS.DetailInformationDiv>
-            <BookMark storeId={item.storeId} isCheck={item.bookmark} />
+            <CSS.BookMarkBoxDiv>
+              <BookMark storeId={item.storeId} isCheck={item.bookmark} />
+              <p>2개</p>
+            </CSS.BookMarkBoxDiv>
           </CSS.ItemBoxSection>
         );
       })}

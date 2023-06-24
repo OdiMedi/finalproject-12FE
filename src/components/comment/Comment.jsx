@@ -36,7 +36,7 @@ const Comment = ({ storeId, location, totalCommentsNum }) => {
         <span>
           {mainPageLocation
             ? `이용후기 ${totalCommentsNum}개`
-            : `${totalCommentsNum} comments`}
+            : `comments ${totalCommentsNum}ea `}
         </span>
       </CSS.CommentInfoDiv>
       <CommentListArticle>

@@ -446,3 +446,11 @@ export const TopIconDiv = styled.div`
   right: 150px;
   cursor: pointer;
 `;
+export const BookMarkBoxDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+`;
+
