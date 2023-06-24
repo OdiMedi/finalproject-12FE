@@ -29,6 +29,7 @@ const Comment = ({ storeId, location, totalCommentsNum }) => {
   const { data, isLoading } = useQuery(['getComment', storeId], () =>
     getComment(storeId)
   );
+
   return (
     <CommentBoxSection>
       <CSS.CommentInfoDiv>
@@ -51,6 +52,7 @@ const Comment = ({ storeId, location, totalCommentsNum }) => {
                 contents={item.contents}
                 check={item.check}
                 imageUrl={item.imageUrl}
+                createdAt={item.createdAt}
               />
             );
           })}

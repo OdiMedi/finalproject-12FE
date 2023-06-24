@@ -16,6 +16,7 @@ const CommentItem = ({
   contents,
   check,
   imageUrl,
+  createdAt,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isModal, setIsModal] = useState(false);
@@ -41,7 +42,7 @@ const CommentItem = ({
   const handleEditClick = () => {
     setIsModal(prev => !prev);
   };
-
+  const commentCreatedAt = createdAt.slice(0, 10);
   return (
     <CommentItemDiv key={commentId}>
       {imageUrl === '' ? (
@@ -50,7 +51,10 @@ const CommentItem = ({
         <DefaultProfileImg src={imageUrl} alt="profileImg" />
       )}
       <CommentContentBoxDiv>
-        <NicknameH1>{nickname}</NicknameH1>
+        <NameAndDateDiv>
+          <NicknameH1>{nickname}</NicknameH1>
+          <CreatedAtP>{commentCreatedAt}</CreatedAtP>
+        </NameAndDateDiv>
         <ContentP>{contents}</ContentP>
       </CommentContentBoxDiv>
       {check && (
@@ -101,10 +105,6 @@ const CommentItemDiv = styled.div`
   border-bottom: 1px solid #dadada;
   position: relative;
   cursor: pointer;
-  &:hover {
-    box-shadow: 3px 3px 2px rgba(175, 174, 183, 0.5);
-    transition: 0.4;
-  }
 `;
 
 // 이미지
@@ -124,17 +124,17 @@ const CommentContentBoxDiv = styled.div`
 `;
 
 const NicknameH1 = styled.h1`
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 800;
 `;
 const ContentP = styled.p`
-  font-size: 12px;
-  width: 450px;
+  font-size: 14px;
   border: none;
   /* border: 1px solid #fa5938; */
   background-color: transparent;
   word-wrap: break-word;
   white-space: pre-line;
+  line-height: 17px;
 `;
 const CommentEditButton = styled.button`
   width: 20px;
@@ -163,4 +163,15 @@ const CommentBtnWrapDiv = styled.div`
   position: absolute;
   right: 15px;
   top: 5px;
+`;
+const NameAndDateDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  /* align-items: center; */
+  gap: 10px;
+  font-size: 11px;
+`;
+const CreatedAtP = styled.p`
+  margin-top: 5px;
+  color: #808080;
 `;
