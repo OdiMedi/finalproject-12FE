@@ -70,7 +70,9 @@ const StoreDetail = () => {
                 <div>{data.callNumber}</div>
                 <div>{data.address}</div>
                 <CSS.BusinessTimeDiv>
-                  <div>{data.weekdaysTime}</div>
+                  <DateDiv>
+                    평일&nbsp;&nbsp;&nbsp;&nbsp; {data.weekdaysTime}
+                  </DateDiv>
                 </CSS.BusinessTimeDiv>
                 {data.saturdayTime !== null && (
                   <DateDiv>토요일 {data.saturdayTime}</DateDiv>
@@ -126,5 +128,6 @@ const slideDown = keyframes`
 
 // 애니메이션을 적용할 컴포넌트 스타일 정의
 const DateDiv = styled.div`
+  white-space: pre-line;
   /* animation: ${slideDown} 0.5s ease-out; */
 `;
