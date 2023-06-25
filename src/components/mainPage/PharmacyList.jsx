@@ -31,7 +31,7 @@ const PharmacyList = ({ data }) => {
             </CSS.DetailInformationDiv>
             <CSS.BookMarkBoxDiv>
               <BookMark storeId={item.storeId} isCheck={item.bookmark} />
-              <p>{item.bookmarkCount}</p>
+              {/* <p>{item.bookmarkCount}</p> */}
             </CSS.BookMarkBoxDiv>
           </CSS.ItemBoxSection>
         );
