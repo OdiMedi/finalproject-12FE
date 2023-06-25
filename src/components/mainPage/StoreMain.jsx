@@ -87,6 +87,7 @@ const StoreMain = () => {
   const handlePageChange = newPage => {
     setCurrentPage(newPage);
   };
+
   // 전체리스트 api로직
   const mutation = useMutation(storeFilterList, {
     onSuccess: data => {
@@ -210,6 +211,7 @@ const StoreMain = () => {
       onClickSearchButtonHandler(); // Enter 입력이 되면 클릭 이벤트 실행
     }
   };
+
   return (
     <CSS.MainContainer>
       {storeList && (

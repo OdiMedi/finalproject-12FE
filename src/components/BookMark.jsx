@@ -12,6 +12,7 @@ import ModalPortal from '../shared/ModalPortal';
 const BookMark = ({ storeId, isCheck, miniSize }) => {
   const [bookMarkCheck, setBookMarkCheck] = useState(isCheck);
   const [isLogin, setIsLogin] = useState(true);
+  const [timerId, setTimerId] = useState(null); // 타이머 ID 상태 추가
 
   const loginUser = Cookies.get('accesstoken');
 
@@ -35,11 +36,19 @@ const BookMark = ({ storeId, isCheck, miniSize }) => {
   }, [isCheck]);
 
   const onClickBookMarkHandler = async e => {
-    if (loginUser) {
-      bookmarkMutation.mutate();
-    } else {
-      setIsLogin(!isLogin);
+    if (timerId) {
+      clearTimeout(timerId); // 이전 타이머 취소
     }
+
+    const newTimerId = setTimeout(() => {
+      if (loginUser) {
+        bookmarkMutation.mutate();
+      } else {
+        setIsLogin(!isLogin);
+      }
+    }, 300);
+
+    setTimerId(newTimerId); // 새로운 타이머 ID 설정
     e.stopPropagation();
   };
 

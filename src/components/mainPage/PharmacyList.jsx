@@ -9,7 +9,7 @@ const PharmacyList = ({ data }) => {
   const storeItemInfoMoveOnClickHandler = id => {
     navigate(`/mainPage/${id}`);
   };
-  console.log(data);
+
   return (
     <Article>
       {data?.content.map(item => {
