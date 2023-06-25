@@ -4,7 +4,7 @@ import offCurrentLocationIcon from '../assets/offCurrentLocationIcon.png';
 import searchIcon from '../assets/icon _search_.png';
 import locationInfoIcon from '../assets/locationInfoIcon.png';
 import moreIcon from '../assets/moreIcon.png';
-import topIcon from '../assets/topIcon.webp';
+import topIcon from '../assets/topIcon.png';
 import emailInfo from '../assets/emailInfo.png';
 
 // 전체리스트 페이지 (MainPage)
@@ -437,7 +437,7 @@ export const TopIconDiv = styled.div`
   background-image: url(${topIcon});
   background-size: 30px 30px;
   background-repeat: no-repeat;
-  background-color: #fd8b2b;
+  background-color: #f8f8f8;
   background-position: center;
   border-radius: 50%;
   border: none;
@@ -445,6 +445,10 @@ export const TopIconDiv = styled.div`
   bottom: 100px;
   right: 150px;
   cursor: pointer;
+  &:hover {
+    background-color: #f0f0f0;
+    transition: 1;
+  }
 `;
 export const BookMarkBoxDiv = styled.div`
   display: flex;

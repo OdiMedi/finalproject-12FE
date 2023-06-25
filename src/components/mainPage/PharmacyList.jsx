@@ -9,7 +9,7 @@ const PharmacyList = ({ data }) => {
   const storeItemInfoMoveOnClickHandler = id => {
     navigate(`/mainPage/${id}`);
   };
-
+  console.log(data);
   return (
     <Article>
       {data?.content.map(item => {
@@ -31,7 +31,7 @@ const PharmacyList = ({ data }) => {
             </CSS.DetailInformationDiv>
             <CSS.BookMarkBoxDiv>
               <BookMark storeId={item.storeId} isCheck={item.bookmark} />
-              <p>2개</p>
+              <p>{item.bookmarkCount}</p>
             </CSS.BookMarkBoxDiv>
           </CSS.ItemBoxSection>
         );
