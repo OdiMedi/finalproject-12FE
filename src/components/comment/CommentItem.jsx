@@ -135,6 +135,7 @@ const ContentP = styled.p`
   word-wrap: break-word;
   white-space: pre-line;
   line-height: 17px;
+  overflow: hidden;
 `;
 const CommentEditButton = styled.button`
   width: 20px;
