@@ -35,7 +35,7 @@ const EditProfileImg = ({ onAccess }) => {
         <NicknameXDiv onClick={() => onAccess(true)} />
         <NicknameTitleP>프로필 사진 변경</NicknameTitleP>
         {!profileImage && <EditImgBoxDiv img={null} />}
-        {profileImage && <EditImg src={profileImage} art="profileImage" />}
+        {profileImage && <EditImg src={profileImage} art="profile image" />}
         <FiledInputWrapperForm
           onSubmit={e => e.preventDefault()}
           method="post"

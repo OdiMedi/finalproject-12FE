@@ -33,7 +33,7 @@ const Comment = ({ storeId, location, totalCommentsNum }) => {
   return (
     <CommentBoxSection>
       <CSS.CommentInfoDiv>
-        <CSS.CommentIconImg src={commentIcon} alt="" />
+        <CSS.CommentIconImg src={commentIcon} alt="comment icon image" />
         <span>
           {mainPageLocation
             ? `이용후기 ${totalCommentsNum}개`

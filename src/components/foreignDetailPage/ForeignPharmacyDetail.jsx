@@ -38,7 +38,7 @@ const ForeignPharmacyDetail = () => {
           <MapApi storeLocation={detailData} navigate={navigate} />
           <CSS.DetailBoxArticle>
             <CSS.TitleBox>
-              <CSS.LocationIcon src={locationIcon} alt="" />
+              <CSS.LocationIcon src={locationIcon} alt="location icon" />
               <CSS.MainTitle>
                 WHERE IS THE <CSS.NameStyleSpan>{data.name}</CSS.NameStyleSpan>{' '}
                 ?
@@ -46,7 +46,7 @@ const ForeignPharmacyDetail = () => {
             </CSS.TitleBox>
             <CSS.InfoMenuBoxDiv>
               <CSS.InfoTextDiv>
-                <CSS.InfoIconImg src={infoIcon} alt="" />
+                <CSS.InfoIconImg src={infoIcon} alt="store info icon" />
                 information
               </CSS.InfoTextDiv>
               <CSS.InfoTextDiv
@@ -54,7 +54,7 @@ const ForeignPharmacyDetail = () => {
                 role="button"
                 onClick={moveStoreListClickHandler}
               >
-                <CSS.MenuIconImg src={menuIcon} alt="" />
+                <CSS.MenuIconImg src={menuIcon} alt="go back icon" />
                 <span>Go back</span>
               </CSS.InfoTextDiv>
             </CSS.InfoMenuBoxDiv>

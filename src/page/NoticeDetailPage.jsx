@@ -61,13 +61,13 @@ const NoticeDetailPage = () => {
         {isManager === 'ADMIN' && (
           <>
             <WriteButton>
-              <WriteIconImg src={DeleteIcon} alt="" />
+              <WriteIconImg src={DeleteIcon} alt="notice delete icon" />
               <WriteTextP onClick={noticeListDeleteButtonHandler}>
                 글 삭제
               </WriteTextP>
             </WriteButton>
             <WriteButton>
-              <WriteIconImg src={writeIcon} alt="" />
+              <WriteIconImg src={writeIcon} alt="notice write icon" />
               <WriteTextP onClick={noticeModifyMoveButtonHandler}>
                 {' '}
                 글 수정{' '}
@@ -76,7 +76,7 @@ const NoticeDetailPage = () => {
           </>
         )}
         <WriteButton>
-          <WriteIconImg src={menuIcon} alt="" />
+          <WriteIconImg src={menuIcon} alt="notice menu icon" />
           <WriteTextP onClick={noticeListMoveButtonHandler}>목록</WriteTextP>
         </WriteButton>
       </WriteBoxDiv>

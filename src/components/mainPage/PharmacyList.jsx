@@ -19,7 +19,7 @@ const PharmacyList = ({ data }) => {
             onClick={() => storeItemInfoMoveOnClickHandler(item.storeId)}
           >
             <CSS.TitleBoxDiv>
-              <CSS.StoreIconImage src={storeIcon} alt="" />
+              <CSS.StoreIconImage src={storeIcon} alt="store title icon" />
               <CSS.TitleH1 size={item.name.length < 7 ? '20px' : '18px'}>
                 {item.name}
               </CSS.TitleH1>

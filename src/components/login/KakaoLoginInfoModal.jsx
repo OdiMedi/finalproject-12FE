@@ -7,7 +7,7 @@ const KakaoLoginInfoModal = ({ onAccess, onCallback }) => {
     <ModalWrapDiv>
       <ModalMain>
         <InfoTitleBoxDiv>
-          <InfoIconImg src={infoIcon} alt="" />
+          <InfoIconImg src={infoIcon} alt="kakao login info icon" />
           <ContentP type="title" thickness="bold">
             카카오 간편가입 주의
           </ContentP>

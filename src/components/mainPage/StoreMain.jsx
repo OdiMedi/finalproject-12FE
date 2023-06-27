@@ -224,7 +224,7 @@ const StoreMain = () => {
       )}
       <div>
         <CSS.TitleBox>
-          <CSS.LocationIcon src={locationIcon} alt="" />
+          <CSS.LocationIcon src={locationIcon} alt="location icon" />
           <CSS.MainTitle>찾는 약국 오디약 ?</CSS.MainTitle>
         </CSS.TitleBox>
         <CSS.SearchBox>

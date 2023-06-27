@@ -72,7 +72,7 @@ const MapApi = ({
           size={location.name.length < 7 ? '13px' : '11px'}
           key={location.storeId}
         >
-          <CustomOverlayIconImage src={storeMap} alt="" />
+          <CustomOverlayIconImage src={storeMap} alt="custom overlay image" />
           {location.name}
         </CustomOverlayWrapperDiv>
       );

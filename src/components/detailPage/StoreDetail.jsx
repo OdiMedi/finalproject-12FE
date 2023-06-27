@@ -35,14 +35,14 @@ const StoreDetail = () => {
           <MapApi storeLocation={detailData} navigate={navigate} />
           <CSS.DetailBoxArticle>
             <CSS.TitleBox>
-              <CSS.LocationIcon src={locationIcon} alt="" />
+              <CSS.LocationIcon src={locationIcon} alt="location icon" />
               <CSS.MainTitle>
                 <CSS.NameStyleSpan>{data.name}</CSS.NameStyleSpan> 오디약 ?
               </CSS.MainTitle>
             </CSS.TitleBox>
             <CSS.InfoMenuBoxDiv>
               <CSS.InfoTextDiv>
-                <CSS.InfoIconImg src={infoIcon} alt="" />
+                <CSS.InfoIconImg src={infoIcon} alt="store info icon" />
                 약국정보
               </CSS.InfoTextDiv>
               <CSS.InfoTextDiv
@@ -50,7 +50,7 @@ const StoreDetail = () => {
                 role="button"
                 onClick={moveStoreListClickHandler}
               >
-                <CSS.MenuIconImg src={menuIcon} alt="" />
+                <CSS.MenuIconImg src={menuIcon} alt="go back icon" />
                 <span>뒤로가기</span>
               </CSS.InfoTextDiv>
             </CSS.InfoMenuBoxDiv>

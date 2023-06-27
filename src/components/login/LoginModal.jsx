@@ -126,7 +126,7 @@ const LoginModal = () => {
         />
         {errorCode === 'MEMBER_NOT_FOUND' && isWarning && (
           <CSS.ValidInfoDiv>
-            <CSS.EmailInfoImg src={infoIcon} alt="" />
+            <CSS.EmailInfoImg src={infoIcon} alt="warning info icon" />
             <CSS.WarningMessageP>
               이메일을 다시 확인해주세요.
             </CSS.WarningMessageP>
@@ -134,7 +134,7 @@ const LoginModal = () => {
         )}
         {errorCode === 'INVALID_PASSWORD' && isWarning && (
           <CSS.ValidInfoDiv>
-            <CSS.EmailInfoImg src={infoIcon} alt="" />
+            <CSS.EmailInfoImg src={infoIcon} alt="warning info icon" />
             <CSS.WarningMessageP>
               비밀번호를 다시 확인해주세요.
             </CSS.WarningMessageP>
