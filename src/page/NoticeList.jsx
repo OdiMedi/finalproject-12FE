@@ -41,7 +41,7 @@ const NoticeList = () => {
       <WriteBoxDiv>
         {isManager === 'ADMIN' && (
           <WriteButton>
-            <WriteIconImg src={writeIcon} alt="" />
+            <WriteIconImg src={writeIcon} alt="notice write icon" />
             <WriteTextP onClick={writeNoticeMoveButtonHandler}>
               {' '}
               글 작성{' '}

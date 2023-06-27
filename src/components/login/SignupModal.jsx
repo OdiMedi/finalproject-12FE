@@ -243,7 +243,7 @@ const SignupModal = () => {
         />
         {warningMessage === '이미 존재하는 nickname 입니다.' && (
           <CSS.ValidInfoDiv>
-            <CSS.EmailInfoImg src={infoIcon} alt="" />
+            <CSS.EmailInfoImg src={infoIcon} alt="nickname warning info icon" />
             <CSS.WarningMessageP>{warningMessage}</CSS.WarningMessageP>
           </CSS.ValidInfoDiv>
         )}
@@ -251,7 +251,7 @@ const SignupModal = () => {
           nicknameCheck && <CSS.MarginDiv />}
         {!nicknameCheck && (
           <CSS.ValidInfoDiv>
-            <CSS.EmailInfoImg src={infoIcon} alt="" />
+            <CSS.EmailInfoImg src={infoIcon} alt="nickname warning info icon" />
             <CSS.WarningMessageP>
               닉네임은 한글, 영어(대소문자 구분), 숫자로 2~10자로 입력해주세요.
             </CSS.WarningMessageP>
@@ -276,14 +276,20 @@ const SignupModal = () => {
             </EmailBoxDiv>
             {emailWarning && (
               <CSS.ValidInfoDiv>
-                <CSS.EmailInfoImg src={infoIcon} alt="" />
+                <CSS.EmailInfoImg
+                  src={infoIcon}
+                  alt="email warning info icon"
+                />
                 <CSS.WarningMessageP>{emailWarning}</CSS.WarningMessageP>
               </CSS.ValidInfoDiv>
             )}
             {!emailWarning && !isValid && <CSS.MarginDiv />}
             {isValid && (
               <CSS.ValidInfoDiv>
-                <CSS.EmailInfoImg src={emailInfo} art="" />
+                <CSS.EmailInfoImg
+                  src={emailInfo}
+                  art="email warning info icon"
+                />
                 <p>메일이 전송 되었습니다.</p>
                 <LimitTimerP>
                   만료 시간
@@ -308,13 +314,19 @@ const SignupModal = () => {
             )}
             {confirmInfoMessage && !confirmWarningMessage && (
               <CSS.ValidInfoDiv>
-                <CSS.EmailInfoImg src={emailInfo} art="" />
+                <CSS.EmailInfoImg
+                  src={emailInfo}
+                  art="email warning info icon"
+                />
                 <p>{confirmInfoMessage}</p>
               </CSS.ValidInfoDiv>
             )}
             {confirmWarningMessage && (
               <CSS.ValidInfoDiv>
-                <CSS.EmailInfoImg src={infoIcon} alt="" />
+                <CSS.EmailInfoImg
+                  src={infoIcon}
+                  alt="confirm warning info icon"
+                />
                 <CSS.WarningMessageP>
                   {confirmWarningMessage}
                 </CSS.WarningMessageP>
@@ -334,7 +346,10 @@ const SignupModal = () => {
               disabled
             />
             <CSS.ValidInfoDiv>
-              <CSS.EmailInfoImg src={emailInfo} art="" />
+              <CSS.EmailInfoImg
+                src={emailInfo}
+                art="confirm warning info icon"
+              />
               <p>인증이 완료되었습니다.</p>
             </CSS.ValidInfoDiv>
           </>
@@ -356,7 +371,10 @@ const SignupModal = () => {
               '[비밀번호는 8~15자 알파벳 대소문자, 숫자로 작성해주세요.]' &&
             warningMessage !== '이미 존재하는 nickname 입니다.' && (
               <>
-                <CSS.EmailInfoImg src={infoIcon} alt="" />
+                <CSS.EmailInfoImg
+                  src={infoIcon}
+                  alt="nickname warning info icon"
+                />
                 <CSS.WarningMessageP>정보를 기입해주세요.</CSS.WarningMessageP>
               </>
             )}
@@ -364,7 +382,7 @@ const SignupModal = () => {
         {warningMessage ===
           '[비밀번호는 8~15자 알파벳 대소문자, 숫자로 작성해주세요.]' && (
           <CSS.ValidInfoDiv>
-            <CSS.EmailInfoImg src={infoIcon} alt="" />
+            <CSS.EmailInfoImg src={infoIcon} alt="password warning info icon" />
             <CSS.WarningMessageP>
               비밀번호는 8~15자 알파벳 대소문자, 숫자로 작성해주세요.
             </CSS.WarningMessageP>

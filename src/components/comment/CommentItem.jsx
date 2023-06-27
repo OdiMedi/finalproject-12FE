@@ -46,9 +46,9 @@ const CommentItem = ({
   return (
     <CommentItemDiv key={commentId}>
       {imageUrl === '' ? (
-        <DefaultProfileImg src={defaultImage} alt="profileImg" />
+        <DefaultProfileImg src={defaultImage} alt="profile image" />
       ) : (
-        <DefaultProfileImg src={imageUrl} alt="profileImg" />
+        <DefaultProfileImg src={imageUrl} alt="profile image" />
       )}
       <CommentContentBoxDiv>
         <NameAndDateDiv>

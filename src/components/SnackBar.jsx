@@ -21,7 +21,7 @@ const SnackBar = ({ type, error }) => {
       {isOpen && (
         <SnackWrapDiv>
           <SnackDiv>
-            <CSS.InfoIconImg src={warnIcon} alt="" />
+            <CSS.InfoIconImg src={warnIcon} alt="snackbar info icon" />
             {type === 'login' && <p>로그인 후 이용해주세요.</p>}
             {type === 'passWord' && (
               <p>비밀번호가 성공적으로 변경되었습니다.</p>

@@ -91,7 +91,7 @@ const WriteComment = ({
         <CloseButton onClick={() => onAccess(true)} />
 
         <CSS.CommentInfoDiv>
-          <CSS.CommentIconImg src={commentIcon} alt="commentIcon" />
+          <CSS.CommentIconImg src={commentIcon} alt="comment icon" />
           <span>{mainPageLocation ? '이용 후기' : 'Comment'}</span>
         </CSS.CommentInfoDiv>
         <TextBoxTextarea
@@ -105,7 +105,7 @@ const WriteComment = ({
         <ValidInfoDiv>
           {warningMessage && (
             <>
-              <EmailInfoImg src={infoIcon} alt="" />
+              <EmailInfoImg src={infoIcon} alt="email info icon" />
               <WarningMessageP>{warningMessage}</WarningMessageP>
             </>
           )}

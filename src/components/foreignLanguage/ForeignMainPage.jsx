@@ -254,7 +254,7 @@ const ForeignMainPage = () => {
       )}
       <div>
         <CSS.TitleBox>
-          <CSS.LocationIcon src={locationIcon} alt="" />
+          <CSS.LocationIcon src={locationIcon} alt="location icon" />
           <MainTitle>WHERE IS THE PHARMACY?</MainTitle>
         </CSS.TitleBox>
         <CSS.SearchBox>
