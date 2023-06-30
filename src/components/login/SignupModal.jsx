@@ -166,7 +166,6 @@ const SignupModal = () => {
       validNumber,
     });
   };
-  console.log('isValid', isValid);
   const submitSignup = async () => {
     if (nickname.length === 0) {
       nicknameInput.current.focus();
