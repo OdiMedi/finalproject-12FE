@@ -42,7 +42,6 @@ api.interceptors.request.use(
     return config;
   },
   error => {
-    // console.log('api요청전에러::::', error);
     return Promise.reject(error);
   }
 );
@@ -65,7 +64,6 @@ api.interceptors.response.use(
       },
     } = error;
     // const contentType = error.config.headers['Content-Type'];
-    // console.log('AxiosError', AxiosError);
     if (errorCode === 'EXPIRED_ACCESS_TOKEN') {
       const refresh = Cookies.get('refreshtoken');
       // const access = Cookies.get('accesstoken');

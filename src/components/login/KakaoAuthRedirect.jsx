@@ -13,13 +13,11 @@ const KakaoAuthRedirect = () => {
       .then(res => {
         const accessToken = res.headers.get('ACCESS_KEY').split(' ')[1];
         const refreshToken = res.headers.get('REFRESH_KEY').split(' ')[1];
-        // console.log('kakaoRes.data::::', res);
         localStorage.setItem('nickname', res.data.nickname);
         // Cookies.set('authorization', res.data.authorization);
         Cookies.set('accesstoken', accessToken);
         Cookies.set('refreshtoken', refreshToken);
         navigate('/');
-        // console.log('authorization::::', Cookies.get('authorization'));
       })
       .catch(error => {
         console.log(error);

@@ -110,11 +110,8 @@ const ForeignMainPage = () => {
         navigator.geolocation.getCurrentPosition(
           ({ coords }) => {
             const { latitude, longitude } = coords;
-            // console.log(latitude, longitude);
-            // setCurrentLatitude(latitude);
-            // setCurrentLongitude(longitude);
-            setCurrentLatitude(37.4851425);
-            setCurrentLongitude(126.9357883);
+            setCurrentLatitude(latitude);
+            setCurrentLongitude(longitude);
             setIsLoading(false); // 로딩 완료
           },
           error => {
