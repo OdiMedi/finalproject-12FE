@@ -14,18 +14,22 @@
 &nbsp;&nbsp;&nbsp;&nbsp;
   <img src="https://github.com/finalProject-12/finalproject-12FE/assets/109677566/a36f6473-a4c0-46dc-83f6-43eff2c88c6c" alt="image" width="600">
 
-<details>
-<summary>BROCHURE</summary>
+<br/>
+
+
+<h3>BROCHURE</h3>
+
+
 <div>
 &nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/finalProject-12/finalproject-12FE/assets/109677566/3568a79d-7309-4487-a46e-ac3b15238c24" alt="image" width="600"><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/finalProject-12/finalproject-12FE/assets/109677566/73b7439f-1360-44d8-aafc-71f2dc7095f1" alt="image" width="600"><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/finalProject-12/finalproject-12FE/assets/109677566/1ccf6ab2-e06f-4949-abb2-d45cfe1410ac" alt="image" width="600"><br/>
 </div>
-</details>
+
 <br/>
 
-<details>
-<summary>관련기사</summary>
+
+<h3>관련기사</h3>
 <div>
 
 > <br/>
@@ -40,7 +44,7 @@
 ><br/>
 
 </div>
-</details>
+
 
 <br/>
 
